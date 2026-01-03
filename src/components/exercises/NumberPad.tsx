@@ -1,0 +1,145 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+interface NumberPadProps {
+  onNumberPress: (num: string) => void;
+  onClear: () => void;
+  onBackspace: () => void;
+  disabled?: boolean;
+}
+
+export default function NumberPad({ onNumberPress, onClear, onBackspace, disabled = false }: NumberPadProps) {
+  const handlePress = (value: string, callback?: () => void) => {
+    if (!disabled) {
+      if (callback) {
+        callback();
+      } else {
+        onNumberPress(value);
+      }
+    }
+  };
+
+  return (
+    <View style={styles.numberPad}>
+      <View style={styles.numberPadRow}>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('1')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('2')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('3')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>3</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.numberPadRow}>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('4')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>4</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('5')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>5</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('6')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>6</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.numberPadRow}>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('7')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>7</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('8')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>8</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('9')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>9</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.numberPadRow}>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('C', onClear)}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>C</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('0')}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>0</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.numberButton} 
+          onPress={() => handlePress('⌫', onBackspace)}
+          disabled={disabled}
+        >
+          <Text style={styles.numberButtonText}>⌫</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  numberPad: {
+    marginBottom: 15,
+  },
+  numberPadRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  numberButton: {
+    flex: 1,
+    backgroundColor: '#2a2a2a',
+    padding: 12,
+    marginHorizontal: 5,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#FFD700',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  numberButtonText: {
+    color: '#FFD700',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
