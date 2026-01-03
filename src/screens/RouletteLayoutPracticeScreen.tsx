@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setSelectedChipValue, placeBet, clearBets } from '../store/rouletteSlice';
-import RouletteLayout from '../components/RouletteLayout';
+import RouletteLayout from '../components/roulette/RouletteLayout';
 import ChipSelector from '../components/ChipSelector';
 import { RouletteNumber } from '../types/roulette.types';
 import { BetType } from '../types/roulette.types';
@@ -113,7 +113,6 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
           <RouletteLayout 
             onNumberPress={handleNumberPress}
             onBetAreaPress={handleBetAreaPress}
-            highlightedNumbers={highlightedNumbers}
             placedBets={placedBets}
             selectedChipValue={selectedChipValue}
           />
