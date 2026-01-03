@@ -6,6 +6,7 @@ import RouletteExercisesScreen from '../screens/RouletteExercisesScreen';
 import RouletteTrainingScreen from '../screens/RouletteTrainingScreen';
 import RouletteLayoutPracticeScreen from '../screens/RouletteLayoutPracticeScreen';
 import RouletteLayoutViewScreen from '../screens/RouletteLayoutViewScreen';
+import PayoutCalculationScreen from '../screens/PayoutCalculationScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 
 const Stack = createStackNavigator();
@@ -49,6 +50,11 @@ export default function AppNavigator() {
           name="RouletteLayoutView" 
           component={RouletteLayoutViewScreen}
           options={{ title: 'Roulette Layout' }}
+        />
+        <Stack.Screen 
+          name="PayoutCalculation" 
+          component={PayoutCalculationScreen}
+          options={{ title: 'Payout Calculation' }}
         />
         <Stack.Screen 
           name="Progress" 

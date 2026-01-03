@@ -4,54 +4,12 @@ import { ExerciseType } from '../types/roulette.types';
 
 const EXERCISES = [
   {
-    id: '0',
-    type: ExerciseType.ROULETTE_LAYOUT,
-    title: 'Roulette Layout Practice',
-    description: 'Learn and practice the roulette table layout - numbers, colors, and positions',
-    difficulty: 'easy' as const,
-  },
-  {
     id: '1',
-    type: ExerciseType.CHIP_PLACEMENT,
-    title: 'Chip Placement',
-    description: 'Practice placing chips on the roulette layout',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '2',
     type: ExerciseType.PAYOUT_CALCULATION,
-    title: 'Payout Calculation',
-    description: 'Calculate payouts for different bet types',
-    difficulty: 'medium' as const,
-  },
-  {
-    id: '3',
-    type: ExerciseType.BET_RECOGNITION,
-    title: 'Bet Recognition',
-    description: 'Identify bet types quickly',
+    title: 'Payout Calculation - Straight Ups',
+    description: 'Calculate payouts for straight-up bets (35:1). Practice with random numbers and chip amounts.',
     difficulty: 'easy' as const,
-  },
-  {
-    id: '4',
-    type: ExerciseType.SPEED_DRILL,
-    title: 'Speed Drill',
-    description: 'Complete exercises against the clock',
-    difficulty: 'hard' as const,
-    timeLimit: 60,
-  },
-  {
-    id: '5',
-    type: ExerciseType.NEIGHBOR_BETS,
-    title: 'Neighbor Bets',
-    description: 'Master racetrack neighbor bets',
-    difficulty: 'medium' as const,
-  },
-  {
-    id: '6',
-    type: ExerciseType.SECTOR_BETS,
-    title: 'Sector Bets',
-    description: 'Learn Voisins, Tiers, and Orphelins',
-    difficulty: 'hard' as const,
+    timeLimit: 300,
   },
 ];
 
@@ -66,9 +24,11 @@ export default function RouletteExercisesScreen({ navigation }: any) {
   };
 
   const handleExercisePress = (exercise: any) => {
-    // Navigate to dedicated screen for Roulette Layout exercise
+    // Navigate to dedicated screen based on exercise type
     if (exercise.type === ExerciseType.ROULETTE_LAYOUT) {
       navigation.navigate('RouletteLayoutPractice');
+    } else if (exercise.type === ExerciseType.PAYOUT_CALCULATION) {
+      navigation.navigate('PayoutCalculation');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }
