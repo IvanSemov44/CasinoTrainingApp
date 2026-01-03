@@ -14,6 +14,9 @@ interface RouletteLayoutProps {
   placedBets?: PlacedBet[];
   selectedChipValue?: number;
   cellSize?: number;
+  showOutsideBets?: boolean;
+  showColumnBets?: boolean;
+  maxColumns?: number;
 }
 
 const RouletteLayout: React.FC<RouletteLayoutProps> = ({ 
@@ -21,7 +24,10 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
   onBetAreaPress,
   placedBets = [],
   selectedChipValue = 5,
-  cellSize
+  cellSize,
+  showOutsideBets = true,
+  showColumnBets = true,
+  maxColumns,
 }) => {
   const { width } = Dimensions.get('window');
   const defaultCellSize = (width - 100) / 12;
@@ -33,11 +39,13 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
   return (
     <View style={styles.container}>
       {/* Outside bets section */}
-      <RouletteOutsideBets
-        cellSize={numCellSize}
-        getBetAmount={getBetAmount}
-        onBetAreaPress={onBetAreaPress}
-      />
+      {showOutsideBets && (
+        <RouletteOutsideBets
+          cellSize={numCellSize}
+          getBetAmount={getBetAmount}
+          onBetAreaPress={onBetAreaPress}
+        />
+      )}
 
       {/* Main layout with zero, grid, and columns */}
       <View style={styles.mainLayout}>
@@ -53,13 +61,16 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
           getBetAmount={getBetAmount}
           onNumberPress={onNumberPress}
           onBetAreaPress={onBetAreaPress}
+          maxColumns={maxColumns}
         />
 
-        <RouletteColumnBets
-          cellSize={numCellSize}
-          getBetAmount={getBetAmount}
-          onBetAreaPress={onBetAreaPress}
-        />
+        {showColumnBets && (
+          <RouletteColumnBets
+            cellSize={numCellSize}
+            getBetAmount={getBetAmount}
+            onBetAreaPress={onBetAreaPress}
+          />
+        )}
       </View>
     </View>
   );

@@ -11,6 +11,7 @@ interface RouletteNumberGridProps {
   getBetAmount: (numbers: RouletteNumber[]) => number;
   onNumberPress: (number: RouletteNumber) => void;
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
+  maxColumns?: number;
 }
 
 const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
@@ -18,6 +19,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
   getBetAmount,
   onNumberPress,
   onBetAreaPress,
+  maxColumns,
 }) => {
   const styles = getRouletteStyles(cellSize);
   const chipSize = cellSize * 0.4;
@@ -26,7 +28,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
     <View>
       {LAYOUT_GRID.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map((num, colIndex) => (
+          {row.slice(0, maxColumns).map((num, colIndex) => (
             <View key={num} style={styles.numberWrapper}>
               <RouletteNumberCell
                 number={num}
