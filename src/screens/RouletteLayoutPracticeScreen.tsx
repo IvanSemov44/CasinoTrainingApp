@@ -25,28 +25,43 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
       }
       return [...prev, number];
     });
+  };
 
+  const handleBetAreaPress = (betType: BetType, numbers: RouletteNumber[]) => {
     // Create a bet
     const bet = {
-      id: `${Date.now()}-${number}`,
-      type: BetType.STRAIGHT,
-      numbers: [number],
-      amount: selectedChipValue,
-      payout: 35,
+      id: `${Date.now()}-${numbers.join('-')}`,
+      type: betType,
+      numbers: numbers,
+      amount: 1,
+      payout: getPayout(betType),
       timestamp: Date.now(),
     };
 
     dispatch(placeBet(bet));
     
-    // Show number info
-    const color = getNumberColor(number);
+    // Show bet info
+    const color = getNumberColor(numbers[0]);
     const colorText = color === 'red' ? '🔴 Red' : color === 'black' ? '⚫ Black' : '🟢 Green';
     
     Alert.alert(
-      `Number ${number}`,
-      `${colorText}\nChip Value: ${selectedChipValue}\nPayout: 35:1`,
+      `${betType} Bet`,
+      `Numbers: ${numbers.join(', ')}\n${numbers.length === 1 ? colorText : ''}\nChip Value: ${selectedChipValue}\nPayout: ${getPayout(betType)}:1`,
       [{ text: 'OK' }]
     );
+  };
+
+  const getPayout = (betType: BetType) => {
+    switch (betType) {
+      case BetType.STRAIGHT: return 35;
+      case BetType.SPLIT: return 17;
+      case BetType.STREET: return 11;
+      case BetType.CORNER: return 8;
+      case BetType.LINE: return 5;
+      case BetType.DOZEN:
+      case BetType.COLUMN: return 2;
+      default: return 1;
+    }
   };
 
   const handleChipSelect = (value: number) => {
@@ -97,7 +112,10 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
         <View style={styles.layoutContainer}>
           <RouletteLayout 
             onNumberPress={handleNumberPress}
+            onBetAreaPress={handleBetAreaPress}
             highlightedNumbers={highlightedNumbers}
+            placedBets={placedBets}
+            selectedChipValue={selectedChipValue}
           />
         </View>
 

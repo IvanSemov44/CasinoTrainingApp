@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { placeBet } from '../store/rouletteSlice';
 import RouletteLayout from '../components/RouletteLayout';
-import { RouletteNumber } from '../types/roulette.types';
+import { RouletteNumber, BetType } from '../types/roulette.types';
 
 const { width, height } = Dimensions.get('window');
 
 export default function RouletteLayoutViewScreen() {
+  const dispatch = useAppDispatch();
+  const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
+  const placedBets = useAppSelector(state => state.roulette.placedBets);
   const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
   
   // Calculate cell size to fill screen height when rotated (width becomes height after 90° rotation)
@@ -21,6 +26,31 @@ export default function RouletteLayoutViewScreen() {
     });
   };
 
+  const handleBetAreaPress = (betType: BetType, numbers: RouletteNumber[]) => {
+    const bet = {
+      id: `${Date.now()}-${numbers.join('-')}`,
+      type: betType,
+      numbers: numbers,
+      amount: 1,
+      payout: getPayout(betType),
+      timestamp: Date.now(),
+    };
+    dispatch(placeBet(bet));
+  };
+
+  const getPayout = (betType: BetType) => {
+    switch (betType) {
+      case BetType.STRAIGHT: return 35;
+      case BetType.SPLIT: return 17;
+      case BetType.STREET: return 11;
+      case BetType.CORNER: return 8;
+      case BetType.LINE: return 5;
+      case BetType.DOZEN:
+      case BetType.COLUMN: return 2;
+      default: return 1;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView 
@@ -34,7 +64,10 @@ export default function RouletteLayoutViewScreen() {
         <View style={styles.layoutWrapper}>
           <RouletteLayout 
             onNumberPress={handleNumberPress}
+            onBetAreaPress={handleBetAreaPress}
             highlightedNumbers={highlightedNumbers}
+            placedBets={placedBets}
+            selectedChipValue={selectedChipValue}
             cellSize={cellSize}
           />
         </View>
