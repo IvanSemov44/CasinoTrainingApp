@@ -7,6 +7,10 @@ const { width, height } = Dimensions.get('window');
 
 export default function RouletteLayoutViewScreen() {
   const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
+  
+  // Calculate cell size to fill screen height when rotated (width becomes height after 90° rotation)
+  // Total layout width = 15 * cellSize (1.5 + 12 + 1.5 for zero + numbers + columns)
+  const cellSize = (height - 80) / 15;
 
   const handleNumberPress = (number: RouletteNumber) => {
     setHighlightedNumbers(prev => {
@@ -31,6 +35,7 @@ export default function RouletteLayoutViewScreen() {
           <RouletteLayout 
             onNumberPress={handleNumberPress}
             highlightedNumbers={highlightedNumbers}
+            cellSize={cellSize}
           />
         </View>
       </ScrollView>
@@ -54,7 +59,5 @@ const styles = StyleSheet.create({
   },
   layoutWrapper: {
     transform: [{ rotate: '90deg' }],
-    width: height - 100,
-    height: width - 40,
   },
 });

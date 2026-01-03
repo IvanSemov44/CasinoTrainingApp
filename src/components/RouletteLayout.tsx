@@ -6,12 +6,17 @@ import { getNumberColor, LAYOUT_GRID } from '../constants/roulette.constants';
 interface RouletteLayoutProps {
   onNumberPress: (number: RouletteNumber) => void;
   highlightedNumbers?: RouletteNumber[];
+  cellSize?: number;
 }
 
 const RouletteLayout: React.FC<RouletteLayoutProps> = ({ 
   onNumberPress, 
-  highlightedNumbers = [] 
+  highlightedNumbers = [],
+  cellSize
 }) => {
+  const numCellSize = cellSize || defaultCellSize;
+  const styles = getStyles(numCellSize);
+  
   const renderNumber = (num: RouletteNumber) => {
     const color = getNumberColor(num);
     const isHighlighted = highlightedNumbers.includes(num);
@@ -121,15 +126,16 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
 };
 
 const { width } = Dimensions.get('window');
-const numCellSize = (width - 100) / 12; // Space for 12 columns plus margins
+const defaultCellSize = (width - 100) / 12;
 
-const styles = StyleSheet.create({
+const getStyles = (numCellSize: number) => StyleSheet.create({
   container: {
     backgroundColor: '#000000',
     padding: 0,
     borderRadius: 4,
     borderWidth: 4,
     borderColor: '#000000',
+    alignSelf: 'flex-start',
   },
   mainLayout: {
     flexDirection: 'row',
