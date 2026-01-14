@@ -11,6 +11,22 @@ const EXERCISES = [
     difficulty: 'easy' as const,
     timeLimit: 300,
   },
+  {
+    id: '2',
+    type: ExerciseType.SPLIT_CALCULATION,
+    title: 'Payout Calculation - Splits',
+    description: 'Calculate payouts for split bets (17:1). Practice with random adjacent numbers and chip amounts.',
+    difficulty: 'easy' as const,
+    timeLimit: 300,
+  },
+  {
+    id: '3',
+    type: ExerciseType.STREET_CALCULATION,
+    title: 'Payout Calculation - Streets',
+    description: 'Calculate payouts for street bets (11:1). Practice with random 3-number rows and chip amounts.',
+    difficulty: 'easy' as const,
+    timeLimit: 300,
+  },
 ];
 
 export default function RouletteExercisesScreen({ navigation }: any) {
@@ -29,6 +45,10 @@ export default function RouletteExercisesScreen({ navigation }: any) {
       navigation.navigate('RouletteLayoutPractice');
     } else if (exercise.type === ExerciseType.PAYOUT_CALCULATION) {
       navigation.navigate('PayoutCalculation');
+    } else if (exercise.type === ExerciseType.SPLIT_CALCULATION) {
+      navigation.navigate('SplitCalculation');
+    } else if (exercise.type === ExerciseType.STREET_CALCULATION) {
+      navigation.navigate('StreetCalculation');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }

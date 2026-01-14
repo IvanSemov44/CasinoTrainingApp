@@ -7,6 +7,8 @@ import RouletteTrainingScreen from '../screens/RouletteTrainingScreen';
 import RouletteLayoutPracticeScreen from '../screens/RouletteLayoutPracticeScreen';
 import RouletteLayoutViewScreen from '../screens/RouletteLayoutViewScreen';
 import PayoutCalculationScreen from '../screens/PayoutCalculationScreen';
+import SplitCalculationScreen from '../screens/SplitCalculationScreen';
+import StreetCalculationScreen from '../screens/StreetCalculationScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 
 const Stack = createStackNavigator();
@@ -55,6 +57,16 @@ export default function AppNavigator() {
           name="PayoutCalculation" 
           component={PayoutCalculationScreen}
           options={{ title: 'Payout Calculation' }}
+        />
+        <Stack.Screen 
+          name="SplitCalculation" 
+          component={SplitCalculationScreen}
+          options={{ title: 'Split Calculation' }}
+        />
+        <Stack.Screen 
+          name="StreetCalculation" 
+          component={StreetCalculationScreen}
+          options={{ title: 'Street Calculation' }}
         />
         <Stack.Screen 
           name="Progress" 
