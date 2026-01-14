@@ -1,0 +1,272 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import  RouletteLayout from '../components/roulette/RouletteLayout';
+import  NumberPad  from '../components/exercises/NumberPad';
+import  ExerciseStats  from '../components/exercises/ExerciseStats';
+import  HintSection  from '../components/exercises/HintSection';
+import  FeedbackCard  from '../components/exercises/FeedbackCard';
+import type { RouletteNumber } from '../types/roulette.types';
+
+type QuestionType = 'ASK_CHIPS' | 'ASK_CASH';
+
+export default function CashHandlingScreen() {
+  const [winningNumber, setWinningNumber] = useState<RouletteNumber>(5);
+  const [chips, setChips] = useState(3);
+  const [totalPayout, setTotalPayout] = useState(105);
+  const [cashRequest, setCashRequest] = useState(50);
+  const [chipsAmount, setChipsAmount] = useState(55);
+  const [questionType, setQuestionType] = useState<QuestionType>('ASK_CHIPS');
+  const [userAnswer, setUserAnswer] = useState('');
+  const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const generateNewQuestion = () => {
+    // Pick a random winning number from 0-12
+    const number = Math.floor(Math.random() * 13) as RouletteNumber;
+    setWinningNumber(number);
+
+    // Random chips 1-5
+    const randomChips = Math.floor(Math.random() * 5) + 1;
+    setChips(randomChips);
+
+    // Calculate total payout (chips × 35)
+    const total = randomChips * 35;
+    setTotalPayout(total);
+
+    // Determine valid cash requests (25, 50, 75 but must be < total)
+    const validCashOptions = [25, 50, 75].filter(cash => cash < total);
+    
+    // If no valid cash options, use smaller values
+    let selectedCash: number;
+    if (validCashOptions.length === 0) {
+      // For very small payouts, use 25 or none
+      selectedCash = total > 25 ? 25 : 0;
+    } else {
+      selectedCash = validCashOptions[Math.floor(Math.random() * validCashOptions.length)];
+    }
+    
+    setCashRequest(selectedCash);
+    
+    // Calculate chips amount (total - cash)
+    const calculatedChips = total - selectedCash;
+    setChipsAmount(calculatedChips);
+
+    // Alternate question type
+    setQuestionType(prev => prev === 'ASK_CHIPS' ? 'ASK_CASH' : 'ASK_CHIPS');
+
+    setUserAnswer('');
+    setShowFeedback(false);
+    setShowHint(false);
+  };
+
+  useEffect(() => {
+    generateNewQuestion();
+  }, []);
+
+  const getCorrectAnswer = (): number => {
+    return questionType === 'ASK_CHIPS' ? chipsAmount : cashRequest;
+  };
+
+  const handleCheckAnswer = () => {
+    const correctAnswer = getCorrectAnswer();
+    const userNum = parseInt(userAnswer);
+    const correct = userNum === correctAnswer;
+
+    setIsCorrect(correct);
+    setShowFeedback(true);
+    setAttempts(attempts + 1);
+    if (correct) {
+      setScore(score + 1);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    generateNewQuestion();
+  };
+
+  const handleNumberPress = (num: string) => {
+    if (userAnswer.length < 4) {
+      setUserAnswer(userAnswer + num);
+    }
+  };
+
+  const handleClear = () => {
+    setUserAnswer('');
+  };
+
+  const handleBackspace = () => {
+    setUserAnswer(userAnswer.slice(0, -1));
+  };
+
+  const getExplanation = (): string => {
+    return `Total payout: ${chips} × 35 = ${totalPayout}\nPayout breakdown: ${chipsAmount} chips + ${cashRequest} cash = ${totalPayout}`;
+  };
+
+  const getQuestionText = (): string => {
+    if (questionType === 'ASK_CHIPS') {
+      return `Player wants ${cashRequest} cash.\nHow many chips to pay?`;
+    } else {
+      return `Dealer pays ${chipsAmount} chips.\nHow much cash to pay?`;
+    }
+  };
+
+  // Mock placed bet for visual reference
+  const mockPlacedBets = [{
+    id: 'bet-1',
+    type: 'STRAIGHT' as any,
+    numbers: [winningNumber],
+    amount: chips,
+    payout: 35,
+    timestamp: Date.now(),
+  }];
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <ExerciseStats score={score} attempts={attempts} />
+
+        <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
+          • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
+          • Chips on bet: <Text style={styles.highlightChips}>{chips}</Text>{'\n'}
+          • Straight up payout: chips × 35{'\n'}
+          • Total payout: <Text style={styles.highlightNumber}>{chips} × 35 = {totalPayout}</Text>{'\n'}
+          {'\n'}
+          <Text style={styles.hintTitle}>Cash Handling:{'\n'}</Text>
+          • Total must equal: <Text style={styles.highlightNumber}>{totalPayout}</Text>{'\n'}
+          • Formula: Chips + Cash = Total{'\n'}
+          • Therefore: {chipsAmount} chips + {cashRequest} cash = {totalPayout}{'\n'}
+        </HintSection>
+
+        <View style={styles.visualReference}>
+          <Text style={styles.sectionTitle}>Visual Reference</Text>
+          <ScrollView 
+            horizontal 
+            style={styles.layoutScroll}
+            showsHorizontalScrollIndicator={false}
+          >
+            <RouletteLayout
+              cellSize={55}
+              maxColumns={4}
+              showOutsideBets={false}
+              showColumnBets={false}
+              placedBets={mockPlacedBets}
+              onNumberPress={() => {}}
+            />
+          </ScrollView>
+        </View>
+
+        <View style={styles.questionSection}>
+          <Text style={styles.questionText}>{getQuestionText()}</Text>
+          <View style={styles.answerContainer}>
+            <Text style={styles.answerText}>{userAnswer || '0'}</Text>
+          </View>
+        </View>
+
+        <NumberPad
+          onNumberPress={handleNumberPress}
+          onClear={handleClear}
+          onBackspace={handleBackspace}
+          disabled={showFeedback}
+        />
+
+        <TouchableOpacity
+          style={[styles.checkButton, showFeedback && styles.checkButtonDisabled]}
+          onPress={handleCheckAnswer}
+          disabled={showFeedback || userAnswer === ''}
+        >
+          <Text style={styles.checkButtonText}>Check Answer</Text>
+        </TouchableOpacity>
+
+        {showFeedback && (
+          <FeedbackCard
+            isCorrect={isCorrect}
+            correctAnswer={getCorrectAnswer()}
+            explanation={getExplanation()}
+            onNextQuestion={handleNextQuestion}
+          />
+        )}
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1a1a1a',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: 20,
+  },
+  visualReference: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  layoutScroll: {
+    maxHeight: 400,
+  },
+  questionSection: {
+    marginBottom: 20,
+  },
+  questionText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    lineHeight: 26,
+  },
+  answerContainer: {
+    backgroundColor: '#2a2a2a',
+    borderRadius: 8,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    alignItems: 'center',
+  },
+  answerText: {
+    color: '#FFD700',
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  checkButton: {
+    backgroundColor: '#4CAF50',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  checkButtonDisabled: {
+    backgroundColor: '#555',
+  },
+  checkButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  highlightNumber: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+  },
+  highlightChips: {
+    color: '#4CAF50',
+    fontWeight: 'bold',
+  },
+  hintTitle: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+});

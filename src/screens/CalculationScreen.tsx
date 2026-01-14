@@ -6,10 +6,21 @@ import ExerciseStats from '../components/exercises/ExerciseStats';
 import HintSection from '../components/exercises/HintSection';
 import NumberPad from '../components/exercises/NumberPad';
 import FeedbackCard from '../components/exercises/FeedbackCard';
+import { BetConfig } from '../config/betConfigs';
 
-export default function SixLineCalculationScreen({ navigation }: any) {
-  const [lineNumbers, setLineNumbers] = useState<RouletteNumber[]>([]);
-  const [chipsOnLine, setChipsOnLine] = useState(1);
+interface CalculationScreenProps {
+  navigation: any;
+  route: {
+    params: {
+      betConfig: BetConfig;
+    };
+  };
+}
+
+export default function CalculationScreen({ navigation, route }: CalculationScreenProps) {
+  const { betConfig } = route.params;
+  const [betNumbers, setBetNumbers] = useState<RouletteNumber[]>([]);
+  const [chipsOnBet, setChipsOnBet] = useState(1);
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -22,27 +33,18 @@ export default function SixLineCalculationScreen({ navigation }: any) {
   }, []);
 
   const generateNewQuestion = () => {
-    // Pick a random six line (double street) from numbers 1-12
-    // Six lines are 6 numbers - two adjacent streets
-    const possibleLines: RouletteNumber[][] = [
-      [1, 2, 3, 4, 5, 6],
-      [4, 5, 6, 7, 8, 9],
-      [7, 8, 9, 10, 11, 12],
-    ];
-
-    const randomLine = possibleLines[Math.floor(Math.random() * possibleLines.length)];
+    const possibleBets = betConfig.generatePossibleBets();
+    const randomBet = possibleBets[Math.floor(Math.random() * possibleBets.length)];
     const randomChips = Math.floor(Math.random() * 5) + 1;
 
-    setLineNumbers(randomLine);
-    setChipsOnLine(randomChips);
+    setBetNumbers(randomBet);
+    setChipsOnBet(randomChips);
     setUserAnswer('');
     setShowFeedback(false);
   };
 
   const calculateCorrectAnswer = () => {
-    // Six line bet payout is 5:1
-    // Payout = chips * 5 (winnings only)
-    return chipsOnLine * 5;
+    return chipsOnBet * betConfig.payout;
   };
 
   const handleCheckAnswer = () => {
@@ -68,13 +70,12 @@ export default function SixLineCalculationScreen({ navigation }: any) {
     generateNewQuestion();
   };
 
-  // Create mock placed bets to visualize the chips on the layout
   const mockPlacedBets = [{
     id: 'display',
-    type: 'LINE' as any,
-    numbers: lineNumbers,
-    amount: chipsOnLine,
-    payout: 5,
+    type: betConfig.type as any,
+    numbers: betNumbers,
+    amount: chipsOnBet,
+    payout: betConfig.payout,
     timestamp: Date.now(),
   }];
 
@@ -83,14 +84,11 @@ export default function SixLineCalculationScreen({ navigation }: any) {
       <ExerciseStats score={score} attempts={attempts} />
 
       <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
-        • A six line bet covers 6 numbers (two adjacent streets){'\n'}
-        • Six line bet pays 5:1{'\n'}
-        • Payout = chips × 5 (winnings only){'\n'}
-        • Example: 4 chips → 4 × 5 = 20{'\n'}
+        {betConfig.hintText}{'\n'}
         {'\n'}
-        Six Line <Text style={styles.highlightNumber}>{lineNumbers[0]}-{lineNumbers[1]}-{lineNumbers[2]}-{lineNumbers[3]}-{lineNumbers[4]}-{lineNumbers[5]}</Text> has{' '}
-        <Text style={styles.highlightChips}>{chipsOnLine}</Text>{' '}
-        {chipsOnLine === 1 ? 'chip' : 'chips'} on it.
+        {betConfig.name} <Text style={styles.highlightNumber}>{betConfig.formatNumbers(betNumbers)}</Text> has{' '}
+        <Text style={styles.highlightChips}>{chipsOnBet}</Text>{' '}
+        {chipsOnBet === 1 ? 'chip' : 'chips'} on it.
       </HintSection>
 
       <View style={styles.layoutContainer}>
@@ -144,7 +142,7 @@ export default function SixLineCalculationScreen({ navigation }: any) {
           <FeedbackCard
             isCorrect={isCorrect}
             correctAnswer={calculateCorrectAnswer()}
-            explanation={!isCorrect ? `${chipsOnLine} × 5 = ${calculateCorrectAnswer()}` : undefined}
+            explanation={!isCorrect ? `${chipsOnBet} × ${betConfig.payout} = ${calculateCorrectAnswer()}` : undefined}
             onNextQuestion={handleNextQuestion}
           />
         )}

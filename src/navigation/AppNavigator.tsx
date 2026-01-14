@@ -6,14 +6,29 @@ import RouletteExercisesScreen from '../screens/RouletteExercisesScreen';
 import RouletteTrainingScreen from '../screens/RouletteTrainingScreen';
 import RouletteLayoutPracticeScreen from '../screens/RouletteLayoutPracticeScreen';
 import RouletteLayoutViewScreen from '../screens/RouletteLayoutViewScreen';
-import PayoutCalculationScreen from '../screens/PayoutCalculationScreen';
-import SplitCalculationScreen from '../screens/SplitCalculationScreen';
-import StreetCalculationScreen from '../screens/StreetCalculationScreen';
-import CornerCalculationScreen from '../screens/CornerCalculationScreen';
-import SixLineCalculationScreen from '../screens/SixLineCalculationScreen';
+import CalculationScreen from '../screens/CalculationScreen';
+import MixedCalculationScreen from '../screens/MixedCalculationScreen';
+import TripleMixedCalculationScreen from '../screens/TripleMixedCalculationScreen';
+import AllPositionsCalculationScreen from '../screens/AllPositionsCalculationScreen';
+import CashHandlingScreen from '../screens/CashHandlingScreen';
 import ProgressScreen from '../screens/ProgressScreen';
+import { BetConfig } from '../config/betConfigs';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  RouletteExercises: undefined;
+  RouletteTraining: undefined;
+  RouletteLayoutPractice: undefined;
+  RouletteLayoutView: undefined;
+  Calculation: { betConfig: BetConfig };
+  MixedCalculation: undefined;
+  TripleMixedCalculation: undefined;
+  AllPositionsCalculation: undefined;
+  CashHandling: undefined;
+  Progress: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
   return (
@@ -30,58 +45,60 @@ export default function AppNavigator() {
           },
         }}
       >
-        <Stack.Screen 
-          name="Home" 
+        <Stack.Screen
+          name="Home"
           component={HomeScreen}
           options={{ title: 'Casino Dealer Training' }}
         />
-        <Stack.Screen 
-          name="RouletteExercises" 
+        <Stack.Screen
+          name="RouletteExercises"
           component={RouletteExercisesScreen}
           options={{ title: 'Roulette Exercises' }}
         />
-        <Stack.Screen 
-          name="RouletteTraining" 
+        <Stack.Screen
+          name="RouletteTraining"
           component={RouletteTrainingScreen}
           options={{ title: 'Training' }}
         />
-        <Stack.Screen 
-          name="RouletteLayoutPractice" 
+        <Stack.Screen
+          name="RouletteLayoutPractice"
           component={RouletteLayoutPracticeScreen}
           options={{ title: 'Roulette Layout Practice' }}
         />
-        <Stack.Screen 
-          name="RouletteLayoutView" 
+        <Stack.Screen
+          name="RouletteLayoutView"
           component={RouletteLayoutViewScreen}
           options={{ title: 'Roulette Layout' }}
         />
-        <Stack.Screen 
-          name="PayoutCalculation" 
-          component={PayoutCalculationScreen}
-          options={{ title: 'Payout Calculation' }}
+        <Stack.Screen
+          name="Calculation"
+          component={CalculationScreen}
+          options={({ route }) => ({
+            title: route.params?.betConfig?.displayName || 'Calculation'
+          })}
         />
-        <Stack.Screen 
-          name="SplitCalculation" 
-          component={SplitCalculationScreen}
-          options={{ title: 'Split Calculation' }}
+        <Stack.Screen
+          name="MixedCalculation"
+          component={MixedCalculationScreen}
+          options={{ title: 'Mixed Calculation' }}
         />
-        <Stack.Screen 
-          name="StreetCalculation" 
-          component={StreetCalculationScreen}
-          options={{ title: 'Street Calculation' }}
+        <Stack.Screen
+          name="TripleMixedCalculation"
+          component={TripleMixedCalculationScreen}
+          options={{ title: 'Triple Mix Calculation' }}
         />
-        <Stack.Screen 
-          name="CornerCalculation" 
-          component={CornerCalculationScreen}
-          options={{ title: 'Corner Calculation' }}
+        <Stack.Screen
+          name="AllPositionsCalculation"
+          component={AllPositionsCalculationScreen}
+          options={{ title: 'All Positions' }}
         />
-        <Stack.Screen 
-          name="SixLineCalculation" 
-          component={SixLineCalculationScreen}
-          options={{ title: 'Six Line Calculation' }}
+        <Stack.Screen
+          name="CashHandling"
+          component={CashHandlingScreen}
+          options={{ title: 'Cash Handling' }}
         />
-        <Stack.Screen 
-          name="Progress" 
+        <Stack.Screen
+          name="Progress"
           component={ProgressScreen}
           options={{ title: 'My Progress' }}
         />

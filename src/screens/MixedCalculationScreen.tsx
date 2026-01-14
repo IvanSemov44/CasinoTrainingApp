@@ -7,9 +7,16 @@ import HintSection from '../components/exercises/HintSection';
 import NumberPad from '../components/exercises/NumberPad';
 import FeedbackCard from '../components/exercises/FeedbackCard';
 
-export default function SplitCalculationScreen({ navigation }: any) {
-  const [splitNumbers, setSplitNumbers] = useState<RouletteNumber[]>([]);
-  const [chipsOnSplit, setChipsOnSplit] = useState(1);
+interface Bet {
+  type: 'STRAIGHT' | 'SPLIT';
+  numbers: RouletteNumber[];
+  chips: number;
+  payout: number;
+}
+
+export default function MixedCalculationScreen({ navigation }: any) {
+  const [winningNumber, setWinningNumber] = useState<RouletteNumber>(0);
+  const [bets, setBets] = useState<Bet[]>([]);
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -21,43 +28,86 @@ export default function SplitCalculationScreen({ navigation }: any) {
     generateNewQuestion();
   }, []);
 
-  const generateNewQuestion = () => {
-    // Pick a random split from numbers 0-12
-    // Roulette layout: Row 1 (bottom): 1,4,7,10 | Row 2 (middle): 2,5,8,11 | Row 3 (top): 3,6,9,12
-    const possibleSplits: [RouletteNumber, RouletteNumber][] = [];
-
+  const getSplitsForNumber = (num: RouletteNumber): RouletteNumber[][] => {
+    const splits: RouletteNumber[][] = [];
+    
+    // Special case for 0
+    if (num === 0) {
+      splits.push([0, 1]);
+      splits.push([0, 2]);
+      splits.push([0, 3]);
+      return splits;
+    }
+    
     // Vertical splits (consecutive numbers in same column)
-    // Column 1: 1-2, 2-3 | Column 2: 4-5, 5-6 | Column 3: 7-8, 8-9 | Column 4: 10-11, 11-12
-    for (let i = 1; i <= 11; i++) {
-      if (i % 3 !== 0) { // Skip 3, 6, 9, 12 (can't split with number above them within our range)
-        possibleSplits.push([i as RouletteNumber, (i + 1) as RouletteNumber]);
+    if (num % 3 !== 0 && num < 12) { // Can split with number above
+      splits.push([num, (num + 1) as RouletteNumber]);
+    }
+    if (num % 3 !== 1 && num > 0) { // Can split with number below
+      splits.push([(num - 1) as RouletteNumber, num]);
+    }
+    
+    // Horizontal splits (same row, differ by 3)
+    if (num + 3 <= 12) { // Can split right
+      splits.push([num, (num + 3) as RouletteNumber]);
+    }
+    if (num - 3 >= 1) { // Can split left
+      splits.push([(num - 3) as RouletteNumber, num]);
+    }
+    
+    // Special splits with 0
+    if (num === 1 || num === 2 || num === 3) {
+      splits.push([0, num]);
+    }
+    
+    return splits;
+  };
+
+  const generateNewQuestion = () => {
+    // Pick a random winning number (0-12)
+    const number = Math.floor(Math.random() * 13) as RouletteNumber;
+    const newBets: Bet[] = [];
+    
+    // Always add straight up bet on winning number
+    const straightChips = Math.floor(Math.random() * 3) + 1; // 1-3 chips
+    newBets.push({
+      type: 'STRAIGHT',
+      numbers: [number],
+      chips: straightChips,
+      payout: 35,
+    });
+    
+    // Get all possible splits for this number
+    const possibleSplits = getSplitsForNumber(number);
+    
+    // Add 1-2 random splits that include the winning number
+    if (possibleSplits.length > 0) {
+      const numSplits = Math.min(
+        Math.floor(Math.random() * 2) + 1, // 1-2 splits
+        possibleSplits.length
+      );
+      
+      // Shuffle and pick random splits
+      const shuffled = [...possibleSplits].sort(() => Math.random() - 0.5);
+      for (let i = 0; i < numSplits; i++) {
+        const chips = Math.floor(Math.random() * 3) + 1; // 1-3 chips
+        newBets.push({
+          type: 'SPLIT',
+          numbers: shuffled[i],
+          chips,
+          payout: 17,
+        });
       }
     }
 
-    // Horizontal splits (numbers that differ by 3 in same row)
-    // Row 1: 1-4, 4-7, 7-10 | Row 2: 2-5, 5-8, 8-11 | Row 3: 3-6, 6-9, 9-12
-    for (let i = 1; i <= 9; i++) {
-      possibleSplits.push([i as RouletteNumber, (i + 3) as RouletteNumber]);
-    }
-
-    // Splits with 0 (0-1, 0-2, 0-3)
-    possibleSplits.push([0 as RouletteNumber, 1 as RouletteNumber]);
-    possibleSplits.push([0 as RouletteNumber, 2 as RouletteNumber]);
-    possibleSplits.push([0 as RouletteNumber, 3 as RouletteNumber]);
-
-    const randomSplit = possibleSplits[Math.floor(Math.random() * possibleSplits.length)];
-    const randomChips = Math.floor(Math.random() * 5) + 1;
-
-    setSplitNumbers(randomSplit);
-    setChipsOnSplit(randomChips);
+    setWinningNumber(number);
+    setBets(newBets);
     setUserAnswer('');
     setShowFeedback(false);
   };
 
   const calculateCorrectAnswer = () => {
-    // Split bet payout is 17:1
-    // Payout = chips * 17 (winnings only)
-    return chipsOnSplit * 17;
+    return bets.reduce((total, bet) => total + (bet.chips * bet.payout), 0);
   };
 
   const handleCheckAnswer = () => {
@@ -83,29 +133,48 @@ export default function SplitCalculationScreen({ navigation }: any) {
     generateNewQuestion();
   };
 
-  // Create mock placed bets to visualize the chips on the layout
-  const mockPlacedBets = [{
-    id: 'display',
-    type: 'SPLIT' as any,
-    numbers: splitNumbers,
-    amount: chipsOnSplit,
-    payout: 17,
-    timestamp: Date.now(),
-  }];
+  const mockPlacedBets = bets.map((bet, index) => ({
+    id: `bet-${index}`,
+    type: bet.type as any,
+    numbers: bet.numbers,
+    amount: bet.chips,
+    payout: bet.payout,
+    timestamp: Date.now() + index,
+  }));
+
+  const getExplanation = () => {
+    const parts = bets.map(bet => {
+      const nums = bet.type === 'STRAIGHT' 
+        ? `${bet.numbers[0]}` 
+        : `${bet.numbers[0]}-${bet.numbers[1]}`;
+      return `${nums} (${bet.chips} × ${bet.payout} = ${bet.chips * bet.payout})`;
+    });
+    return parts.join(' + ') + ` = ${calculateCorrectAnswer()}`;
+  };
 
   return (
     <ScrollView style={styles.container}>
       <ExerciseStats score={score} attempts={attempts} />
 
       <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
-        • A split bet covers 2 adjacent numbers{'\n'}
-        • Split bet pays 17:1{'\n'}
-        • Payout = chips × 17 (winnings only){'\n'}
-        • Example: 3 chips → 3 × 17 = 51{'\n'}
+        • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
+        • Calculate total payout for all winning bets{'\n'}
+        • Straight up: chips × 35{'\n'}
+        • Split: chips × 17{'\n'}
+        • Add all payouts together{'\n'}
         {'\n'}
-        Split <Text style={styles.highlightNumber}>{splitNumbers[0]}-{splitNumbers[1]}</Text> has{' '}
-        <Text style={styles.highlightChips}>{chipsOnSplit}</Text>{' '}
-        {chipsOnSplit === 1 ? 'chip' : 'chips'} on it.
+        <Text style={styles.hintTitle}>Bets on winning number:{'\n'}</Text>
+        {bets.map((bet, index) => (
+          <Text key={index} style={styles.hintBet}>
+            {index + 1}. {bet.type === 'STRAIGHT' ? 'Straight' : 'Split'}{' '}
+            <Text style={styles.highlightNumber}>
+              {bet.type === 'STRAIGHT' ? bet.numbers[0] : `${bet.numbers[0]}-${bet.numbers[1]}`}
+            </Text>
+            {' with '}
+            <Text style={styles.highlightChips}>{bet.chips}</Text>
+            {' '}{bet.chips === 1 ? 'chip' : 'chips'}{'\n'}
+          </Text>
+        ))}
       </HintSection>
 
       <View style={styles.layoutContainer}>
@@ -127,7 +196,7 @@ export default function SplitCalculationScreen({ navigation }: any) {
       </View>
 
       <View style={styles.answerSection}>
-        <Text style={styles.answerLabel}>Your Answer:</Text>
+        <Text style={styles.answerLabel}>Total Payout:</Text>
         <TextInput
           style={styles.input}
           value={userAnswer}
@@ -159,7 +228,7 @@ export default function SplitCalculationScreen({ navigation }: any) {
           <FeedbackCard
             isCorrect={isCorrect}
             correctAnswer={calculateCorrectAnswer()}
-            explanation={!isCorrect ? `${chipsOnSplit} × 17 = ${calculateCorrectAnswer()}` : undefined}
+            explanation={!isCorrect ? getExplanation() : undefined}
             onNextQuestion={handleNextQuestion}
           />
         )}
@@ -173,13 +242,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0a2f1f',
   },
+  hintTitle: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  hintBet: {
+    fontSize: 14,
+    lineHeight: 22,
+  },
   highlightNumber: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#FFD700',
   },
   highlightChips: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#4CAF50',
   },

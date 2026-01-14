@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { ExerciseType } from '../types/roulette.types';
+import { BET_CONFIGS } from '../config/betConfigs';
 
 const EXERCISES = [
   {
@@ -43,6 +44,38 @@ const EXERCISES = [
     difficulty: 'easy' as const,
     timeLimit: 300,
   },
+  {
+    id: '6',
+    type: ExerciseType.MIXED_CALCULATION,
+    title: 'Payout Calculation - Mixed Bets',
+    description: 'Calculate total payouts for multiple bets. Combines straight ups (35:1) and splits (17:1).',
+    difficulty: 'medium' as const,
+    timeLimit: 300,
+  },
+  {
+    id: '7',
+    type: ExerciseType.TRIPLE_MIXED_CALCULATION,
+    title: 'Payout Calculation - Triple Mix',
+    description: 'Calculate total payouts for multiple bets. Combines straight ups (35:1), splits (17:1), and corners (8:1).',
+    difficulty: 'hard' as const,
+    timeLimit: 300,
+  },
+  {
+    id: '8',
+    type: ExerciseType.ALL_POSITIONS_CALCULATION,
+    title: 'Payout Calculation - All Positions',
+    description: 'Master level! Calculate total payouts combining all bet types: straight ups (35:1), splits (17:1), corners (8:1), streets (11:1), and six lines (5:1).',
+    difficulty: 'hard' as const,
+    timeLimit: 400,
+  },
+  {
+    id: '9',
+    type: ExerciseType.CASH_HANDLING,
+    title: 'Cash Handling - Straight Ups',
+    description: 'Practice converting payouts to chips + cash. Player requests cash (25, 50, or 75), calculate remaining chips. Example: 105 total with 50 cash = 55 chips.',
+    difficulty: 'medium' as const,
+    timeLimit: 300,
+  },
 ];
 
 export default function RouletteExercisesScreen({ navigation }: any) {
@@ -60,15 +93,23 @@ export default function RouletteExercisesScreen({ navigation }: any) {
     if (exercise.type === ExerciseType.ROULETTE_LAYOUT) {
       navigation.navigate('RouletteLayoutPractice');
     } else if (exercise.type === ExerciseType.PAYOUT_CALCULATION) {
-      navigation.navigate('PayoutCalculation');
+      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.STRAIGHT_UP });
     } else if (exercise.type === ExerciseType.SPLIT_CALCULATION) {
-      navigation.navigate('SplitCalculation');
+      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.SPLIT });
     } else if (exercise.type === ExerciseType.STREET_CALCULATION) {
-      navigation.navigate('StreetCalculation');
+      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.STREET });
     } else if (exercise.type === ExerciseType.CORNER_CALCULATION) {
-      navigation.navigate('CornerCalculation');
+      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.CORNER });
     } else if (exercise.type === ExerciseType.SIXLINE_CALCULATION) {
-      navigation.navigate('SixLineCalculation');
+      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.SIX_LINE });
+    } else if (exercise.type === ExerciseType.MIXED_CALCULATION) {
+      navigation.navigate('MixedCalculation');
+    } else if (exercise.type === ExerciseType.TRIPLE_MIXED_CALCULATION) {
+      navigation.navigate('TripleMixedCalculation');
+    } else if (exercise.type === ExerciseType.ALL_POSITIONS_CALCULATION) {
+      navigation.navigate('AllPositionsCalculation');
+    } else if (exercise.type === ExerciseType.CASH_HANDLING) {
+      navigation.navigate('CashHandling');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }
