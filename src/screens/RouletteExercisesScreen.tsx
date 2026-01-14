@@ -92,6 +92,14 @@ const EXERCISES = [
     difficulty: 'medium' as const,
     timeLimit: 300,
   },
+  {
+    id: '12',
+    type: ExerciseType.CASH_HANDLING_TEN_DOLLAR,
+    title: 'Cash Handling - $10 Chips',
+    description: 'Cash handling with $10 chips. Calculate chips + cash breakdown. Cash requests by $100 increments. Example: 105 chips ($1050) with $400 cash = 65 chips.',
+    difficulty: 'medium' as const,
+    timeLimit: 300,
+  },
 ];
 
 export default function RouletteExercisesScreen({ navigation }: any) {
@@ -130,6 +138,8 @@ export default function RouletteExercisesScreen({ navigation }: any) {
       navigation.navigate('CashHandlingTwoDollar');
     } else if (exercise.type === ExerciseType.CASH_HANDLING_FIVE_DOLLAR) {
       navigation.navigate('CashHandlingFiveDollar');
+    } else if (exercise.type === ExerciseType.CASH_HANDLING_TEN_DOLLAR) {
+      navigation.navigate('CashHandlingTenDollar');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }

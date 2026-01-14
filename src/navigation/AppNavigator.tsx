@@ -13,6 +13,7 @@ import AllPositionsCalculationScreen from '../screens/AllPositionsCalculationScr
 import CashHandlingScreen from '../screens/CashHandlingScreen';
 import CashHandlingTwoDollarScreen from '../screens/CashHandlingTwoDollarScreen';
 import CashHandlingFiveDollarScreen from '../screens/CashHandlingFiveDollarScreen';
+import CashHandlingTenDollarScreen from '../screens/CashHandlingTenDollarScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import { BetConfig } from '../config/betConfigs';
 
@@ -29,6 +30,7 @@ export type RootStackParamList = {
   CashHandling: undefined;
   CashHandlingTwoDollar: undefined;
   CashHandlingFiveDollar: undefined;
+  CashHandlingTenDollar: undefined;
   Progress: undefined;
 };
 
@@ -108,6 +110,10 @@ export default function AppNavigator() {
         <Stack.Screen name="CashHandlingFiveDollar"
           component={CashHandlingFiveDollarScreen}
           options={{ title: 'Cash Handling - $5' }}
+        />
+        <Stack.Screen name="CashHandlingTenDollar"
+          component={CashHandlingTenDollarScreen}
+          options={{ title: 'Cash Handling - $10' }}
         />
         <Stack.Screen name="Progress"
           component={ProgressScreen}
