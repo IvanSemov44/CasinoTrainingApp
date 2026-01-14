@@ -27,6 +27,22 @@ const EXERCISES = [
     difficulty: 'easy' as const,
     timeLimit: 300,
   },
+  {
+    id: '4',
+    type: ExerciseType.CORNER_CALCULATION,
+    title: 'Payout Calculation - Corners',
+    description: 'Calculate payouts for corner bets (8:1). Practice with random 4-number squares and chip amounts.',
+    difficulty: 'easy' as const,
+    timeLimit: 300,
+  },
+  {
+    id: '5',
+    type: ExerciseType.SIXLINE_CALCULATION,
+    title: 'Payout Calculation - Six Lines',
+    description: 'Calculate payouts for six line bets (5:1). Practice with random 6-number double streets and chip amounts.',
+    difficulty: 'easy' as const,
+    timeLimit: 300,
+  },
 ];
 
 export default function RouletteExercisesScreen({ navigation }: any) {
@@ -49,6 +65,10 @@ export default function RouletteExercisesScreen({ navigation }: any) {
       navigation.navigate('SplitCalculation');
     } else if (exercise.type === ExerciseType.STREET_CALCULATION) {
       navigation.navigate('StreetCalculation');
+    } else if (exercise.type === ExerciseType.CORNER_CALCULATION) {
+      navigation.navigate('CornerCalculation');
+    } else if (exercise.type === ExerciseType.SIXLINE_CALCULATION) {
+      navigation.navigate('SixLineCalculation');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }
