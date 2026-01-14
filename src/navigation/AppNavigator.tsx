@@ -11,13 +11,9 @@ import MixedCalculationScreen from '../screens/MixedCalculationScreen';
 import TripleMixedCalculationScreen from '../screens/TripleMixedCalculationScreen';
 import AllPositionsCalculationScreen from '../screens/AllPositionsCalculationScreen';
 import CashHandlingScreen from '../screens/CashHandlingScreen';
-import CashHandlingTwoDollarScreen from '../screens/CashHandlingTwoDollarScreen';
-import CashHandlingFiveDollarScreen from '../screens/CashHandlingFiveDollarScreen';
-import CashHandlingTenDollarScreen from '../screens/CashHandlingTenDollarScreen';
-import CashHandlingTwentyFiveDollarScreen from '../screens/CashHandlingTwentyFiveDollarScreen';
-import CashHandlingOneHundredDollarScreen from '../screens/CashHandlingOneHundredDollarScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import { BetConfig } from '../config/betConfigs';
+import { CashConfig } from '../config/cashConfigs';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -29,12 +25,7 @@ export type RootStackParamList = {
   MixedCalculation: undefined;
   TripleMixedCalculation: undefined;
   AllPositionsCalculation: undefined;
-  CashHandling: undefined;
-  CashHandlingTwoDollar: undefined;
-  CashHandlingFiveDollar: undefined;
-  CashHandlingTenDollar: undefined;
-  CashHandlingTwentyFiveDollar: undefined;
-  CashHandlingOneHundredDollar: undefined;
+  CashHandling: { cashConfig: CashConfig };
   Progress: undefined;
 };
 
@@ -105,29 +96,12 @@ export default function AppNavigator() {
         <Stack.Screen
           name="CashHandling"
           component={CashHandlingScreen}
-          options={{ title: 'Cash Handling' }}
+          options={({ route }) => ({ 
+            title: route.params?.cashConfig?.displayName || 'Cash Handling'
+          })}
         />
-        <Stack.Screen name="CashHandlingTwoDollar"
-          component={CashHandlingTwoDollarScreen}
-          options={{ title: 'Cash Handling - $2' }}
-        />
-        <Stack.Screen name="CashHandlingFiveDollar"
-          component={CashHandlingFiveDollarScreen}
-          options={{ title: 'Cash Handling - $5' }}
-        />
-        <Stack.Screen name="CashHandlingTenDollar"
-          component={CashHandlingTenDollarScreen}
-          options={{ title: 'Cash Handling - $10' }}
-        />
-        <Stack.Screen name="CashHandlingTwentyFiveDollar"
-          component={CashHandlingTwentyFiveDollarScreen}
-          options={{ title: 'Cash Handling - $25' }}
-        />
-        <Stack.Screen name="CashHandlingOneHundredDollar"
-          component={CashHandlingOneHundredDollarScreen}
-          options={{ title: 'Cash Handling - $100' }}
-        />
-        <Stack.Screen name="Progress"
+        <Stack.Screen
+          name="Progress"
           component={ProgressScreen}
           options={{ title: 'My Progress' }}
         />

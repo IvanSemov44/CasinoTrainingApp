@@ -6,15 +6,27 @@ import  ExerciseStats  from '../components/exercises/ExerciseStats';
 import  HintSection  from '../components/exercises/HintSection';
 import  FeedbackCard  from '../components/exercises/FeedbackCard';
 import type { RouletteNumber } from '../types/roulette.types';
+import type { CashConfig } from '../config/cashConfigs';
 
 type QuestionType = 'ASK_CHIPS' | 'ASK_CASH';
 
-export default function CashHandlingScreen() {
+interface CashHandlingScreenProps {
+  route: {
+    params: {
+      cashConfig: CashConfig;
+    };
+  };
+}
+
+export default function CashHandlingScreen({ route }: CashHandlingScreenProps) {
+  const { cashConfig } = route.params;
+  
   const [winningNumber, setWinningNumber] = useState<RouletteNumber>(5);
   const [chips, setChips] = useState(3);
-  const [totalPayout, setTotalPayout] = useState(105);
+  const [payoutChips, setPayoutChips] = useState(105);
+  const [totalCash, setTotalCash] = useState(105);
   const [cashRequest, setCashRequest] = useState(50);
-  const [chipsAmount, setChipsAmount] = useState(55);
+  const [remainingChips, setRemainingChips] = useState(55);
   const [questionType, setQuestionType] = useState<QuestionType>('ASK_CHIPS');
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
@@ -32,27 +44,31 @@ export default function CashHandlingScreen() {
     const randomChips = Math.floor(Math.random() * 5) + 1;
     setChips(randomChips);
 
-    // Calculate total payout (chips × 35)
-    const total = randomChips * 35;
-    setTotalPayout(total);
+    // Calculate payout in chips (chips × 35)
+    const payout = randomChips * 35;
+    setPayoutChips(payout);
 
-    // Determine valid cash requests (25, 50, 75 but must be < total)
-    const validCashOptions = [25, 50, 75].filter(cash => cash < total);
+    // Calculate total cash value (payout × denomination)
+    const total = payout * cashConfig.denomination;
+    setTotalCash(total);
+
+    // Get valid cash options from config
+    const validCashOptions = cashConfig.getCashOptions(total);
     
-    // If no valid cash options, use smaller values
+    // If no valid cash options, regenerate
     let selectedCash: number;
     if (validCashOptions.length === 0) {
-      // For very small payouts, use 25 or none
-      selectedCash = total > 25 ? 25 : 0;
+      generateNewQuestion();
+      return;
     } else {
       selectedCash = validCashOptions[Math.floor(Math.random() * validCashOptions.length)];
     }
     
     setCashRequest(selectedCash);
     
-    // Calculate chips amount (total - cash)
-    const calculatedChips = total - selectedCash;
-    setChipsAmount(calculatedChips);
+    // Calculate remaining chips: (total - cash) / denomination
+    const calculatedChips = (total - selectedCash) / cashConfig.denomination;
+    setRemainingChips(calculatedChips);
 
     // Alternate question type
     setQuestionType(prev => prev === 'ASK_CHIPS' ? 'ASK_CASH' : 'ASK_CHIPS');
@@ -67,7 +83,7 @@ export default function CashHandlingScreen() {
   }, []);
 
   const getCorrectAnswer = (): number => {
-    return questionType === 'ASK_CHIPS' ? chipsAmount : cashRequest;
+    return questionType === 'ASK_CHIPS' ? remainingChips : cashRequest;
   };
 
   const handleCheckAnswer = () => {
@@ -88,7 +104,7 @@ export default function CashHandlingScreen() {
   };
 
   const handleNumberPress = (num: string) => {
-    if (userAnswer.length < 4) {
+    if (userAnswer.length < 5) {
       setUserAnswer(userAnswer + num);
     }
   };
@@ -102,14 +118,14 @@ export default function CashHandlingScreen() {
   };
 
   const getExplanation = (): string => {
-    return `Total payout: ${chips} × 35 = ${totalPayout}\nPayout breakdown: ${chipsAmount} chips + ${cashRequest} cash = ${totalPayout}`;
+    return `Payout: ${chips} × 35 = ${payoutChips} chips\nTotal cash: ${payoutChips} × $${cashConfig.denomination} = $${totalCash}\nPayout breakdown: ${remainingChips} chips ($${remainingChips * cashConfig.denomination}) + $${cashRequest} cash = $${totalCash}`;
   };
 
   const getQuestionText = (): string => {
     if (questionType === 'ASK_CHIPS') {
-      return `Player wants ${cashRequest} cash.\nHow many chips to pay?`;
+      return `Player wants $${cashRequest} cash.\nHow many chips to pay?`;
     } else {
-      return `Dealer pays ${chipsAmount} chips.\nHow much cash to pay?`;
+      return `Dealer pays ${remainingChips} chips.\nHow much cash to pay?`;
     }
   };
 
@@ -129,15 +145,17 @@ export default function CashHandlingScreen() {
         <ExerciseStats score={score} attempts={attempts} />
 
         <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
+          • Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
           • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
           • Chips on bet: <Text style={styles.highlightChips}>{chips}</Text>{'\n'}
           • Straight up payout: chips × 35{'\n'}
-          • Total payout: <Text style={styles.highlightNumber}>{chips} × 35 = {totalPayout}</Text>{'\n'}
+          • Payout in chips: <Text style={styles.highlightNumber}>{chips} × 35 = {payoutChips} chips</Text>{'\n'}
+          • Total cash value: <Text style={styles.highlightNumber}>{payoutChips} × ${cashConfig.denomination} = ${totalCash}</Text>{'\n'}
           {'\n'}
           <Text style={styles.hintTitle}>Cash Handling:{'\n'}</Text>
-          • Total must equal: <Text style={styles.highlightNumber}>{totalPayout}</Text>{'\n'}
-          • Formula: Chips + Cash = Total{'\n'}
-          • Therefore: {chipsAmount} chips + {cashRequest} cash = {totalPayout}{'\n'}
+          • Total must equal: <Text style={styles.highlightNumber}>${totalCash}</Text>{'\n'}
+          • Formula: (Chips × ${cashConfig.denomination}) + Cash = Total{'\n'}
+          • Therefore: {remainingChips} chips (${remainingChips * cashConfig.denomination}) + ${cashRequest} cash = ${totalCash}{'\n'}
         </HintSection>
 
         <View style={styles.visualReference}>

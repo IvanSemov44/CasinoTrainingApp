@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { ExerciseType } from '../types/roulette.types';
 import { BET_CONFIGS } from '../config/betConfigs';
+import { CASH_CONFIGS } from '../config/cashConfigs';
 
 const EXERCISES = [
   {
@@ -149,17 +150,17 @@ export default function RouletteExercisesScreen({ navigation }: any) {
     } else if (exercise.type === ExerciseType.ALL_POSITIONS_CALCULATION) {
       navigation.navigate('AllPositionsCalculation');
     } else if (exercise.type === ExerciseType.CASH_HANDLING) {
-      navigation.navigate('CashHandling');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.ONE_DOLLAR });
     } else if (exercise.type === ExerciseType.CASH_HANDLING_TWO_DOLLAR) {
-      navigation.navigate('CashHandlingTwoDollar');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TWO_DOLLAR });
     } else if (exercise.type === ExerciseType.CASH_HANDLING_FIVE_DOLLAR) {
-      navigation.navigate('CashHandlingFiveDollar');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.FIVE_DOLLAR });
     } else if (exercise.type === ExerciseType.CASH_HANDLING_TEN_DOLLAR) {
-      navigation.navigate('CashHandlingTenDollar');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TEN_DOLLAR });
     } else if (exercise.type === ExerciseType.CASH_HANDLING_TWENTY_FIVE_DOLLAR) {
-      navigation.navigate('CashHandlingTwentyFiveDollar');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TWENTY_FIVE_DOLLAR });
     } else if (exercise.type === ExerciseType.CASH_HANDLING_ONE_HUNDRED_DOLLAR) {
-      navigation.navigate('CashHandlingOneHundredDollar');
+      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.ONE_HUNDRED_DOLLAR });
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }
