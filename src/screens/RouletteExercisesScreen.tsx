@@ -76,6 +76,22 @@ const EXERCISES = [
     difficulty: 'medium' as const,
     timeLimit: 300,
   },
+  {
+    id: '10',
+    type: ExerciseType.CASH_HANDLING_TWO_DOLLAR,
+    title: 'Cash Handling - $2 Chips',
+    description: 'Cash handling with $2 chips. Calculate chips + cash breakdown. Cash requests by $50 increments. Example: 105 chips ($210) with $100 cash = 55 chips.',
+    difficulty: 'medium' as const,
+    timeLimit: 300,
+  },
+  {
+    id: '11',
+    type: ExerciseType.CASH_HANDLING_FIVE_DOLLAR,
+    title: 'Cash Handling - $5 Chips',
+    description: 'Cash handling with $5 chips. Calculate chips + cash breakdown. Cash requests by $100 increments. Example: 105 chips ($525) with $200 cash = 65 chips.',
+    difficulty: 'medium' as const,
+    timeLimit: 300,
+  },
 ];
 
 export default function RouletteExercisesScreen({ navigation }: any) {
@@ -110,6 +126,10 @@ export default function RouletteExercisesScreen({ navigation }: any) {
       navigation.navigate('AllPositionsCalculation');
     } else if (exercise.type === ExerciseType.CASH_HANDLING) {
       navigation.navigate('CashHandling');
+    } else if (exercise.type === ExerciseType.CASH_HANDLING_TWO_DOLLAR) {
+      navigation.navigate('CashHandlingTwoDollar');
+    } else if (exercise.type === ExerciseType.CASH_HANDLING_FIVE_DOLLAR) {
+      navigation.navigate('CashHandlingFiveDollar');
     } else {
       navigation.navigate('RouletteTraining', { exercise });
     }
