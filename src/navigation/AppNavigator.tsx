@@ -13,8 +13,8 @@ import TripleMixedCalculationScreen from '../screens/TripleMixedCalculationScree
 import AllPositionsCalculationScreen from '../screens/AllPositionsCalculationScreen';
 import CashHandlingScreen from '../screens/CashHandlingScreen';
 import ProgressScreen from '../screens/ProgressScreen';
-import { BetConfig } from '../config/betConfigs';
-import { CashConfig } from '../config/cashConfigs';
+import { getBetConfig, type BetConfigKey } from '../config/betConfigs';
+import { getCashConfig, type CashConfigKey } from '../config/cashConfigs';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,11 +23,11 @@ export type RootStackParamList = {
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
-  Calculation: { betConfig: BetConfig; cashConfig?: CashConfig };
-  MixedCalculation: { cashConfig?: CashConfig };
-  TripleMixedCalculation: { cashConfig?: CashConfig };
-  AllPositionsCalculation: { cashConfig?: CashConfig };
-  CashHandling: { cashConfig: CashConfig };
+  Calculation: { betConfigKey: BetConfigKey; cashConfigKey?: CashConfigKey };
+  MixedCalculation: { cashConfigKey?: CashConfigKey };
+  TripleMixedCalculation: { cashConfigKey?: CashConfigKey };
+  AllPositionsCalculation: { cashConfigKey?: CashConfigKey };
+  CashHandling: { cashConfigKey: CashConfigKey; betConfigKey?: BetConfigKey };
   Progress: undefined;
 };
 
@@ -84,7 +84,7 @@ export default function AppNavigator() {
           name="Calculation"
           component={CalculationScreen}
           options={({ route }) => ({
-            title: route.params?.betConfig?.displayName || 'Calculation'
+            title: route.params?.betConfigKey ? getBetConfig(route.params.betConfigKey).displayName : 'Calculation'
           })}
         />
         <Stack.Screen
@@ -106,7 +106,7 @@ export default function AppNavigator() {
           name="CashHandling"
           component={CashHandlingScreen}
           options={({ route }) => ({ 
-            title: route.params?.cashConfig?.displayName || 'Cash Handling'
+            title: route.params?.cashConfigKey ? getCashConfig(route.params.cashConfigKey).displayName : 'Cash Handling'
           })}
         />
         <Stack.Screen

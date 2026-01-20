@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { CashConfig } from '../config/cashConfigs';
+import { getCashConfig, type CashConfigKey } from '../config/cashConfigs';
 import RouletteLayout from '../components/roulette/RouletteLayout';
 import NumberPad from '../components/exercises/NumberPad';
 import ExerciseStats from '../components/exercises/ExerciseStats';
@@ -20,14 +20,14 @@ interface Bet {
 interface AllPositionsCalculationScreenProps {
     route: {
         params?: {
-            cashConfig?: CashConfig;
+            cashConfigKey?: CashConfigKey;
         };
     };
     navigation: any;
 }
 
 export default function AllPositionsCalculationScreen({ route, navigation }: AllPositionsCalculationScreenProps) {
-    const cashConfig = route.params?.cashConfig;
+    const cashConfig = route.params?.cashConfigKey ? getCashConfig(route.params.cashConfigKey) : undefined;
     const [winningNumber, setWinningNumber] = useState<RouletteNumber>(5);
     const [bets, setBets] = useState<Bet[]>([]);
     const [userAnswer, setUserAnswer] = useState('');

@@ -6,21 +6,22 @@ import ExerciseStats from '../components/exercises/ExerciseStats';
 import HintSection from '../components/exercises/HintSection';
 import NumberPad from '../components/exercises/NumberPad';
 import FeedbackCard from '../components/exercises/FeedbackCard';
-import { BetConfig } from '../config/betConfigs';
-import { CashConfig } from '../config/cashConfigs';
+import { getBetConfig, type BetConfigKey } from '../config/betConfigs';
+import { getCashConfig, type CashConfigKey } from '../config/cashConfigs';
 
 interface CalculationScreenProps {
   navigation: any;
   route: {
     params: {
-      betConfig: BetConfig;
-      cashConfig?: CashConfig;
+      betConfigKey: BetConfigKey;
+      cashConfigKey?: CashConfigKey;
     };
   };
 }
 
 export default function CalculationScreen({ navigation, route }: CalculationScreenProps) {
-  const { betConfig, cashConfig } = route.params;
+  const betConfig = getBetConfig(route.params.betConfigKey);
+  const cashConfig = route.params.cashConfigKey ? getCashConfig(route.params.cashConfigKey) : undefined;
   const [betNumbers, setBetNumbers] = useState<RouletteNumber[]>([]);
   const [chipsOnBet, setChipsOnBet] = useState(1);
   const [userAnswer, setUserAnswer] = useState('');

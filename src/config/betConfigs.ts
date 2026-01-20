@@ -122,3 +122,9 @@ export const BET_CONFIGS: Record<string, BetConfig> = {
     formatNumbers: (numbers) => `${numbers[0]}-${numbers[1]}-${numbers[2]}-${numbers[3]}-${numbers[4]}-${numbers[5]}`,
   },
 };
+
+export type BetConfigKey = keyof typeof BET_CONFIGS;
+
+export function getBetConfig(key: BetConfigKey): BetConfig {
+  return BET_CONFIGS[key];
+}

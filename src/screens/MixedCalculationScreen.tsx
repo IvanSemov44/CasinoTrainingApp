@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { RouletteNumber } from '../types/roulette.types';
-import { CashConfig } from '../config/cashConfigs';
+import { getCashConfig, type CashConfigKey } from '../config/cashConfigs';
 import RouletteLayout from '../components/roulette/RouletteLayout';
 import ExerciseStats from '../components/exercises/ExerciseStats';
 import HintSection from '../components/exercises/HintSection';
@@ -18,14 +18,14 @@ interface Bet {
 interface MixedCalculationScreenProps {
   route: {
     params?: {
-      cashConfig?: CashConfig;
+      cashConfigKey?: CashConfigKey;
     };
   };
   navigation: any;
 }
 
 export default function MixedCalculationScreen({ route, navigation }: MixedCalculationScreenProps) {
-  const cashConfig = route.params?.cashConfig;
+  const cashConfig = route.params?.cashConfigKey ? getCashConfig(route.params.cashConfigKey) : undefined;
   const [winningNumber, setWinningNumber] = useState<RouletteNumber>(0);
   const [bets, setBets] = useState<Bet[]>([]);
   const [userAnswer, setUserAnswer] = useState('');

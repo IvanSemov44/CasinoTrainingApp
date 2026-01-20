@@ -87,3 +87,9 @@ export const CASH_CONFIGS = {
     },
   } as CashConfig,
 };
+
+export type CashConfigKey = keyof typeof CASH_CONFIGS;
+
+export function getCashConfig(key: CashConfigKey): CashConfig {
+  return CASH_CONFIGS[key];
+}

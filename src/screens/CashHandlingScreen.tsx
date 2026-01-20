@@ -6,20 +6,23 @@ import  ExerciseStats  from '../components/exercises/ExerciseStats';
 import  HintSection  from '../components/exercises/HintSection';
 import  FeedbackCard  from '../components/exercises/FeedbackCard';
 import type { RouletteNumber } from '../types/roulette.types';
-import type { CashConfig } from '../config/cashConfigs';
+import { getCashConfig, type CashConfigKey } from '../config/cashConfigs';
+import { getBetConfig, type BetConfigKey } from '../config/betConfigs';
 
 type QuestionType = 'ASK_CHIPS' | 'ASK_CASH';
 
 interface CashHandlingScreenProps {
   route: {
     params: {
-      cashConfig: CashConfig;
+      cashConfigKey: CashConfigKey;
+      betConfigKey?: BetConfigKey;
     };
   };
 }
 
 export default function CashHandlingScreen({ route }: CashHandlingScreenProps) {
-  const { cashConfig } = route.params;
+  const cashConfig = getCashConfig(route.params.cashConfigKey);
+  const betConfig = route.params.betConfigKey ? getBetConfig(route.params.betConfigKey) : undefined;
   
   const [winningNumber, setWinningNumber] = useState<RouletteNumber>(5);
   const [chips, setChips] = useState(3);
@@ -118,7 +121,8 @@ export default function CashHandlingScreen({ route }: CashHandlingScreenProps) {
   };
 
   const getExplanation = (): string => {
-    return `Payout: ${chips} × 35 = ${payoutChips} chips\nTotal cash: ${payoutChips} × $${cashConfig.denomination} = $${totalCash}\nPayout breakdown: ${remainingChips} chips ($${remainingChips * cashConfig.denomination}) + $${cashRequest} cash = $${totalCash}`;
+    const payoutRatio = betConfig?.payout || 35;
+    return `Payout: ${chips} × ${payoutRatio} = ${payoutChips} chips\nTotal cash: ${payoutChips} × $${cashConfig.denomination} = $${totalCash}\nPayout breakdown: ${remainingChips} chips ($${remainingChips * cashConfig.denomination}) + $${cashRequest} cash = $${totalCash}`;
   };
 
   const getQuestionText = (): string => {
@@ -132,10 +136,10 @@ export default function CashHandlingScreen({ route }: CashHandlingScreenProps) {
   // Mock placed bet for visual reference
   const mockPlacedBets = [{
     id: 'bet-1',
-    type: 'STRAIGHT' as any,
+    type: (betConfig?.type || 'STRAIGHT') as any,
     numbers: [winningNumber],
     amount: chips,
-    payout: 35,
+    payout: betConfig?.payout || 35,
     timestamp: Date.now(),
   }];
 
@@ -144,12 +148,15 @@ export default function CashHandlingScreen({ route }: CashHandlingScreenProps) {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <ExerciseStats score={score} attempts={attempts} />
 
-        <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
-          • Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
+        <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>          {betConfig && (
+            <>
+              • Bet type: <Text style={styles.highlightNumber}>{betConfig.displayName}</Text> ({betConfig.payout}:1){'\n'}
+            </>
+          )}          • Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
           • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
           • Chips on bet: <Text style={styles.highlightChips}>{chips}</Text>{'\n'}
-          • Straight up payout: chips × 35{'\n'}
-          • Payout in chips: <Text style={styles.highlightNumber}>{chips} × 35 = {payoutChips} chips</Text>{'\n'}
+          • Payout ratio: chips × {betConfig?.payout || 35}{'\n'}
+          • Payout in chips: <Text style={styles.highlightNumber}>{chips} × {betConfig?.payout || 35} = {payoutChips} chips</Text>{'\n'}
           • Total cash value: <Text style={styles.highlightNumber}>{payoutChips} × ${cashConfig.denomination} = ${totalCash}</Text>{'\n'}
           {'\n'}
           <Text style={styles.hintTitle}>Cash Handling:{'\n'}</Text>
