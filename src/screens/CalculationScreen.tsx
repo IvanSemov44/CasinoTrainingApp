@@ -7,18 +7,20 @@ import HintSection from '../components/exercises/HintSection';
 import NumberPad from '../components/exercises/NumberPad';
 import FeedbackCard from '../components/exercises/FeedbackCard';
 import { BetConfig } from '../config/betConfigs';
+import { CashConfig } from '../config/cashConfigs';
 
 interface CalculationScreenProps {
   navigation: any;
   route: {
     params: {
       betConfig: BetConfig;
+      cashConfig?: CashConfig;
     };
   };
 }
 
 export default function CalculationScreen({ navigation, route }: CalculationScreenProps) {
-  const { betConfig } = route.params;
+  const { betConfig, cashConfig } = route.params;
   const [betNumbers, setBetNumbers] = useState<RouletteNumber[]>([]);
   const [chipsOnBet, setChipsOnBet] = useState(1);
   const [userAnswer, setUserAnswer] = useState('');
@@ -83,8 +85,13 @@ export default function CalculationScreen({ navigation, route }: CalculationScre
     <ScrollView style={styles.container}>
       <ExerciseStats score={score} attempts={attempts} />
 
-      <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
-        {betConfig.hintText}{'\n'}
+      <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>        {cashConfig && (
+          <>
+            💰 Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{' '}
+            (multiply payout by {cashConfig.denomination}){' \n'}
+            {' \n'}
+          </>
+        )}        {betConfig.hintText}{'\n'}
         {'\n'}
         {betConfig.name} <Text style={styles.highlightNumber}>{betConfig.formatNumbers(betNumbers)}</Text> has{' '}
         <Text style={styles.highlightChips}>{chipsOnBet}</Text>{' '}
@@ -110,7 +117,9 @@ export default function CalculationScreen({ navigation, route }: CalculationScre
       </View>
 
       <View style={styles.answerSection}>
-        <Text style={styles.answerLabel}>Your Answer:</Text>
+        <Text style={styles.answerLabel}>
+          {cashConfig ? `Your Answer (in ${cashConfig.displayName}):` : 'Your Answer:'}
+        </Text>
         <TextInput
           style={styles.input}
           value={userAnswer}

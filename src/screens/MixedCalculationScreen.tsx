@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { RouletteNumber } from '../types/roulette.types';
+import { CashConfig } from '../config/cashConfigs';
 import RouletteLayout from '../components/roulette/RouletteLayout';
 import ExerciseStats from '../components/exercises/ExerciseStats';
 import HintSection from '../components/exercises/HintSection';
@@ -14,7 +15,17 @@ interface Bet {
   payout: number;
 }
 
-export default function MixedCalculationScreen({ navigation }: any) {
+interface MixedCalculationScreenProps {
+  route: {
+    params?: {
+      cashConfig?: CashConfig;
+    };
+  };
+  navigation: any;
+}
+
+export default function MixedCalculationScreen({ route, navigation }: MixedCalculationScreenProps) {
+  const cashConfig = route.params?.cashConfig;
   const [winningNumber, setWinningNumber] = useState<RouletteNumber>(0);
   const [bets, setBets] = useState<Bet[]>([]);
   const [userAnswer, setUserAnswer] = useState('');
@@ -157,6 +168,11 @@ export default function MixedCalculationScreen({ navigation }: any) {
       <ExerciseStats score={score} attempts={attempts} />
 
       <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
+        {cashConfig && (
+          <>
+            • Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
+          </>
+        )}
         • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
         • Calculate total payout for all winning bets{'\n'}
         • Straight up: chips × 35{'\n'}
@@ -196,7 +212,9 @@ export default function MixedCalculationScreen({ navigation }: any) {
       </View>
 
       <View style={styles.answerSection}>
-        <Text style={styles.answerLabel}>Total Payout:</Text>
+        <Text style={styles.answerLabel}>
+          {cashConfig ? `Total Payout (in ${cashConfig.displayName} chips):` : 'Total Payout:'}
+        </Text>
         <TextInput
           style={styles.input}
           value={userAnswer}

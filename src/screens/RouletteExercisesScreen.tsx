@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { ExerciseType } from '../types/roulette.types';
+import { BET_CONFIGS } from '../config/betConfigs';
 
 const POSITION_CATEGORIES = [
   {
@@ -17,7 +18,7 @@ const POSITION_CATEGORIES = [
     title: 'Split',
     description: 'Two adjacent numbers (17:1). Payout calculations.',
     difficulty: 'easy' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '3',
@@ -25,7 +26,7 @@ const POSITION_CATEGORIES = [
     title: 'Street',
     description: 'Three numbers in a row (11:1). Payout calculations.',
     difficulty: 'easy' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '4',
@@ -33,7 +34,7 @@ const POSITION_CATEGORIES = [
     title: 'Corner',
     description: 'Four numbers (8:1). Payout calculations.',
     difficulty: 'easy' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '5',
@@ -41,7 +42,7 @@ const POSITION_CATEGORIES = [
     title: 'Six Line',
     description: 'Six numbers - double street (5:1). Payout calculations.',
     difficulty: 'easy' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '6',
@@ -49,7 +50,7 @@ const POSITION_CATEGORIES = [
     title: 'Mixed Bets - Straight & Split',
     description: 'Calculate total payouts combining straight ups (35:1) and splits (17:1).',
     difficulty: 'medium' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '7',
@@ -57,7 +58,7 @@ const POSITION_CATEGORIES = [
     title: 'Mixed Bets - Triple Mix',
     description: 'Combines straight ups (35:1), splits (17:1), and corners (8:1).',
     difficulty: 'hard' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
   {
     id: '8',
@@ -65,7 +66,7 @@ const POSITION_CATEGORIES = [
     title: 'All Positions - Master Level',
     description: 'Calculate total payouts combining all bet types: straight ups, splits, corners, streets, and six lines.',
     difficulty: 'hard' as const,
-    hasMultipleVersions: false,
+    hasMultipleVersions: true,
   },
 ];
 
@@ -80,17 +81,8 @@ export default function RouletteExercisesScreen({ navigation }: any) {
   };
 
   const handleExercisePress = (category: any) => {
-    // Navigate based on category type
-    if (category.hasMultipleVersions) {
-      // Navigate to position selection screen for positions with multiple versions
-      navigation.navigate('PositionSelection', { positionType: category.type });
-    } else if (category.type === 'MIXED_CALCULATION') {
-      navigation.navigate('MixedCalculation');
-    } else if (category.type === 'TRIPLE_MIXED_CALCULATION') {
-      navigation.navigate('TripleMixedCalculation');
-    } else if (category.type === 'ALL_POSITIONS_CALCULATION') {
-      navigation.navigate('AllPositionsCalculation');
-    }
+    // Navigate to position selection screen for all positions
+    navigation.navigate('PositionSelection', { positionType: category.type });
   };
 
   return (

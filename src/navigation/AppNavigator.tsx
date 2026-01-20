@@ -23,10 +23,10 @@ export type RootStackParamList = {
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
-  Calculation: { betConfig: BetConfig };
-  MixedCalculation: undefined;
-  TripleMixedCalculation: undefined;
-  AllPositionsCalculation: undefined;
+  Calculation: { betConfig: BetConfig; cashConfig?: CashConfig };
+  MixedCalculation: { cashConfig?: CashConfig };
+  TripleMixedCalculation: { cashConfig?: CashConfig };
+  AllPositionsCalculation: { cashConfig?: CashConfig };
   CashHandling: { cashConfig: CashConfig };
   Progress: undefined;
 };

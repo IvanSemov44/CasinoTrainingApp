@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { CashConfig } from '../config/cashConfigs';
 import RouletteLayout from '../components/roulette/RouletteLayout';
 import NumberPad from '../components/exercises/NumberPad';
 import ExerciseStats from '../components/exercises/ExerciseStats';
@@ -16,7 +17,17 @@ interface Bet {
   payout: number;
 }
 
-export default function TripleMixedCalculationScreen() {
+interface TripleMixedCalculationScreenProps {
+  route: {
+    params?: {
+      cashConfig?: CashConfig;
+    };
+  };
+  navigation: any;
+}
+
+export default function TripleMixedCalculationScreen({ route, navigation }: TripleMixedCalculationScreenProps) {
+  const cashConfig = route.params?.cashConfig;
   const [winningNumber, setWinningNumber] = useState<RouletteNumber>(5);
   const [bets, setBets] = useState<Bet[]>([]);
   const [userAnswer, setUserAnswer] = useState('');
@@ -191,6 +202,11 @@ export default function TripleMixedCalculationScreen() {
         <ExerciseStats score={score} attempts={attempts} />
 
         <HintSection isOpen={showHint} onToggle={() => setShowHint(!showHint)}>
+          {cashConfig && (
+            <>
+              • Chip denomination: <Text style={styles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
+            </>
+          )}
           • Winning number: <Text style={styles.highlightNumber}>{winningNumber}</Text>{'\n'}
           • Calculate total payout for all winning bets{'\n'}
           • Straight up: chips × 35{'\n'}
@@ -232,7 +248,7 @@ export default function TripleMixedCalculationScreen() {
 
         <View style={styles.questionSection}>
           <Text style={styles.questionText}>
-            Enter total payout:
+            {cashConfig ? `Enter total payout (in ${cashConfig.displayName} chips):` : 'Enter total payout:'}
           </Text>
           <View style={styles.answerContainer}>
             <Text style={styles.answerText}>{userAnswer || '0'}</Text>
