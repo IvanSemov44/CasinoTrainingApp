@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import RouletteExercisesScreen from '../screens/RouletteExercisesScreen';
+import PositionSelectionScreen from '../screens/PositionSelectionScreen';
 import RouletteTrainingScreen from '../screens/RouletteTrainingScreen';
 import RouletteLayoutPracticeScreen from '../screens/RouletteLayoutPracticeScreen';
 import RouletteLayoutViewScreen from '../screens/RouletteLayoutViewScreen';
@@ -18,6 +19,7 @@ import { CashConfig } from '../config/cashConfigs';
 export type RootStackParamList = {
   Home: undefined;
   RouletteExercises: undefined;
+  PositionSelection: { positionType: string };
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
@@ -55,6 +57,13 @@ export default function AppNavigator() {
           name="RouletteExercises"
           component={RouletteExercisesScreen}
           options={{ title: 'Roulette Exercises' }}
+        />
+        <Stack.Screen
+          name="PositionSelection"
+          component={PositionSelectionScreen}
+          options={({ route }) => ({
+            title: route.params?.positionType?.replace('_', ' ') || 'Select Training'
+          })}
         />
         <Stack.Screen
           name="RouletteTraining"

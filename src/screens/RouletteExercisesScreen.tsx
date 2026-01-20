@@ -1,121 +1,71 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { ExerciseType } from '../types/roulette.types';
-import { BET_CONFIGS } from '../config/betConfigs';
-import { CASH_CONFIGS } from '../config/cashConfigs';
 
-const EXERCISES = [
+const POSITION_CATEGORIES = [
   {
     id: '1',
-    type: ExerciseType.PAYOUT_CALCULATION,
-    title: 'Payout Calculation - Straight Ups',
-    description: 'Calculate payouts for straight-up bets (35:1). Practice with random numbers and chip amounts.',
+    type: 'STRAIGHT_UP',
+    title: 'Straight Up',
+    description: 'Single number bets (35:1). Includes payout calculations and cash handling.',
     difficulty: 'easy' as const,
-    timeLimit: 300,
+    hasMultipleVersions: true,
   },
   {
     id: '2',
-    type: ExerciseType.SPLIT_CALCULATION,
-    title: 'Payout Calculation - Splits',
-    description: 'Calculate payouts for split bets (17:1). Practice with random adjacent numbers and chip amounts.',
+    type: 'SPLIT',
+    title: 'Split',
+    description: 'Two adjacent numbers (17:1). Payout calculations.',
     difficulty: 'easy' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '3',
-    type: ExerciseType.STREET_CALCULATION,
-    title: 'Payout Calculation - Streets',
-    description: 'Calculate payouts for street bets (11:1). Practice with random 3-number rows and chip amounts.',
+    type: 'STREET',
+    title: 'Street',
+    description: 'Three numbers in a row (11:1). Payout calculations.',
     difficulty: 'easy' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '4',
-    type: ExerciseType.CORNER_CALCULATION,
-    title: 'Payout Calculation - Corners',
-    description: 'Calculate payouts for corner bets (8:1). Practice with random 4-number squares and chip amounts.',
+    type: 'CORNER',
+    title: 'Corner',
+    description: 'Four numbers (8:1). Payout calculations.',
     difficulty: 'easy' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '5',
-    type: ExerciseType.SIXLINE_CALCULATION,
-    title: 'Payout Calculation - Six Lines',
-    description: 'Calculate payouts for six line bets (5:1). Practice with random 6-number double streets and chip amounts.',
+    type: 'SIX_LINE',
+    title: 'Six Line',
+    description: 'Six numbers - double street (5:1). Payout calculations.',
     difficulty: 'easy' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '6',
-    type: ExerciseType.MIXED_CALCULATION,
-    title: 'Payout Calculation - Mixed Bets',
-    description: 'Calculate total payouts for multiple bets. Combines straight ups (35:1) and splits (17:1).',
+    type: 'MIXED_CALCULATION',
+    title: 'Mixed Bets - Straight & Split',
+    description: 'Calculate total payouts combining straight ups (35:1) and splits (17:1).',
     difficulty: 'medium' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '7',
-    type: ExerciseType.TRIPLE_MIXED_CALCULATION,
-    title: 'Payout Calculation - Triple Mix',
-    description: 'Calculate total payouts for multiple bets. Combines straight ups (35:1), splits (17:1), and corners (8:1).',
+    type: 'TRIPLE_MIXED_CALCULATION',
+    title: 'Mixed Bets - Triple Mix',
+    description: 'Combines straight ups (35:1), splits (17:1), and corners (8:1).',
     difficulty: 'hard' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
   {
     id: '8',
-    type: ExerciseType.ALL_POSITIONS_CALCULATION,
-    title: 'Payout Calculation - All Positions',
-    description: 'Master level! Calculate total payouts combining all bet types: straight ups (35:1), splits (17:1), corners (8:1), streets (11:1), and six lines (5:1).',
+    type: 'ALL_POSITIONS_CALCULATION',
+    title: 'All Positions - Master Level',
+    description: 'Calculate total payouts combining all bet types: straight ups, splits, corners, streets, and six lines.',
     difficulty: 'hard' as const,
-    timeLimit: 400,
-  },
-  {
-    id: '9',
-    type: ExerciseType.CASH_HANDLING,
-    title: 'Cash Handling - Straight Ups',
-    description: 'Practice converting payouts to chips + cash. Player requests cash (25, 50, or 75), calculate remaining chips. Example: 105 total with 50 cash = 55 chips.',
-    difficulty: 'medium' as const,
-    timeLimit: 300,
-  },
-  {
-    id: '10',
-    type: ExerciseType.CASH_HANDLING_TWO_DOLLAR,
-    title: 'Cash Handling - $2 Chips',
-    description: 'Cash handling with $2 chips. Calculate chips + cash breakdown. Cash requests by $50 increments. Example: 105 chips ($210) with $100 cash = 55 chips.',
-    difficulty: 'medium' as const,
-    timeLimit: 300,
-  },
-  {
-    id: '11',
-    type: ExerciseType.CASH_HANDLING_FIVE_DOLLAR,
-    title: 'Cash Handling - $5 Chips',
-    description: 'Cash handling with $5 chips. Calculate chips + cash breakdown. Cash requests by $100 increments. Example: 105 chips ($525) with $200 cash = 65 chips.',
-    difficulty: 'medium' as const,
-    timeLimit: 300,
-  },
-  {
-    id: '12',
-    type: ExerciseType.CASH_HANDLING_TEN_DOLLAR,
-    title: 'Cash Handling - $10 Chips',
-    description: 'Cash handling with $10 chips. Calculate chips + cash breakdown. Cash requests by $100 increments. Example: 105 chips ($1050) with $400 cash = 65 chips.',
-    difficulty: 'medium' as const,
-    timeLimit: 300,
-  },
-  {
-    id: '13',
-    type: ExerciseType.CASH_HANDLING_TWENTY_FIVE_DOLLAR,
-    title: 'Cash Handling - $25 Chips',
-    description: 'Cash handling with $25 chips. Calculate chips + cash breakdown. Cash requests by $500 increments. Example: 105 chips ($2625) with $1000 cash = 65 chips.',
-    difficulty: 'hard' as const,
-    timeLimit: 300,
-  },
-  {
-    id: '14',
-    type: ExerciseType.CASH_HANDLING_ONE_HUNDRED_DOLLAR,
-    title: 'Cash Handling - $100 Chips',
-    description: 'Cash handling with $100 chips. Calculate chips + cash breakdown. Cash requests by $500 increments. Example: 105 chips ($10500) with $5000 cash = 55 chips.',
-    difficulty: 'hard' as const,
-    timeLimit: 300,
+    hasMultipleVersions: false,
   },
 ];
 
@@ -129,40 +79,17 @@ export default function RouletteExercisesScreen({ navigation }: any) {
     }
   };
 
-  const handleExercisePress = (exercise: any) => {
-    // Navigate to dedicated screen based on exercise type
-    if (exercise.type === ExerciseType.ROULETTE_LAYOUT) {
-      navigation.navigate('RouletteLayoutPractice');
-    } else if (exercise.type === ExerciseType.PAYOUT_CALCULATION) {
-      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.STRAIGHT_UP });
-    } else if (exercise.type === ExerciseType.SPLIT_CALCULATION) {
-      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.SPLIT });
-    } else if (exercise.type === ExerciseType.STREET_CALCULATION) {
-      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.STREET });
-    } else if (exercise.type === ExerciseType.CORNER_CALCULATION) {
-      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.CORNER });
-    } else if (exercise.type === ExerciseType.SIXLINE_CALCULATION) {
-      navigation.navigate('Calculation', { betConfig: BET_CONFIGS.SIX_LINE });
-    } else if (exercise.type === ExerciseType.MIXED_CALCULATION) {
+  const handleExercisePress = (category: any) => {
+    // Navigate based on category type
+    if (category.hasMultipleVersions) {
+      // Navigate to position selection screen for positions with multiple versions
+      navigation.navigate('PositionSelection', { positionType: category.type });
+    } else if (category.type === 'MIXED_CALCULATION') {
       navigation.navigate('MixedCalculation');
-    } else if (exercise.type === ExerciseType.TRIPLE_MIXED_CALCULATION) {
+    } else if (category.type === 'TRIPLE_MIXED_CALCULATION') {
       navigation.navigate('TripleMixedCalculation');
-    } else if (exercise.type === ExerciseType.ALL_POSITIONS_CALCULATION) {
+    } else if (category.type === 'ALL_POSITIONS_CALCULATION') {
       navigation.navigate('AllPositionsCalculation');
-    } else if (exercise.type === ExerciseType.CASH_HANDLING) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.ONE_DOLLAR });
-    } else if (exercise.type === ExerciseType.CASH_HANDLING_TWO_DOLLAR) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TWO_DOLLAR });
-    } else if (exercise.type === ExerciseType.CASH_HANDLING_FIVE_DOLLAR) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.FIVE_DOLLAR });
-    } else if (exercise.type === ExerciseType.CASH_HANDLING_TEN_DOLLAR) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TEN_DOLLAR });
-    } else if (exercise.type === ExerciseType.CASH_HANDLING_TWENTY_FIVE_DOLLAR) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.TWENTY_FIVE_DOLLAR });
-    } else if (exercise.type === ExerciseType.CASH_HANDLING_ONE_HUNDRED_DOLLAR) {
-      navigation.navigate('CashHandling', { cashConfig: CASH_CONFIGS.ONE_HUNDRED_DOLLAR });
-    } else {
-      navigation.navigate('RouletteTraining', { exercise });
     }
   };
 
@@ -171,22 +98,19 @@ export default function RouletteExercisesScreen({ navigation }: any) {
       <Text style={styles.title}>Roulette Exercises</Text>
       
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        {EXERCISES.map((exercise) => (
+        {POSITION_CATEGORIES.map((category) => (
           <TouchableOpacity
-            key={exercise.id}
+            key={category.id}
             style={styles.exerciseCard}
-            onPress={() => handleExercisePress(exercise)}
+            onPress={() => handleExercisePress(category)}
           >
             <View style={styles.exerciseHeader}>
-              <Text style={styles.exerciseTitle}>{exercise.title}</Text>
-              <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(exercise.difficulty) }]}>
-                <Text style={styles.difficultyText}>{exercise.difficulty.toUpperCase()}</Text>
+              <Text style={styles.exerciseTitle}>{category.title}</Text>
+              <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(category.difficulty) }]}>
+                <Text style={styles.difficultyText}>{category.difficulty.toUpperCase()}</Text>
               </View>
             </View>
-            <Text style={styles.exerciseDescription}>{exercise.description}</Text>
-            {exercise.timeLimit && (
-              <Text style={styles.timeLimit}>⏱️ Time Limit: {exercise.timeLimit}s</Text>
-            )}
+            <Text style={styles.exerciseDescription}>{category.description}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -248,10 +172,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  timeLimit: {
-    color: '#FFD700',
+  versionsText: {
     fontSize: 12,
-    marginTop: 10,
-    fontWeight: '600',
+    color: '#FFD700',
+    marginTop: 8,
+    fontStyle: 'italic',
   },
 });
