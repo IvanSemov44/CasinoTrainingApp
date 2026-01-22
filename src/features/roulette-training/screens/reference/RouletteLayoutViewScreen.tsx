@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { placeBet } from '../store/rouletteSlice';
-import RouletteLayout from '../components/roulette/RouletteLayout';
-import { RouletteNumber, BetType } from '../types/roulette.types';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { placeBet } from '../../../../store/rouletteSlice';
+import RouletteLayout from '../../../../components/roulette/RouletteLayout';
+import { RouletteNumber, BetType } from '../../../../types/roulette.types';
 
 const { width, height } = Dimensions.get('window');
 

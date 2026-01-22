@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { ExerciseType } from '../types/roulette.types';
-import type { BetConfigKey } from '../config/betConfigs';
-import type { CashConfigKey } from '../config/cashConfigs';
+import { ExerciseType } from '../../../../types/roulette.types';
+import type { BetConfigKey } from '../../../../config/betConfigs';
+import type { CashConfigKey } from '../../../../config/cashConfigs';
 
 interface Exercise {
   id: string;

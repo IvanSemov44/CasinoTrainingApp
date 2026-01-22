@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setSelectedChipValue, placeBet } from '../store/rouletteSlice';
-import RouletteLayout from '../components/roulette/RouletteLayout';
-import Racetrack from '../components/Racetrack';
-import ChipSelector from '../components/ChipSelector';
-import { RouletteNumber } from '../types/roulette.types';
-import { BetType } from '../types/roulette.types';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { setSelectedChipValue, placeBet } from '../../../../store/rouletteSlice';
+import RouletteLayout from '../../../../components/roulette/RouletteLayout';
+import Racetrack from '../../../../components/Racetrack';
+import ChipSelector from '../../../../components/ChipSelector';
+import { RouletteNumber } from '../../../../types/roulette.types';
+import { BetType } from '../../../../types/roulette.types';
 
 export default function RouletteTrainingScreen({ route }: any) {
   const { exercise } = route.params;
