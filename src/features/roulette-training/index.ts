@@ -10,14 +10,16 @@ export { default as RouletteLayoutPracticeScreen } from './screens/reference/Rou
 export { default as RouletteTrainingScreen } from './screens/reference/RouletteTrainingScreen';
 
 // Component exports
-export { default as ExerciseLayout } from './components/ExerciseLayout';
-export { default as ExerciseStats } from './components/ExerciseStats';
-export { default as FeedbackCard } from './components/FeedbackCard';
-export { default as HintSection } from './components/HintSection';
-export { default as NumberPad } from './components/NumberPad';
+export * from './components';
 
 // Hook exports
 export { useExerciseState } from './hooks/useExerciseState';
+
+// Type exports
+export type { BetType, Bet } from './types/exercise.types';
+
+// Constant exports
+export { BET_PAYOUTS } from './constants/payouts';
 
 // Util exports
 export * from './utils/exerciseHelpers';

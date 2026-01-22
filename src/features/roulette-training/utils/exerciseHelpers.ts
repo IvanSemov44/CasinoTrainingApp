@@ -1,13 +1,6 @@
 import type { RouletteNumber } from '@app-types/roulette.types';
-
-export type BetType = 'STRAIGHT' | 'SPLIT' | 'CORNER' | 'STREET' | 'SIX_LINE';
-
-export interface Bet {
-  type: BetType;
-  numbers: RouletteNumber[];
-  chips: number;
-  payout: number;
-}
+import type { BetType, Bet } from '../types/exercise.types';
+import { BET_PAYOUTS } from '../constants/payouts';
 
 export function getBetTypeName(type: BetType): string {
   switch (type) {
@@ -20,13 +13,7 @@ export function getBetTypeName(type: BetType): string {
 }
 
 export function getBetPayout(type: BetType): number {
-  switch (type) {
-    case 'STRAIGHT': return 35;
-    case 'SPLIT': return 17;
-    case 'CORNER': return 8;
-    case 'STREET': return 11;
-    case 'SIX_LINE': return 5;
-  }
+  return BET_PAYOUTS[type];
 }
 
 // Get all valid splits for a number

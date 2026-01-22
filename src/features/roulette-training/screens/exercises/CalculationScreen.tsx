@@ -6,9 +6,8 @@ import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import ExerciseLayout from '../../components/ExerciseLayout';
 import { useExerciseState } from '../../hooks/useExerciseState';
 import { exerciseTextStyles } from '../../utils/exerciseStyles';
+import type { Bet, BetType } from '../../types/exercise.types';
 import { 
-  type Bet, 
-  type BetType, 
   getBetTypeName, 
   getBetPayout,
   generateBetExplanation, 

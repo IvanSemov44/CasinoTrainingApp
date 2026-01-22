@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
-import type { BetType } from './utils/exerciseHelpers';
+import type { BetType } from './types/exercise.types';
 
 // Screens
 import RouletteExercisesScreen from './screens/menu/RouletteExercisesScreen';
