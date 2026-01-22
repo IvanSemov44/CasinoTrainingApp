@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { setSelectedChipValue, placeBet, clearBets } from '../../../../store/rouletteSlice';
-import RouletteLayout from '../../../../components/roulette/RouletteLayout';
-import ChipSelector from '../../../../components/ChipSelector';
-import { RouletteNumber } from '../../../../types/roulette.types';
-import { BetType } from '../../../../types/roulette.types';
-import { getNumberColor } from '../../../../constants/roulette.constants';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { setSelectedChipValue, placeBet, clearBets } from '@store/rouletteSlice';
+import RouletteLayout from '@components/roulette/RouletteLayout';
+import ChipSelector from '@components/ChipSelector';
+import { RouletteNumber } from '@app-types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
+import { getNumberColor } from '@constants/roulette.constants';
 
 export default function RouletteLayoutPracticeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();

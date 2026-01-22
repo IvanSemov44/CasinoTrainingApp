@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
-import RouletteLayout from '../../../components/roulette/RouletteLayout';
+import RouletteLayout from '@components/roulette/RouletteLayout';
 import ExerciseStats from './ExerciseStats';
 import HintSection from './HintSection';
 import NumberPad from './NumberPad';

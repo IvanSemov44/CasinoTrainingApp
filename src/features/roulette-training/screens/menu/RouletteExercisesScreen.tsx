@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { ExerciseType } from '../types/roulette.types';
-import { BET_CONFIGS } from '../config/betConfigs';
 
 const POSITION_CATEGORIES = [
   {

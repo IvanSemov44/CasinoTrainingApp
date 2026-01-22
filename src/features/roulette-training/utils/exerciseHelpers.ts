@@ -1,4 +1,4 @@
-import type { RouletteNumber } from '../types/roulette.types';
+import type { RouletteNumber } from '@app-types/roulette.types';
 
 export type BetType = 'STRAIGHT' | 'SPLIT' | 'CORNER' | 'STREET' | 'SIX_LINE';
 

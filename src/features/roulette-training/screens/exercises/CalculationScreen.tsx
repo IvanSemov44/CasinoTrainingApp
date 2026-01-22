@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
-import { RouletteNumber } from '../../../../types/roulette.types';
-import { getCashConfig, type CashConfigKey } from '../../../../config/cashConfigs';
-import { getBetConfig, type BetConfigKey } from '../../../../config/betConfigs';
+import { RouletteNumber } from '@app-types/roulette.types';
+import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
+import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import ExerciseLayout from '../../components/ExerciseLayout';
 import { useExerciseState } from '../../hooks/useExerciseState';
 import { exerciseTextStyles } from '../../utils/exerciseStyles';

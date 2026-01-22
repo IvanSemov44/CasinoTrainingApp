@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { getBetConfig, type BetConfigKey } from '../../config/betConfigs';
-import { getCashConfig, type CashConfigKey } from '../../config/cashConfigs';
+import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
+import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import type { BetType } from './utils/exerciseHelpers';
 
 // Screens
