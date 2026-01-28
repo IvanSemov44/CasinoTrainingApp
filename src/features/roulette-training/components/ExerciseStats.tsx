@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '../constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
 interface ExerciseStatsProps {
   score: number;
@@ -22,9 +22,9 @@ export default function ExerciseStats({ score, attempts }: ExerciseStatsProps) {
 
 const styles = StyleSheet.create({
   header: {
-    padding: 15,
+    padding: SPACING.md,
     backgroundColor: COLORS.background.darkGray,
-    borderBottomWidth: 2,
+    borderBottomWidth: BORDERS.width.medium,
     borderBottomColor: COLORS.border.primary,
   },
   statsRow: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   statsText: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.fontSize.md,
     color: COLORS.text.gold,
     fontWeight: '600',
   },

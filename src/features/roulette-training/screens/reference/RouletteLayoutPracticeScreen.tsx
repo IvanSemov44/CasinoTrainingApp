@@ -8,7 +8,7 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { getNumberColor } from '@constants/roulette.constants';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
-import { COLORS } from '@features/roulette-training/constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
 
 export default function RouletteLayoutPracticeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -164,22 +164,22 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: COLORS.background.secondary,
-    padding: 20,
-    borderBottomWidth: 2,
+    padding: SPACING.lg,
+    borderBottomWidth: BORDERS.width.medium,
     borderBottomColor: COLORS.border.gold,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     fontWeight: 'bold',
     color: COLORS.text.gold,
-    marginBottom: 5,
+    marginBottom: SPACING.xs,
     textAlign: 'center',
   },
   headerSubtitle: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     color: COLORS.text.primary,
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: SPACING.md,
   },
   statsRow: {
     flexDirection: 'row',
@@ -189,12 +189,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: TYPOGRAPHY.fontSize.xs,
     color: COLORS.text.secondary,
-    marginBottom: 5,
+    marginBottom: SPACING.xs,
   },
   statValue: {
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
     color: COLORS.text.gold,
   },
@@ -202,53 +202,53 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 10,
+    padding: SPACING.sm,
   },
   layoutContainer: {
-    marginTop: 10,
+    marginTop: SPACING.sm,
   },
   infoSection: {
     backgroundColor: COLORS.background.secondary,
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 15,
-    borderWidth: 2,
+    padding: SPACING.md,
+    borderRadius: BORDERS.radius.md,
+    marginTop: SPACING.md,
+    borderWidth: BORDERS.width.medium,
     borderColor: COLORS.border.gold,
   },
   infoTitle: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.fontSize.lg,
     fontWeight: 'bold',
     color: COLORS.text.gold,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
   },
   infoText: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     color: COLORS.text.primary,
-    lineHeight: 22,
+    lineHeight: TYPOGRAPHY.lineHeight.normal,
   },
   guideSection: {
     backgroundColor: COLORS.background.secondary,
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 15,
-    borderWidth: 2,
+    padding: SPACING.md,
+    borderRadius: BORDERS.radius.md,
+    marginTop: SPACING.md,
+    borderWidth: BORDERS.width.medium,
     borderColor: COLORS.border.primary,
   },
   guideTitle: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.fontSize.lg,
     fontWeight: 'bold',
     color: COLORS.text.gold,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
   },
   guideContent: {
     backgroundColor: COLORS.background.dark,
     padding: 12,
-    borderRadius: 8,
+    borderRadius: BORDERS.radius.sm,
   },
   guideText: {
-    fontSize: 13,
+    fontSize: TYPOGRAPHY.fontSize.sm,
     color: COLORS.text.primary,
-    lineHeight: 20,
+    lineHeight: TYPOGRAPHY.lineHeight.tight,
   },
   guideBold: {
     fontWeight: 'bold',

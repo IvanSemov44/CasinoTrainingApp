@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: SPACING.lg,
   },
   layoutWrapper: {
     transform: [{ rotate: '90deg' }],

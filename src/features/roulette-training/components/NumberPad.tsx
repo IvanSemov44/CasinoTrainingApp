@@ -120,27 +120,27 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
 
 const styles = StyleSheet.create({
   numberPad: {
-    marginBottom: 15,
+    marginBottom: SPACING.md,
   },
   numberPadRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
   },
   numberButton: {
     flex: 1,
     backgroundColor: COLORS.background.mediumGray,
     padding: 12,
-    marginHorizontal: 5,
-    borderRadius: 8,
-    borderWidth: 1,
+    marginHorizontal: SPACING.xs,
+    borderRadius: BORDERS.radius.sm,
+    borderWidth: BORDERS.width.thin,
     borderColor: COLORS.border.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   numberButtonText: {
     color: COLORS.text.gold,
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS } from '../constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
 interface FeedbackCardProps {
   isCorrect: boolean;
@@ -44,54 +44,54 @@ export default function FeedbackCard({ isCorrect, correctAnswer, explanation, on
 
 const styles = StyleSheet.create({
   feedbackContainer: {
-    gap: 15,
+    gap: SPACING.md,
   },
   feedbackCard: {
-    padding: 20,
-    borderRadius: 10,
+    padding: SPACING.lg,
+    borderRadius: BORDERS.radius.md,
     alignItems: 'center',
   },
   feedbackCorrect: {
     backgroundColor: COLORS.status.successAlt,
-    borderWidth: 2,
+    borderWidth: BORDERS.width.medium,
     borderColor: COLORS.status.success,
   },
   feedbackIncorrect: {
     backgroundColor: COLORS.status.errorAlt,
-    borderWidth: 2,
+    borderWidth: BORDERS.width.medium,
     borderColor: COLORS.status.error,
   },
   feedbackIcon: {
-    fontSize: 48,
-    marginBottom: 10,
+    fontSize: TYPOGRAPHY.fontSize.xxxl,
+    marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   feedbackText: {
-    fontSize: 24,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     fontWeight: 'bold',
     color: COLORS.text.primary,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
   },
   feedbackAnswer: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.fontSize.lg,
     color: COLORS.text.primary,
-    marginBottom: 5,
+    marginBottom: SPACING.xs,
   },
   feedbackExplanation: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.fontSize.md,
     color: COLORS.text.secondary,
     fontStyle: 'italic',
-    marginTop: 5,
+    marginTop: SPACING.xs,
   },
   nextButton: {
     backgroundColor: COLORS.background.gold,
-    padding: 18,
-    borderRadius: 10,
+    padding: SPACING.lg,
+    borderRadius: BORDERS.radius.md,
     alignItems: 'center',
   },
   nextButtonText: {
     color: COLORS.text.dark,
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
   },
 });

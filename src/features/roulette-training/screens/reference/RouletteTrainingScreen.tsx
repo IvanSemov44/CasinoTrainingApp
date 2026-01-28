@@ -7,7 +7,7 @@ import Racetrack from '@components/Racetrack';
 import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
-import { COLORS } from '@features/roulette-training/constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
 
 export default function RouletteTrainingScreen({ route }: any) {
   const { exercise } = route.params;
@@ -83,33 +83,33 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.primary,
   },
   header: {
-    padding: 20,
+    padding: SPACING.lg,
     backgroundColor: COLORS.background.secondary,
-    borderBottomWidth: 2,
+    borderBottomWidth: BORDERS.width.medium,
     borderBottomColor: COLORS.border.gold,
   },
   title: {
-    fontSize: 24,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     fontWeight: 'bold',
     color: COLORS.text.gold,
-    marginBottom: 5,
+    marginBottom: SPACING.xs,
   },
   description: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     color: COLORS.text.primary,
   },
   infoBox: {
     backgroundColor: COLORS.background.secondary,
-    padding: 15,
-    margin: 10,
-    borderRadius: 10,
-    borderWidth: 1,
+    padding: SPACING.md,
+    margin: SPACING.sm,
+    borderRadius: BORDERS.radius.md,
+    borderWidth: BORDERS.width.thin,
     borderColor: COLORS.border.gold,
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
   },
   infoText: {
     color: COLORS.text.primary,
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     textAlign: 'center',
   },
 });

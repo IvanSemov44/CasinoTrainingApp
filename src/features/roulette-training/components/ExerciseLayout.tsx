@@ -5,7 +5,7 @@ import ExerciseStats from './ExerciseStats';
 import HintSection from './HintSection';
 import NumberPad from './NumberPad';
 import FeedbackCard from './FeedbackCard';
-import { COLORS } from '../constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
 interface ExerciseLayoutProps {
   score: number;
@@ -121,54 +121,54 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.primary,
   },
   layoutContainer: {
-    margin: 15,
+    margin: SPACING.md,
     marginTop: 0,
   },
   layoutLabel: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.fontSize.md,
     color: COLORS.text.gold,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
     fontWeight: '600',
   },
   layoutScrollView: {
     backgroundColor: COLORS.background.dark,
-    borderRadius: 8,
+    borderRadius: BORDERS.radius.sm,
   },
   layoutWrapper: {
     alignItems: 'center',
     paddingVertical: 0,
-    paddingHorizontal: 10,
+    paddingHorizontal: SPACING.sm,
   },
   answerSection: {
-    margin: 15,
+    margin: SPACING.md,
     marginTop: 0,
   },
   answerLabel: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.fontSize.lg,
     color: COLORS.text.gold,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
     fontWeight: '600',
   },
   input: {
     backgroundColor: COLORS.background.secondary,
-    borderWidth: 2,
+    borderWidth: BORDERS.width.medium,
     borderColor: COLORS.border.primary,
-    borderRadius: 10,
-    padding: 15,
-    fontSize: 24,
+    borderRadius: BORDERS.radius.md,
+    padding: SPACING.md,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     color: COLORS.text.primary,
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: SPACING.md,
   },
   checkButton: {
     backgroundColor: COLORS.status.success,
-    padding: 18,
-    borderRadius: 10,
+    padding: SPACING.lg,
+    borderRadius: BORDERS.radius.md,
     alignItems: 'center',
   },
   checkButtonText: {
     color: COLORS.text.primary,
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
   },
 });
