@@ -1,19 +1,13 @@
 import type { RouletteNumber } from '@app-types/roulette.types';
 import type { BetType, Bet } from '../types/exercise.types';
-import { BET_PAYOUTS } from '../constants/payouts';
+import { BET_TYPE_METADATA } from '../constants/payouts';
 
 export function getBetTypeName(type: BetType): string {
-  switch (type) {
-    case 'STRAIGHT': return 'Straight';
-    case 'SPLIT': return 'Split';
-    case 'CORNER': return 'Corner';
-    case 'STREET': return 'Street';
-    case 'SIX_LINE': return 'Six Line';
-  }
+  return BET_TYPE_METADATA[type].name;
 }
 
 export function getBetPayout(type: BetType): number {
-  return BET_PAYOUTS[type];
+  return BET_TYPE_METADATA[type].payout;
 }
 
 // Get all valid splits for a number

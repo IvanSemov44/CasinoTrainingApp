@@ -3,3 +3,5 @@ export { default as ExerciseStats } from './ExerciseStats';
 export { default as FeedbackCard } from './FeedbackCard';
 export { default as HintSection } from './HintSection';
 export { default as NumberPad } from './NumberPad';
+export { default as MenuListScreen } from './MenuListScreen';
+export type { MenuItem, Difficulty } from './MenuListScreen';

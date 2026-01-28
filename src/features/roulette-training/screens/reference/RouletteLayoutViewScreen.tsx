@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
+import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 
 const { width, height } = Dimensions.get('window');
 
@@ -32,23 +33,10 @@ export default function RouletteLayoutViewScreen() {
       type: betType,
       numbers: numbers,
       amount: 1,
-      payout: getPayout(betType),
+      payout: getPayoutForBetType(betType),
       timestamp: Date.now(),
     };
     dispatch(placeBet(bet));
-  };
-
-  const getPayout = (betType: BetType) => {
-    switch (betType) {
-      case BetType.STRAIGHT: return 35;
-      case BetType.SPLIT: return 17;
-      case BetType.STREET: return 11;
-      case BetType.CORNER: return 8;
-      case BetType.LINE: return 5;
-      case BetType.DOZEN:
-      case BetType.COLUMN: return 2;
-      default: return 1;
-    }
   };
 
   return (

@@ -7,6 +7,7 @@ import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { getNumberColor } from '@constants/roulette.constants';
+import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 
 export default function RouletteLayoutPracticeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
       type: betType,
       numbers: numbers,
       amount: 1,
-      payout: getPayout(betType),
+      payout: getPayoutForBetType(betType),
       timestamp: Date.now(),
     };
 
@@ -46,22 +47,9 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
     
     Alert.alert(
       `${betType} Bet`,
-      `Numbers: ${numbers.join(', ')}\n${numbers.length === 1 ? colorText : ''}\nChip Value: ${selectedChipValue}\nPayout: ${getPayout(betType)}:1`,
+      `Numbers: ${numbers.join(', ')}\n${numbers.length === 1 ? colorText : ''}\nChip Value: ${selectedChipValue}\nPayout: ${getPayoutForBetType(betType)}:1`,
       [{ text: 'OK' }]
     );
-  };
-
-  const getPayout = (betType: BetType) => {
-    switch (betType) {
-      case BetType.STRAIGHT: return 35;
-      case BetType.SPLIT: return 17;
-      case BetType.STREET: return 11;
-      case BetType.CORNER: return 8;
-      case BetType.LINE: return 5;
-      case BetType.DOZEN:
-      case BetType.COLUMN: return 2;
-      default: return 1;
-    }
   };
 
   const handleChipSelect = (value: number) => {
