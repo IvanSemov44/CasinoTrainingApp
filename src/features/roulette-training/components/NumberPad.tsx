@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS } from '../constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
 interface NumberPadProps {
   onNumberPress: (num: string) => void;
@@ -8,6 +8,17 @@ interface NumberPadProps {
   onBackspace: () => void;
   disabled?: boolean;
 }
+
+interface ButtonConfig {
+  value: string;
+  action?: () => void;
+}
+
+const BUTTON_LAYOUT: ButtonConfig[][] = [
+  [{ value: '1' }, { value: '2' }, { value: '3' }],
+  [{ value: '4' }, { value: '5' }, { value: '6' }],
+  [{ value: '7' }, { value: '8' }, { value: '9' }],
+];
 
 export default function NumberPad({ onNumberPress, onClear, onBackspace, disabled = false }: NumberPadProps) {
   const handlePress = (value: string, callback?: () => void) => {
@@ -20,99 +31,28 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
     }
   };
 
+  const renderButton = (config: ButtonConfig, index: number) => (
+    <TouchableOpacity
+      key={`${config.value}-${index}`}
+      style={styles.numberButton}
+      onPress={() => handlePress(config.value, config.action)}
+      disabled={disabled}
+    >
+      <Text style={styles.numberButtonText}>{config.value}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.numberPad}>
+      {BUTTON_LAYOUT.map((row, rowIndex) => (
+        <View key={`row-${rowIndex}`} style={styles.numberPadRow}>
+          {row.map((config, btnIndex) => renderButton(config, btnIndex))}
+        </View>
+      ))}
       <View style={styles.numberPadRow}>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('1')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>1</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('2')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('3')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>3</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.numberPadRow}>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('4')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>4</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('5')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>5</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('6')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>6</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.numberPadRow}>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('7')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>7</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('8')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>8</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('9')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>9</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.numberPadRow}>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('C', onClear)}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>C</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('0')}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>0</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.numberButton} 
-          onPress={() => handlePress('⌫', onBackspace)}
-          disabled={disabled}
-        >
-          <Text style={styles.numberButtonText}>⌫</Text>
-        </TouchableOpacity>
+        {renderButton({ value: 'C', action: onClear }, 0)}
+        {renderButton({ value: '0' }, 1)}
+        {renderButton({ value: '⌫', action: onBackspace }, 2)}
       </View>
     </View>
   );
