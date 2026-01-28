@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { WHEEL_ORDER } from '../constants/roulette.constants';
 import { RouletteNumber } from '../types/roulette.types';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
 
 interface RacetrackProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -16,7 +17,7 @@ const Racetrack: React.FC<RacetrackProps> = ({
   const getNumberColor = (num: RouletteNumber): string => {
     if (num === 0) return '#006400';
     const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    return redNumbers.includes(num) ? '#CC0000' : '#000000';
+    return redNumbers.includes(num) ? '#CC0000' : COLORS.background.dark;
   };
 
   return (
@@ -69,31 +70,31 @@ const Racetrack: React.FC<RacetrackProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0a5f2f',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: COLORS.background.primary,
+    padding: SPACING.sm,
+    borderRadius: BORDERS.radius.md,
     borderWidth: 3,
     borderColor: '#8B4513',
-    marginTop: 10,
+    marginTop: SPACING.sm,
   },
   title: {
-    color: '#FFD700',
-    fontSize: 16,
+    color: COLORS.text.gold,
+    fontSize: TYPOGRAPHY.fontSize.md,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
   },
   wheelContainer: {
     flexDirection: 'row',
-    paddingVertical: 5,
+    paddingVertical: SPACING.xs,
   },
   numberCell: {
     width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#FFD700',
+    borderWidth: BORDERS.width.thin,
+    borderColor: COLORS.border.gold,
     borderRadius: 20,
     marginHorizontal: 2,
   },
@@ -102,27 +103,27 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   numberText: {
-    color: '#FFFFFF',
-    fontSize: 14,
+    color: COLORS.text.primary,
+    fontSize: TYPOGRAPHY.fontSize.base,
     fontWeight: 'bold',
   },
   specialBetsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 10,
-    gap: 5,
+    marginTop: SPACING.sm,
+    gap: SPACING.xs,
   },
   specialBet: {
-    backgroundColor: '#1a5f3f',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#FFD700',
+    backgroundColor: COLORS.background.secondary,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.sm,
+    borderRadius: BORDERS.radius.sm,
+    borderWidth: BORDERS.width.thin,
+    borderColor: COLORS.border.gold,
   },
   specialBetText: {
-    color: '#FFFFFF',
-    fontSize: 12,
+    color: COLORS.text.primary,
+    fontSize: TYPOGRAPHY.fontSize.xs,
     fontWeight: 'bold',
   },
 });

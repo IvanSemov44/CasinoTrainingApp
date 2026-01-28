@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CHIP_VALUES } from '../constants/roulette.constants';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
 
 interface ChipSelectorProps {
   selectedValue: number;
@@ -37,16 +38,16 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1a5f3f',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
+    backgroundColor: COLORS.background.secondary,
+    padding: SPACING.sm,
+    borderRadius: BORDERS.radius.md,
+    marginTop: SPACING.sm,
   },
   title: {
-    color: '#FFD700',
-    fontSize: 14,
+    color: COLORS.text.gold,
+    fontSize: TYPOGRAPHY.fontSize.base,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   chipsContainer: {
@@ -61,8 +62,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: '#FFD700',
-    margin: 5,
+    borderColor: COLORS.border.gold,
+    margin: SPACING.xs,
   },
   selectedChip: {
     borderWidth: 4,
@@ -70,12 +71,12 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   chipText: {
-    color: '#FFFFFF',
-    fontSize: 14,
+    color: COLORS.text.primary,
+    fontSize: TYPOGRAPHY.fontSize.base,
     fontWeight: 'bold',
   },
   darkText: {
-    color: '#000000',
+    color: COLORS.background.dark,
   },
 });
 
