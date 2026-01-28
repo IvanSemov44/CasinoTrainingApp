@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   nextButton: {
-    backgroundColor: COLORS.background.gold,
+    backgroundColor: COLORS.status.success,
     padding: SPACING.lg,
     borderRadius: BORDERS.radius.md,
     alignItems: 'center',
   },
   nextButtonText: {
-    color: COLORS.text.dark,
+    color: COLORS.background.dark,
     fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
   },
