@@ -8,6 +8,7 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { getNumberColor } from '@constants/roulette.constants';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
+import { COLORS } from '@features/roulette-training/constants/theme';
 
 export default function RouletteLayoutPracticeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -159,24 +160,24 @@ export default function RouletteLayoutPracticeScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
   },
   header: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     padding: 20,
     borderBottomWidth: 2,
-    borderBottomColor: '#FFD700',
+    borderBottomColor: COLORS.border.gold,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 5,
     textAlign: 'center',
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     textAlign: 'center',
     marginBottom: 15,
   },
@@ -189,13 +190,13 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
-    color: '#CCCCCC',
+    color: COLORS.text.secondary,
     marginBottom: 5,
   },
   statValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
   },
   scrollView: {
     flex: 1,
@@ -207,51 +208,51 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   infoSection: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     padding: 15,
     borderRadius: 10,
     marginTop: 15,
     borderWidth: 2,
-    borderColor: '#FFD700',
+    borderColor: COLORS.border.gold,
   },
   infoTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 10,
   },
   infoText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     lineHeight: 22,
   },
   guideSection: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     padding: 15,
     borderRadius: 10,
     marginTop: 15,
     borderWidth: 2,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
   },
   guideTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 10,
   },
   guideContent: {
-    backgroundColor: '#0f4f2f',
+    backgroundColor: COLORS.background.dark,
     padding: 12,
     borderRadius: 8,
   },
   guideText: {
     fontSize: 13,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     lineHeight: 20,
   },
   guideBold: {
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
   },
   actionButtons: {
     marginTop: 20,
@@ -264,15 +265,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   clearButton: {
-    backgroundColor: '#CC0000',
-    borderColor: '#FF0000',
+    backgroundColor: COLORS.status.error,
+    borderColor: COLORS.status.error,
   },
   backButton: {
-    backgroundColor: '#1a5f3f',
-    borderColor: '#FFD700',
+    backgroundColor: COLORS.background.secondary,
+    borderColor: COLORS.border.gold,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from '../constants/theme';
 
 interface NumberPadProps {
   onNumberPress: (num: string) => void;
@@ -128,17 +129,17 @@ const styles = StyleSheet.create({
   },
   numberButton: {
     flex: 1,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: COLORS.background.mediumGray,
     padding: 12,
     marginHorizontal: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#FFD700',
+    borderColor: COLORS.border.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   numberButtonText: {
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontSize: 20,
     fontWeight: 'bold',
   },

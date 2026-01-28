@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from '../constants/theme';
 
 interface HintSectionProps {
   isOpen: boolean;
@@ -34,29 +35,29 @@ const styles = StyleSheet.create({
   hintButton: {
     margin: 15,
     padding: 15,
-    backgroundColor: '#2a4f3f',
+    backgroundColor: COLORS.background.hint,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#3a6f5f',
+    borderColor: COLORS.border.hint,
     alignItems: 'center',
   },
   hintButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
   },
   hintCard: {
     margin: 15,
     marginTop: 0,
     padding: 15,
-    backgroundColor: '#2a4f3f',
+    backgroundColor: COLORS.background.hint,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#3a6f5f',
+    borderColor: COLORS.border.hint,
   },
   hintText: {
     fontSize: 14,
-    color: '#FFF',
+    color: COLORS.text.primary,
     lineHeight: 22,
   },
 });

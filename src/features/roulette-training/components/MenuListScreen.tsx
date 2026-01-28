@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { menuStyles, type MenuTheme } from '../styles/menu.styles';
+import { COLORS } from '../constants/theme';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -21,11 +22,7 @@ interface MenuListScreenProps {
 }
 
 const getDifficultyColor = (difficulty: Difficulty): string => {
-  switch (difficulty) {
-    case 'easy': return '#4CAF50';
-    case 'medium': return '#FF9800';
-    case 'hard': return '#F44336';
-  }
+  return COLORS.difficulty[difficulty];
 };
 
 export default function MenuListScreen({ title, subtitle, items, theme = 'dark' }: MenuListScreenProps) {

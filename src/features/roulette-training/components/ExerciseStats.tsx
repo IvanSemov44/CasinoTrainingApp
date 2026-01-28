@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { COLORS } from '../constants/theme';
 
 interface ExerciseStatsProps {
   score: number;
@@ -22,9 +23,9 @@ export default function ExerciseStats({ score, attempts }: ExerciseStatsProps) {
 const styles = StyleSheet.create({
   header: {
     padding: 15,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.background.darkGray,
     borderBottomWidth: 2,
-    borderBottomColor: '#FFD700',
+    borderBottomColor: COLORS.border.primary,
   },
   statsRow: {
     flexDirection: 'row',
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   },
   statsText: {
     fontSize: 16,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontWeight: '600',
   },
 });

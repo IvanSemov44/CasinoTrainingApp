@@ -5,6 +5,7 @@ import ExerciseStats from './ExerciseStats';
 import HintSection from './HintSection';
 import NumberPad from './NumberPad';
 import FeedbackCard from './FeedbackCard';
+import { COLORS } from '../constants/theme';
 
 interface ExerciseLayoutProps {
   score: number;
@@ -117,7 +118,7 @@ export default function ExerciseLayout({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
   },
   layoutContainer: {
     margin: 15,
@@ -125,12 +126,12 @@ const styles = StyleSheet.create({
   },
   layoutLabel: {
     fontSize: 16,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 10,
     fontWeight: '600',
   },
   layoutScrollView: {
-    backgroundColor: '#000',
+    backgroundColor: COLORS.background.dark,
     borderRadius: 8,
   },
   layoutWrapper: {
@@ -144,29 +145,29 @@ const styles = StyleSheet.create({
   },
   answerLabel: {
     fontSize: 18,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 10,
     fontWeight: '600',
   },
   input: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     borderWidth: 2,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
     borderRadius: 10,
     padding: 15,
     fontSize: 24,
-    color: '#FFF',
+    color: COLORS.text.primary,
     textAlign: 'center',
     marginBottom: 15,
   },
   checkButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: COLORS.status.success,
     padding: 18,
     borderRadius: 10,
     alignItems: 'center',
   },
   checkButtonText: {
-    color: '#FFF',
+    color: COLORS.text.primary,
     fontSize: 20,
     fontWeight: 'bold',
   },

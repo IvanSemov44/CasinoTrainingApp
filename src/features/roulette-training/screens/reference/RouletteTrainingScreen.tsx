@@ -7,6 +7,7 @@ import Racetrack from '@components/Racetrack';
 import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
+import { COLORS } from '@features/roulette-training/constants/theme';
 
 export default function RouletteTrainingScreen({ route }: any) {
   const { exercise } = route.params;
@@ -79,35 +80,35 @@ export default function RouletteTrainingScreen({ route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
   },
   header: {
     padding: 20,
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     borderBottomWidth: 2,
-    borderBottomColor: '#FFD700',
+    borderBottomColor: COLORS.border.gold,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 5,
   },
   description: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
   },
   infoBox: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     padding: 15,
     margin: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#FFD700',
+    borderColor: COLORS.border.gold,
     marginBottom: 20,
   },
   infoText: {
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontSize: 14,
     textAlign: 'center',
   },

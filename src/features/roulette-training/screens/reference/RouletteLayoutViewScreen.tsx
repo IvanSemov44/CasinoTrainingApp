@@ -5,6 +5,7 @@ import { placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
+import { COLORS } from '@features/roulette-training/constants/theme';
 
 const { width, height } = Dimensions.get('window');
 
@@ -66,7 +67,7 @@ export default function RouletteLayoutViewScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
   },
   scrollView: {
     flex: 1,

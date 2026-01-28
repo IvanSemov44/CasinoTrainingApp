@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../constants/theme';
 
 export type MenuTheme = 'green' | 'dark';
 
@@ -6,19 +7,19 @@ export type MenuTheme = 'green' | 'dark';
 const greenTheme = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
     padding: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 20,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#ccc',
+    color: COLORS.text.secondary,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -29,12 +30,12 @@ const greenTheme = StyleSheet.create({
     paddingBottom: 20,
   },
   exerciseCard: {
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.secondary,
     padding: 20,
     borderRadius: 10,
     marginBottom: 15,
     borderWidth: 2,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
   },
   exerciseHeader: {
     flexDirection: 'row',
@@ -45,7 +46,7 @@ const greenTheme = StyleSheet.create({
   exerciseTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     flex: 1,
   },
   difficultyBadge: {
@@ -54,18 +55,18 @@ const greenTheme = StyleSheet.create({
     borderRadius: 5,
   },
   difficultyText: {
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontSize: 10,
     fontWeight: 'bold',
   },
   exerciseDescription: {
-    color: '#CCCCCC',
+    color: COLORS.text.secondary,
     fontSize: 14,
     lineHeight: 20,
   },
   extraInfo: {
     fontSize: 12,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginTop: 8,
     fontStyle: 'italic',
   },
@@ -75,18 +76,18 @@ const greenTheme = StyleSheet.create({
 const darkTheme = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.background.darkGray,
     padding: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#ccc',
+    color: COLORS.text.secondary,
     marginBottom: 20,
   },
   scrollView: {
@@ -96,7 +97,7 @@ const darkTheme = StyleSheet.create({
     paddingBottom: 20,
   },
   exerciseCard: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: COLORS.background.mediumGray,
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
@@ -112,13 +113,13 @@ const darkTheme = StyleSheet.create({
   exerciseTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: COLORS.text.primary,
     flex: 1,
     marginRight: 12,
   },
   exerciseDescription: {
     fontSize: 14,
-    color: '#ccc',
+    color: COLORS.text.secondary,
     lineHeight: 20,
   },
   difficultyBadge: {
@@ -127,13 +128,13 @@ const darkTheme = StyleSheet.create({
     borderRadius: 12,
   },
   difficultyText: {
-    color: '#fff',
+    color: COLORS.text.primary,
     fontSize: 10,
     fontWeight: 'bold',
   },
   extraInfo: {
     fontSize: 12,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginTop: 8,
     fontStyle: 'italic',
   },

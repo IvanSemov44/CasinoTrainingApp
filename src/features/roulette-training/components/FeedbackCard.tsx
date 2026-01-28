@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from '../constants/theme';
 
 interface FeedbackCardProps {
   isCorrect: boolean;
@@ -51,45 +52,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   feedbackCorrect: {
-    backgroundColor: '#2d5f2d',
+    backgroundColor: COLORS.status.successAlt,
     borderWidth: 2,
-    borderColor: '#4CAF50',
+    borderColor: COLORS.status.success,
   },
   feedbackIncorrect: {
-    backgroundColor: '#5f2d2d',
+    backgroundColor: COLORS.status.errorAlt,
     borderWidth: 2,
-    borderColor: '#f44336',
+    borderColor: COLORS.status.error,
   },
   feedbackIcon: {
     fontSize: 48,
     marginBottom: 10,
-    color: '#FFF',
+    color: COLORS.text.primary,
   },
   feedbackText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: COLORS.text.primary,
     marginBottom: 10,
   },
   feedbackAnswer: {
     fontSize: 18,
-    color: '#FFF',
+    color: COLORS.text.primary,
     marginBottom: 5,
   },
   feedbackExplanation: {
     fontSize: 16,
-    color: '#CCC',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     marginTop: 5,
   },
   nextButton: {
-    backgroundColor: '#FFD700',
+    backgroundColor: COLORS.background.gold,
     padding: 18,
     borderRadius: 10,
     alignItems: 'center',
   },
   nextButtonText: {
-    color: '#000',
+    color: COLORS.text.dark,
     fontSize: 20,
     fontWeight: 'bold',
   },
