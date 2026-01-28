@@ -24,3 +24,5 @@ export { BET_PAYOUTS } from './constants/payouts';
 // Util exports
 export * from './utils/exerciseHelpers';
 export * from './utils/exerciseStyles';
+export * from './utils/randomUtils';
+export * from './utils/betGenerators';

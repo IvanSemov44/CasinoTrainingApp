@@ -9,14 +9,11 @@ import { exerciseTextStyles } from '../../utils/exerciseStyles';
 import type { Bet, BetType } from '../../types/exercise.types';
 import { 
   getBetTypeName, 
-  getBetPayout,
   generateBetExplanation, 
   createMockBets,
-  getSplitsForNumber,
-  getCornersForNumber,
-  getStreetsForNumber,
-  getSixLinesForNumber
 } from '../../utils/exerciseHelpers';
+import { generateBetsForNumber, generateSingleBetFromConfig } from '../../utils/betGenerators';
+import { getRandomInt, getRandomElement } from '../../utils/randomUtils';
 
 type QuestionType = 'ASK_PAYOUT' | 'ASK_CHIPS' | 'ASK_CASH';
 
@@ -66,110 +63,22 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
   }, []);
 
   const generateNewQuestion = () => {
-    const newBets: Bet[] = [];
+    let newBets: Bet[];
     let number: RouletteNumber;
     
     // For single bet type, use betConfig's generatePossibleBets if available
     if (isSingleBet && betConfig) {
       const possibleBets = betConfig.generatePossibleBets();
-      const randomBet = possibleBets[Math.floor(Math.random() * possibleBets.length)];
-      number = randomBet[Math.floor(Math.random() * randomBet.length)];
-      
-      const randomChips = Math.floor(Math.random() * 5) + 1;
-      newBets.push({
-        type: allowedBetTypes[0],
-        numbers: randomBet,
-        chips: randomChips,
-        payout: getBetPayout(allowedBetTypes[0]),
-      });
+      const { bet, number: winningNumber } = generateSingleBetFromConfig(
+        possibleBets,
+        allowedBetTypes[0]
+      );
+      newBets = [bet];
+      number = winningNumber;
     } else {
       // For multiple bets, pick a random winning number (0-12)
-      number = Math.floor(Math.random() * 13) as RouletteNumber;
-      
-      // Add straight up bet if included
-      if (allowedBetTypes.includes('STRAIGHT')) {
-        const straightChips = Math.floor(Math.random() * 3) + 1;
-        newBets.push({
-          type: 'STRAIGHT',
-          numbers: [number],
-          chips: straightChips,
-          payout: getBetPayout('STRAIGHT'),
-        });
-      }
-      
-      // Add splits if included
-      if (allowedBetTypes.includes('SPLIT')) {
-        const possibleSplits = getSplitsForNumber(number);
-        if (possibleSplits.length > 0) {
-          const numSplits = Math.min(
-            Math.floor(Math.random() * 2) + 1,
-            possibleSplits.length
-          );
-          
-          const shuffled = [...possibleSplits].sort(() => Math.random() - 0.5);
-          for (let i = 0; i < numSplits; i++) {
-            const chips = Math.floor(Math.random() * 3) + 1;
-            newBets.push({
-              type: 'SPLIT',
-              numbers: shuffled[i],
-              chips,
-              payout: getBetPayout('SPLIT'),
-            });
-          }
-        }
-      }
-
-      // Add corners if included
-      if (allowedBetTypes.includes('CORNER')) {
-        const possibleCorners = getCornersForNumber(number);
-        if (possibleCorners.length > 0 && Math.random() > 0.3) {
-          const numCorners = Math.min(
-            Math.floor(Math.random() * 2) + 1,
-            possibleCorners.length
-          );
-          
-          const shuffledCorners = [...possibleCorners].sort(() => Math.random() - 0.5);
-          for (let i = 0; i < numCorners; i++) {
-            const cornerChips = Math.floor(Math.random() * 3) + 1;
-            newBets.push({
-              type: 'CORNER',
-              numbers: shuffledCorners[i],
-              chips: cornerChips,
-              payout: getBetPayout('CORNER'),
-            });
-          }
-        }
-      }
-
-      // Add streets if included
-      if (allowedBetTypes.includes('STREET')) {
-        const possibleStreets = getStreetsForNumber(number);
-        if (possibleStreets.length > 0 && Math.random() > 0.4) {
-          const streetIdx = Math.floor(Math.random() * possibleStreets.length);
-          const streetChips = Math.floor(Math.random() * 3) + 1;
-          newBets.push({
-            type: 'STREET',
-            numbers: possibleStreets[streetIdx],
-            chips: streetChips,
-            payout: getBetPayout('STREET'),
-          });
-        }
-      }
-
-      // Add six lines if included
-      if (allowedBetTypes.includes('SIX_LINE')) {
-        const possibleSixLines = getSixLinesForNumber(number);
-        if (possibleSixLines.length > 0 && Math.random() > 0.5) {
-          const sixLineIdx = Math.floor(Math.random() * possibleSixLines.length);
-          const sixLineChips = Math.floor(Math.random() * 3) + 1;
-          newBets.push({
-            type: 'SIX_LINE',
-            numbers: possibleSixLines[sixLineIdx],
-            chips: sixLineChips,
-            payout: getBetPayout('SIX_LINE'),
-          });
-        }
-      }
+      number = getRandomInt(0, 12) as RouletteNumber;
+      newBets = generateBetsForNumber(number, allowedBetTypes);
     }
 
     setWinningNumber(number);
@@ -189,7 +98,7 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
         return;
       }
       
-      const selectedCash = validCashOptions[Math.floor(Math.random() * validCashOptions.length)];
+      const selectedCash = getRandomElement(validCashOptions);
       setCashRequest(selectedCash);
       
       // Calculate remaining chips: (total - cash) / denomination
