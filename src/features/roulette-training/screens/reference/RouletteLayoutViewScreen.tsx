@@ -5,7 +5,7 @@ import { placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
-import { COLORS } from '@features/roulette-training/constants/theme';
+import { COLORS, SPACING } from '@features/roulette-training/constants/theme';
 
 const { width, height } = Dimensions.get('window');
 

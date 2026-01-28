@@ -70,8 +70,8 @@ export const BET_CONFIGS: Record<string, BetConfig> = {
     description: '3 numbers in a row',
     hintText: '• A street bet covers 3 numbers in a row\n• Street bet pays 11:1\n• Payout = chips × 11 (winnings only)\n• Example: 4 chips → 4 × 11 = 44',
     exampleChips: 4,
-    generatePALL_STREETS [0, 2, 3],
-      ];
+    generatePossibleBets: () => {
+      return ALL_STREETS;
     },
     formatNumbers: (numbers) => `${numbers[0]}-${numbers[1]}-${numbers[2]}`,
   },
@@ -84,8 +84,8 @@ export const BET_CONFIGS: Record<string, BetConfig> = {
     description: '4 numbers forming a square',
     hintText: '• A corner bet covers 4 numbers forming a square\n• Corner bet pays 8:1\n• Payout = chips × 8 (winnings only)\n• Example: 5 chips → 5 × 8 = 40',
     exampleChips: 5,
-    generatePALL_CORNERS [8, 9, 11, 12],
-      ];
+    generatePossibleBets: () => {
+      return ALL_CORNERS;
     },
     formatNumbers: (numbers) => `${numbers[0]}-${numbers[1]}-${numbers[2]}-${numbers[3]}`,
   },
@@ -98,8 +98,8 @@ export const BET_CONFIGS: Record<string, BetConfig> = {
     description: '6 numbers (double street)',
     hintText: '• A six line bet covers 6 numbers (two adjacent streets)\n• Six line bet pays 5:1\n• Payout = chips × 5 (winnings only)\n• Example: 4 chips → 4 × 5 = 20',
     exampleChips: 4,
-    generatePALL_SIX_LINES [7, 8, 9, 10, 11, 12],
-      ];
+    generatePossibleBets: () => {
+      return ALL_SIX_LINES;
     },
     formatNumbers: (numbers) => `${numbers[0]}-${numbers[1]}-${numbers[2]}-${numbers[3]}-${numbers[4]}-${numbers[5]}`,
   },
