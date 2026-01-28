@@ -4,12 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
+import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
 import { COLORS } from '../features/roulette-training/constants/theme';
 
 export type RootStackParamList = {
   Home: undefined;
   Progress: undefined;
-} & RouletteTrainingStackParamList;
+} & RouletteTrainingStackParamList & RacetrackStackParamList;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -34,6 +35,7 @@ export default function AppNavigator() {
           options={{ title: 'Casino Dealer Training' }}
         />
         {RouletteTrainingRoutes()}
+        {RacetrackRoutes()}
         <Stack.Screen
           name="Progress"
           component={ProgressScreen}
