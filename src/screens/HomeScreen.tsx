@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
 
 export default function HomeScreen({ navigation }: any) {
   return (
@@ -50,21 +51,21 @@ export default function HomeScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 10,
+    color: COLORS.text.gold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#FFFFFF',
+    fontSize: TYPOGRAPHY.fontSize.lg,
+    color: COLORS.text.primary,
     marginBottom: 50,
     textAlign: 'center',
   },
@@ -73,21 +74,21 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   menuButton: {
-    backgroundColor: '#1a5f3f',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 2,
-    borderColor: '#FFD700',
+    backgroundColor: COLORS.background.secondary,
+    padding: SPACING.lg,
+    borderRadius: BORDERS.radius.md,
+    marginBottom: SPACING.md,
+    borderWidth: BORDERS.width.medium,
+    borderColor: COLORS.border.gold,
   },
   menuButtonDisabled: {
-    backgroundColor: '#0f3f2f',
+    backgroundColor: COLORS.background.tertiary,
     borderColor: '#666666',
     opacity: 0.5,
   },
   menuButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: COLORS.text.primary,
+    fontSize: TYPOGRAPHY.fontSize.lg,
     fontWeight: '600',
     textAlign: 'center',
   },

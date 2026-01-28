@@ -1,6 +1,7 @@
 import type { RouletteNumber } from '@app-types/roulette.types';
 import type { BetType, Bet } from '../types/exercise.types';
 import { BET_TYPE_METADATA } from '../constants/payouts';
+import { ALL_CORNERS, ALL_STREETS, ALL_SIX_LINES, ZERO_SPLITS } from '../constants/betCombinations';
 
 export function getBetTypeName(type: BetType): string {
   return BET_TYPE_METADATA[type].name;
@@ -15,7 +16,7 @@ export function getSplitsForNumber(num: RouletteNumber): [RouletteNumber, Roulet
   const splits: [RouletteNumber, RouletteNumber][] = [];
 
   if (num === 0) {
-    return [[0, 1], [0, 2], [0, 3]];
+    return ZERO_SPLITS;
   }
 
   // Vertical splits (consecutive numbers in same column)
@@ -33,42 +34,17 @@ export function getSplitsForNumber(num: RouletteNumber): [RouletteNumber, Roulet
 
 // Get all valid corners for a number
 export function getCornersForNumber(num: RouletteNumber): RouletteNumber[][] {
-  const allCorners: RouletteNumber[][] = [
-    [0, 1, 2, 3],
-    [1, 2, 4, 5],
-    [2, 3, 5, 6],
-    [4, 5, 7, 8],
-    [5, 6, 8, 9],
-    [7, 8, 10, 11],
-    [8, 9, 11, 12],
-  ];
-
-  return allCorners.filter(corner => corner.includes(num));
+  return ALL_CORNERS.filter(corner => corner.includes(num));
 }
 
 // Get all valid streets for a number
 export function getStreetsForNumber(num: RouletteNumber): RouletteNumber[][] {
-  const allStreets: RouletteNumber[][] = [
-    [0, 1, 2],
-    [0, 2, 3],
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [10, 11, 12],
-  ];
-
-  return allStreets.filter(street => street.includes(num));
+  return ALL_STREETS.filter(street => street.includes(num));
 }
 
 // Get all valid six lines for a number
 export function getSixLinesForNumber(num: RouletteNumber): RouletteNumber[][] {
-  const allSixLines: RouletteNumber[][] = [
-    [1, 2, 3, 4, 5, 6],
-    [4, 5, 6, 7, 8, 9],
-    [7, 8, 9, 10, 11, 12],
-  ];
-
-  return allSixLines.filter(sixLine => sixLine.includes(num));
+  return ALL_SIX_LINES.filter(sixLine => sixLine.includes(num));
 }
 
 export function formatBetNumbers(bet: Bet): string {

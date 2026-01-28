@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
+import { COLORS } from '../features/roulette-training/constants/theme';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -19,9 +20,9 @@ export default function AppNavigator() {
         initialRouteName="Home"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#0a2f1f',
+            backgroundColor: COLORS.background.primary,
           },
-          headerTintColor: '#FFD700',
+          headerTintColor: COLORS.text.gold,
           headerTitleStyle: {
             fontWeight: 'bold',
           },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppSelector } from '../store/hooks';
+import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
 
 export default function ProgressScreen() {
   const exerciseResults = useAppSelector(state => state.roulette.exerciseResults);
@@ -60,14 +61,14 @@ export default function ProgressScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
-    padding: 20,
+    backgroundColor: COLORS.background.primary,
+    padding: SPACING.lg,
   },
   title: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 20,
+    color: COLORS.text.gold,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
   },
   statsContainer: {
@@ -77,69 +78,69 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#1a5f3f',
-    padding: 15,
-    borderRadius: 10,
-    marginHorizontal: 5,
+    backgroundColor: COLORS.background.secondary,
+    padding: SPACING.md,
+    borderRadius: BORDERS.radius.md,
+    marginHorizontal: SPACING.xs,
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#FFD700',
+    borderWidth: BORDERS.width.medium,
+    borderColor: COLORS.border.gold,
   },
   statValue: {
-    fontSize: 24,
+    fontSize: TYPOGRAPHY.fontSize.xxl,
     fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 5,
+    color: COLORS.text.gold,
+    marginBottom: SPACING.xs,
   },
   statLabel: {
-    fontSize: 12,
-    color: '#FFFFFF',
+    fontSize: TYPOGRAPHY.fontSize.xs,
+    color: COLORS.text.primary,
     textAlign: 'center',
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 15,
+    color: COLORS.text.gold,
+    marginBottom: SPACING.md,
   },
   resultsContainer: {
     flex: 1,
   },
   noResultsText: {
-    color: '#CCCCCC',
-    fontSize: 16,
+    color: COLORS.text.secondary,
+    fontSize: TYPOGRAPHY.fontSize.md,
     textAlign: 'center',
     marginTop: 50,
   },
   resultCard: {
-    backgroundColor: '#1a5f3f',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#2a7f4f',
+    backgroundColor: COLORS.background.secondary,
+    padding: SPACING.md,
+    borderRadius: BORDERS.radius.md,
+    marginBottom: SPACING.sm,
+    borderWidth: BORDERS.width.thin,
+    borderColor: COLORS.border.primary,
   },
   resultType: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.fontSize.md,
     fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 5,
+    color: COLORS.text.gold,
+    marginBottom: SPACING.xs,
   },
   resultDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: SPACING.xs,
   },
   resultScore: {
-    color: '#FFFFFF',
-    fontSize: 14,
+    color: COLORS.text.primary,
+    fontSize: TYPOGRAPHY.fontSize.base,
   },
   resultTime: {
-    color: '#CCCCCC',
-    fontSize: 14,
+    color: COLORS.text.secondary,
+    fontSize: TYPOGRAPHY.fontSize.base,
   },
   resultDate: {
     color: '#999999',
-    fontSize: 12,
+    fontSize: TYPOGRAPHY.fontSize.xs,
   },
 });

@@ -20,6 +20,7 @@ export type { BetType, Bet } from './types/exercise.types';
 
 // Constant exports
 export { BET_PAYOUTS } from './constants/payouts';
+export * from './constants/betCombinations';
 
 // Util exports
 export * from './utils/exerciseHelpers';
