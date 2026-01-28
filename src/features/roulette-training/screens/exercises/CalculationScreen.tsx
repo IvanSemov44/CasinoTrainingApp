@@ -14,6 +14,7 @@ import {
 } from '../../utils/exerciseHelpers';
 import { generateBetsForNumber, generateSingleBetFromConfig } from '../../utils/betGenerators';
 import { getRandomInt, getRandomElement } from '../../utils/randomUtils';
+import { generateHintContent } from '../../utils/hintGenerators';
 
 type QuestionType = 'ASK_PAYOUT' | 'ASK_CHIPS' | 'ASK_CASH';
 
@@ -134,16 +135,6 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
     generateNewQuestion();
   };
 
-  const getHintPayoutInfo = () => {
-    const lines: string[] = [];
-    if (allowedBetTypes.includes('STRAIGHT')) lines.push('• Straight up: chips × 35');
-    if (allowedBetTypes.includes('SPLIT')) lines.push('• Split: chips × 17');
-    if (allowedBetTypes.includes('CORNER')) lines.push('• Corner: chips × 8');
-    if (allowedBetTypes.includes('STREET')) lines.push('• Street: chips × 11');
-    if (allowedBetTypes.includes('SIX_LINE')) lines.push('• Six Line: chips × 5');
-    return lines.join('\n');
-  };
-
   const mockPlacedBets = createMockBets(bets);
 
   const getQuestionText = (): string => {
@@ -162,67 +153,16 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
       ? `Total payout (chips):` 
       : 'Total payout:';
 
-  const hintContent = (
-    <>
-      {cashConfig && (
-        <>
-          • Chip denomination: <Text style={exerciseTextStyles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
-        </>
-      )}
-      {isSingleBet && betConfig && questionType === 'ASK_PAYOUT' ? (
-        <>
-          {betConfig.hintText}{'\n\n'}
-          {betConfig.name} <Text style={exerciseTextStyles.highlightNumber}>{betConfig.formatNumbers(bets[0]?.numbers || [])}</Text> has{' '}
-          <Text style={exerciseTextStyles.highlightChips}>{bets[0]?.chips || 0}</Text>{' '}
-          {(bets[0]?.chips === 1) ? 'chip' : 'chips'} on it.
-        </>
-      ) : questionType === 'ASK_PAYOUT' ? (
-        <>
-          • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>{'\n'}
-          • Calculate total payout for all winning bets{'\n'}
-          {getHintPayoutInfo()}{'\n'}
-          • Add all payouts together{'\n\n'}
-          <Text style={exerciseTextStyles.hintTitle}>Bets on winning number:{'\n'}</Text>
-          {bets.map((bet, index) => (
-            <Text key={index} style={exerciseTextStyles.hintBet}>
-              {index + 1}. {getBetTypeName(bet.type)}{' '}
-              <Text style={exerciseTextStyles.highlightNumber}>
-                {bet.type === 'STRAIGHT' ? bet.numbers[0] : bet.numbers.join('-')}
-              </Text>
-              {' with '}
-              <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>
-              {' '}{bet.chips === 1 ? 'chip' : 'chips'}{'\n'}
-            </Text>
-          ))}
-        </>
-      ) : (
-        <>
-          • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>{'\n'}
-          {bets.map((bet, index) => (
-            <Text key={index}>
-              • {getBetTypeName(bet.type)}{' '}
-              <Text style={exerciseTextStyles.highlightNumber}>
-                {bet.type === 'STRAIGHT' ? bet.numbers[0] : bet.numbers.join('-')}
-              </Text>
-              {': '}
-              <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>
-              {' × '}{bet.payout} = {bet.chips * bet.payout} chips{'\n'}
-            </Text>
-          ))}
-          • Total payout: <Text style={exerciseTextStyles.highlightNumber}>{bets.reduce((sum, b) => sum + (b.chips * b.payout), 0)} chips</Text>{'\n'}
-          {cashConfig && (
-            <>
-              • Total cash value: <Text style={exerciseTextStyles.highlightNumber}>${bets.reduce((sum, b) => sum + (b.chips * b.payout), 0) * cashConfig.denomination}</Text>{'\n'}
-              {'\n'}
-              <Text style={exerciseTextStyles.hintTitle}>Cash Handling:{'\n'}</Text>
-              • Total must equal: <Text style={exerciseTextStyles.highlightNumber}>${bets.reduce((sum, b) => sum + (b.chips * b.payout), 0) * cashConfig.denomination}</Text>{'\n'}
-              • Formula: (Chips × ${cashConfig.denomination}) + Cash = Total{'\n'}
-              • Therefore: {remainingChips} chips (${remainingChips * cashConfig.denomination}) + ${cashRequest} cash = ${bets.reduce((sum, b) => sum + (b.chips * b.payout), 0) * cashConfig.denomination}{'\n'}
-            </>
-          )}
-        </>
-      )}
-    </>
+  const hintContent = generateHintContent(
+    questionType,
+    isSingleBet,
+    bets,
+    winningNumber,
+    allowedBetTypes,
+    cashConfig,
+    betConfig,
+    remainingChips,
+    cashRequest
   );
 
   const getExplanationText = (): string => {

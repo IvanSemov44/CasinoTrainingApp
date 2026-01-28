@@ -1,24 +1,25 @@
 import { StyleSheet } from 'react-native';
+import { COLORS, TYPOGRAPHY } from '../constants/theme';
 
 export const exerciseTextStyles = StyleSheet.create({
   highlightNumber: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
   },
   highlightChips: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.fontSize.base,
     fontWeight: 'bold',
-    color: '#4CAF50',
+    color: COLORS.status.success,
   },
   hintTitle: {
     fontWeight: 'bold',
-    fontSize: 14,
-    color: '#FFD700',
+    fontSize: TYPOGRAPHY.fontSize.base,
+    color: COLORS.text.gold,
   },
   hintBet: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#ccc',
+    fontSize: TYPOGRAPHY.fontSize.base,
+    lineHeight: TYPOGRAPHY.lineHeight.normal,
+    color: COLORS.text.secondary,
   },
 });
