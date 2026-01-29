@@ -1,23 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { RouletteLayout } from '../../../components/roulette';
 import { RacetrackLayout } from '../../racetrack/components';
+import { PlacedBet, BetType, RouletteNumber } from '../../../types/roulette.types';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export default function RouletteGameScreen() {
+  const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
+  const [selectedChipValue, setSelectedChipValue] = useState(5);
+  
   const racetrackWidth = Math.min(screenWidth - 64, 600);
   // Calculate cellSize based on screen width - roulette has ~15 cells width (12 + zero column + column bets)
   const availableWidth = Math.min(screenWidth - 64, 450);
   const cellSize = Math.max(20, Math.min(30, availableWidth / 15));
+
+  // Define Tier split positions
+  const tierSplitPositions = [
+    [5, 8], [10, 11], [13, 16], [23, 24], [27, 30], [33, 36]
+  ];
+
+  const handleTierClick = () => {
+    console.log('Tier clicked - placing 6 split bets');
+    
+    // Create new bets for each split position
+    const newBets: PlacedBet[] = tierSplitPositions.map(([num1, num2]) => ({
+      id: `tier-split-${num1}-${num2}-${Date.now()}`,
+      type: 'SPLIT' as BetType,
+      numbers: [num1 as RouletteNumber, num2 as RouletteNumber],
+      amount: selectedChipValue,
+      payout: 17, // Split pays 17:1
+      timestamp: Date.now(),
+      position: { x: 0, y: 0 }, // Position will be calculated by RouletteLayout
+    }));
+    
+    console.log('New bets created:', newBets.map(b => b.numbers));
+    
+    // Add to existing bets
+    setPlacedBets(prev => {
+      const updated = [...prev, ...newBets];
+      console.log('Total placed bets:', updated.length);
+      return updated;
+    });
+  };
+
+  const handleSectionPress = (section: 'tier' | 'orphelins' | 'voisins' | 'zero') => {
+    console.log('Section pressed:', section);
+    if (section === 'tier') {
+      handleTierClick();
+    }
+    // TODO: Implement other sections
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.gameContainer}>
         {/* Racetrack at the top */}
         <View style={styles.racetrackContainer}>
-          <RacetrackLayout width={racetrackWidth} />
+          <RacetrackLayout 
+            width={racetrackWidth} 
+            onSectionPress={handleSectionPress}
+          />
         </View>
 
         {/* Roulette layout below */}
@@ -29,6 +73,8 @@ export default function RouletteGameScreen() {
             onBetAreaPress={(betType, numbers) => {
               console.log('Bet placed:', betType, numbers);
             }}
+            placedBets={placedBets}
+            selectedChipValue={selectedChipValue}
             cellSize={cellSize}
           />
         </View>

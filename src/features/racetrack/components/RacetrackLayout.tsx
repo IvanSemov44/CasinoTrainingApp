@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Svg, { Path, Text as SvgText, G } from 'react-native-svg';
 
 // European roulette wheel order - numbers arranged as they appear on the wheel
@@ -63,15 +63,78 @@ export default function RacetrackLayout({
   onNumberPress,
   onSectionPress 
 }: RacetrackLayoutProps) {
-  // Scale factor based on original SVG viewBox
-  const scale = width / 850;
-  const height = width * 0.35;
+  // ViewBox: "140 140 880 280" means x starts at 140, y starts at 140, width=880, height=280
+  const viewBoxWidth = 880;
+  const viewBoxHeight = 280;
+  
+  // Component dimensions
+  const componentHeight = width * (viewBoxHeight / viewBoxWidth);
+
+  // Inner oval parameters (from SVG path)
+  // Inner oval: radiusX ≈ 69.5 (from 290.5-221), radiusY ≈ 69.5 (272.5-203)
+  // Center Y = 272.5, left center X = 290.5, right center X = 847.5
+  const ovalCenterY = 272.5;
+  const ovalRadiusY = 69.5;
+  const ovalTop = 203;
+  const ovalBottom = 342;
+  
+  // Sector divider X positions
+  const tierEndX = 428;
+  const orphelinsEndX = 610;
+  const voisinsEndX = 815;
+  
+  // Left oval arc (Tier left edge) - from inner oval path
+  const leftArcStartX = 290.5;
+  const leftArcCenterX = 290.5;
+  
+  // Right oval arc (Zero right edge)
+  const rightArcEndX = 847.5;
+  const rightArcCenterX = 847.5;
+
+  // SVG Paths for each sector that follow the oval shape
+  // Tier: left curved section
+  const tierPath = `
+    M ${leftArcStartX} ${ovalTop}
+    C 252.116 ${ovalTop} 221 234.116 221 ${ovalCenterY}
+    C 221 310.884 252.116 ${ovalBottom} ${leftArcStartX} ${ovalBottom}
+    L ${tierEndX} ${ovalBottom}
+    L ${tierEndX} ${ovalTop}
+    Z
+  `;
+  
+  // Orphelins: middle-left rectangle
+  const orphelinsPath = `
+    M ${tierEndX} ${ovalTop}
+    L ${tierEndX} ${ovalBottom}
+    L ${orphelinsEndX} ${ovalBottom}
+    L ${orphelinsEndX} ${ovalTop}
+    Z
+  `;
+  
+  // Voisins: middle-right rectangle
+  const voisinsPath = `
+    M ${orphelinsEndX} ${ovalTop}
+    L ${orphelinsEndX} ${ovalBottom}
+    L ${voisinsEndX} ${ovalBottom}
+    L ${voisinsEndX} ${ovalTop}
+    Z
+  `;
+  
+  // Zero: right curved section
+  const zeroPath = `
+    M ${voisinsEndX} ${ovalTop}
+    L ${voisinsEndX} ${ovalBottom}
+    L ${rightArcEndX} ${ovalBottom}
+    C 885.884 ${ovalBottom} 917 310.884 917 ${ovalCenterY}
+    C 917 234.116 885.884 ${ovalTop} ${rightArcEndX} ${ovalTop}
+    Z
+  `;
 
   return (
-    <View style={[styles.container, { width, height: height + 20 }]}>
+    <View style={[styles.container, { width, height: componentHeight }]}>
       <Svg
         width={width}
-        height={height + 20}
+        height={componentHeight}
         viewBox="140 140 880 280"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -231,6 +294,34 @@ export default function RacetrackLayout({
           </SvgText>
         ))}
 
+        {/* Visual sector overlays - just for display, not clickable */}
+        <G>
+          <Path
+            d={tierPath}
+            fill="transparent"
+            stroke="transparent"
+            strokeWidth="0"
+          />
+          <Path
+            d={orphelinsPath}
+            fill="transparent"
+            stroke="transparent"
+            strokeWidth="0"
+          />
+          <Path
+            d={voisinsPath}
+            fill="transparent"
+            stroke="transparent"
+            strokeWidth="0"
+          />
+          <Path
+            d={zeroPath}
+            fill="transparent"
+            stroke="transparent"
+            strokeWidth="0"
+          />
+        </G>
+
         {/* Center section labels */}
         <SvgText x={311} y={277} fill="#FFD700" fontSize="22" fontWeight="600">
           Tier
@@ -245,6 +336,87 @@ export default function RacetrackLayout({
           Zero
         </SvgText>
       </Svg>
+
+      {/* TouchableOpacity overlays for reliable touch handling */}
+      {onSectionPress && (
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+          {/* Tier button */}
+          <TouchableOpacity
+            style={[
+              styles.sectorButton,
+              {
+                left: ((221 - 140) / 880) * width,
+                top: ((203 - 140) / 280) * componentHeight,
+                width: ((428 - 221) / 880) * width,
+                height: ((342 - 203) / 280) * componentHeight,
+                borderTopLeftRadius: 30,
+                borderBottomLeftRadius: 30,
+              }
+            ]}
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('Tier pressed!');
+              onSectionPress('tier');
+            }}
+          />
+          
+          {/* Orphelins button */}
+          <TouchableOpacity
+            style={[
+              styles.sectorButton,
+              {
+                left: ((428 - 140) / 880) * width,
+                top: ((203 - 140) / 280) * componentHeight,
+                width: ((610 - 428) / 880) * width,
+                height: ((342 - 203) / 280) * componentHeight,
+              }
+            ]}
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('Orphelins pressed!');
+              onSectionPress('orphelins');
+            }}
+          />
+          
+          {/* Voisins button */}
+          <TouchableOpacity
+            style={[
+              styles.sectorButton,
+              {
+                left: ((610 - 140) / 880) * width,
+                top: ((203 - 140) / 280) * componentHeight,
+                width: ((815 - 610) / 880) * width,
+                height: ((342 - 203) / 280) * componentHeight,
+              }
+            ]}
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('Voisins pressed!');
+              onSectionPress('voisins');
+            }}
+          />
+          
+          {/* Zero button */}
+          <TouchableOpacity
+            style={[
+              styles.sectorButton,
+              {
+                left: ((815 - 140) / 880) * width,
+                top: ((203 - 140) / 280) * componentHeight,
+                width: ((917 - 815) / 880) * width,
+                height: ((342 - 203) / 280) * componentHeight,
+                borderTopRightRadius: 30,
+                borderBottomRightRadius: 30,
+              }
+            ]}
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('Zero pressed!');
+              onSectionPress('zero');
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -253,5 +425,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  sectorButton: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
   },
 });
