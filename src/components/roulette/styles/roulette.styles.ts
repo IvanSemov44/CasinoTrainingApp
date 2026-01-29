@@ -3,19 +3,20 @@ import { StyleSheet } from 'react-native';
 export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
   // Container styles
   container: {
-    backgroundColor: '#000000',
+    backgroundColor: '#1a472a',
     padding: 0,
-    borderRadius: 4,
-    borderWidth: 4,
-    borderColor: '#000000',
+    borderRadius: 0,
+    borderWidth: 0,
     alignSelf: 'flex-start',
   },
   
   // Main layout
   mainLayout: {
     flexDirection: 'row',
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
     alignItems: 'flex-start',
+    borderRadius: 0,
+    padding: 8,
   },
   
   // Number cell styles
@@ -25,17 +26,17 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#FFD700',
     backgroundColor: '#000000',
   },
   redCell: {
-    backgroundColor: '#DC143C',
+    backgroundColor: '#FF0000',
   },
   blackCell: {
     backgroundColor: '#000000',
   },
   greenCell: {
-    backgroundColor: '#008000',
+    backgroundColor: '#4EA72E',
   },
   numberText: {
     color: '#FFFFFF',
@@ -123,7 +124,7 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#FFD700',
     marginLeft: 0,
   },
   zeroSplit: {
@@ -179,11 +180,11 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
 export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
   outsideBetsRow: {
     flexDirection: 'row',
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
   },
   emptyCorner: {
     width: cellSize * 1.5,
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
   },
   dozensRow: {
     flex: 1,
@@ -198,21 +199,21 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
     height: 35,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#FFD700',
   },
   evenMoneyBet: {
     width: cellSize * 2,
     height: 35,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#FFD700',
   },
   outsideBetText: {
-    color: '#FFFFFF',
+    color: '#FFD700',
     fontSize: 11,
     fontWeight: 'bold',
   },
@@ -227,12 +228,12 @@ export const getColumnBetsStyles = (cellSize: number) => StyleSheet.create({
     height: cellSize,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#0d3320',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#FFD700',
   },
   columnBetText: {
-    color: '#FFFFFF',
+    color: '#FFD700',
     fontSize: cellSize * 0.45,
     fontWeight: 'bold',
   },

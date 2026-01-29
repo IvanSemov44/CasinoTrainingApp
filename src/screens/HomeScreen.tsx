@@ -25,6 +25,13 @@ export default function HomeScreen({ navigation }: any) {
 
         <TouchableOpacity 
           style={styles.menuButton}
+          onPress={() => navigation.navigate('RouletteGame')}
+        >
+          <Text style={styles.menuButtonText}>🎮 Roulette Game</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.menuButton}
           onPress={() => navigation.navigate('RouletteExercises')}
         >
           <Text style={styles.menuButtonText}>🎰 Roulette Training</Text>

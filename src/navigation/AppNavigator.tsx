@@ -5,12 +5,13 @@ import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
 import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
+import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
 import { COLORS } from '../features/roulette-training/constants/theme';
 
 export type RootStackParamList = {
   Home: undefined;
   Progress: undefined;
-} & RouletteTrainingStackParamList & RacetrackStackParamList;
+} & RouletteTrainingStackParamList & RacetrackStackParamList & RouletteGameStackParamList;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -36,6 +37,7 @@ export default function AppNavigator() {
         />
         {RouletteTrainingRoutes()}
         {RacetrackRoutes()}
+        {RouletteGameRoutes()}
         <Stack.Screen
           name="Progress"
           component={ProgressScreen}
