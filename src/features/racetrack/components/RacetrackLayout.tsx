@@ -99,8 +99,7 @@ export default function RacetrackLayout({
               key={`top-line-${index}`}
               d={`M${x} 149.76 L${x} 204.48`}
               stroke="#FFD700"
-              strokeWidth="1"
-              strokeOpacity="0.6"
+              strokeWidth="2"
             />
           );
         })}
@@ -114,8 +113,7 @@ export default function RacetrackLayout({
               key={`bottom-line-${index}`}
               d={`M${x} 343.68 L${x} 398.4`}
               stroke="#FFD700"
-              strokeWidth="1"
-              strokeOpacity="0.6"
+              strokeWidth="2"
             />
           );
         })}
