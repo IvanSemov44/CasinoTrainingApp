@@ -1,161 +1,67 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import Svg, { Path, Text as SvgText, G } from 'react-native-svg';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import Svg, { Path, Text as SvgText } from 'react-native-svg';
+import {
+  TOP_NUMBERS,
+  BOTTOM_NUMBERS,
+  LEFT_NUMBERS,
+  RIGHT_NUMBERS,
+  BOTTOM_CELL_BOUNDARIES,
+  VIEWBOX,
+  SECTORS,
+  SECTION_LABELS,
+} from '../constants';
+import {
+  getTopNumberCenterX,
+  getBottomNumberCenterX,
+} from '../utils';
 
-// European roulette wheel order - complete sequence for neighbors calculation
-const WHEEL_ORDER = [
-  0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30,
-  8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7,
-  28, 12, 35, 3, 26
-];
-
-// European roulette wheel order - numbers arranged as they appear on the wheel
-const TOP_NUMBERS = [
-  { num: '5', color: '#FF0000' },
-  { num: '24', color: '#000000' },
-  { num: '16', color: '#FF0000' },
-  { num: '33', color: '#000000' },
-  { num: '1', color: '#FF0000' },
-  { num: '20', color: '#000000' },
-  { num: '14', color: '#FF0000' },
-  { num: '31', color: '#000000' },
-  { num: '9', color: '#FF0000' },
-  { num: '22', color: '#000000' },
-  { num: '18', color: '#FF0000' },
-  { num: '29', color: '#000000' },
-  { num: '7', color: '#FF0000' },
-  { num: '28', color: '#000000' },
-  { num: '12', color: '#FF0000' },
-  { num: '35', color: '#000000' },
-];
-
-const BOTTOM_NUMBERS = [
-  { num: '30', color: '#FF0000' },
-  { num: '11', color: '#000000' },
-  { num: '36', color: '#FF0000' },
-  { num: '13', color: '#000000' },
-  { num: '27', color: '#FF0000' },
-  { num: '6', color: '#000000' },
-  { num: '34', color: '#FF0000' },
-  { num: '17', color: '#000000' },
-  { num: '25', color: '#FF0000' },
-  { num: '2', color: '#000000' },
-  { num: '21', color: '#FF0000' },
-  { num: '4', color: '#000000' },
-  { num: '19', color: '#FF0000' },
-  { num: '15', color: '#000000' },
-  { num: '32', color: '#FF0000' },
-];
-
-const LEFT_NUMBERS = [
-  { num: '10', color: '#000000', x: 205, y: 225 },
-  { num: '23', color: '#FF0000', x: 188, y: 280 },
-  { num: '8', color: '#000000', x: 205, y: 335 },
-];
-
-const RIGHT_NUMBERS = [
-  { num: '3', color: '#FF0000', x: 935, y: 225 },
-  { num: '26', color: '#000000', x: 946, y: 280 },
-  { num: '0', color: '#4EA72E', x: 935, y: 335 },
-];
-
-// Helper to get neighbors on the wheel
-export function getNeighbors(number: number, count: number = 2): number[] {
-  const index = WHEEL_ORDER.indexOf(number);
-  if (index === -1) return [];
-  
-  const neighbors: number[] = [];
-  for (let i = -count; i <= count; i++) {
-    const neighborIndex = (index + i + WHEEL_ORDER.length) % WHEEL_ORDER.length;
-    neighbors.push(WHEEL_ORDER[neighborIndex]);
-  }
-  return neighbors;
-}
+type SectionType = 'tier' | 'orphelins' | 'voisins' | 'zero';
 
 interface RacetrackLayoutProps {
   width?: number;
   onNumberPress?: (number: string) => void;
-  onSectionPress?: (section: 'tier' | 'orphelins' | 'voisins' | 'zero') => void;
+  onSectionPress?: (section: SectionType) => void;
 }
 
-export default function RacetrackLayout({ 
+// Sector button configuration
+const SECTOR_BUTTONS: Array<{
+  section: SectionType;
+  startX: number;
+  endX: number;
+  radiusLeft?: number;
+  radiusRight?: number;
+}> = [
+  { section: 'tier', startX: 221, endX: 428, radiusLeft: 30 },
+  { section: 'orphelins', startX: 428, endX: 610 },
+  { section: 'voisins', startX: 610, endX: 815 },
+  { section: 'zero', startX: 815, endX: 917, radiusRight: 30 },
+];
+
+export default function RacetrackLayout({
   width = 350,
   onNumberPress,
-  onSectionPress 
+  onSectionPress,
 }: RacetrackLayoutProps) {
-  // ViewBox: "140 140 880 280" means x starts at 140, y starts at 140, width=880, height=280
-  const viewBoxWidth = 880;
-  const viewBoxHeight = 280;
-  
-  // Component dimensions
-  const componentHeight = width * (viewBoxHeight / viewBoxWidth);
+  const componentHeight = width * (VIEWBOX.height / VIEWBOX.width);
 
-  // Inner oval parameters (from SVG path)
-  // Inner oval: radiusX ≈ 69.5 (from 290.5-221), radiusY ≈ 69.5 (272.5-203)
-  // Center Y = 272.5, left center X = 290.5, right center X = 847.5
-  const ovalCenterY = 272.5;
-  const ovalRadiusY = 69.5;
-  const ovalTop = 203;
-  const ovalBottom = 342;
-  
-  // Sector divider X positions
-  const tierEndX = 428;
-  const orphelinsEndX = 610;
-  const voisinsEndX = 815;
-  
-  // Left oval arc (Tier left edge) - from inner oval path
-  const leftArcStartX = 290.5;
-  const leftArcCenterX = 290.5;
-  
-  // Right oval arc (Zero right edge)
-  const rightArcEndX = 847.5;
-  const rightArcCenterX = 847.5;
+  // Helper to convert SVG coordinates to component coordinates
+  const toComponentX = (svgX: number) => ((svgX - VIEWBOX.x) / VIEWBOX.width) * width;
+  const toComponentY = (svgY: number) => ((svgY - VIEWBOX.y) / VIEWBOX.height) * componentHeight;
+  const toComponentWidth = (svgW: number) => (svgW / VIEWBOX.width) * width;
+  const toComponentHeight = (svgH: number) => (svgH / VIEWBOX.height) * componentHeight;
 
-  // SVG Paths for each sector that follow the oval shape
-  // Tier: left curved section
-  const tierPath = `
-    M ${leftArcStartX} ${ovalTop}
-    C 252.116 ${ovalTop} 221 234.116 221 ${ovalCenterY}
-    C 221 310.884 252.116 ${ovalBottom} ${leftArcStartX} ${ovalBottom}
-    L ${tierEndX} ${ovalBottom}
-    L ${tierEndX} ${ovalTop}
-    Z
-  `;
-  
-  // Orphelins: middle-left rectangle
-  const orphelinsPath = `
-    M ${tierEndX} ${ovalTop}
-    L ${tierEndX} ${ovalBottom}
-    L ${orphelinsEndX} ${ovalBottom}
-    L ${orphelinsEndX} ${ovalTop}
-    Z
-  `;
-  
-  // Voisins: middle-right rectangle
-  const voisinsPath = `
-    M ${orphelinsEndX} ${ovalTop}
-    L ${orphelinsEndX} ${ovalBottom}
-    L ${voisinsEndX} ${ovalBottom}
-    L ${voisinsEndX} ${ovalTop}
-    Z
-  `;
-  
-  // Zero: right curved section
-  const zeroPath = `
-    M ${voisinsEndX} ${ovalTop}
-    L ${voisinsEndX} ${ovalBottom}
-    L ${rightArcEndX} ${ovalBottom}
-    C 885.884 ${ovalBottom} 917 310.884 917 ${ovalCenterY}
-    C 917 234.116 885.884 ${ovalTop} ${rightArcEndX} ${ovalTop}
-    Z
-  `;
+  // Button dimensions
+  const numberButtonWidth = 36;
+  const numberButtonHeight = 40;
+  const sideButtonSize = 36;
 
   return (
     <View style={[styles.container, { width, height: componentHeight }]}>
       <Svg
         width={width}
         height={componentHeight}
-        viewBox="140 140 880 280"
+        viewBox={`${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.width} ${VIEWBOX.height}`}
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Outer oval track */}
@@ -175,22 +81,18 @@ export default function RacetrackLayout({
         />
 
         {/* Top vertical divider lines */}
-        {TOP_NUMBERS.slice(1).map((_, index) => {
-          const x = 284 + (index * 40.8);
-          return (
-            <Path
-              key={`top-line-${index}`}
-              d={`M${x} 149.76 L${x} 204.48`}
-              stroke="#FFD700"
-              strokeWidth="2"
-            />
-          );
-        })}
+        {TOP_NUMBERS.slice(1).map((_, index) => (
+          <Path
+            key={`top-line-${index}`}
+            d={`M${284 + index * 40.8} 149.76 L${284 + index * 40.8} 204.48`}
+            stroke="#FFD700"
+            strokeWidth="2"
+          />
+        ))}
 
         {/* Bottom vertical divider lines */}
         {BOTTOM_NUMBERS.slice(1).map((_, index) => {
-          const basePositions = [281.84, 324.38, 366.92, 409.46, 452, 504.8, 557.6, 610.4, 651.2, 692, 732.8, 773.6, 814.4, 855.2];
-          const x = basePositions[index] || (281.84 + (index * 42.54));
+          const x = BOTTOM_CELL_BOUNDARIES[index + 1] || 281.84 + index * 42.54;
           return (
             <Path
               key={`bottom-line-${index}`}
@@ -202,11 +104,8 @@ export default function RacetrackLayout({
         })}
 
         {/* Section divider lines */}
-        {/* Tier to Orphelins diagonal */}
         <Path d="M406 204 L451.6 343.2" stroke="#FFD700" strokeWidth="2" />
-        {/* Orphelins to Voisins vertical */}
         <Path d="M610 204 L610 343.2" stroke="#FFD700" strokeWidth="2" />
-        {/* Voisins to Zero vertical */}
         <Path d="M815 203 L815 342.2" stroke="#FFD700" strokeWidth="2" />
 
         {/* Left side divider lines */}
@@ -222,67 +121,34 @@ export default function RacetrackLayout({
         <Path d="M929.001 373.75 L895 325" stroke="#FFD700" strokeWidth="2" />
 
         {/* Top row numbers */}
-        {TOP_NUMBERS.map((item, index) => {
-          // Handle edge numbers on curved parts differently
-          let centerX: number;
-          if (index === 0) {
-            // 5 - leftmost on curve
-            centerX = 260;
-          } else if (index === 15) {
-            // 35 - rightmost on curve
-            centerX = 888;
-          } else {
-            // Regular cells
-            const cellStart = 284 + ((index - 1) * 40.8);
-            const cellEnd = 284 + (index * 40.8);
-            centerX = (cellStart + cellEnd) / 2;
-          }
-          return (
-            <SvgText
-              key={`top-${item.num}`}
-              x={centerX}
-              y={183}
-              fill={item.color}
-              fontSize="19"
-              fontWeight="500"
-              textAnchor="middle"
-            >
-              {item.num}
-            </SvgText>
-          );
-        })}
+        {TOP_NUMBERS.map((item, index) => (
+          <SvgText
+            key={`top-${item.num}`}
+            x={getTopNumberCenterX(index)}
+            y={183}
+            fill={item.color}
+            fontSize="19"
+            fontWeight="500"
+            textAnchor="middle"
+          >
+            {item.num}
+          </SvgText>
+        ))}
 
         {/* Bottom row numbers */}
-        {BOTTOM_NUMBERS.map((item, index) => {
-          // Handle edge numbers on curved parts differently
-          let centerX: number;
-          if (index === 0) {
-            // 30 - leftmost on curve
-            centerX = 250;
-          } else if (index === 14) {
-            // 32 - rightmost on curve
-            centerX = 885;
-          } else {
-            // Cell boundaries for bottom row
-            const cellBoundaries = [239, 281.84, 324.38, 366.92, 409.46, 452, 504.8, 557.6, 610.4, 651.2, 692, 732.8, 773.6, 814.4, 855.2, 896];
-            const cellStart = cellBoundaries[index];
-            const cellEnd = cellBoundaries[index + 1];
-            centerX = (cellStart + cellEnd) / 2;
-          }
-          return (
-            <SvgText
-              key={`bottom-${item.num}`}
-              x={centerX}
-              y={377}
-              fill={item.color}
-              fontSize="19"
-              fontWeight="500"
-              textAnchor="middle"
-            >
-              {item.num}
-            </SvgText>
-          );
-        })}
+        {BOTTOM_NUMBERS.map((item, index) => (
+          <SvgText
+            key={`bottom-${item.num}`}
+            x={getBottomNumberCenterX(index)}
+            y={377}
+            fill={item.color}
+            fontSize="19"
+            fontWeight="500"
+            textAnchor="middle"
+          >
+            {item.num}
+          </SvgText>
+        ))}
 
         {/* Left side numbers */}
         {LEFT_NUMBERS.map((item) => (
@@ -314,253 +180,125 @@ export default function RacetrackLayout({
           </SvgText>
         ))}
 
-        {/* Visual sector overlays - just for display, not clickable */}
-        <G>
-          <Path
-            d={tierPath}
-            fill="transparent"
-            stroke="transparent"
-            strokeWidth="0"
-          />
-          <Path
-            d={orphelinsPath}
-            fill="transparent"
-            stroke="transparent"
-            strokeWidth="0"
-          />
-          <Path
-            d={voisinsPath}
-            fill="transparent"
-            stroke="transparent"
-            strokeWidth="0"
-          />
-          <Path
-            d={zeroPath}
-            fill="transparent"
-            stroke="transparent"
-            strokeWidth="0"
-          />
-        </G>
-
         {/* Center section labels */}
-        <SvgText x={311} y={277} fill="#FFD700" fontSize="22" fontWeight="600">
-          Tier
-        </SvgText>
-        <SvgText x={462} y={275} fill="#FFD700" fontSize="22" fontWeight="600">
-          Orphelins
-        </SvgText>
-        <SvgText x={670} y={276} fill="#FFD700" fontSize="22" fontWeight="600">
-          Voisins
-        </SvgText>
-        <SvgText x={850} y={274} fill="#FFD700" fontSize="22" fontWeight="600">
-          Zero
-        </SvgText>
+        {SECTION_LABELS.map((label) => (
+          <SvgText
+            key={label.name}
+            x={label.x}
+            y={label.y}
+            fill="#FFD700"
+            fontSize="22"
+            fontWeight="600"
+          >
+            {label.name}
+          </SvgText>
+        ))}
       </Svg>
 
-      {/* TouchableOpacity overlays for reliable touch handling */}
+      {/* Section button overlays */}
       {onSectionPress && (
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-          {/* Tier button */}
-          <TouchableOpacity
-            style={[
-              styles.sectorButton,
-              {
-                left: ((221 - 140) / 880) * width,
-                top: ((203 - 140) / 280) * componentHeight,
-                width: ((428 - 221) / 880) * width,
-                height: ((342 - 203) / 280) * componentHeight,
-                borderTopLeftRadius: 30,
-                borderBottomLeftRadius: 30,
-              }
-            ]}
-            activeOpacity={0.7}
-            onPress={() => {
-              console.log('Tier pressed!');
-              onSectionPress('tier');
-            }}
-          />
-          
-          {/* Orphelins button */}
-          <TouchableOpacity
-            style={[
-              styles.sectorButton,
-              {
-                left: ((428 - 140) / 880) * width,
-                top: ((203 - 140) / 280) * componentHeight,
-                width: ((610 - 428) / 880) * width,
-                height: ((342 - 203) / 280) * componentHeight,
-              }
-            ]}
-            activeOpacity={0.7}
-            onPress={() => {
-              console.log('Orphelins pressed!');
-              onSectionPress('orphelins');
-            }}
-          />
-          
-          {/* Voisins button */}
-          <TouchableOpacity
-            style={[
-              styles.sectorButton,
-              {
-                left: ((610 - 140) / 880) * width,
-                top: ((203 - 140) / 280) * componentHeight,
-                width: ((815 - 610) / 880) * width,
-                height: ((342 - 203) / 280) * componentHeight,
-              }
-            ]}
-            activeOpacity={0.7}
-            onPress={() => {
-              console.log('Voisins pressed!');
-              onSectionPress('voisins');
-            }}
-          />
-          
-          {/* Zero button */}
-          <TouchableOpacity
-            style={[
-              styles.sectorButton,
-              {
-                left: ((815 - 140) / 880) * width,
-                top: ((203 - 140) / 280) * componentHeight,
-                width: ((917 - 815) / 880) * width,
-                height: ((342 - 203) / 280) * componentHeight,
-                borderTopRightRadius: 30,
-                borderBottomRightRadius: 30,
-              }
-            ]}
-            activeOpacity={0.7}
-            onPress={() => {
-              console.log('Zero pressed!');
-              onSectionPress('zero');
-            }}
-          />
+          {SECTOR_BUTTONS.map(({ section, startX, endX, radiusLeft, radiusRight }) => (
+            <TouchableOpacity
+              key={section}
+              style={[
+                styles.sectorButton,
+                {
+                  left: toComponentX(startX),
+                  top: toComponentY(SECTORS.ovalTop),
+                  width: toComponentWidth(endX - startX),
+                  height: toComponentHeight(SECTORS.ovalBottom - SECTORS.ovalTop),
+                  ...(radiusLeft && { borderTopLeftRadius: radiusLeft, borderBottomLeftRadius: radiusLeft }),
+                  ...(radiusRight && { borderTopRightRadius: radiusRight, borderBottomRightRadius: radiusRight }),
+                },
+              ]}
+              activeOpacity={0.7}
+              onPress={() => onSectionPress(section)}
+            />
+          ))}
         </View>
       )}
 
-      {/* Number click overlays for neighbors bet */}
+      {/* Number button overlays for neighbors bet */}
       {onNumberPress && (
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-          {/* Top row number buttons */}
+          {/* Top row */}
           {TOP_NUMBERS.map((item, index) => {
-            let centerX: number;
-            if (index === 0) {
-              centerX = 260;
-            } else if (index === 15) {
-              centerX = 888;
-            } else {
-              const cellStart = 284 + ((index - 1) * 40.8);
-              const cellEnd = 284 + (index * 40.8);
-              centerX = (cellStart + cellEnd) / 2;
-            }
-            const buttonWidth = 36;
-            const buttonHeight = 40;
+            const centerX = getTopNumberCenterX(index);
             return (
               <TouchableOpacity
                 key={`top-btn-${item.num}`}
                 style={[
                   styles.numberButton,
                   {
-                    left: ((centerX - 140 - buttonWidth/2) / 880) * width,
-                    top: ((150 - 140) / 280) * componentHeight,
-                    width: (buttonWidth / 880) * width,
-                    height: (buttonHeight / 280) * componentHeight,
-                  }
+                    left: toComponentX(centerX - numberButtonWidth / 2),
+                    top: toComponentY(150),
+                    width: toComponentWidth(numberButtonWidth),
+                    height: toComponentHeight(numberButtonHeight),
+                  },
                 ]}
                 activeOpacity={0.6}
-                onPress={() => {
-                  console.log('Number pressed:', item.num);
-                  onNumberPress(item.num);
-                }}
+                onPress={() => onNumberPress(item.num)}
               />
             );
           })}
 
-          {/* Bottom row number buttons */}
+          {/* Bottom row */}
           {BOTTOM_NUMBERS.map((item, index) => {
-            let centerX: number;
-            if (index === 0) {
-              centerX = 250;
-            } else if (index === 14) {
-              centerX = 885;
-            } else {
-              const cellBoundaries = [239, 281.84, 324.38, 366.92, 409.46, 452, 504.8, 557.6, 610.4, 651.2, 692, 732.8, 773.6, 814.4, 855.2, 896];
-              const cellStart = cellBoundaries[index];
-              const cellEnd = cellBoundaries[index + 1];
-              centerX = (cellStart + cellEnd) / 2;
-            }
-            const buttonWidth = 36;
-            const buttonHeight = 40;
+            const centerX = getBottomNumberCenterX(index);
             return (
               <TouchableOpacity
                 key={`bottom-btn-${item.num}`}
                 style={[
                   styles.numberButton,
                   {
-                    left: ((centerX - 140 - buttonWidth/2) / 880) * width,
-                    top: ((358 - 140) / 280) * componentHeight,
-                    width: (buttonWidth / 880) * width,
-                    height: (buttonHeight / 280) * componentHeight,
-                  }
+                    left: toComponentX(centerX - numberButtonWidth / 2),
+                    top: toComponentY(358),
+                    width: toComponentWidth(numberButtonWidth),
+                    height: toComponentHeight(numberButtonHeight),
+                  },
                 ]}
                 activeOpacity={0.6}
-                onPress={() => {
-                  console.log('Number pressed:', item.num);
-                  onNumberPress(item.num);
-                }}
+                onPress={() => onNumberPress(item.num)}
               />
             );
           })}
 
-          {/* Left side number buttons */}
-          {LEFT_NUMBERS.map((item) => {
-            const buttonWidth = 36;
-            const buttonHeight = 36;
-            return (
-              <TouchableOpacity
-                key={`left-btn-${item.num}`}
-                style={[
-                  styles.numberButton,
-                  {
-                    left: ((item.x - 140 - buttonWidth/2) / 880) * width,
-                    top: ((item.y - 140 - buttonHeight/2) / 280) * componentHeight,
-                    width: (buttonWidth / 880) * width,
-                    height: (buttonHeight / 280) * componentHeight,
-                  }
-                ]}
-                activeOpacity={0.6}
-                onPress={() => {
-                  console.log('Number pressed:', item.num);
-                  onNumberPress(item.num);
-                }}
-              />
-            );
-          })}
+          {/* Left side */}
+          {LEFT_NUMBERS.map((item) => (
+            <TouchableOpacity
+              key={`left-btn-${item.num}`}
+              style={[
+                styles.numberButton,
+                {
+                  left: toComponentX(item.x - sideButtonSize / 2),
+                  top: toComponentY(item.y - sideButtonSize / 2),
+                  width: toComponentWidth(sideButtonSize),
+                  height: toComponentHeight(sideButtonSize),
+                },
+              ]}
+              activeOpacity={0.6}
+              onPress={() => onNumberPress(item.num)}
+            />
+          ))}
 
-          {/* Right side number buttons */}
-          {RIGHT_NUMBERS.map((item) => {
-            const buttonWidth = 36;
-            const buttonHeight = 36;
-            return (
-              <TouchableOpacity
-                key={`right-btn-${item.num}`}
-                style={[
-                  styles.numberButton,
-                  {
-                    left: ((item.x - 140 - buttonWidth/2) / 880) * width,
-                    top: ((item.y - 140 - buttonHeight/2) / 280) * componentHeight,
-                    width: (buttonWidth / 880) * width,
-                    height: (buttonHeight / 280) * componentHeight,
-                  }
-                ]}
-                activeOpacity={0.6}
-                onPress={() => {
-                  console.log('Number pressed:', item.num);
-                  onNumberPress(item.num);
-                }}
-              />
-            );
-          })}
+          {/* Right side */}
+          {RIGHT_NUMBERS.map((item) => (
+            <TouchableOpacity
+              key={`right-btn-${item.num}`}
+              style={[
+                styles.numberButton,
+                {
+                  left: toComponentX(item.x - sideButtonSize / 2),
+                  top: toComponentY(item.y - sideButtonSize / 2),
+                  width: toComponentWidth(sideButtonSize),
+                  height: toComponentHeight(sideButtonSize),
+                },
+              ]}
+              activeOpacity={0.6}
+              onPress={() => onNumberPress(item.num)}
+            />
+          ))}
         </View>
       )}
     </View>
