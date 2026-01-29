@@ -27,7 +27,7 @@ export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
   const availableWidth = Math.min(screenWidth - 32, 450);
-  const cellSize = 32;
+  const cellSize = 50;
 
   const totalRequiredBets = ANNOUNCED_BETS[currentChallenge]?.bets.length || 0;
 
