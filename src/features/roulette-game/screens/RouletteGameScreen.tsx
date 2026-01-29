@@ -21,6 +21,12 @@ export default function RouletteGameScreen() {
     [5, 8], [10, 11], [13, 16], [23, 24], [27, 30], [33, 36]
   ];
 
+  // Define Orphelins positions: 1 straight + 4 splits
+  const orphelinsStraightUp = [1];
+  const orphelinsSplitPositions = [
+    [6, 9], [14, 17], [17, 20], [31, 34]
+  ];
+
   const handleTierClick = () => {
     console.log('Tier clicked - placing 6 split bets');
     
@@ -32,12 +38,51 @@ export default function RouletteGameScreen() {
       amount: selectedChipValue,
       payout: 17, // Split pays 17:1
       timestamp: Date.now(),
-      position: { x: 0, y: 0 }, // Position will be calculated by RouletteLayout
+      position: { x: 0, y: 0 },
     }));
     
     console.log('New bets created:', newBets.map(b => b.numbers));
     
-    // Add to existing bets
+    setPlacedBets(prev => {
+      const updated = [...prev, ...newBets];
+      console.log('Total placed bets:', updated.length);
+      return updated;
+    });
+  };
+
+  const handleOrphelinsClick = () => {
+    console.log('Orphelins clicked - placing 1 straight + 4 splits');
+    
+    const newBets: PlacedBet[] = [];
+    
+    // Add straight up bet on 1
+    orphelinsStraightUp.forEach(num => {
+      newBets.push({
+        id: `orphelins-straight-${num}-${Date.now()}`,
+        type: 'STRAIGHT' as BetType,
+        numbers: [num as RouletteNumber],
+        amount: selectedChipValue,
+        payout: 35, // Straight pays 35:1
+        timestamp: Date.now(),
+        position: { x: 0, y: 0 },
+      });
+    });
+    
+    // Add split bets
+    orphelinsSplitPositions.forEach(([num1, num2]) => {
+      newBets.push({
+        id: `orphelins-split-${num1}-${num2}-${Date.now()}`,
+        type: 'SPLIT' as BetType,
+        numbers: [num1 as RouletteNumber, num2 as RouletteNumber],
+        amount: selectedChipValue,
+        payout: 17, // Split pays 17:1
+        timestamp: Date.now(),
+        position: { x: 0, y: 0 },
+      });
+    });
+    
+    console.log('New bets created:', newBets.map(b => b.numbers));
+    
     setPlacedBets(prev => {
       const updated = [...prev, ...newBets];
       console.log('Total placed bets:', updated.length);
@@ -49,8 +94,10 @@ export default function RouletteGameScreen() {
     console.log('Section pressed:', section);
     if (section === 'tier') {
       handleTierClick();
+    } else if (section === 'orphelins') {
+      handleOrphelinsClick();
     }
-    // TODO: Implement other sections
+    // TODO: Implement voisins and zero sections
   };
 
   return (
