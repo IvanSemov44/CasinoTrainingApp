@@ -1,1 +1,1 @@
-export { default as RacetrackLayout } from './RacetrackLayout';
+export { default as RacetrackLayout, getNeighbors } from './RacetrackLayout';

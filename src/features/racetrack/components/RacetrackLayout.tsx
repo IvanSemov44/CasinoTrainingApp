@@ -2,6 +2,13 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Svg, { Path, Text as SvgText, G } from 'react-native-svg';
 
+// European roulette wheel order - complete sequence for neighbors calculation
+const WHEEL_ORDER = [
+  0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30,
+  8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7,
+  28, 12, 35, 3, 26
+];
+
 // European roulette wheel order - numbers arranged as they appear on the wheel
 const TOP_NUMBERS = [
   { num: '5', color: '#FF0000' },
@@ -51,6 +58,19 @@ const RIGHT_NUMBERS = [
   { num: '26', color: '#000000', x: 946, y: 280 },
   { num: '0', color: '#4EA72E', x: 935, y: 335 },
 ];
+
+// Helper to get neighbors on the wheel
+export function getNeighbors(number: number, count: number = 2): number[] {
+  const index = WHEEL_ORDER.indexOf(number);
+  if (index === -1) return [];
+  
+  const neighbors: number[] = [];
+  for (let i = -count; i <= count; i++) {
+    const neighborIndex = (index + i + WHEEL_ORDER.length) % WHEEL_ORDER.length;
+    neighbors.push(WHEEL_ORDER[neighborIndex]);
+  }
+  return neighbors;
+}
 
 interface RacetrackLayoutProps {
   width?: number;
@@ -417,6 +437,132 @@ export default function RacetrackLayout({
           />
         </View>
       )}
+
+      {/* Number click overlays for neighbors bet */}
+      {onNumberPress && (
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+          {/* Top row number buttons */}
+          {TOP_NUMBERS.map((item, index) => {
+            let centerX: number;
+            if (index === 0) {
+              centerX = 260;
+            } else if (index === 15) {
+              centerX = 888;
+            } else {
+              const cellStart = 284 + ((index - 1) * 40.8);
+              const cellEnd = 284 + (index * 40.8);
+              centerX = (cellStart + cellEnd) / 2;
+            }
+            const buttonWidth = 36;
+            const buttonHeight = 40;
+            return (
+              <TouchableOpacity
+                key={`top-btn-${item.num}`}
+                style={[
+                  styles.numberButton,
+                  {
+                    left: ((centerX - 140 - buttonWidth/2) / 880) * width,
+                    top: ((150 - 140) / 280) * componentHeight,
+                    width: (buttonWidth / 880) * width,
+                    height: (buttonHeight / 280) * componentHeight,
+                  }
+                ]}
+                activeOpacity={0.6}
+                onPress={() => {
+                  console.log('Number pressed:', item.num);
+                  onNumberPress(item.num);
+                }}
+              />
+            );
+          })}
+
+          {/* Bottom row number buttons */}
+          {BOTTOM_NUMBERS.map((item, index) => {
+            let centerX: number;
+            if (index === 0) {
+              centerX = 250;
+            } else if (index === 14) {
+              centerX = 885;
+            } else {
+              const cellBoundaries = [239, 281.84, 324.38, 366.92, 409.46, 452, 504.8, 557.6, 610.4, 651.2, 692, 732.8, 773.6, 814.4, 855.2, 896];
+              const cellStart = cellBoundaries[index];
+              const cellEnd = cellBoundaries[index + 1];
+              centerX = (cellStart + cellEnd) / 2;
+            }
+            const buttonWidth = 36;
+            const buttonHeight = 40;
+            return (
+              <TouchableOpacity
+                key={`bottom-btn-${item.num}`}
+                style={[
+                  styles.numberButton,
+                  {
+                    left: ((centerX - 140 - buttonWidth/2) / 880) * width,
+                    top: ((358 - 140) / 280) * componentHeight,
+                    width: (buttonWidth / 880) * width,
+                    height: (buttonHeight / 280) * componentHeight,
+                  }
+                ]}
+                activeOpacity={0.6}
+                onPress={() => {
+                  console.log('Number pressed:', item.num);
+                  onNumberPress(item.num);
+                }}
+              />
+            );
+          })}
+
+          {/* Left side number buttons */}
+          {LEFT_NUMBERS.map((item) => {
+            const buttonWidth = 36;
+            const buttonHeight = 36;
+            return (
+              <TouchableOpacity
+                key={`left-btn-${item.num}`}
+                style={[
+                  styles.numberButton,
+                  {
+                    left: ((item.x - 140 - buttonWidth/2) / 880) * width,
+                    top: ((item.y - 140 - buttonHeight/2) / 280) * componentHeight,
+                    width: (buttonWidth / 880) * width,
+                    height: (buttonHeight / 280) * componentHeight,
+                  }
+                ]}
+                activeOpacity={0.6}
+                onPress={() => {
+                  console.log('Number pressed:', item.num);
+                  onNumberPress(item.num);
+                }}
+              />
+            );
+          })}
+
+          {/* Right side number buttons */}
+          {RIGHT_NUMBERS.map((item) => {
+            const buttonWidth = 36;
+            const buttonHeight = 36;
+            return (
+              <TouchableOpacity
+                key={`right-btn-${item.num}`}
+                style={[
+                  styles.numberButton,
+                  {
+                    left: ((item.x - 140 - buttonWidth/2) / 880) * width,
+                    top: ((item.y - 140 - buttonHeight/2) / 280) * componentHeight,
+                    width: (buttonWidth / 880) * width,
+                    height: (buttonHeight / 280) * componentHeight,
+                  }
+                ]}
+                activeOpacity={0.6}
+                onPress={() => {
+                  console.log('Number pressed:', item.num);
+                  onNumberPress(item.num);
+                }}
+              />
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 }
@@ -427,6 +573,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectorButton: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+  },
+  numberButton: {
     position: 'absolute',
     backgroundColor: 'transparent',
   },
