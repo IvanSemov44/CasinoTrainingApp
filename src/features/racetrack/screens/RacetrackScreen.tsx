@@ -1,35 +1,73 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../../roulette-training/constants/theme';
+import RacetrackLayout from '../components/RacetrackLayout';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export default function RacetrackScreen() {
+  const racetrackWidth = Math.min(screenWidth - 32, 800);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Racetrack</Text>
         <Text style={styles.description}>
-          The racetrack (or "announced bets" area) is a special section on the roulette table
-          that allows players to place bets on specific sections of the roulette wheel.
+          The racetrack layout shows numbers in their wheel order, allowing for announced bets.
         </Text>
         
-        <View style={styles.infoCard}>
-          <Text style={styles.cardTitle}>Common Racetrack Bets:</Text>
-          <View style={styles.betList}>
-            <Text style={styles.betItem}>• Voisins du Zéro (Neighbors of Zero)</Text>
-            <Text style={styles.betItem}>• Tiers du Cylindre (Third of the Wheel)</Text>
-            <Text style={styles.betItem}>• Orphelins (Orphans)</Text>
-            <Text style={styles.betItem}>• Zero Game</Text>
-            <Text style={styles.betItem}>• Neighbors Bets</Text>
+        <View style={styles.racetrackContainer}>
+          <RacetrackLayout width={racetrackWidth} />
+        </View>
+
+        <View style={styles.legendContainer}>
+          <Text style={styles.legendTitle}>Betting Sections:</Text>
+          
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FFD700' }]} />
+            <Text style={styles.legendText}>
+              <Text style={styles.legendBold}>Tier (Tiers du Cylindre)</Text> - 12 numbers opposite zero
+            </Text>
+          </View>
+          
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FFD700' }]} />
+            <Text style={styles.legendText}>
+              <Text style={styles.legendBold}>Orphelins</Text> - 8 numbers in two slices
+            </Text>
+          </View>
+          
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FFD700' }]} />
+            <Text style={styles.legendText}>
+              <Text style={styles.legendBold}>Voisins (Voisins du Zéro)</Text> - 17 numbers around zero
+            </Text>
+          </View>
+          
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FFD700' }]} />
+            <Text style={styles.legendText}>
+              <Text style={styles.legendBold}>Zero Game</Text> - 7 numbers closest to zero
+            </Text>
           </View>
         </View>
 
-        <View style={styles.placeholderContainer}>
-          <Text style={styles.placeholderText}>
-            🏁 Racetrack betting feature coming soon!
-          </Text>
-          <Text style={styles.placeholderSubtext}>
-            This section will include interactive training for racetrack bets and announced bets.
-          </Text>
+        <View style={styles.colorLegend}>
+          <Text style={styles.legendTitle}>Number Colors:</Text>
+          <View style={styles.colorRow}>
+            <View style={styles.colorItem}>
+              <View style={[styles.colorBox, { backgroundColor: '#FF0000' }]} />
+              <Text style={styles.colorText}>Red</Text>
+            </View>
+            <View style={styles.colorItem}>
+              <View style={[styles.colorBox, { backgroundColor: '#000000' }]} />
+              <Text style={styles.colorText}>Black</Text>
+            </View>
+            <View style={styles.colorItem}>
+              <View style={[styles.colorBox, { backgroundColor: '#4EA72E' }]} />
+              <Text style={styles.colorText}>Zero</Text>
+            </View>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -42,23 +80,64 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.primary,
   },
   content: {
-    padding: SPACING.lg,
+    padding: SPACING.md,
   },
   title: {
     fontSize: TYPOGRAPHY.fontSize.xl * 1.5,
     fontWeight: 'bold',
     color: COLORS.text.gold,
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   description: {
     fontSize: TYPOGRAPHY.fontSize.md,
     color: COLORS.text.primary,
-    lineHeight: 24,
-    marginBottom: SPACING.xl,
+    lineHeight: 22,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
   },
-  infoCard: {
+  racetrackContainer: {
+    alignItems: 'center',
+    marginBottom: SPACING.xl,
+    paddingVertical: SPACING.md,
+  },
+  legendContainer: {
+    backgroundColor: COLORS.background.secondary,
+    padding: SPACING.lg,
+    borderRadius: BORDERS.radius.md,
+    borderWidth: BORDERS.width.medium,
+    borderColor: COLORS.border.gold,
+    marginBottom: SPACING.lg,
+  },
+  legendTitle: {
+    fontSize: TYPOGRAPHY.fontSize.lg,
+    fontWeight: 'bold',
+    color: COLORS.text.gold,
+    marginBottom: SPACING.md,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: SPACING.sm,
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: SPACING.sm,
+    marginTop: 6,
+  },
+  legendText: {
+    flex: 1,
+    fontSize: TYPOGRAPHY.fontSize.md,
+    color: COLORS.text.primary,
+    lineHeight: 22,
+  },
+  legendBold: {
+    fontWeight: 'bold',
+    color: COLORS.text.gold,
+  },
+  colorLegend: {
     backgroundColor: COLORS.background.secondary,
     padding: SPACING.lg,
     borderRadius: BORDERS.radius.md,
@@ -66,41 +145,23 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border.gold,
     marginBottom: SPACING.xl,
   },
-  cardTitle: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.md,
+  colorRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  betList: {
-    paddingLeft: SPACING.sm,
-  },
-  betItem: {
-    fontSize: TYPOGRAPHY.fontSize.md,
-    color: COLORS.text.primary,
-    marginBottom: SPACING.sm,
-    lineHeight: 22,
-  },
-  placeholderContainer: {
-    backgroundColor: COLORS.background.tertiary,
-    padding: SPACING.xl,
-    borderRadius: BORDERS.radius.md,
-    borderWidth: BORDERS.width.thin,
-    borderColor: COLORS.border.primary,
+  colorItem: {
     alignItems: 'center',
-    marginTop: SPACING.lg,
   },
-  placeholderText: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    color: COLORS.text.gold,
-    fontWeight: 'bold',
-    marginBottom: SPACING.md,
-    textAlign: 'center',
+  colorBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    marginBottom: SPACING.xs,
+    borderWidth: 2,
+    borderColor: '#FFD700',
   },
-  placeholderSubtext: {
-    fontSize: TYPOGRAPHY.fontSize.md,
-    color: COLORS.text.secondary,
-    textAlign: 'center',
-    lineHeight: 22,
+  colorText: {
+    fontSize: TYPOGRAPHY.fontSize.sm,
+    color: COLORS.text.primary,
   },
 });
