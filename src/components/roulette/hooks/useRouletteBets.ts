@@ -3,6 +3,9 @@ import { RouletteNumber, PlacedBet } from '../../../types/roulette.types';
 export const useRouletteBets = (placedBets: PlacedBet[]) => {
   const getBetAmount = (numbers: RouletteNumber[]) => {
     const matchingBets = placedBets.filter(bet => {
+      // Safety check
+      if (!bet || !bet.numbers || !Array.isArray(bet.numbers)) return false;
+      
       // Check if same length
       if (bet.numbers.length !== numbers.length) return false;
       

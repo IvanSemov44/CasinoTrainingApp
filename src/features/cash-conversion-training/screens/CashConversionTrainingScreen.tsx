@@ -18,6 +18,7 @@ export default function CashConversionTrainingScreen({ route }: any) {
   const [currentRequest, setCurrentRequest] = useState<CashRequest | null>(null);
   const [totalBet, setTotalBet] = useState('');
   const [change, setChange] = useState('');
+  const [activeInput, setActiveInput] = useState<'totalBet' | 'change'>('totalBet');
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
@@ -84,8 +85,10 @@ export default function CashConversionTrainingScreen({ route }: any) {
             totalBet={totalBet}
             change={change}
             onTotalBetChange={setTotalBet}
-            onChangeAmountChange={setChange}
+            onChangeChange={setChange}
             sectorName={sectorName}
+            activeInput={activeInput}
+            onInputFocus={setActiveInput}
           />
 
           <TouchableOpacity
