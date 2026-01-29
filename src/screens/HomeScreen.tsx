@@ -46,6 +46,13 @@ export default function HomeScreen({ navigation }: any) {
         >
           <Text style={styles.menuButtonText}>🎲 Announced Bets Training</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.menuButton}
+          onPress={() => navigation.navigate('CashConversionDifficultySelection')}
+        >
+          <Text style={styles.menuButtonText}>💰 Cash Conversion Training</Text>
+        </TouchableOpacity>
         
         <TouchableOpacity 
           style={[styles.menuButton, styles.menuButtonDisabled]}
