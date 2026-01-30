@@ -10,6 +10,17 @@ export default function PLOMenuScreen({ navigation }: any) {
 
       <TouchableOpacity
         style={styles.card}
+        onPress={() => navigation.navigate('PLOGameTraining')}
+      >
+        <Text style={styles.cardIcon}>🃏</Text>
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>Game Training</Text>
+          <Text style={styles.cardDescription}>Practice PLO gameplay scenarios</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.card}
         onPress={() => navigation.navigate('PLOTraining', { mode: 'basic' })}
       >
         <Text style={styles.cardIcon}>🎮</Text>
@@ -27,6 +38,17 @@ export default function PLOMenuScreen({ navigation }: any) {
         <View style={styles.cardContent}>
           <Text style={styles.cardTitle}>Advanced Training</Text>
           <Text style={styles.cardDescription}>Master complex scenarios</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigation.navigate('PLOPotCalculation')}
+      >
+        <Text style={styles.cardIcon}>💰</Text>
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>Pot Calculation</Text>
+          <Text style={styles.cardDescription}>Practice dealer pot calculations</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>

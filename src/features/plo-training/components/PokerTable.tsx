@@ -8,8 +8,12 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 interface Player {
   position: number;
   name?: string;
-  chipAmount: number;
+  chipAmount?: number;
   isDealer?: boolean;
+  action?: string;
+  betAmount?: number;
+  isFolded?: boolean;
+  isRequesting?: boolean;
 }
 
 interface PokerTableProps {
@@ -69,6 +73,10 @@ export default function PokerTable({ players }: PokerTableProps) {
                 name={player.name}
                 chipAmount={player.chipAmount}
                 isDealer={player.isDealer}
+                action={player.action as any}
+                betAmount={player.betAmount}
+                isFolded={player.isFolded}
+                isRequesting={player.isRequesting}
               />
             </View>
           );
