@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { PokerTable } from '../components';
 
 export default function PLOTrainingScreen({ route }: any) {
   const { mode } = route.params || { mode: 'basic' };
   const [score, setScore] = useState(0);
+
+  // Sample player data
+  const [players] = useState([
+    { position: 1, name: 'Player 1', chipAmount: 500, isDealer: false },
+    { position: 2, name: 'Player 2', chipAmount: 350, isDealer: false },
+    { position: 3, name: 'Player 3', chipAmount: 420, isDealer: true },
+    { position: 4, name: 'Player 4', chipAmount: 680, isDealer: false },
+    { position: 5, name: 'Player 5', chipAmount: 290, isDealer: false },
+    { position: 6, name: 'Player 6', chipAmount: 540, isDealer: false },
+  ]);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -13,13 +24,8 @@ export default function PLOTrainingScreen({ route }: any) {
         <Text style={styles.scoreText}>Score: {score}</Text>
       </View>
 
-      <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          PLO Training Screen
-        </Text>
-        <Text style={styles.placeholderSubtext}>
-          Training content will be implemented here
-        </Text>
+      <View style={styles.tableWrapper}>
+        <PokerTable players={players} />
       </View>
     </ScrollView>
   );
@@ -48,25 +54,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.text.primary,
   },
-  placeholder: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.xl,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
+  tableWrapper: {
+    marginVertical: SPACING.xl,
     alignItems: 'center',
-    marginTop: SPACING.xl,
-  },
-  placeholderText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.md,
-    textAlign: 'center',
-  },
-  placeholderSubtext: {
-    fontSize: 16,
-    color: COLORS.text.secondary,
-    textAlign: 'center',
+    flex: 1,
   },
 });
