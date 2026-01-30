@@ -37,6 +37,10 @@ export function generateSingleBetHint(
   betConfig: any,
   bet: Bet
 ): React.ReactElement {
+  if (!bet || !bet.numbers) {
+    return <>No bet data available</>;
+  }
+  
   return (
     <>
       {betConfig.hintText}{'\n\n'}
@@ -85,7 +89,7 @@ export function generateCashHandlingHint(
   remainingChips: number,
   cashRequest: number
 ): React.ReactElement {
-  const totalChips = bets.reduce((sum, b) => sum + (b.chips * b.payout), 0);
+  const totalChips = bets.filter(b => b && b.chips != null && b.payout != null).reduce((sum, b) => sum + (b.chips * b.payout), 0);
   const totalCash = totalChips * cashConfig.denomination;
 
   return (
@@ -134,6 +138,9 @@ export function generateHintContent(
 
   // Single bet focused practice
   if (isSingleBet && betConfig && questionType === 'ASK_PAYOUT') {
+    if (!bets || bets.length === 0 || !bets[0]) {
+      return <>{cashDenominationInfo}No bet data available</>;
+    }
     return (
       <>
         {cashDenominationInfo}

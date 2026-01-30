@@ -87,7 +87,7 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
     
     // Handle cash handling logic if cashConfig is present
     if (cashConfig) {
-      const totalPayout = newBets.reduce((total, bet) => total + (bet.chips * bet.payout), 0);
+      const totalPayout = newBets.filter(bet => bet && bet.chips != null && bet.payout != null).reduce((total, bet) => total + (bet.chips * bet.payout), 0);
       const totalCash = totalPayout * cashConfig.denomination;
       
       // Get valid cash options from config
@@ -116,7 +116,7 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
   };
 
   const calculateCorrectAnswer = () => {
-    const totalPayout = bets.reduce((total, bet) => total + (bet.chips * bet.payout), 0);
+    const totalPayout = bets.filter(bet => bet && bet.chips != null && bet.payout != null).reduce((total, bet) => total + (bet.chips * bet.payout), 0);
     
     if (questionType === 'ASK_PAYOUT') {
       return totalPayout;
@@ -166,10 +166,10 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
   );
 
   const getExplanationText = (): string => {
-    const totalPayout = bets.reduce((sum, b) => sum + (b.chips * b.payout), 0);
+    const totalPayout = bets.filter(b => b && b.chips != null && b.payout != null).reduce((sum, b) => sum + (b.chips * b.payout), 0);
     
     if (questionType === 'ASK_PAYOUT') {
-      if (isSingleBet && bets[0]) {
+      if (isSingleBet && bets[0] && bets[0].payout != null) {
         return `${bets[0].chips} × ${bets[0].payout} = ${totalPayout}`;
       } else {
         return generateBetExplanation(bets);
