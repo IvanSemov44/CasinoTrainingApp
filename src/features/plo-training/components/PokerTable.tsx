@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { COLORS } from '../../roulette-training/constants/theme';
 import PlayerPosition from './PlayerPosition';
 
@@ -18,9 +18,11 @@ interface Player {
 
 interface PokerTableProps {
   players: Player[];
+  potAmount?: number;
+  communityCards?: number;
 }
 
-export default function PokerTable({ players }: PokerTableProps) {
+export default function PokerTable({ players, potAmount = 0, communityCards = 0 }: PokerTableProps) {
   // Table dimensions - responsive to screen size
   const isLandscape = screenWidth > screenHeight;
   const maxWidth = isLandscape ? screenWidth * 0.6 : screenWidth - 40;
@@ -56,10 +58,22 @@ export default function PokerTable({ players }: PokerTableProps) {
         {/* Poker Table */}
         <View style={[styles.table, { width: tableWidth, height: tableHeight }]}>
           <View style={styles.tableInner}>
-            {/* Pot area in center */}
-            <View style={styles.potArea}>
-              {/* Pot will be displayed here */}
-            </View>
+            {/* Community cards */}
+            {communityCards > 0 && (
+              <View style={styles.cardsArea}>
+                {Array.from({ length: communityCards }).map((_, i) => (
+                  <View key={i} style={styles.card} />
+                ))}
+              </View>
+            )}
+            
+            {/* Pot in center */}
+            {potAmount > 0 && (
+              <View style={styles.potArea}>
+                <Text style={styles.potLabel}>POT</Text>
+                <Text style={styles.potAmount}>${potAmount}</Text>
+              </View>
+            )}
           </View>
         </View>
 
@@ -115,9 +129,39 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   potArea: {
-    minHeight: 40,
-    justifyContent: 'center',
+    backgroundColor: '#1a7f50',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#FFD700',
     alignItems: 'center',
+    marginTop: 8,
+  },
+  potLabel: {
+    color: '#FFD700',
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 1,
+  },
+  potAmount: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '700',
+    marginTop: 2,
+  },
+  cardsArea: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+  },
+  card: {
+    width: 35,
+    height: 50,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#333',
   },
   playerWrapper: {
     position: 'absolute',

@@ -41,11 +41,11 @@ export default function PlayerPosition({
         </Text>
       </View>
       
-      {/* Show bet amount if player has acted */}
-      {betAmount !== undefined && betAmount > 0 && !isFolded && (
+      {/* Show bet amount if player has acted (always show, even if folded or requesting) */}
+      {betAmount !== undefined && betAmount > 0 && (
         <View style={styles.betContainer}>
-          <View style={styles.betChip}>
-            <Text style={styles.betAmount}>${betAmount}</Text>
+          <View style={[styles.betChip, isFolded && styles.foldedChip]}>
+            <Text style={[styles.betAmount, isFolded && styles.foldedText]}>${betAmount}</Text>
           </View>
         </View>
       )}
@@ -141,6 +141,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: '#FFD700',
+  },
+  foldedChip: {
+    opacity: 0.5,
+    backgroundColor: '#8B4513',
+    borderColor: '#666',
   },
   betAmount: {
     color: '#FFFFFF',
