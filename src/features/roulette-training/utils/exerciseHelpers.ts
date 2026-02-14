@@ -64,7 +64,7 @@ export function generateBetExplanation(bets: Bet[]): string {
 export function createMockBets(bets: Bet[]) {
   return bets.map((bet, index) => ({
     id: `bet-${index}`,
-    type: bet.type as any,
+    type: bet.type as BetType,
     numbers: bet.numbers,
     amount: bet.chips,
     payout: bet.payout,

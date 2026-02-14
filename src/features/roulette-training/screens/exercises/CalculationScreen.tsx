@@ -63,7 +63,9 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
     generateNewQuestion();
   }, []);
 
-  const generateNewQuestion = () => {
+  const generateNewQuestion = (retryCount = 0) => {
+    const MAX_RETRIES = 10;
+    
     let newBets: Bet[];
     let number: RouletteNumber;
     
@@ -93,9 +95,17 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
       // Get valid cash options from config
       const validCashOptions = cashConfig.getCashOptions(totalCash);
       
-      // If no valid cash options, regenerate
+      // If no valid cash options, regenerate with retry limit
       if (validCashOptions.length === 0) {
-        generateNewQuestion();
+        if (retryCount < MAX_RETRIES) {
+          generateNewQuestion(retryCount + 1);
+        } else {
+          // Fallback: use default cash request
+          setCashRequest(50);
+          setRemainingChips(totalPayout - 50 / cashConfig.denomination);
+          setQuestionType('ASK_CHIPS');
+          resetAnswer();
+        }
         return;
       }
       

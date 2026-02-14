@@ -4,8 +4,9 @@ import GameStateDisplay from '../components/GameStateDisplay';
 import PotCalculationInput from '../components/PotCalculationInput';
 import { PotRequest, PotValidationResult } from '../types';
 import { generateRandomPotRequest, validatePotAnswer } from '../utils/plo.utils';
+import type { NavigationProp } from '../../../types/navigation.types';
 
-export default function PLOPotCalculationScreen({ navigation }: any) {
+export default function PLOPotCalculationScreen({ navigation }: { navigation: NavigationProp<'PLOPotCalculation'> }) {
   const [currentRequest, setCurrentRequest] = useState<PotRequest>(generateRandomPotRequest());
   const [validationResult, setValidationResult] = useState<PotValidationResult | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });

@@ -20,7 +20,7 @@ function createBet(
   amount: number
 ): PlacedBet {
   return {
-    id: `${prefix}-${numbers.join('-')}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    id: `${prefix}-${numbers.join('-')}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
     type,
     numbers: numbers as RouletteNumber[],
     amount,

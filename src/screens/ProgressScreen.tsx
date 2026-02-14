@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppSelector } from '../store/hooks';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
+import type { NavigationProp } from '../types/navigation.types';
 
-export default function ProgressScreen() {
+export default function ProgressScreen({ navigation }: { navigation: NavigationProp<'Progress'> }) {
   const exerciseResults = useAppSelector(state => state.roulette.exerciseResults);
   
   const totalExercises = exerciseResults.length;
@@ -40,8 +41,8 @@ export default function ProgressScreen() {
             No exercises completed yet. Start practicing to see your progress!
           </Text>
         ) : (
-          exerciseResults.slice().reverse().map((result, index) => (
-            <View key={index} style={styles.resultCard}>
+          exerciseResults.slice().reverse().map((result) => (
+            <View key={`${result.timestamp}-${result.exerciseType}`} style={styles.resultCard}>
               <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
               <View style={styles.resultDetails}>
                 <Text style={styles.resultScore}>Score: {result.correctAnswers}/{result.totalQuestions}</Text>

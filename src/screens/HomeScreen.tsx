@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
+import type { NavigationProp } from '../types/navigation.types';
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
   return (
     <ScrollView 
       style={styles.container}

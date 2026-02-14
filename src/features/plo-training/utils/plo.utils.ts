@@ -1,5 +1,6 @@
 import { Position, PlayerAction, PotRequest, PotValidationResult } from '../types';
 import { POSITIONS, BLIND_LEVELS, TRAINING_CONFIG } from '../constants/plo.constants';
+import { getRandomElement, getRandomInt } from '@features/roulette-training/utils/randomUtils';
 
 /**
  * Calculate the correct pot amount using dealer's shortcut formula:
@@ -70,20 +71,6 @@ export function validatePotAnswer(
     correctAnswer,
     explanation,
   };
-}
-
-/**
- * Get random element from array
- */
-function getRandomElement<T>(array: T[]): T {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-/**
- * Get random number between min and max (inclusive)
- */
-function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
