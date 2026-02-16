@@ -12,8 +12,9 @@ const RouletteChip: React.FC<RouletteChipProps> = ({ amount, size, isAbsolute = 
 
   const styles = getStyles(size);
   
+  // Always use relative positioning - the parent container handles positioning
   return (
-    <View style={isAbsolute ? styles.chip : styles.chipRelative}>
+    <View style={styles.chipRelative}>
       <Text style={styles.chipText}>{amount}</Text>
     </View>
   );
@@ -28,6 +29,8 @@ const getStyles = (chipSize: number) => StyleSheet.create({
     height: chipSize,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 100,
+    elevation: 100,
   },
   chipRelative: {
     backgroundColor: '#FFD700',
@@ -36,6 +39,8 @@ const getStyles = (chipSize: number) => StyleSheet.create({
     height: chipSize,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 100,
+    elevation: 100,
   },
   chipText: {
     color: '#000000',

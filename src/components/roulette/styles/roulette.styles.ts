@@ -8,6 +8,7 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     borderRadius: 0,
     borderWidth: 0,
     alignSelf: 'flex-start',
+    overflow: 'visible',
   },
   
   // Main layout
@@ -17,6 +18,7 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     alignItems: 'flex-start',
     borderRadius: 0,
     padding: 8,
+    overflow: 'visible',
   },
   
   // Number cell styles
@@ -28,6 +30,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     borderWidth: 1,
     borderColor: '#FFD700',
     backgroundColor: '#000000',
+    overflow: 'visible',
+    position: 'relative',
+    zIndex: 1,
   },
   redCell: {
     backgroundColor: '#FF0000',
@@ -53,9 +58,12 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
   // Wrapper styles
   numberWrapper: {
     position: 'relative',
+    overflow: 'visible',
+    zIndex: 1,
   },
   row: {
     flexDirection: 'row',
+    overflow: 'visible',
   },
   
   // Bet area styles
@@ -67,7 +75,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     height: cellSize,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
+    overflow: 'visible',
   },
   verticalSplit: {
     position: 'absolute',
@@ -77,7 +87,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     height: Math.round(cellSize * 0.35),
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
+    overflow: 'visible',
   },
   cornerBet: {
     position: 'absolute',
@@ -87,7 +99,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     height: Math.round(cellSize * 0.5),
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 15,
+    zIndex: 60,
+    elevation: 60,
+    overflow: 'visible',
   },
   streetBet: {
     position: 'absolute',
@@ -97,7 +111,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     height: Math.round(cellSize * 0.5),
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
+    overflow: 'visible',
   },
   sixLineBet: {
     position: 'absolute',
@@ -107,7 +123,9 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     height: Math.round(cellSize * 0.5),
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 11,
+    zIndex: 55,
+    elevation: 55,
+    overflow: 'visible',
   },
 });
 
@@ -117,6 +135,8 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     position: 'relative',
     marginLeft: 0,
     paddingLeft: 0,
+    overflow: 'visible',
+    zIndex: 1,
   },
   zeroCell: {
     width: cellSize * 1.5,
@@ -126,6 +146,9 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     borderWidth: 1,
     borderColor: '#FFD700',
     marginLeft: 0,
+    overflow: 'visible',
+    position: 'relative',
+    zIndex: 1,
   },
   zeroSplit: {
     position: 'absolute',
@@ -134,7 +157,8 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     height: cellSize,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
   },
   zeroSplitTop: {
     top: 0,
@@ -153,7 +177,8 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 15,
+    zIndex: 60,
+    elevation: 60,
   },
   zeroStreetBet: {
     position: 'absolute',
@@ -163,7 +188,8 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
   },
   zeroStreetBet2: {
     position: 'absolute',
@@ -173,7 +199,8 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 50,
+    elevation: 50,
   },
 });
 
@@ -181,6 +208,7 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
   outsideBetsRow: {
     flexDirection: 'row',
     backgroundColor: '#0d3320',
+    overflow: 'visible',
   },
   emptyCorner: {
     width: cellSize * 1.5,
@@ -189,10 +217,12 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
   dozensRow: {
     flex: 1,
     flexDirection: 'row',
+    overflow: 'visible',
   },
   evenMoneyRow: {
     flex: 1,
     flexDirection: 'row',
+    overflow: 'visible',
   },
   dozenBet: {
     width: cellSize * 4,
@@ -202,6 +232,9 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
     backgroundColor: '#0d3320',
     borderWidth: 1,
     borderColor: '#FFD700',
+    overflow: 'visible',
+    position: 'relative',
+    zIndex: 1,
   },
   evenMoneyBet: {
     width: cellSize * 2,
@@ -211,6 +244,9 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
     backgroundColor: '#0d3320',
     borderWidth: 1,
     borderColor: '#FFD700',
+    overflow: 'visible',
+    position: 'relative',
+    zIndex: 1,
   },
   outsideBetText: {
     color: '#FFD700',
@@ -222,6 +258,7 @@ export const getOutsideBetsStyles = (cellSize: number) => StyleSheet.create({
 export const getColumnBetsStyles = (cellSize: number) => StyleSheet.create({
   columnBetsContainer: {
     justifyContent: 'flex-start',
+    overflow: 'visible',
   },
   columnBet: {
     width: cellSize * 1.5,
@@ -231,6 +268,9 @@ export const getColumnBetsStyles = (cellSize: number) => StyleSheet.create({
     backgroundColor: '#0d3320',
     borderWidth: 1,
     borderColor: '#FFD700',
+    overflow: 'visible',
+    position: 'relative',
+    zIndex: 1,
   },
   columnBetText: {
     color: '#FFD700',
