@@ -32,11 +32,17 @@
     
     <style>
       /* Override Expo's default overflow:hidden on body */
-      html, body, #root {
+      html, body {
         height: 100%;
         margin: 0;
         padding: 0;
         background-color: #1a472a;
+      }
+      
+      /* Allow root to grow for scrolling */
+      #root {
+        min-height: 100%;
+        height: auto;
       }
       
       /* Allow scrolling on web */

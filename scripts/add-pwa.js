@@ -48,9 +48,11 @@ if (fs.existsSync(indexPath)) {
     html = html.replace('</head>', '  <link rel="manifest" href="/manifest.json" />\n</head>');
   }
   
-  // Add overflow fix
+  // Add overflow fix and root height fix for scrolling
   if (!html.includes('overflow: auto')) {
     html = html.replace('</head>', `  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #root { min-height: 100%; height: auto; }
     body { overflow: auto !important; }
   </style>
 </head>`);

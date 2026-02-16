@@ -9,6 +9,8 @@ import 'react-native-gesture-handler';
 if (typeof document !== 'undefined') {
   const style = document.createElement('style');
   style.textContent = `
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #root { min-height: 100%; height: auto; }
     body { overflow: auto !important; }
   `;
   document.head.appendChild(style);
