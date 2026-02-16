@@ -44,7 +44,7 @@ const RouletteNumberCell: React.FC<RouletteNumberCellProps> = ({
       ]}>
         {number}
       </Text>
-      <RouletteChip amount={betAmount} size={chipSize} isAbsolute />
+      <RouletteChip amount={betAmount} size={chipSize} />
     </TouchableOpacity>
   );
 };

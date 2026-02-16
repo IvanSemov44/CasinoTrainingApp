@@ -30,7 +30,7 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
         }}
       >
         <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[0])} size={chipSize} isAbsolute />
+        <RouletteChip amount={getBetAmount(LAYOUT_GRID[0])} size={chipSize} />
       </TouchableOpacity>
       
       <TouchableOpacity 
@@ -42,7 +42,7 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
         }}
       >
         <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[1])} size={chipSize} isAbsolute />
+        <RouletteChip amount={getBetAmount(LAYOUT_GRID[1])} size={chipSize} />
       </TouchableOpacity>
       
       <TouchableOpacity 
@@ -54,7 +54,7 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
         }}
       >
         <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[2])} size={chipSize} isAbsolute />
+        <RouletteChip amount={getBetAmount(LAYOUT_GRID[2])} size={chipSize} />
       </TouchableOpacity>
     </View>
   );

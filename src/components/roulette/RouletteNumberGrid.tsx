@@ -24,148 +24,134 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
   const styles = getRouletteStyles(cellSize);
   const chipSize = cellSize * 0.4;
 
+  // Collect all bet areas for rendering in a separate layer
+  const betAreas: React.ReactElement[] = [];
+  
+  LAYOUT_GRID.forEach((row, rowIndex) => {
+    row.slice(0, maxColumns).forEach((num, colIndex) => {
+      // Street bet
+      if (rowIndex === 0) {
+        const streetNumbers = [
+          LAYOUT_GRID[0][colIndex],
+          LAYOUT_GRID[1][colIndex],
+          LAYOUT_GRID[2][colIndex]
+        ] as RouletteNumber[];
+        
+        betAreas.push(
+          <TouchableOpacity
+            key={`street-${colIndex}`}
+            style={[styles.streetBet, { left: colIndex * cellSize }]}
+            onPress={() => onBetAreaPress?.(BetType.STREET, streetNumbers)}
+          >
+            <RouletteChip amount={getBetAmount(streetNumbers)} size={chipSize} />
+          </TouchableOpacity>
+        );
+        
+        // Six line bet
+        if (colIndex < row.length - 1) {
+          const sixLineNumbers = [
+            LAYOUT_GRID[0][colIndex],
+            LAYOUT_GRID[1][colIndex],
+            LAYOUT_GRID[2][colIndex],
+            LAYOUT_GRID[0][colIndex + 1],
+            LAYOUT_GRID[1][colIndex + 1],
+            LAYOUT_GRID[2][colIndex + 1]
+          ] as RouletteNumber[];
+          
+          betAreas.push(
+            <TouchableOpacity
+              key={`sixline-${colIndex}`}
+              style={[styles.sixLineBet, { left: colIndex * cellSize }]}
+              onPress={() => onBetAreaPress?.(BetType.LINE, sixLineNumbers)}
+            >
+              <RouletteChip amount={getBetAmount(sixLineNumbers)} size={chipSize} />
+            </TouchableOpacity>
+          );
+        }
+      }
+      
+      // Horizontal split
+      if (colIndex < row.length - 1) {
+        betAreas.push(
+          <TouchableOpacity
+            key={`hsplit-${rowIndex}-${colIndex}`}
+            style={[styles.horizontalSplit, { 
+              left: colIndex * cellSize,
+              top: rowIndex * cellSize 
+            }]}
+            onPress={() => onBetAreaPress?.(BetType.SPLIT, [num, row[colIndex + 1]])}
+          >
+            <RouletteChip amount={getBetAmount([num, row[colIndex + 1]])} size={chipSize} />
+          </TouchableOpacity>
+        );
+      }
+      
+      // Vertical split
+      if (rowIndex < LAYOUT_GRID.length - 1) {
+        const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
+        betAreas.push(
+          <TouchableOpacity
+            key={`vsplit-${rowIndex}-${colIndex}`}
+            style={[styles.verticalSplit, { 
+              left: colIndex * cellSize,
+              top: rowIndex * cellSize 
+            }]}
+            onPress={() => onBetAreaPress?.(BetType.SPLIT, [num, bottomNum])}
+          >
+            <RouletteChip amount={getBetAmount([num, bottomNum])} size={chipSize} />
+          </TouchableOpacity>
+        );
+      }
+      
+      // Corner bet
+      if (rowIndex < LAYOUT_GRID.length - 1 && colIndex < row.length - 1) {
+        const rightNum = row[colIndex + 1];
+        const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
+        const bottomRightNum = LAYOUT_GRID[rowIndex + 1][colIndex + 1];
+        
+        betAreas.push(
+          <TouchableOpacity
+            key={`corner-${rowIndex}-${colIndex}`}
+            style={[styles.cornerBet, { 
+              left: colIndex * cellSize,
+              top: rowIndex * cellSize 
+            }]}
+            onPress={() => onBetAreaPress?.(BetType.CORNER, [num, rightNum, bottomNum, bottomRightNum])}
+          >
+            <RouletteChip 
+              amount={getBetAmount([num, rightNum, bottomNum, bottomRightNum])} 
+              size={chipSize} 
+            />
+          </TouchableOpacity>
+        );
+      }
+    });
+  });
+
   return (
-    <View>
-      {LAYOUT_GRID.map((row, rowIndex) => (
-        <View key={rowIndex} style={styles.row}>
-          {row.slice(0, maxColumns).map((num, colIndex) => (
-            <View key={num} style={styles.numberWrapper}>
+    <View style={styles.gridContainer}>
+      {/* Number cells layer */}
+      <View>
+        {LAYOUT_GRID.map((row, rowIndex) => (
+          <View key={rowIndex} style={styles.row}>
+            {row.slice(0, maxColumns).map((num) => (
               <RouletteNumberCell
+                key={num}
                 number={num}
                 cellSize={cellSize}
                 betAmount={getBetAmount([num])}
                 onNumberPress={onNumberPress}
                 onBetAreaPress={onBetAreaPress}
               />
-              
-              {/* Street bet (top side of first cell in each column) */}
-              {rowIndex === 0 && (
-                <>
-                  <TouchableOpacity
-                    style={styles.streetBet}
-                    onPress={() => {
-                      if (onBetAreaPress) {
-                        const streetNumbers = [
-                          LAYOUT_GRID[0][colIndex],
-                          LAYOUT_GRID[1][colIndex],
-                          LAYOUT_GRID[2][colIndex]
-                        ];
-                        onBetAreaPress(BetType.STREET, streetNumbers as RouletteNumber[]);
-                      }
-                    }}
-                  >
-                    <RouletteChip 
-                      amount={getBetAmount([
-                        LAYOUT_GRID[0][colIndex],
-                        LAYOUT_GRID[1][colIndex],
-                        LAYOUT_GRID[2][colIndex]
-                      ] as RouletteNumber[])}
-                      size={chipSize}
-                      isAbsolute
-                    />
-                  </TouchableOpacity>
-                  
-                  {/* Six line bet (top-right corner between two streets) */}
-                  {colIndex < row.length - 1 && (
-                    <TouchableOpacity
-                      style={styles.sixLineBet}
-                      onPress={() => {
-                        if (onBetAreaPress) {
-                          const sixLineNumbers = [
-                            LAYOUT_GRID[0][colIndex],
-                            LAYOUT_GRID[1][colIndex],
-                            LAYOUT_GRID[2][colIndex],
-                            LAYOUT_GRID[0][colIndex + 1],
-                            LAYOUT_GRID[1][colIndex + 1],
-                            LAYOUT_GRID[2][colIndex + 1]
-                          ];
-                          onBetAreaPress(BetType.LINE, sixLineNumbers as RouletteNumber[]);
-                        }
-                      }}
-                    >
-                      <RouletteChip
-                        amount={getBetAmount([
-                          LAYOUT_GRID[0][colIndex],
-                          LAYOUT_GRID[1][colIndex],
-                          LAYOUT_GRID[2][colIndex],
-                          LAYOUT_GRID[0][colIndex + 1],
-                          LAYOUT_GRID[1][colIndex + 1],
-                          LAYOUT_GRID[2][colIndex + 1]
-                        ] as RouletteNumber[])}
-                        size={chipSize}
-                        isAbsolute
-                      />
-                    </TouchableOpacity>
-                  )}
-                </>
-              )}
-              
-              {/* Horizontal split (right side) */}
-              {colIndex < row.length - 1 && (
-                <TouchableOpacity
-                  style={styles.horizontalSplit}
-                  onPress={() => {
-                    if (onBetAreaPress) {
-                      onBetAreaPress(BetType.SPLIT, [num, row[colIndex + 1]]);
-                    }
-                  }}
-                >
-                  <RouletteChip
-                    amount={getBetAmount([num, row[colIndex + 1]])}
-                    size={chipSize}
-                    isAbsolute
-                  />
-                </TouchableOpacity>
-              )}
-                
-              {/* Vertical split (bottom side) */}
-              {rowIndex < LAYOUT_GRID.length - 1 && (
-                <TouchableOpacity
-                  style={styles.verticalSplit}
-                  onPress={() => {
-                    if (onBetAreaPress) {
-                      const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
-                      onBetAreaPress(BetType.SPLIT, [num, bottomNum]);
-                    }
-                  }}
-                >
-                  <RouletteChip
-                    amount={getBetAmount([num, LAYOUT_GRID[rowIndex + 1][colIndex]])}
-                    size={chipSize}
-                    isAbsolute
-                  />
-                </TouchableOpacity>
-              )}
-                
-              {/* Corner bet (bottom-right corner) */}
-              {rowIndex < LAYOUT_GRID.length - 1 && colIndex < row.length - 1 && (
-                <TouchableOpacity
-                  style={styles.cornerBet}
-                  onPress={() => {
-                    if (onBetAreaPress) {
-                      const rightNum = row[colIndex + 1];
-                      const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
-                      const bottomRightNum = LAYOUT_GRID[rowIndex + 1][colIndex + 1];
-                      onBetAreaPress(BetType.CORNER, [num, rightNum, bottomNum, bottomRightNum]);
-                    }
-                  }}
-                >
-                  <RouletteChip
-                    amount={getBetAmount([
-                      num,
-                      row[colIndex + 1],
-                      LAYOUT_GRID[rowIndex + 1][colIndex],
-                      LAYOUT_GRID[rowIndex + 1][colIndex + 1]
-                    ])}
-                    size={chipSize}
-                    isAbsolute
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          ))}
-        </View>
-      ))}
+            ))}
+          </View>
+        ))}
+      </View>
+      
+      {/* Bet areas layer - rendered on top */}
+      <View style={styles.betAreasLayer} pointerEvents="box-none">
+        {betAreas}
+      </View>
     </View>
   );
 };

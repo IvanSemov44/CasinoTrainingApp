@@ -45,7 +45,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>1-18</Text>
-            <RouletteChip amount={getBetAmount(lowNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(lowNumbers)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -57,7 +57,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>EVEN</Text>
-            <RouletteChip amount={getBetAmount(evenNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(evenNumbers)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -69,7 +69,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>◆</Text>
-            <RouletteChip amount={getBetAmount(redNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(redNumbers)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -81,7 +81,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>◆</Text>
-            <RouletteChip amount={getBetAmount(blackNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(blackNumbers)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -93,7 +93,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>ODD</Text>
-            <RouletteChip amount={getBetAmount(oddNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(oddNumbers)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -105,7 +105,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>19-36</Text>
-            <RouletteChip amount={getBetAmount(highNumbers)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(highNumbers)} size={chipSize} />
           </TouchableOpacity>
         </View>
         
@@ -126,7 +126,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>1st 12</Text>
-            <RouletteChip amount={getBetAmount(firstDozen)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(firstDozen)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -138,7 +138,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>2nd 12</Text>
-            <RouletteChip amount={getBetAmount(secondDozen)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(secondDozen)} size={chipSize} />
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -150,7 +150,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
             }}
           >
             <Text style={styles.outsideBetText}>3rd 12</Text>
-            <RouletteChip amount={getBetAmount(thirdDozen)} size={chipSize} isAbsolute />
+            <RouletteChip amount={getBetAmount(thirdDozen)} size={chipSize} />
           </TouchableOpacity>
         </View>
         
