@@ -6,6 +6,8 @@ const distPath = path.join(__dirname, '..', 'dist');
 const manifestSource = path.join(__dirname, '..', 'web', 'manifest.json');
 const manifestDest = path.join(distPath, 'manifest.json');
 const indexPath = path.join(distPath, 'index.html');
+const swSource = path.join(__dirname, '..', 'web', 'sw.js');
+const swDest = path.join(distPath, 'sw.js');
 
 // Copy manifest.json
 if (fs.existsSync(manifestSource)) {
@@ -39,6 +41,14 @@ if (fs.existsSync(manifestSource)) {
   console.log('✅ Created manifest.json in dist/');
 }
 
+// Copy service worker
+if (fs.existsSync(swSource)) {
+  fs.copyFileSync(swSource, swDest);
+  console.log('✅ Copied sw.js to dist/');
+} else {
+  console.log('⚠️ sw.js not found');
+}
+
 // Update index.html to include manifest link and fix scrolling
 if (fs.existsSync(indexPath)) {
   let html = fs.readFileSync(indexPath, 'utf8');
@@ -56,6 +66,26 @@ if (fs.existsSync(indexPath)) {
     body { overflow: auto !important; }
   </style>
 </head>`);
+  }
+  
+  // Add service worker registration if not present
+  if (!html.includes('serviceWorker')) {
+    const swScript = `
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>`;
+    html = html.replace('</body>', swScript + '\n  </body>');
   }
   
   fs.writeFileSync(indexPath, html);
