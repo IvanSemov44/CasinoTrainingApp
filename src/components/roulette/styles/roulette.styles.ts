@@ -37,6 +37,7 @@ export const getRouletteStyles = (cellSize: number) => StyleSheet.create({
     zIndex: 100,
     elevation: 100,
     overflow: 'visible',
+    pointerEvents: 'box-none' as const,
   },
   
   // Number cell styles
@@ -153,6 +154,7 @@ export const getZeroColumnStyles = (cellSize: number) => StyleSheet.create({
     zIndex: 100,
     elevation: 100,
     overflow: 'visible',
+    pointerEvents: 'box-none' as const,
   },
   zeroCell: {
     width: cellSize * 1.5,

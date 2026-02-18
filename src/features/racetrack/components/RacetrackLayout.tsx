@@ -197,7 +197,7 @@ export default function RacetrackLayout({
 
       {/* Section button overlays */}
       {onSectionPress && (
-        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+        <View style={[StyleSheet.absoluteFill, { pointerEvents: 'box-none' as const }]}>
           {SECTOR_BUTTONS.map(({ section, startX, endX, radiusLeft, radiusRight }) => (
             <TouchableOpacity
               key={section}
@@ -221,7 +221,7 @@ export default function RacetrackLayout({
 
       {/* Number button overlays for neighbors bet */}
       {onNumberPress && (
-        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+        <View style={[StyleSheet.absoluteFill, { pointerEvents: 'box-none' as const }]}>
           {/* Top row */}
           {TOP_NUMBERS.map((item, index) => {
             const centerX = getTopNumberCenterX(index);

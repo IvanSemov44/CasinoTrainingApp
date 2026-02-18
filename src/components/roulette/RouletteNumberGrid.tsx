@@ -149,7 +149,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
       </View>
       
       {/* Bet areas layer - rendered on top */}
-      <View style={styles.betAreasLayer} pointerEvents="box-none">
+      <View style={styles.betAreasLayer}>
         {betAreas}
       </View>
     </View>

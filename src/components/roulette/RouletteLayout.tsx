@@ -145,7 +145,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
         )}
         
         {/* Zero column bet areas overlay - rendered on top of everything */}
-        <View style={styles.betAreasLayer} pointerEvents="box-none">
+        <View style={styles.betAreasLayer}>
           {zeroBetAreas}
         </View>
       </View>
