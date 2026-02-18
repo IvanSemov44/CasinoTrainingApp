@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity, Text, ScrollView } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { RouletteLayout } from '../../../components/roulette';
 import { ChallengeDisplay, ResultFeedback } from '../components';
@@ -8,12 +8,11 @@ import { PlacedBet } from '../../../types/roulette.types';
 import { AnnouncedBetMode, ValidationResult } from '../types';
 import { validateAnnouncedBet, getRandomMode } from '../utils/validation';
 import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
+import { AnnouncedBetsStackParamList } from '../navigation';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-interface Props {
-  route: RouteProp<{ params: { mode: AnnouncedBetMode } }, 'params'>;
-}
+type Props = StackScreenProps<AnnouncedBetsStackParamList, 'AnnouncedBetsTraining'>;
 
 export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   const initialMode = route.params?.mode || 'random';
