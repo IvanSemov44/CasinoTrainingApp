@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export interface ExerciseState {
   userAnswer: string;
@@ -17,7 +17,7 @@ export function useExerciseState() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
-  const checkAnswer = (correctAnswer: number, onCorrect?: () => void) => {
+  const checkAnswer = useCallback((correctAnswer: number, onCorrect?: () => void) => {
     const userNum = parseInt(userAnswer);
     const correct = userNum === correctAnswer;
 
@@ -31,17 +31,17 @@ export function useExerciseState() {
     }
 
     return correct;
-  };
+  }, [userAnswer]);
 
-  const resetAnswer = () => {
+  const resetAnswer = useCallback(() => {
     setUserAnswer('');
     setShowFeedback(false);
     setShowHint(false);
-  };
+  }, []);
 
-  const toggleHint = () => {
+  const toggleHint = useCallback(() => {
     setShowHint(prev => !prev);
-  };
+  }, []);
 
   return {
     userAnswer,

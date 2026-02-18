@@ -49,13 +49,21 @@ function hasBetTypes(params: unknown): params is { betTypes: BetType[] } {
 function CalculationScreen({ route }: CalculationScreenProps) {
   const params = route.params;
   
-  const cashConfig = hasCashConfigKey(params) ? getCashConfig(params.cashConfigKey) : undefined;
-  const betConfig = hasBetConfigKey(params) ? getBetConfig(params.betConfigKey) : undefined;
+  // Extract stable primitive values from params to avoid object reference changes
+  const betConfigKey = hasBetConfigKey(params) ? params.betConfigKey : undefined;
+  const cashConfigKey = hasCashConfigKey(params) ? params.cashConfigKey : undefined;
+  const betTypesParam = hasBetTypes(params) ? params.betTypes : undefined;
+  
+  // Memoize config objects to ensure stable references
+  const cashConfig = useMemo(() => cashConfigKey ? getCashConfig(cashConfigKey) : undefined, [cashConfigKey]);
+  const betConfig = useMemo(() => betConfigKey ? getBetConfig(betConfigKey) : undefined, [betConfigKey]);
   
   // Determine bet types: use betConfig if single bet, otherwise use betTypes array (default to STRAIGHT+SPLIT)
+  // Use JSON.stringify for stable comparison of betTypes array to avoid infinite re-renders
+  const betTypesKey = JSON.stringify(betTypesParam);
   const allowedBetTypes: BetType[] = useMemo(() => betConfig 
     ? [betConfig.type as BetType]
-    : (hasBetTypes(params) ? params.betTypes : ['STRAIGHT', 'SPLIT']), [betConfig, params]);
+    : (betTypesParam ?? ['STRAIGHT', 'SPLIT']), [betConfig, betTypesKey]); // eslint-disable-line react-hooks/exhaustive-deps
   
   const isSingleBet = allowedBetTypes.length === 1;
   
