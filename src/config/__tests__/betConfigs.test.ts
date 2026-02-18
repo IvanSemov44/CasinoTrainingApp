@@ -27,7 +27,7 @@ describe('betConfigs', () => {
     });
 
     it('should have valid config structure for each bet type', () => {
-      Object.entries(BET_CONFIGS).forEach(([key, config]) => {
+      Object.entries(BET_CONFIGS).forEach(([_key, config]) => {
         expect(config).toHaveProperty('type');
         expect(config).toHaveProperty('name');
         expect(config).toHaveProperty('displayName');

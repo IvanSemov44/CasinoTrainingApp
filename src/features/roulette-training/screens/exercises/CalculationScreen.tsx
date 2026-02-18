@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouletteNumber } from '@app-types/roulette.types';
@@ -53,9 +53,9 @@ function CalculationScreen({ route }: CalculationScreenProps) {
   const betConfig = hasBetConfigKey(params) ? getBetConfig(params.betConfigKey) : undefined;
   
   // Determine bet types: use betConfig if single bet, otherwise use betTypes array (default to STRAIGHT+SPLIT)
-  const allowedBetTypes: BetType[] = betConfig 
+  const allowedBetTypes: BetType[] = useMemo(() => betConfig 
     ? [betConfig.type as BetType]
-    : (hasBetTypes(params) ? params.betTypes : ['STRAIGHT', 'SPLIT']);
+    : (hasBetTypes(params) ? params.betTypes : ['STRAIGHT', 'SPLIT']), [betConfig, params]);
   
   const isSingleBet = allowedBetTypes.length === 1;
   

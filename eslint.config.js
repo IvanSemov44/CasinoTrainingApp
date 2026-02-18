@@ -21,6 +21,7 @@ module.exports = [
       '*.config.js',
       'babel.config.js',
       'metro.config.js',
+      'jest.setup.js',
     ],
   },
   
@@ -70,7 +71,7 @@ module.exports = [
       // TypeScript-specific rules
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       '@typescript-eslint/no-require-imports': 'off',
       
       // React rules
