@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import MenuListScreen, { type MenuItem } from '../../components/MenuListScreen';
+import type { RouletteTrainingStackParamList } from '../../navigation';
+
+type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
 
 const POSITION_CATEGORIES = [
   {
@@ -60,7 +64,7 @@ const POSITION_CATEGORIES = [
   },
 ];
 
-export default function RouletteExercisesScreen({ navigation }: any) {
+export default function RouletteExercisesScreen({ navigation }: RouletteExercisesScreenProps) {
   const menuItems: MenuItem[] = useMemo(() => 
     POSITION_CATEGORIES.map((category) => ({
       id: category.id,

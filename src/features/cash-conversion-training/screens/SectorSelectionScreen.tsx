@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
-import { SectorType, DifficultyLevel } from '../types';
+import { SectorType } from '../types';
 import { SECTOR_NAMES, SECTOR_POSITIONS } from '../constants/sectors';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function SectorSelectionScreen({ route, navigation }: any) {
   const { difficulty } = route.params;
 

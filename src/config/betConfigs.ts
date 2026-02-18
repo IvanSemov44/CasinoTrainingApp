@@ -1,5 +1,5 @@
 import { RouletteNumber } from '../types/roulette.types';
-import { ALL_CORNERS, ALL_STREETS, ALL_SIX_LINES, ZERO_SPLITS } from '../features/roulette-training/constants/betCombinations';
+import { ALL_CORNERS, ALL_STREETS, ALL_SIX_LINES } from '../features/roulette-training/constants/betCombinations';
 
 export interface BetConfig {
   type: string;

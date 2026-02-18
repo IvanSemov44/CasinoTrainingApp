@@ -19,14 +19,14 @@ export type RouletteTrainingStackParamList = {
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
-  Calculation: { betConfigKey: BetConfigKey; cashConfigKey?: CashConfigKey };
-  MixedCalculation: { cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  TripleMixedCalculation: { cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  AllPositionsCalculation: { cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  CashHandling: { cashConfigKey: CashConfigKey; betConfigKey?: BetConfigKey };
+  Calculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
+  MixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
+  TripleMixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
+  AllPositionsCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
+  CashHandling: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RouletteTrainingStackParamList>();
 
 // Helper to get screen title based on params
 const getScreenTitle = (
@@ -41,25 +41,30 @@ const getScreenTitle = (
   const cashInfo = cashConfigKey ? ` - $${getCashConfig(cashConfigKey).denomination}` : '';
 
   switch (screenName) {
-    case 'Calculation':
+    case 'Calculation': {
       const betName = betConfigKey ? getBetConfig(betConfigKey).displayName : 'Calculation';
       return `${betName}${cashInfo}`;
+    }
     case 'MixedCalculation':
       return `Mixed${cashInfo}`;
     case 'TripleMixedCalculation':
       return `Triple Mix${cashInfo}`;
     case 'AllPositionsCalculation':
       return `All Positions${cashInfo}`;
-    case 'CashHandling':
+    case 'CashHandling': {
       const cashBetName = betConfigKey ? `${getBetConfig(betConfigKey).displayName} - ` : '';
       const cashValue = cashConfigKey ? `$${getCashConfig(cashConfigKey).denomination}` : 'Cash';
       return `${cashBetName}${cashValue}`;
+    }
     case 'PositionSelection':
       return positionType?.replace('_', ' ') || 'Select Training';
     default:
       return screenName;
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CalculationScreenComponent = CalculationScreen as React.ComponentType<any>;
 
 // All roulette training routes
 export const RouletteTrainingRoutes = () => {
@@ -97,23 +102,24 @@ export const RouletteTrainingRoutes = () => {
       />
 
       {/* Exercise Screens - All use CalculationScreen */}
+      {/* Note: CalculationScreen is shared across multiple screen types with different params */}
       <Stack.Screen
         name="Calculation"
-        component={CalculationScreen}
+        component={CalculationScreenComponent}
         options={({ route }) => ({
           title: getScreenTitle('Calculation', route.params)
         })}
       />
       <Stack.Screen
         name="MixedCalculation"
-        component={CalculationScreen}
+        component={CalculationScreenComponent}
         options={({ route }) => ({
           title: getScreenTitle('MixedCalculation', route.params)
         })}
       />
       <Stack.Screen
         name="TripleMixedCalculation"
-        component={CalculationScreen}
+        component={CalculationScreenComponent}
         initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER'] }}
         options={({ route }) => ({
           title: getScreenTitle('TripleMixedCalculation', route.params)
@@ -121,7 +127,7 @@ export const RouletteTrainingRoutes = () => {
       />
       <Stack.Screen
         name="AllPositionsCalculation"
-        component={CalculationScreen}
+        component={CalculationScreenComponent}
         initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER', 'STREET', 'SIX_LINE'] }}
         options={({ route }) => ({
           title: getScreenTitle('AllPositionsCalculation', route.params)
@@ -129,7 +135,7 @@ export const RouletteTrainingRoutes = () => {
       />
       <Stack.Screen
         name="CashHandling"
-        component={CalculationScreen}
+        component={CalculationScreenComponent}
         options={({ route }) => ({
           title: getScreenTitle('CashHandling', route.params)
         })}

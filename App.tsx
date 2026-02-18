@@ -1,8 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
-import { store } from './src/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/store';
 import AppNavigator from './src/navigation/AppNavigator';
+import ErrorBoundary from './src/components/ErrorBoundary';
 import 'react-native-gesture-handler';
 
 // Fix for web scrolling - inject style to override Expo's overflow:hidden
@@ -18,9 +20,13 @@ if (typeof document !== 'undefined') {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <AppNavigator />
-      <StatusBar style="light" />
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppNavigator />
+          <StatusBar style="light" />
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
   );
 }

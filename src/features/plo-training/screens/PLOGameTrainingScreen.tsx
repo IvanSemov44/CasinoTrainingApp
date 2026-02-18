@@ -6,7 +6,7 @@ import PotCalculationInput from '../components/PotCalculationInput';
 import { GAME_SCENARIOS } from '../constants/gameScenarios';
 import type { NavigationProp } from '../../../types/navigation.types';
 
-export default function PLOGameTrainingScreen({ navigation }: { navigation: NavigationProp<'PLOGameTraining'> }) {
+export default function PLOGameTrainingScreen({ navigation: _navigation }: { navigation: NavigationProp<'PLOGameTraining'> }) {
   const [userAnswer, setUserAnswer] = useState<number>(0);
   const [isChecked, setIsChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);

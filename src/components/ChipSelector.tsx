@@ -13,24 +13,31 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
     <View style={styles.container}>
       <Text style={styles.title}>Select Chip Value</Text>
       <View style={styles.chipsContainer}>
-        {CHIP_VALUES.map((chip) => (
-          <TouchableOpacity
-            key={chip.value}
-            style={[
-              styles.chip,
-              { backgroundColor: chip.color },
-              selectedValue === chip.value && styles.selectedChip,
-            ]}
-            onPress={() => onSelectChip(chip.value)}
-          >
-            <Text style={[
-              styles.chipText,
-              chip.color === '#FFFFFF' && styles.darkText,
-            ]}>
-              {chip.value}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        {CHIP_VALUES.map((chip) => {
+          const isSelected = selectedValue === chip.value;
+          return (
+            <TouchableOpacity
+              key={chip.value}
+              style={[
+                styles.chip,
+                { backgroundColor: chip.color },
+                isSelected && styles.selectedChip,
+              ]}
+              onPress={() => onSelectChip(chip.value)}
+              accessibilityLabel={`Select $${chip.value} chip${isSelected ? ', selected' : ''}`}
+              accessibilityHint="Double tap to select this chip value"
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+            >
+              <Text style={[
+                styles.chipText,
+                chip.color === '#FFFFFF' && styles.darkText,
+              ]}>
+                {chip.value}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );

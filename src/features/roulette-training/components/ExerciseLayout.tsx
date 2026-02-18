@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import RouletteLayout from '@components/roulette/RouletteLayout';
+import SkeletonLoader from '@components/SkeletonLoader';
 import ExerciseStats from './ExerciseStats';
 import HintSection from './HintSection';
 import NumberPad from './NumberPad';
@@ -13,6 +14,7 @@ interface ExerciseLayoutProps {
   showHint: boolean;
   onToggleHint: () => void;
   hintContent: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   placedBets: any[];
   answerLabel: string;
   userAnswer: string;
@@ -25,6 +27,7 @@ interface ExerciseLayoutProps {
   onNextQuestion: () => void;
   cellSize?: number;
   maxColumns?: number;
+  isLoading?: boolean;
 }
 
 export default function ExerciseLayout({
@@ -45,6 +48,7 @@ export default function ExerciseLayout({
   onNextQuestion,
   cellSize = 55,
   maxColumns = 4,
+  isLoading = false,
 }: ExerciseLayoutProps) {
   return (
     <ScrollView style={styles.container}>
@@ -56,36 +60,50 @@ export default function ExerciseLayout({
 
       <View style={styles.layoutContainer}>
         <Text style={styles.layoutLabel}>Visual Reference:</Text>
-        <ScrollView 
-          horizontal 
-          style={styles.layoutScrollView}
-          contentContainerStyle={styles.layoutWrapper}
-        >
-          <RouletteLayout
-            onNumberPress={() => {}}
-            placedBets={placedBets}
-            cellSize={cellSize}
-            showOutsideBets={false}
-            showColumnBets={false}
-            maxColumns={maxColumns}
-          />
-        </ScrollView>
+        {isLoading ? (
+          <View style={styles.layoutSkeletonContainer}>
+            <SkeletonLoader width="100%" height={120} borderRadius={BORDERS.radius.sm} />
+          </View>
+        ) : (
+          <ScrollView 
+            horizontal 
+            style={styles.layoutScrollView}
+            contentContainerStyle={styles.layoutWrapper}
+          >
+            <RouletteLayout
+              onNumberPress={() => {}}
+              placedBets={placedBets}
+              cellSize={cellSize}
+              showOutsideBets={false}
+              showColumnBets={false}
+              maxColumns={maxColumns}
+            />
+          </ScrollView>
+        )}
       </View>
 
       <View style={styles.answerSection}>
         <Text style={styles.answerLabel}>{answerLabel}</Text>
-        <TextInput
-          style={styles.input}
-          value={userAnswer}
-          onChangeText={onAnswerChange}
-          keyboardType="numeric"
-          placeholder="Enter total payout"
-          placeholderTextColor="#999"
-          editable={!showFeedback}
-          showSoftInputOnFocus={false}
-        />
+        {isLoading ? (
+          <SkeletonLoader width="100%" height={60} borderRadius={BORDERS.radius.md} />
+        ) : (
+          <TextInput
+            style={styles.input}
+            value={userAnswer}
+            onChangeText={onAnswerChange}
+            keyboardType="numeric"
+            placeholder="Enter total payout"
+            placeholderTextColor="#999"
+            editable={!showFeedback}
+            showSoftInputOnFocus={false}
+          />
+        )}
 
-        {!showFeedback && (
+        {isLoading ? (
+          <View style={styles.skeletonNumberPad}>
+            <SkeletonLoader width="100%" height={180} borderRadius={BORDERS.radius.md} />
+          </View>
+        ) : !showFeedback && (
           <NumberPad
             onNumberPress={(num) => onAnswerChange(userAnswer + num)}
             onClear={() => onAnswerChange('')}
@@ -94,7 +112,9 @@ export default function ExerciseLayout({
           />
         )}
 
-        {!showFeedback ? (
+        {isLoading ? (
+          <SkeletonLoader width="100%" height={58} borderRadius={BORDERS.radius.md} />
+        ) : !showFeedback ? (
           <TouchableOpacity
             style={styles.checkButton}
             onPress={onCheckAnswer}
@@ -139,6 +159,11 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     paddingHorizontal: SPACING.sm,
   },
+  layoutSkeletonContainer: {
+    backgroundColor: COLORS.background.dark,
+    borderRadius: BORDERS.radius.sm,
+    padding: SPACING.sm,
+  },
   answerSection: {
     margin: SPACING.md,
     marginTop: 0,
@@ -158,6 +183,9 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.fontSize.xxl,
     color: COLORS.text.primary,
     textAlign: 'center',
+    marginBottom: SPACING.md,
+  },
+  skeletonNumberPad: {
     marginBottom: SPACING.md,
   },
   checkButton: {

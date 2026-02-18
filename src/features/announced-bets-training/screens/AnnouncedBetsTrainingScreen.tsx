@@ -16,7 +16,7 @@ type Props = StackScreenProps<AnnouncedBetsStackParamList, 'AnnouncedBetsTrainin
 
 export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   const initialMode = route.params?.mode || 'random';
-  const [selectedMode, setSelectedMode] = useState<AnnouncedBetMode>(initialMode);
+  const [selectedMode, _setSelectedMode] = useState<AnnouncedBetMode>(initialMode);
   const [currentChallenge, setCurrentChallenge] = useState<Exclude<AnnouncedBetMode, 'random'>>(
     initialMode === 'random' ? getRandomMode() : (initialMode as Exclude<AnnouncedBetMode, 'random'>)
   );
@@ -25,7 +25,7 @@ export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
-  const availableWidth = Math.min(screenWidth - 32, 450);
+  const _availableWidth = Math.min(screenWidth - 32, 450);
   const cellSize = 50;
 
   const totalRequiredBets = ANNOUNCED_BETS[currentChallenge]?.bets.length || 0;
@@ -39,7 +39,9 @@ export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   const handleBetPlaced = (betType: string, numbers: number[]) => {
     const newBet: PlacedBet = {
       id: `bet-${Date.now()}-${Math.random()}`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       type: betType as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       numbers: numbers as any,
       amount: selectedChipValue,
       payout: 0,

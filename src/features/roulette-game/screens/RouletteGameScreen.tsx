@@ -10,7 +10,7 @@ const { width: screenWidth } = Dimensions.get('window');
 
 export default function RouletteGameScreen() {
   const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
-  const [selectedChipValue, setSelectedChipValue] = useState(5);
+  const [selectedChipValue] = useState(5);
   
   const racetrackWidth = Math.min(screenWidth - 64, 600);
   const availableWidth = Math.min(screenWidth - 64, 450);
@@ -27,6 +27,19 @@ export default function RouletteGameScreen() {
     onBetsPlaced: handleBetsPlaced,
   });
 
+  // Handle number press from roulette layout
+  const handleRouletteNumberPress = useCallback((number: number) => {
+    // TODO: Implement bet placement logic for roulette numbers
+    void number; // Placeholder until implementation
+  }, []);
+
+  // Handle bet area press from roulette layout
+  const handleRouletteBetAreaPress = useCallback((betType: string, numbers: number[]) => {
+    // TODO: Implement bet placement logic for bet areas
+    void betType;
+    void numbers; // Placeholder until implementation
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.gameContainer}>
@@ -42,12 +55,8 @@ export default function RouletteGameScreen() {
         {/* Roulette layout below */}
         <View style={styles.rouletteContainer}>
           <RouletteLayout 
-            onNumberPress={(number) => {
-              console.log('Number pressed:', number);
-            }}
-            onBetAreaPress={(betType, numbers) => {
-              console.log('Bet placed:', betType, numbers);
-            }}
+            onNumberPress={handleRouletteNumberPress}
+            onBetAreaPress={handleRouletteBetAreaPress}
             placedBets={placedBets}
             selectedChipValue={selectedChipValue}
             cellSize={cellSize}

@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions } from 'react-native';
 import { COLORS } from '../../roulette-training/constants/theme';
 import RacetrackLayout from '../components/RacetrackLayout';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { height: screenHeight } = Dimensions.get('window');
 
 export default function RacetrackScreen() {
   // Use height for width since we're rotating 90 degrees

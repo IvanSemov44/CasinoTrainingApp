@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
@@ -9,13 +9,25 @@ interface FeedbackCardProps {
   onNextQuestion: () => void;
 }
 
-export default function FeedbackCard({ isCorrect, correctAnswer, explanation, onNextQuestion }: FeedbackCardProps) {
+/**
+ * Feedback card component for displaying exercise results
+ * Memoized to prevent unnecessary re-renders
+ */
+const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(({
+  isCorrect,
+  correctAnswer,
+  explanation,
+  onNextQuestion,
+}) => {
+  // Memoize the card style
+  const cardStyle = useMemo(() => [
+    styles.feedbackCard,
+    isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect,
+  ], [isCorrect]);
+
   return (
     <View style={styles.feedbackContainer}>
-      <View style={[
-        styles.feedbackCard,
-        isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect
-      ]}>
+      <View style={cardStyle}>
         <Text style={styles.feedbackIcon}>
           {isCorrect ? '✓' : '✗'}
         </Text>
@@ -40,7 +52,9 @@ export default function FeedbackCard({ isCorrect, correctAnswer, explanation, on
       </TouchableOpacity>
     </View>
   );
-}
+});
+
+FeedbackCard.displayName = 'FeedbackCard';
 
 const styles = StyleSheet.create({
   feedbackContainer: {
@@ -95,3 +109,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default FeedbackCard;

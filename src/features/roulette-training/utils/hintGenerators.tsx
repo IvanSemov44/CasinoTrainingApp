@@ -1,7 +1,9 @@
-import React, { JSX } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
 import type { Bet, BetType } from '../types/exercise.types';
 import type { RouletteNumber } from '@app-types/roulette.types';
+import type { BetConfig } from '@config/betConfigs';
+import type { CashConfig } from '@config/cashConfigs';
 import { getBetTypeName } from './exerciseHelpers';
 import { exerciseTextStyles } from './exerciseStyles';
 
@@ -34,7 +36,7 @@ function formatBetNumbers(bet: Bet): string {
  * Generate single bet hint (for focused practice)
  */
 export function generateSingleBetHint(
-  betConfig: any,
+  betConfig: BetConfig,
   bet: Bet
 ): React.ReactElement {
   if (!bet || !bet.numbers) {
@@ -85,7 +87,7 @@ export function generatePayoutHint(
 export function generateCashHandlingHint(
   winningNumber: RouletteNumber,
   bets: Bet[],
-  cashConfig: any,
+  cashConfig: CashConfig,
   remainingChips: number,
   cashRequest: number
 ): React.ReactElement {
@@ -124,8 +126,8 @@ export function generateHintContent(
   bets: Bet[],
   winningNumber: RouletteNumber,
   allowedBetTypes: BetType[],
-  cashConfig?: any,
-  betConfig?: any,
+  cashConfig?: CashConfig,
+  betConfig?: BetConfig,
   remainingChips?: number,
   cashRequest?: number
 ): React.ReactElement {
@@ -163,7 +165,7 @@ export function generateHintContent(
   return (
     <>
       {cashDenominationInfo}
-      {generateCashHandlingHint(winningNumber, bets, cashConfig, remainingChips!, cashRequest!)}
+      {generateCashHandlingHint(winningNumber, bets, cashConfig!, remainingChips!, cashRequest!)}
     </>
   );
 }

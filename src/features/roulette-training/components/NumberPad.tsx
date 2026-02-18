@@ -31,16 +31,44 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
     }
   };
 
-  const renderButton = (config: ButtonConfig, index: number) => (
-    <TouchableOpacity
-      key={`${config.value}-${index}`}
-      style={styles.numberButton}
-      onPress={() => handlePress(config.value, config.action)}
-      disabled={disabled}
-    >
-      <Text style={styles.numberButtonText}>{config.value}</Text>
-    </TouchableOpacity>
-  );
+  const renderButton = (config: ButtonConfig, index: number) => {
+    const getAccessibilityLabel = (value: string): string => {
+      switch (value) {
+        case 'C':
+          return 'Clear';
+        case '⌫':
+          return 'Backspace';
+        default:
+          return `Number ${value}`;
+      }
+    };
+
+    const getAccessibilityHint = (value: string): string => {
+      switch (value) {
+        case 'C':
+          return 'Double tap to clear the input';
+        case '⌫':
+          return 'Double tap to delete the last digit';
+        default:
+          return 'Double tap to enter this number';
+      }
+    };
+
+    return (
+      <TouchableOpacity
+        key={`${config.value}-${index}`}
+        style={styles.numberButton}
+        onPress={() => handlePress(config.value, config.action)}
+        disabled={disabled}
+        accessibilityLabel={getAccessibilityLabel(config.value)}
+        accessibilityHint={getAccessibilityHint(config.value)}
+        accessibilityRole="button"
+        accessibilityState={{ disabled }}
+      >
+        <Text style={styles.numberButtonText}>{config.value}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.numberPad}>

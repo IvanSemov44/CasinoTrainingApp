@@ -1,6 +1,6 @@
-import { Position, PlayerAction, PotRequest, PotValidationResult } from '../types';
+import { PlayerAction, PotRequest, PotValidationResult } from '../types';
 import { POSITIONS, BLIND_LEVELS, TRAINING_CONFIG } from '../constants/plo.constants';
-import { getRandomElement, getRandomInt } from '@features/roulette-training/utils/randomUtils';
+import { getRandomElement, getRandomInt } from '@utils/randomUtils';
 
 /**
  * Calculate the correct pot amount using dealer's shortcut formula:

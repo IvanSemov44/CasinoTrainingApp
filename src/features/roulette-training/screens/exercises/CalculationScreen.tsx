@@ -1,42 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
+import LoadingSpinner from '@components/LoadingSpinner';
 import ExerciseLayout from '../../components/ExerciseLayout';
 import { useExerciseState } from '../../hooks/useExerciseState';
-import { exerciseTextStyles } from '../../utils/exerciseStyles';
 import type { Bet, BetType } from '../../types/exercise.types';
 import { 
-  getBetTypeName, 
   generateBetExplanation, 
   createMockBets,
 } from '../../utils/exerciseHelpers';
 import { generateBetsForNumber, generateSingleBetFromConfig } from '../../utils/betGenerators';
 import { getRandomInt, getRandomElement } from '../../utils/randomUtils';
 import { generateHintContent } from '../../utils/hintGenerators';
+import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type QuestionType = 'ASK_PAYOUT' | 'ASK_CHIPS' | 'ASK_CASH';
 
+// Union type for all screens that use CalculationScreen
+type CalculationScreenName = 'Calculation' | 'MixedCalculation' | 'TripleMixedCalculation' | 'AllPositionsCalculation' | 'CashHandling';
+
+// Use separate RouteProp and NavigationProp to avoid union type issues
+type CalculationScreenRouteProp = RouteProp<RouletteTrainingStackParamList, CalculationScreenName>;
+type CalculationScreenNavigationProp = StackNavigationProp<RouletteTrainingStackParamList, CalculationScreenName>;
+
 interface CalculationScreenProps {
-  route: {
-    params?: {
-      cashConfigKey?: CashConfigKey;
-      betConfigKey?: BetConfigKey; // For single bet type exercises
-      betTypes?: BetType[]; // For mixed bet exercises
-    };
-  };
-  navigation: any;
+  route: CalculationScreenRouteProp;
+  navigation: CalculationScreenNavigationProp;
 }
 
-export default function CalculationScreen({ route, navigation }: CalculationScreenProps) {
-  const cashConfig = route.params?.cashConfigKey ? getCashConfig(route.params.cashConfigKey) : undefined;
-  const betConfig = route.params?.betConfigKey ? getBetConfig(route.params.betConfigKey) : undefined;
+// Type guard to check if betConfigKey exists in params
+function hasBetConfigKey(params: unknown): params is { betConfigKey: BetConfigKey } {
+  return typeof params === 'object' && params !== null && 'betConfigKey' in params;
+}
+
+// Type guard to check if cashConfigKey exists in params
+function hasCashConfigKey(params: unknown): params is { cashConfigKey: CashConfigKey } {
+  return typeof params === 'object' && params !== null && 'cashConfigKey' in params;
+}
+
+// Type guard to check if betTypes exists in params
+function hasBetTypes(params: unknown): params is { betTypes: BetType[] } {
+  return typeof params === 'object' && params !== null && 'betTypes' in params;
+}
+
+function CalculationScreen({ route }: CalculationScreenProps) {
+  const params = route.params;
+  
+  const cashConfig = hasCashConfigKey(params) ? getCashConfig(params.cashConfigKey) : undefined;
+  const betConfig = hasBetConfigKey(params) ? getBetConfig(params.betConfigKey) : undefined;
   
   // Determine bet types: use betConfig if single bet, otherwise use betTypes array (default to STRAIGHT+SPLIT)
   const allowedBetTypes: BetType[] = betConfig 
     ? [betConfig.type as BetType]
-    : (route.params?.betTypes || ['STRAIGHT', 'SPLIT']);
+    : (hasBetTypes(params) ? params.betTypes : ['STRAIGHT', 'SPLIT']);
   
   const isSingleBet = allowedBetTypes.length === 1;
   
@@ -45,6 +64,7 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
   const [questionType, setQuestionType] = useState<QuestionType>('ASK_PAYOUT');
   const [cashRequest, setCashRequest] = useState(0);
   const [remainingChips, setRemainingChips] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   
   const {
     userAnswer,
@@ -59,11 +79,8 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
     toggleHint,
   } = useExerciseState();
 
-  useEffect(() => {
-    generateNewQuestion();
-  }, []);
-
-  const generateNewQuestion = (retryCount = 0) => {
+  const generateNewQuestion = useCallback((retryCount = 0) => {
+    setIsLoading(true);
     const MAX_RETRIES = 10;
     
     let newBets: Bet[];
@@ -105,6 +122,7 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
           setRemainingChips(totalPayout - 50 / cashConfig.denomination);
           setQuestionType('ASK_CHIPS');
           resetAnswer();
+          setIsLoading(false);
         }
         return;
       }
@@ -123,7 +141,12 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
     }
     
     resetAnswer();
-  };
+    setIsLoading(false);
+  }, [isSingleBet, betConfig, allowedBetTypes, cashConfig, resetAnswer]);
+
+  useEffect(() => {
+    generateNewQuestion();
+  }, [generateNewQuestion]);
 
   const calculateCorrectAnswer = () => {
     const totalPayout = bets.filter(bet => bet && bet.chips != null && bet.payout != null).reduce((total, bet) => total + (bet.chips * bet.payout), 0);
@@ -193,6 +216,11 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
 
   const explanation = getExplanationText();
 
+  // Show loading spinner during initial load
+  if (isLoading && bets.length === 0) {
+    return <LoadingSpinner message="Generating question..." />;
+  }
+
   return (
     <ExerciseLayout
       score={score}
@@ -210,6 +238,9 @@ export default function CalculationScreen({ route, navigation }: CalculationScre
       correctAnswer={calculateCorrectAnswer()}
       explanation={explanation}
       onNextQuestion={handleNextQuestion}
+      isLoading={isLoading}
     />
   );
 }
+
+export default CalculationScreen;

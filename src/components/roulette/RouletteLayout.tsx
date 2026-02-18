@@ -24,7 +24,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
   onNumberPress, 
   onBetAreaPress,
   placedBets = [],
-  selectedChipValue = 5,
+  selectedChipValue: _selectedChipValue = 5,
   cellSize,
   showOutsideBets = true,
   showColumnBets = true,

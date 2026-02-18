@@ -5,6 +5,7 @@ import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { AnnouncedBetMode } from '../types';
 
 interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: NavigationProp<any>;
 }
 
@@ -91,7 +92,7 @@ export default function AnnouncedBetsMenuScreen({ navigation }: Props) {
         <Text style={styles.infoTitle}>How to Play:</Text>
         <Text style={styles.infoText}>1. Select a training mode</Text>
         <Text style={styles.infoText}>2. Place chips on the roulette layout</Text>
-        <Text style={styles.infoText}>3. Click "Check Answer" when ready</Text>
+        <Text style={styles.infoText}>3. Click &quot;Check Answer&quot; when ready</Text>
         <Text style={styles.infoText}>4. Review feedback and try the next challenge</Text>
       </View>
     </ScrollView>

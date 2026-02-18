@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import MenuListScreen, { type MenuItem } from '../../components/MenuListScreen';
 import {
   POSITION_EXERCISES,
@@ -6,8 +7,18 @@ import {
   CASH_CONFIGS,
   type PositionType,
 } from '../../config/exerciseDefinitions';
+import type { RouletteTrainingStackParamList } from '../../navigation';
+import type { BetConfigKey } from '@config/betConfigs';
+import type { CashConfigKey } from '@config/cashConfigs';
 
-export default function PositionSelectionScreen({ route, navigation }: any) {
+type PositionSelectionScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'PositionSelection'>;
+
+interface NavigationParams {
+  betConfigKey?: BetConfigKey;
+  cashConfigKey?: CashConfigKey;
+}
+
+export default function PositionSelectionScreen({ route, navigation }: PositionSelectionScreenProps) {
   const { positionType } = route.params as { positionType: PositionType };
 
   const menuItems: MenuItem[] = useMemo(() => {
@@ -26,10 +37,11 @@ export default function PositionSelectionScreen({ route, navigation }: any) {
           description: template.description,
           difficulty: template.difficulty,
           onPress: () => {
-            const params: any = {};
+            const params: NavigationParams = {};
             if (template.betConfigKey) params.betConfigKey = template.betConfigKey;
             if (template.cashConfigKey) params.cashConfigKey = template.cashConfigKey;
-            navigation.navigate(template.screen, Object.keys(params).length > 0 ? params : undefined);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            navigation.navigate(template.screen as any, Object.keys(params).length > 0 ? params : undefined);
           },
         });
       } else {
@@ -41,9 +53,10 @@ export default function PositionSelectionScreen({ route, navigation }: any) {
             description: template.description.replace(/%CHIP%/g, cashConfig.chipValue),
             difficulty: cashConfig.difficulty,
             onPress: () => {
-              const params: any = { cashConfigKey: cashConfig.cashConfigKey };
+              const params: NavigationParams = { cashConfigKey: cashConfig.cashConfigKey };
               if (template.betConfigKey) params.betConfigKey = template.betConfigKey;
-              navigation.navigate(template.screen, params);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              navigation.navigate(template.screen as any, params);
             },
           });
         });

@@ -7,13 +7,13 @@ import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 import { COLORS, SPACING } from '@features/roulette-training/constants/theme';
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 export default function RouletteLayoutViewScreen() {
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const placedBets = useAppSelector(state => state.roulette.placedBets);
-  const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
+  const [_highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
   
   // Calculate cell size to fill screen height when rotated (width becomes height after 90° rotation)
   // Total layout width = 15 * cellSize (1.5 + 12 + 1.5 for zero + numbers + columns)

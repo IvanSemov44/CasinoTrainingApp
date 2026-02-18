@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { DifficultyLevel } from '../types';
 import { DIFFICULTY_MAX_BET } from '../constants/sectors';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function DifficultySelectionScreen({ navigation }: any) {
   const handleDifficultySelect = (difficulty: DifficultyLevel) => {
     navigation.navigate('CashConversionSectorSelection', { difficulty });

@@ -9,6 +9,7 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function RouletteTrainingScreen({ route }: any) {
   const { exercise } = route.params;
   const dispatch = useAppDispatch();

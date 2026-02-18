@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function PLOMenuScreen({ navigation }: any) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>

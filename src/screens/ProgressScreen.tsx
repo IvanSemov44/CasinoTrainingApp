@@ -2,9 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppSelector } from '../store/hooks';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
-import type { NavigationProp } from '../types/navigation.types';
 
-export default function ProgressScreen({ navigation }: { navigation: NavigationProp<'Progress'> }) {
+export default function ProgressScreen() {
   const exerciseResults = useAppSelector(state => state.roulette.exerciseResults);
   
   const totalExercises = exerciseResults.length;

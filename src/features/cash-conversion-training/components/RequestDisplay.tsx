@@ -19,7 +19,7 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Customer says:</Text>
-      <Text style={styles.request}>"{requestText}"</Text>
+      <Text style={styles.request}>&ldquo;{requestText}&rdquo;</Text>
     </View>
   );
 }

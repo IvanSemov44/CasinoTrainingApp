@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import GameStateDisplay from '../components/GameStateDisplay';
 import PotCalculationInput from '../components/PotCalculationInput';
@@ -6,7 +6,7 @@ import { PotRequest, PotValidationResult } from '../types';
 import { generateRandomPotRequest, validatePotAnswer } from '../utils/plo.utils';
 import type { NavigationProp } from '../../../types/navigation.types';
 
-export default function PLOPotCalculationScreen({ navigation }: { navigation: NavigationProp<'PLOPotCalculation'> }) {
+export default function PLOPotCalculationScreen({ navigation: _navigation }: { navigation: NavigationProp<'PLOPotCalculation'> }) {
   const [currentRequest, setCurrentRequest] = useState<PotRequest>(generateRandomPotRequest());
   const [validationResult, setValidationResult] = useState<PotValidationResult | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });

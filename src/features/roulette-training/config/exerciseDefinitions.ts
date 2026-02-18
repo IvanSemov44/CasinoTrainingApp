@@ -13,11 +13,19 @@ export type PositionType =
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
+// Screen names that match the navigation param list
+export type ExerciseScreenName = 
+  | 'Calculation'
+  | 'MixedCalculation'
+  | 'TripleMixedCalculation'
+  | 'AllPositionsCalculation'
+  | 'CashHandling';
+
 export interface ExerciseTemplate {
   title: string;
   description: string;
   difficulty: Difficulty;
-  screen: string;
+  screen: ExerciseScreenName;
   betConfigKey?: BetConfigKey;
   cashConfigKey?: CashConfigKey;
 }

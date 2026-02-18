@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../components';
-import { DifficultyLevel, SectorType, CashRequest, ValidationResult } from '../types';
+import { SectorType, CashRequest, ValidationResult } from '../types';
 import { SECTOR_NAMES, SECTOR_POSITIONS } from '../constants/sectors';
 import {
   generateRandomCashAmount,
@@ -12,6 +12,7 @@ import {
   validateAnswer,
 } from '../utils/calculations';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CashConversionTrainingScreen({ route }: any) {
   const { difficulty, sector } = route.params;
 
@@ -22,11 +23,7 @@ export default function CashConversionTrainingScreen({ route }: any) {
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
-  useEffect(() => {
-    generateNewChallenge();
-  }, []);
-
-  const generateNewChallenge = () => {
+  const generateNewChallenge = useCallback(() => {
     const cashAmount = generateRandomCashAmount(difficulty);
     const selectedSector = sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
     const request = generateRandomRequest(selectedSector, cashAmount, difficulty);
@@ -35,7 +32,11 @@ export default function CashConversionTrainingScreen({ route }: any) {
     setTotalBet('');
     setChange('');
     setResult(null);
-  };
+  }, [difficulty, sector]);
+
+  useEffect(() => {
+    generateNewChallenge();
+  }, [generateNewChallenge]);
 
   const handleCheck = () => {
     if (!currentRequest || !totalBet || !change) return;

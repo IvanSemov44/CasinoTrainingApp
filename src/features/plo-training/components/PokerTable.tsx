@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { COLORS } from '../../roulette-training/constants/theme';
 import PlayerPosition from './PlayerPosition';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -87,6 +86,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
                 name={player.name}
                 chipAmount={player.chipAmount}
                 isDealer={player.isDealer}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 action={player.action as any}
                 betAmount={player.betAmount}
                 isFolded={player.isFolded}

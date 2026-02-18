@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { PokerTable } from '../components';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function PLOTrainingScreen({ route }: any) {
   const { mode } = route.params || { mode: 'basic' };
-  const [score, setScore] = useState(0);
+  const [score, _setScore] = useState(0);
 
   // Sample player data
   const [players] = useState([

@@ -10,11 +10,12 @@ import { getNumberColor } from '@constants/roulette.constants';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function RouletteLayoutPracticeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const placedBets = useAppSelector(state => state.roulette.placedBets);
-  const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
+  const [_highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
   const [selectedNumber, setSelectedNumber] = useState<RouletteNumber | null>(null);
 
   const handleNumberPress = (number: RouletteNumber) => {

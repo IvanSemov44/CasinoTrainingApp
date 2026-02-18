@@ -16,7 +16,7 @@ interface PlayerPositionProps {
 
 export default function PlayerPosition({ 
   position, 
-  chipAmount, 
+  chipAmount: _chipAmount, 
   name, 
   isDealer,
   action,
@@ -87,23 +87,6 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
     fontSize: 14,
     fontWeight: '600',
-    textAlign: 'center',
-  },
-  chipsContainer: {
-    marginTop: SPACING.xs,
-  },
-  chipStack: {
-    backgroundColor: '#2c3e50',
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-  },
-  chipValue: {
-    color: COLORS.text.gold,
-    fontSize: 12,
-    fontWeight: '700',
     textAlign: 'center',
   },
   dealerButton: {

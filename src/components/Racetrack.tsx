@@ -32,6 +32,7 @@ const Racetrack: React.FC<RacetrackProps> = ({
         {WHEEL_ORDER.map((num) => {
           const isHighlighted = highlightedNumbers.includes(num);
           const backgroundColor = getNumberColor(num);
+          const colorName = num === 0 ? 'green' : [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num) ? 'red' : 'black';
           
           return (
             <TouchableOpacity
@@ -42,6 +43,9 @@ const Racetrack: React.FC<RacetrackProps> = ({
                 isHighlighted && styles.highlightedCell,
               ]}
               onPress={() => onNumberPress(num)}
+              accessibilityLabel={`Number ${num}, ${colorName}${isHighlighted ? ', highlighted' : ''}`}
+              accessibilityHint="Double tap to select this number"
+              accessibilityRole="button"
             >
               <Text style={styles.numberText}>{num}</Text>
             </TouchableOpacity>
@@ -50,17 +54,52 @@ const Racetrack: React.FC<RacetrackProps> = ({
       </ScrollView>
 
       {/* Special bet buttons */}
+      {/* 
+        * DEVOPS MODE - REFERENCE ONLY *
+        These buttons are intentionally non-functional and serve as visual reference only.
+        DO NOT implement onPress handlers for these buttons.
+        Implementation is complex and should be locked for future development.
+        For actual announced bets functionality, use the dedicated Announced Bets Training feature.
+      */}
       <View style={styles.specialBetsContainer}>
-        <TouchableOpacity style={styles.specialBet}>
+        <TouchableOpacity 
+          style={styles.specialBet} 
+          disabled
+          accessibilityLabel="Voisins du Zero bet, disabled"
+          accessibilityHint="This feature is not yet available"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: true }}
+        >
           <Text style={styles.specialBetText}>Voisins du Zero</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.specialBet}>
+        <TouchableOpacity 
+          style={styles.specialBet} 
+          disabled
+          accessibilityLabel="Tiers du Cylindre bet, disabled"
+          accessibilityHint="This feature is not yet available"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: true }}
+        >
           <Text style={styles.specialBetText}>Tiers du Cylindre</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.specialBet}>
+        <TouchableOpacity 
+          style={styles.specialBet} 
+          disabled
+          accessibilityLabel="Orphelins bet, disabled"
+          accessibilityHint="This feature is not yet available"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: true }}
+        >
           <Text style={styles.specialBetText}>Orphelins</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.specialBet}>
+        <TouchableOpacity 
+          style={styles.specialBet} 
+          disabled
+          accessibilityLabel="Zero Game bet, disabled"
+          accessibilityHint="This feature is not yet available"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: true }}
+        >
           <Text style={styles.specialBetText}>Zero Game</Text>
         </TouchableOpacity>
       </View>
