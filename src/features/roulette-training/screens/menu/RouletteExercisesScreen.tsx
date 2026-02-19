@@ -1,86 +1,133 @@
-import React, { useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import MenuListScreen, { type MenuItem } from '../../components/MenuListScreen';
+import { TrainingSelectionModal } from '@components/roulette';
 import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
 
-const POSITION_CATEGORIES = [
-  {
-    id: '1',
-    type: 'STRAIGHT_UP',
-    title: 'Straight Up',
-    description: 'Single number bets (35:1). Includes payout calculations and cash handling.',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '2',
-    type: 'SPLIT',
-    title: 'Split',
-    description: 'Two adjacent numbers (17:1). Payout calculations.',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '3',
-    type: 'STREET',
-    title: 'Street',
-    description: 'Three numbers in a row (11:1). Payout calculations.',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '4',
-    type: 'CORNER',
-    title: 'Corner',
-    description: 'Four numbers (8:1). Payout calculations.',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '5',
-    type: 'SIX_LINE',
-    title: 'Six Line',
-    description: 'Six numbers - double street (5:1). Payout calculations.',
-    difficulty: 'easy' as const,
-  },
-  {
-    id: '6',
-    type: 'MIXED_CALCULATION',
-    title: 'Mixed Bets - Straight & Split',
-    description: 'Calculate total payouts combining straight ups (35:1) and splits (17:1).',
-    difficulty: 'medium' as const,
-  },
-  {
-    id: '7',
-    type: 'TRIPLE_MIXED_CALCULATION',
-    title: 'Mixed Bets - Triple Mix',
-    description: 'Combines straight ups (35:1), splits (17:1), and corners (8:1).',
-    difficulty: 'hard' as const,
-  },
-  {
-    id: '8',
-    type: 'ALL_POSITIONS_CALCULATION',
-    title: 'All Positions - Master Level',
-    description: 'Calculate total payouts combining all bet types: straight ups, splits, corners, streets, and six lines.',
-    difficulty: 'hard' as const,
-  },
-];
-
 export default function RouletteExercisesScreen({ navigation }: RouletteExercisesScreenProps) {
-  const menuItems: MenuItem[] = useMemo(() => 
-    POSITION_CATEGORIES.map((category) => ({
-      id: category.id,
-      title: category.title,
-      description: category.description,
-      difficulty: category.difficulty,
-      onPress: () => navigation.navigate('PositionSelection', { positionType: category.type }),
-    })),
-    [navigation]
-  );
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleOpenModal = useCallback(() => {
+    setIsModalVisible(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalVisible(false);
+  }, []);
 
   return (
-    <MenuListScreen 
-      title="Roulette Exercises"
-      items={menuItems}
-      theme="green"
-    />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Roulette Training</Text>
+        <Text style={styles.subtitle}>Master payout calculations for all bet types</Text>
+      </View>
+
+      <View style={styles.content}>
+        <TouchableOpacity 
+          style={styles.startButton}
+          onPress={handleOpenModal}
+          accessibilityLabel="Start Training"
+          accessibilityRole="button"
+        >
+          <Text style={styles.startButtonIcon}>🎯</Text>
+          <Text style={styles.startButtonText}>Start Training</Text>
+          <Text style={styles.startButtonHint}>Select from all available exercises</Text>
+        </TouchableOpacity>
+
+        <View style={styles.infoSection}>
+          <Text style={styles.infoTitle}>Available Training Types</Text>
+          <View style={styles.trainingTypesList}>
+            <Text style={styles.trainingTypeItem}>• Straight Up (35:1)</Text>
+            <Text style={styles.trainingTypeItem}>• Split (17:1)</Text>
+            <Text style={styles.trainingTypeItem}>• Street (11:1)</Text>
+            <Text style={styles.trainingTypeItem}>• Corner (8:1)</Text>
+            <Text style={styles.trainingTypeItem}>• Six Line (5:1)</Text>
+            <Text style={styles.trainingTypeItem}>• Mixed Bets</Text>
+            <Text style={styles.trainingTypeItem}>• Cash Handling</Text>
+          </View>
+        </View>
+      </View>
+
+      <TrainingSelectionModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0a2f1f',
+  },
+  header: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2a7f4f',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#CCCCCC',
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
+  },
+  startButton: {
+    backgroundColor: '#1a5f3f',
+    borderRadius: 16,
+    padding: 30,
+    width: '100%',
+    maxWidth: 400,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#2a7f4f',
+    marginTop: 20,
+  },
+  startButtonIcon: {
+    fontSize: 48,
+    marginBottom: 12,
+  },
+  startButtonText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 8,
+  },
+  startButtonHint: {
+    fontSize: 14,
+    color: '#CCCCCC',
+  },
+  infoSection: {
+    marginTop: 40,
+    padding: 20,
+    backgroundColor: 'rgba(26, 95, 63, 0.5)',
+    borderRadius: 12,
+    width: '100%',
+    maxWidth: 400,
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFD700',
+    marginBottom: 12,
+  },
+  trainingTypesList: {
+    gap: 6,
+  },
+  trainingTypeItem: {
+    fontSize: 14,
+    color: '#CCCCCC',
+    lineHeight: 20,
+  },
+});

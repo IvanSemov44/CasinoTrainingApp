@@ -6,7 +6,6 @@ import type { BetType } from './types/exercise.types';
 
 // Screens
 import RouletteExercisesScreen from './screens/menu/RouletteExercisesScreen';
-import PositionSelectionScreen from './screens/menu/PositionSelectionScreen';
 import CalculationScreen from './screens/exercises/CalculationScreen';
 import RouletteLayoutViewScreen from './screens/reference/RouletteLayoutViewScreen';
 import RouletteLayoutPracticeScreen from './screens/reference/RouletteLayoutPracticeScreen';
@@ -15,7 +14,6 @@ import RouletteTrainingScreen from './screens/reference/RouletteTrainingScreen';
 // Type definitions
 export type RouletteTrainingStackParamList = {
   RouletteExercises: undefined;
-  PositionSelection: { positionType: string };
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
@@ -34,10 +32,9 @@ const getScreenTitle = (
   params?: {
     betConfigKey?: BetConfigKey;
     cashConfigKey?: CashConfigKey;
-    positionType?: string;
   }
 ): string => {
-  const { betConfigKey, cashConfigKey, positionType } = params || {};
+  const { betConfigKey, cashConfigKey } = params || {};
   const cashInfo = cashConfigKey ? ` - $${getCashConfig(cashConfigKey).denomination}` : '';
 
   switch (screenName) {
@@ -56,8 +53,6 @@ const getScreenTitle = (
       const cashValue = cashConfigKey ? `$${getCashConfig(cashConfigKey).denomination}` : 'Cash';
       return `${cashBetName}${cashValue}`;
     }
-    case 'PositionSelection':
-      return positionType?.replace('_', ' ') || 'Select Training';
     default:
       return screenName;
   }
@@ -75,13 +70,6 @@ export const RouletteTrainingRoutes = () => {
         name="RouletteExercises"
         component={RouletteExercisesScreen}
         options={{ title: 'Roulette Exercises' }}
-      />
-      <Stack.Screen
-        name="PositionSelection"
-        component={PositionSelectionScreen}
-        options={({ route }) => ({
-          title: getScreenTitle('PositionSelection', route.params)
-        })}
       />
 
       {/* Reference Screens */}

@@ -5,4 +5,5 @@ export { default as RouletteZeroColumn } from './RouletteZeroColumn';
 export { default as RouletteNumberGrid } from './RouletteNumberGrid';
 export { default as RouletteOutsideBets } from './RouletteOutsideBets';
 export { default as RouletteColumnBets } from './RouletteColumnBets';
+export { default as TrainingSelectionModal } from './TrainingSelectionModal';
 export { useRouletteBets } from './hooks/useRouletteBets';

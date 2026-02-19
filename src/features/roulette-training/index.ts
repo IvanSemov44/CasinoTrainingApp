@@ -3,7 +3,6 @@ export { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from './n
 
 // Screen exports
 export { default as RouletteExercisesScreen } from './screens/menu/RouletteExercisesScreen';
-export { default as PositionSelectionScreen } from './screens/menu/PositionSelectionScreen';
 export { default as CalculationScreen } from './screens/exercises/CalculationScreen';
 export { default as RouletteLayoutViewScreen } from './screens/reference/RouletteLayoutViewScreen';
 export { default as RouletteLayoutPracticeScreen } from './screens/reference/RouletteLayoutPracticeScreen';
