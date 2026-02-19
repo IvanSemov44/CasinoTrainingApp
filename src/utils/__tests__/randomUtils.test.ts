@@ -10,6 +10,7 @@ import {
   getRandomChipCount,
   shouldInclude,
   getRandomCount,
+  getDynamicChipCount,
 } from '../randomUtils';
 
 describe('randomUtils', () => {
@@ -202,6 +203,82 @@ describe('randomUtils', () => {
         const result = getRandomCount(5, 5);
         expect(result).toBeGreaterThanOrEqual(1);
       }
+    });
+  });
+
+  describe('getDynamicChipCount', () => {
+    it('should return 0 for input 0', () => {
+      const result = getDynamicChipCount(0);
+      expect(result).toBe(0);
+    });
+
+    it('should return 1 for input 1', () => {
+      const result = getDynamicChipCount(1);
+      expect(result).toBe(1);
+    });
+
+    it('should return value within valid range for high values (20+)', () => {
+      // For 20, range should be 15-20 (75% lower bound)
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(20);
+        expect(result).toBeGreaterThanOrEqual(15);
+        expect(result).toBeLessThanOrEqual(20);
+        expect(Number.isInteger(result)).toBe(true);
+      }
+    });
+
+    it('should return value within valid range for medium values (10-19)', () => {
+      // For 15, lower bound should be around 70% + adjustment
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(15);
+        expect(result).toBeGreaterThanOrEqual(10); // ~70% of 15
+        expect(result).toBeLessThanOrEqual(15);
+      }
+    });
+
+    it('should return value within valid range for low values (5-9)', () => {
+      // For 5, range should be 3-5 (60% lower bound)
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(5);
+        expect(result).toBeGreaterThanOrEqual(3);
+        expect(result).toBeLessThanOrEqual(5);
+      }
+    });
+
+    it('should return value within valid range for very low values (2-4)', () => {
+      // For 3, range should be 1-3 (60% lower bound, min 1)
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(3);
+        expect(result).toBeGreaterThanOrEqual(1);
+        expect(result).toBeLessThanOrEqual(3);
+      }
+    });
+
+    it('should never return value below 1 for positive inputs', () => {
+      for (let input = 2; input <= 25; input++) {
+        for (let i = 0; i < 20; i++) {
+          const result = getDynamicChipCount(input);
+          expect(result).toBeGreaterThanOrEqual(1);
+        }
+      }
+    });
+
+    it('should never return value above the selected chip count', () => {
+      for (let input = 1; input <= 25; input++) {
+        for (let i = 0; i < 20; i++) {
+          const result = getDynamicChipCount(input);
+          expect(result).toBeLessThanOrEqual(input);
+        }
+      }
+    });
+
+    it('should produce varied results over multiple calls', () => {
+      const results = new Set<number>();
+      for (let i = 0; i < 100; i++) {
+        results.add(getDynamicChipCount(20));
+      }
+      // With range 15-20, we should see multiple different values
+      expect(results.size).toBeGreaterThan(1);
     });
   });
 });

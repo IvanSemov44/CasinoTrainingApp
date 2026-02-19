@@ -11,4 +11,5 @@ export {
   getRandomChipCount,
   shouldInclude,
   getRandomCount,
+  getDynamicChipCount,
 } from '@utils/randomUtils';

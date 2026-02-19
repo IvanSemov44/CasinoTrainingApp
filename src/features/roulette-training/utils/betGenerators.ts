@@ -12,6 +12,7 @@ import {
   getRandomElement,
   shuffleArray,
   shouldInclude,
+  getDynamicChipCount,
 } from './randomUtils';
 
 /**
@@ -148,7 +149,9 @@ export function generateBetsForNumber(
   // Distribute chips across all positions
   let chipDistribution: number[];
   if (targetChips !== undefined && targetChips > 0) {
-    chipDistribution = distributeChipsRandomly(targetChips, betPositions.length);
+    // Apply dynamic variance to the target chip count for realistic training
+    const dynamicTargetChips = getDynamicChipCount(targetChips);
+    chipDistribution = distributeChipsRandomly(dynamicTargetChips, betPositions.length);
   } else {
     // Use random chip counts if no target specified
     chipDistribution = betPositions.map(() => getRandomInt(1, 5));
@@ -172,7 +175,7 @@ export function generateBetsForNumber(
 
 /**
  * Generate a single bet from bet config for focused practice
- * If targetChips is provided, all chips go to this single position
+ * If targetChips is provided, applies dynamic variance for realistic training
  */
 export function generateSingleBetFromConfig(
   possibleBets: RouletteNumber[][],
@@ -182,8 +185,12 @@ export function generateSingleBetFromConfig(
   const randomBet = getRandomElement(possibleBets);
   const number = getRandomElement(randomBet);
   
-  // For single bet, use the target chips directly, or random if not specified
-  const chips = targetChips ?? getRandomInt(1, 5);
+  // Apply dynamic variance to target chips for realistic training scenarios
+  // For higher values (e.g., 20), results in range 15-20
+  // For lower values (e.g., 5), results in range 3-5
+  const chips = targetChips !== undefined 
+    ? getDynamicChipCount(targetChips) 
+    : getRandomInt(1, 5);
   
   const bet: Bet = {
     type: betType,
