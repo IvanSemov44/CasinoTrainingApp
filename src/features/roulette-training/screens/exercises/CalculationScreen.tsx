@@ -113,7 +113,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
     } else {
       // For multiple bets, pick a random winning number (0-12)
       number = getRandomInt(0, 12) as RouletteNumber;
-      newBets = generateBetsForNumber(number, allowedBetTypes);
+      newBets = generateBetsForNumber(number, allowedBetTypes, chipCountParam);
     }
 
     setWinningNumber(number);
