@@ -114,7 +114,8 @@ export function generateBetsForNumber(
  */
 export function generateSingleBetFromConfig(
   possibleBets: RouletteNumber[][],
-  betType: BetType
+  betType: BetType,
+  chipCount?: number
 ): { bet: Bet; number: RouletteNumber } {
   const randomBet = getRandomElement(possibleBets);
   const number = getRandomElement(randomBet);
@@ -122,7 +123,7 @@ export function generateSingleBetFromConfig(
   const bet: Bet = {
     type: betType,
     numbers: randomBet,
-    chips: getRandomInt(1, 5),
+    chips: chipCount ?? getRandomInt(1, 5),
     payout: getBetPayout(betType),
   };
   

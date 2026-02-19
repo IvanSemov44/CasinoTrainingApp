@@ -6,7 +6,7 @@ import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
 
-export default function RouletteExercisesScreen({ navigation }: RouletteExercisesScreenProps) {
+export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpenModal = useCallback(() => {

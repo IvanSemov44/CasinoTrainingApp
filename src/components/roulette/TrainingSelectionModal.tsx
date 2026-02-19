@@ -15,12 +15,10 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
-  POSITION_METADATA,
   type PositionType,
-  type Difficulty,
   CASH_CONFIGS,
 } from '@features/roulette-training/config/exerciseDefinitions';
-import { BET_CONFIGS, type BetConfigKey } from '@config/betConfigs';
+import type { BetConfigKey } from '@config/betConfigs';
 import type { RouletteTrainingStackParamList } from '@features/roulette-training/navigation';
 import type { CashConfigKey } from '@config/cashConfigs';
 
@@ -54,15 +52,6 @@ interface TrainingSelectionModalProps {
   onClose: () => void;
 }
 
-const getDifficultyColor = (difficulty: Difficulty): string => {
-  const colors = {
-    easy: '#4CAF50',
-    medium: '#FF9800',
-    hard: '#F44336',
-  };
-  return colors[difficulty];
-};
-
 export default function TrainingSelectionModal({ visible, onClose }: TrainingSelectionModalProps) {
   const navigation = useNavigation<StackNavigationProp<RouletteTrainingStackParamList>>();
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -75,13 +64,6 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
   const [showTrainingDropdown, setShowTrainingDropdown] = useState(false);
   const [showDenominationDropdown, setShowDenominationDropdown] = useState(false);
   const [showChipCountDropdown, setShowChipCountDropdown] = useState(false);
-
-  // Determine if denomination selection is needed (for cash handling exercises)
-  const needsDenomination = useMemo(() => {
-    if (!selectedTrainingType) return false;
-    // Mixed and All Positions exercises may have cash handling variants
-    return true;
-  }, [selectedTrainingType]);
 
   // Get the screen name for navigation
   const getScreenName = useCallback((trainingType: PositionType): string => {
@@ -206,10 +188,12 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
       betConfigKey?: BetConfigKey;
       cashConfigKey?: CashConfigKey;
       betTypes?: string[];
+      chipCount?: number;
     } = {};
 
     if (betConfigKey) params.betConfigKey = betConfigKey;
     if (selectedDenomination) params.cashConfigKey = selectedDenomination;
+    if (count > 0) params.chipCount = count;
 
     // For mixed calculations, set bet types
     if (selectedTrainingType === 'MIXED_CALCULATION') {

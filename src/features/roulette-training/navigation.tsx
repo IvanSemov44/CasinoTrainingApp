@@ -17,11 +17,11 @@ export type RouletteTrainingStackParamList = {
   RouletteTraining: undefined;
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
-  Calculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  MixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  TripleMixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  AllPositionsCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
-  CashHandling: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[] };
+  Calculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
+  MixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
+  TripleMixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
+  AllPositionsCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
+  CashHandling: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
 };
 
 const Stack = createStackNavigator<RouletteTrainingStackParamList>();

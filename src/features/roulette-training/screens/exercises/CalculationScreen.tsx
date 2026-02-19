@@ -46,6 +46,11 @@ function hasBetTypes(params: unknown): params is { betTypes: BetType[] } {
   return typeof params === 'object' && params !== null && 'betTypes' in params;
 }
 
+// Type guard to check if chipCount exists in params
+function hasChipCount(params: unknown): params is { chipCount: number } {
+  return typeof params === 'object' && params !== null && 'chipCount' in params;
+}
+
 function CalculationScreen({ route }: CalculationScreenProps) {
   const params = route.params;
   
@@ -53,6 +58,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
   const betConfigKey = hasBetConfigKey(params) ? params.betConfigKey : undefined;
   const cashConfigKey = hasCashConfigKey(params) ? params.cashConfigKey : undefined;
   const betTypesParam = hasBetTypes(params) ? params.betTypes : undefined;
+  const chipCountParam = hasChipCount(params) ? params.chipCount : undefined;
   
   // Memoize config objects to ensure stable references
   const cashConfig = useMemo(() => cashConfigKey ? getCashConfig(cashConfigKey) : undefined, [cashConfigKey]);
@@ -99,7 +105,8 @@ function CalculationScreen({ route }: CalculationScreenProps) {
       const possibleBets = betConfig.generatePossibleBets();
       const { bet, number: winningNumber } = generateSingleBetFromConfig(
         possibleBets,
-        allowedBetTypes[0]
+        allowedBetTypes[0],
+        chipCountParam
       );
       newBets = [bet];
       number = winningNumber;
@@ -150,7 +157,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
     
     resetAnswer();
     setIsLoading(false);
-  }, [isSingleBet, betConfig, allowedBetTypes, cashConfig, resetAnswer]);
+  }, [isSingleBet, betConfig, allowedBetTypes, cashConfig, resetAnswer, chipCountParam]);
 
   useEffect(() => {
     generateNewQuestion();
