@@ -13,26 +13,32 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       <Text style={styles.subtitle}>Master your skills</Text>
       
       <View style={styles.menuContainer}>
-        <TouchableOpacity 
-          style={styles.menuButton}
-          onPress={() => navigation.navigate('RouletteLayoutView')}
-        >
-          <Text style={styles.menuButtonText}>🎯 View Roulette Layout</Text>
-        </TouchableOpacity>
+        {__DEV__ && (
+          <TouchableOpacity 
+            style={styles.menuButton}
+            onPress={() => navigation.navigate('RouletteLayoutView')}
+          >
+            <Text style={styles.menuButtonText}>🎯 View Roulette Layout</Text>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity 
-          style={styles.menuButton}
-          onPress={() => navigation.navigate('Racetrack')}
-        >
-          <Text style={styles.menuButtonText}>🏁 Racetrack</Text>
-        </TouchableOpacity>
+        {__DEV__ && (
+          <TouchableOpacity 
+            style={styles.menuButton}
+            onPress={() => navigation.navigate('Racetrack')}
+          >
+            <Text style={styles.menuButtonText}>🏁 Racetrack</Text>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity 
-          style={styles.menuButton}
-          onPress={() => navigation.navigate('RouletteGame')}
-        >
-          <Text style={styles.menuButtonText}>🎮 Roulette Game</Text>
-        </TouchableOpacity>
+        {__DEV__ && (
+          <TouchableOpacity 
+            style={styles.menuButton}
+            onPress={() => navigation.navigate('RouletteGame')}
+          >
+            <Text style={styles.menuButtonText}>🎮 Roulette Game</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity 
           style={styles.menuButton}
