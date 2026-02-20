@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
-import { AnnouncedBetMode } from '../types';
+import { CallBetMode } from '../types';
 import { getModeDisplayName } from '../utils/validation';
 
 interface ChallengeDisplayProps {
-  mode: Exclude<AnnouncedBetMode, 'random'>;
+  mode: Exclude<CallBetMode, 'random'>;
   totalBets: number;
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
-import { AnnouncedBetMode } from '../types';
+import { CallBetMode } from '../types';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface ModeOption {
-  mode: AnnouncedBetMode;
+  mode: CallBetMode;
   title: string;
   description: string;
   icon: string;
@@ -49,21 +49,21 @@ const MODE_OPTIONS: ModeOption[] = [
   {
     mode: 'random',
     title: 'Random Training',
-    description: 'Practice all announced bets randomly',
+    description: 'Practice all call bets randomly',
     icon: '🎰',
     color: '#10b981',
   },
 ];
 
-export default function AnnouncedBetsMenuScreen({ navigation }: Props) {
-  const handleModeSelect = (mode: AnnouncedBetMode) => {
-    navigation.navigate('AnnouncedBetsTraining', { mode });
+export default function CallBetsMenuScreen({ navigation }: Props) {
+  const handleModeSelect = (mode: CallBetMode) => {
+    navigation.navigate('CallBetsTraining', { mode });
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.header}>
-        <Text style={styles.title}>Announced Bets Training</Text>
+        <Text style={styles.title}>Call Bets Training</Text>
         <Text style={styles.subtitle}>
           Learn where to place chips for each racetrack bet
         </Text>
@@ -92,7 +92,7 @@ export default function AnnouncedBetsMenuScreen({ navigation }: Props) {
         <Text style={styles.infoTitle}>How to Play:</Text>
         <Text style={styles.infoText}>1. Select a training mode</Text>
         <Text style={styles.infoText}>2. Place chips on the roulette layout</Text>
-        <Text style={styles.infoText}>3. Click &quot;Check Answer&quot; when ready</Text>
+        <Text style={styles.infoText}>3. Click "Check Answer" when ready</Text>
         <Text style={styles.infoText}>4. Review feedback and try the next challenge</Text>
       </View>
     </ScrollView>

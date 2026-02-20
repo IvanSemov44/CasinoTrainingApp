@@ -5,20 +5,20 @@ import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { RouletteLayout } from '../../../components/roulette';
 import { ChallengeDisplay, ResultFeedback } from '../components';
 import { PlacedBet } from '../../../types/roulette.types';
-import { AnnouncedBetMode, ValidationResult } from '../types';
-import { validateAnnouncedBet, getRandomMode } from '../utils/validation';
+import { CallBetMode, ValidationResult } from '../types';
+import { validateCallBet, getRandomMode } from '../utils/validation';
 import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
-import { AnnouncedBetsStackParamList } from '../navigation';
+import { CallBetsStackParamList } from '../navigation';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-type Props = StackScreenProps<AnnouncedBetsStackParamList, 'AnnouncedBetsTraining'>;
+type Props = StackScreenProps<CallBetsStackParamList, 'CallBetsTraining'>;
 
-export default function AnnouncedBetsTrainingScreen({ route }: Props) {
+export default function CallBetsTrainingScreen({ route }: Props) {
   const initialMode = route.params?.mode || 'random';
-  const [selectedMode, _setSelectedMode] = useState<AnnouncedBetMode>(initialMode);
-  const [currentChallenge, setCurrentChallenge] = useState<Exclude<AnnouncedBetMode, 'random'>>(
-    initialMode === 'random' ? getRandomMode() : (initialMode as Exclude<AnnouncedBetMode, 'random'>)
+  const [selectedMode, _setSelectedMode] = useState<CallBetMode>(initialMode);
+  const [currentChallenge, setCurrentChallenge] = useState<Exclude<CallBetMode, 'random'>>(
+    initialMode === 'random' ? getRandomMode() : (initialMode as Exclude<CallBetMode, 'random'>)
   );
   const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
   const [selectedChipValue] = useState(5);
@@ -52,7 +52,7 @@ export default function AnnouncedBetsTrainingScreen({ route }: Props) {
   };
 
   const handleCheck = () => {
-    const validationResult = validateAnnouncedBet(currentChallenge, placedBets);
+    const validationResult = validateCallBet(currentChallenge, placedBets);
     setResult(validationResult);
     
     setStats(prev => ({

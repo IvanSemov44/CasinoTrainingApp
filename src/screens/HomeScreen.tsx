@@ -43,9 +43,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <TouchableOpacity 
           style={styles.menuButton}
-          onPress={() => navigation.navigate('AnnouncedBetsMenu')}
+          onPress={() => navigation.navigate('CallBetsMenu')}
         >
-          <Text style={styles.menuButtonText}>🎲 Announced Bets Training</Text>
+          <Text style={styles.menuButtonText}>🎲 Call Bets Training</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 

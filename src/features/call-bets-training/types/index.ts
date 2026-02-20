@@ -1,4 +1,4 @@
-export type AnnouncedBetMode = 'tier' | 'orphelins' | 'voisins' | 'zero' | 'random';
+export type CallBetMode = 'tier' | 'orphelins' | 'voisins' | 'zero' | 'random';
 
 export interface ValidationResult {
   isCorrect: boolean;

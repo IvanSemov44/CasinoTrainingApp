@@ -1,6 +1,6 @@
 import { PlacedBet } from '../../../types/roulette.types';
 import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
-import { ValidationResult, AnnouncedBetMode } from '../types';
+import { ValidationResult, CallBetMode } from '../types';
 
 /**
  * Normalize bet for comparison (sort numbers, ignore amount/id/timestamp)
@@ -22,10 +22,10 @@ function betsAreEqual(bet1: { type: string; numbers: number[] }, bet2: { type: s
 }
 
 /**
- * Validate user's placed bets against the correct announced bet
+ * Validate user's placed bets against the correct call bet
  */
-export function validateAnnouncedBet(
-  mode: Exclude<AnnouncedBetMode, 'random'>,
+export function validateCallBet(
+  mode: Exclude<CallBetMode, 'random'>,
   userBets: PlacedBet[]
 ): ValidationResult {
   const betDefinition = ANNOUNCED_BETS[mode];
@@ -71,18 +71,18 @@ export function validateAnnouncedBet(
 }
 
 /**
- * Get a random announced bet mode (excluding 'random')
+ * Get a random call bet mode (excluding 'random')
  */
-export function getRandomMode(): Exclude<AnnouncedBetMode, 'random'> {
-  const modes: Array<Exclude<AnnouncedBetMode, 'random'>> = ['tier', 'orphelins', 'voisins', 'zero'];
+export function getRandomMode(): Exclude<CallBetMode, 'random'> {
+  const modes: Array<Exclude<CallBetMode, 'random'>> = ['tier', 'orphelins', 'voisins', 'zero'];
   return modes[Math.floor(Math.random() * modes.length)];
 }
 
 /**
  * Get display name for a mode
  */
-export function getModeDisplayName(mode: AnnouncedBetMode): string {
-  const names: Record<AnnouncedBetMode, string> = {
+export function getModeDisplayName(mode: CallBetMode): string {
+  const names: Record<CallBetMode, string> = {
     tier: 'Tier du Cylindre',
     orphelins: 'Orphelins',
     voisins: 'Voisins du Zéro',

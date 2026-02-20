@@ -6,7 +6,7 @@ import ProgressScreen from '../screens/ProgressScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
 import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
 import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
-import { AnnouncedBetsRoutes, type AnnouncedBetsStackParamList } from '../features/announced-bets-training';
+import { CallBetsRoutes, type CallBetsStackParamList } from '../features/call-bets-training';
 import { CashConversionRoutes, type CashConversionStackParamList } from '../features/cash-conversion-training';
 import { PLORoutes, type PLOStackParamList } from '../features/plo-training';
 import { COLORS } from '../features/roulette-training/constants/theme';
@@ -17,7 +17,7 @@ export type RootStackParamList = {
 } & RouletteTrainingStackParamList 
   & RacetrackStackParamList 
   & RouletteGameStackParamList 
-  & AnnouncedBetsStackParamList
+  & CallBetsStackParamList
   & CashConversionStackParamList
   & PLOStackParamList;
 
@@ -46,7 +46,7 @@ export default function AppNavigator() {
         {RouletteTrainingRoutes()}
         {RacetrackRoutes()}
         {RouletteGameRoutes()}
-        {AnnouncedBetsRoutes()}
+        {CallBetsRoutes()}
         {CashConversionRoutes()}
         {PLORoutes()}
         <Stack.Screen
