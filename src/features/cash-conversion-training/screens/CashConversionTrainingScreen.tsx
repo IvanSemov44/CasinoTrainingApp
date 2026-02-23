@@ -18,19 +18,23 @@ export default function CashConversionTrainingScreen({ route }: any) {
 
   const [currentRequest, setCurrentRequest] = useState<CashRequest | null>(null);
   const [totalBet, setTotalBet] = useState('');
+  const [betPerPosition, setBetPerPosition] = useState('');
   const [change, setChange] = useState('');
-  const [activeInput, setActiveInput] = useState<'totalBet' | 'change'>('totalBet');
+  const [activeInput, setActiveInput] = useState<'totalBet' | 'betPerPosition' | 'change'>('totalBet');
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
   const generateNewChallenge = useCallback(() => {
-    const cashAmount = generateRandomCashAmount(difficulty);
     const selectedSector = sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
+    const cashAmount = generateRandomCashAmount(difficulty, selectedSector);
     const request = generateRandomRequest(selectedSector, cashAmount, difficulty);
     
     setCurrentRequest(request);
     setTotalBet('');
+    setBetPerPosition('');
     setChange('');
+    // Set default active input based on request type
+    setActiveInput(request.requestType === 'for-the-money' ? 'betPerPosition' : 'totalBet');
     setResult(null);
   }, [difficulty, sector]);
 
@@ -38,17 +42,30 @@ export default function CashConversionTrainingScreen({ route }: any) {
     generateNewChallenge();
   }, [generateNewChallenge]);
 
-  const handleCheck = () => {
-    if (!currentRequest || !totalBet || !change) return;
+  // Check if form is complete based on request type
+  const isFormComplete = currentRequest
+    ? currentRequest.requestType === 'for-the-money'
+      ? !!betPerPosition && !!change
+      : !!totalBet && !!change
+    : false;
 
+  const handleCheck = () => {
+    if (!currentRequest) return;
+
+    // For "for-the-money": user enters betPerPosition and change
+    // For "by-amount": user enters totalBet and change
     const userAnswer = {
-      totalBet: parseInt(totalBet, 10),
+      totalBet: currentRequest.requestType === 'for-the-money' 
+        ? (parseInt(betPerPosition, 10) || 0) * (SECTOR_POSITIONS[currentRequest.sector] || 1)
+        : parseInt(totalBet, 10),
+      betPerPosition: currentRequest.requestType === 'for-the-money'
+        ? parseInt(betPerPosition, 10)
+        : (currentRequest.specifiedAmount || 0),
       change: parseInt(change, 10),
     };
 
     const correctAnswer = calculateCorrectAnswer(currentRequest, difficulty);
-    const positions = SECTOR_POSITIONS[currentRequest.sector];
-    const validationResult = validateAnswer(userAnswer, correctAnswer, positions);
+    const validationResult = validateAnswer(userAnswer, correctAnswer);
 
     setResult(validationResult);
     setStats(prev => ({
@@ -84,18 +101,21 @@ export default function CashConversionTrainingScreen({ route }: any) {
         <>
           <AnswerInput
             totalBet={totalBet}
+            betPerPosition={betPerPosition}
             change={change}
             onTotalBetChange={setTotalBet}
+            onBetPerPositionChange={setBetPerPosition}
             onChangeChange={setChange}
             sectorName={sectorName}
             activeInput={activeInput}
             onInputFocus={setActiveInput}
+            requestType={currentRequest.requestType}
           />
 
           <TouchableOpacity
-            style={[styles.checkButton, (!totalBet || !change) && styles.checkButtonDisabled]}
+            style={[styles.checkButton, !isFormComplete && styles.checkButtonDisabled]}
             onPress={handleCheck}
-            disabled={!totalBet || !change}
+            disabled={!isFormComplete}
           >
             <Text style={styles.checkButtonText}>Check Answer</Text>
           </TouchableOpacity>

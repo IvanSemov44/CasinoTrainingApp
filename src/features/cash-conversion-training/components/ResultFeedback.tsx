@@ -23,20 +23,26 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
           <View style={styles.answerSection}>
             <Text style={styles.sectionTitle}>Your Answer:</Text>
             <Text style={styles.answerText}>
-              Total: ${result.userTotalBet}
+              {sectorName} Total: ${result.userTotalBet}
             </Text>
             <Text style={styles.answerText}>
-              ${result.userChange} rest
+              {sectorName} Play By: ${result.userBetPerPosition}
+            </Text>
+            <Text style={styles.answerText}>
+              Rest: ${result.userChange}
             </Text>
           </View>
 
           <View style={styles.answerSection}>
             <Text style={styles.sectionTitle}>Correct Answer:</Text>
             <Text style={[styles.answerText, styles.correctText]}>
-              {sectorName} by ${result.correctBetPerPosition} = ${result.correctTotalBet}
+              {sectorName} Total: ${result.correctTotalBet}
             </Text>
             <Text style={[styles.answerText, styles.correctText]}>
-              ${result.correctChange} rest
+              {sectorName} Play By: ${result.correctBetPerPosition}
+            </Text>
+            <Text style={[styles.answerText, styles.correctText]}>
+              Rest: ${result.correctChange}
             </Text>
           </View>
         </View>

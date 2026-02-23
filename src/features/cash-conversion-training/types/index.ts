@@ -13,6 +13,7 @@ export interface CashRequest {
 
 export interface CashAnswer {
   totalBet: number;
+  betPerPosition: number;
   change: number;
 }
 
@@ -23,4 +24,5 @@ export interface ValidationResult {
   userTotalBet: number;
   userChange: number;
   correctBetPerPosition: number;
+  userBetPerPosition: number;
 }
