@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { CallBetMode } from '../types';
+import type { CallBetsStackParamList } from '../navigation';
 
-interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  navigation: NavigationProp<any>;
-}
+type Props = StackScreenProps<CallBetsStackParamList, 'CallBetsMenu'>;
 
 interface ModeOption {
   mode: CallBetMode;
