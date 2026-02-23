@@ -17,7 +17,6 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
       { value: 500, color: '#9370DB' },
       { value: 100, color: '#000000' },
       { value: 25, color: '#228B22' },
-      { value: 5, color: '#DC143C' },
     ];
 
     for (const denom of denominations) {

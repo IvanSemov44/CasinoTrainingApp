@@ -57,39 +57,42 @@ export function validateAnswer(
   };
 }
 
-// Cash amount ranges by difficulty
-const CASH_RANGES: Record<DifficultyLevel, { min: number; max: number }> = {
-  easy: { min: 100, max: 300 },
-  medium: { min: 300, max: 600 },
-  hard: { min: 600, max: 1200 },
+// Step increment for all difficulties ($25)
+const CASH_STEP = 25;
+
+// Minimum cash amounts by difficulty (as percentage of max)
+const MIN_CASH_PERCENTAGE: Record<DifficultyLevel, number> = {
+  easy: 0,     // Start from minimum viable amount
+  medium: 0.4, // 40% of max cash
+  hard: 0.4,   // 40% of max cash
 };
 
 export function generateRandomCashAmount(difficulty: DifficultyLevel, sector?: Exclude<SectorType, 'random'>): number {
   const maxBet = DIFFICULTY_MAX_BET[difficulty];
-  const range = CASH_RANGES[difficulty];
+  const minPercentage = MIN_CASH_PERCENTAGE[difficulty];
   
-  // If sector is specified, calculate the maximum total for that sector
-  const maxTotal = sector ? maxBet * SECTOR_POSITIONS[sector] : null;
+  // Calculate max cash based on sector: maxBet × positions
+  // If no sector specified, use Tier (6 positions) as default
+  const positions = sector ? SECTOR_POSITIONS[sector] : 6;
+  const maxCash = maxBet * positions;
   
-  // Generate amounts within the difficulty range, in increments of 25
+  // Calculate absolute minimum: positions × $5, rounded up to nearest $25
+  // This ensures the cash amount can always cover at least $5 per position
+  const absoluteMinCash = Math.ceil(positions * MIN_BET_PER_POSITION / CASH_STEP) * CASH_STEP;
+  
+  // Calculate minimum cash from percentage (for medium/hard difficulties)
+  const percentageMinCash = Math.ceil(maxCash * minPercentage / CASH_STEP) * CASH_STEP;
+  
+  // Use the higher of absolute minimum or percentage minimum
+  const minCash = Math.max(absoluteMinCash, percentageMinCash);
+  
+  // Generate possible amounts from min to max with step
   const possibleAmounts: number[] = [];
-  for (let amount = range.min; amount <= Math.min(range.max, maxTotal || range.max); amount += 25) {
+  for (let amount = minCash; amount <= maxCash; amount += CASH_STEP) {
     possibleAmounts.push(amount);
   }
   
-  // Filter amounts based on difficulty and sector to ensure we get meaningful exercises
-  const filteredAmounts = possibleAmounts.filter(amount => {
-    const minPositions = 4; // Zero has 4 positions
-    const maxPositions = 9; // Voisins has 9 positions
-    
-    // Ensure the amount can produce bets within the difficulty range
-    const minPossibleBet = amount / maxPositions;
-    const maxPossibleBet = amount / minPositions;
-    
-    return maxPossibleBet >= MIN_BET_PER_POSITION && minPossibleBet <= maxBet;
-  });
-  
-  return filteredAmounts[Math.floor(Math.random() * filteredAmounts.length)] || range.min;
+  return possibleAmounts[Math.floor(Math.random() * possibleAmounts.length)];
 }
 
 export function generateRandomSector(): Exclude<SectorType, 'random'> {
@@ -120,8 +123,11 @@ export function generateRandomRequest(
     if (change >= maxChange) {
       // Find a cash amount that results in change < maxChange
       // Try amounts close to multiples of (betPerPosition * positions)
+      // Ensure adjustedCash is a multiple of CASH_STEP ($25)
       const targetTotal = totalBet;
-      const adjustedCash = targetTotal + Math.floor(Math.random() * maxChange);
+      const maxChangeInSteps = Math.floor(maxChange / CASH_STEP);
+      const changeInSteps = Math.floor(Math.random() * maxChangeInSteps);
+      const adjustedCash = targetTotal + changeInSteps * CASH_STEP;
       return {
         cashAmount: adjustedCash,
         sector,
@@ -151,7 +157,10 @@ export function generateRandomRequest(
     // If no valid bets found, adjust cash amount to work with a random bet
     if (possibleBets.length === 0) {
       const randomBet = Math.floor(Math.random() * (maxBet / BET_INCREMENT)) * BET_INCREMENT + MIN_BET_PER_POSITION;
-      const adjustedCash = randomBet * positions + Math.floor(Math.random() * maxChange);
+      // Ensure adjustedCash is a multiple of CASH_STEP ($25)
+      const maxChangeInSteps = Math.floor(maxChange / CASH_STEP);
+      const changeInSteps = Math.floor(Math.random() * maxChangeInSteps);
+      const adjustedCash = randomBet * positions + changeInSteps * CASH_STEP;
       return {
         cashAmount: adjustedCash,
         sector,
