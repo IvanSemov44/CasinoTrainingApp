@@ -184,12 +184,11 @@ export default function CashConversionTrainingModal({ visible, onClose }: CashCo
     <Modal
       visible={visible}
       transparent
-      animationType="none"
+      animationType="slide"
       onRequestClose={onClose}
       statusBarTranslucent
     >
       <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
-        <Pressable style={styles.backdrop} onPress={onClose} />
         <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleAnim }] }]}>
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Cash Conversion Setup</Text>
@@ -410,31 +409,14 @@ export default function CashConversionTrainingModal({ visible, onClose }: CashCo
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalContainer: {
-    width: SCREEN_WIDTH > 600 ? 520 : SCREEN_WIDTH - 32,
-    maxHeight: SCREEN_HEIGHT * 0.85,
+    flex: 1,
     backgroundColor: '#0a2f1f',
-    borderRadius: 16,
-    overflow: 'hidden',
-    ...Platform.select({
-      web: {
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-      },
-      default: {
-        elevation: 24,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 12 },
-        shadowOpacity: 0.5,
-        shadowRadius: 24,
-      },
-    }),
   },
   modalHeader: {
     flexDirection: 'row',
