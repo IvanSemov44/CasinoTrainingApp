@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import PokerTable from '../components/PokerTable';
 import PotCalculationInput from '../components/PotCalculationInput';
-import { GAME_SCENARIOS } from '../constants/gameScenarios';
-import type { NavigationProp } from '../../../types/navigation.types';
+import { getScenariosByDifficulty, DIFFICULTY_INFO } from '../constants/gameScenarios';
+import type { PLOStackParamList } from '../navigation';
 
-export default function PLOGameTrainingScreen({ navigation: _navigation }: { navigation: NavigationProp<'PLOGameTraining'> }) {
+type PLOGameTrainingScreenProps = StackScreenProps<PLOStackParamList, 'PLOGameTraining'>;
+
+export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {
+  const { difficulty } = route.params;
+  const difficultyInfo = DIFFICULTY_INFO[difficulty];
+  
+  // Get scenarios filtered by difficulty
+  const scenarios = useMemo(() => getScenariosByDifficulty(difficulty), [difficulty]);
+  
   const [userAnswer, setUserAnswer] = useState<number>(0);
   const [isChecked, setIsChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
 
-  const currentScenario = GAME_SCENARIOS[currentScenarioIndex] || GAME_SCENARIOS[0];
+  const currentScenario = scenarios[currentScenarioIndex] || scenarios[0];
   const [players, setPlayers] = useState(currentScenario.players);
   const correctAnswer = currentScenario.correctAnswer;
 
@@ -27,9 +36,9 @@ export default function PLOGameTrainingScreen({ navigation: _navigation }: { nav
   };
 
   const handleNext = () => {
-    const nextIndex = (currentScenarioIndex + 1) % GAME_SCENARIOS.length;
+    const nextIndex = (currentScenarioIndex + 1) % scenarios.length;
     setCurrentScenarioIndex(nextIndex);
-    setPlayers(GAME_SCENARIOS[nextIndex].players);
+    setPlayers(scenarios[nextIndex].players);
     setUserAnswer(0);
     setIsChecked(false);
     setIsCorrect(false);
@@ -37,11 +46,17 @@ export default function PLOGameTrainingScreen({ navigation: _navigation }: { nav
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      {/* Difficulty Badge */}
+      <View style={styles.difficultyBadge}>
+        <Text style={styles.difficultyIcon}>{difficultyInfo.icon}</Text>
+        <Text style={styles.difficultyText}>{difficultyInfo.label} Mode</Text>
+      </View>
+
       <View style={styles.tableWrapper}>
         <PokerTable 
           players={players} 
-          potAmount={GAME_SCENARIOS[currentScenarioIndex].potAmount}
-          communityCards={GAME_SCENARIOS[currentScenarioIndex].communityCards}
+          potAmount={scenarios[currentScenarioIndex].potAmount}
+          communityCards={scenarios[currentScenarioIndex].communityCards}
         />
       </View>
 
@@ -90,7 +105,7 @@ export default function PLOGameTrainingScreen({ navigation: _navigation }: { nav
 
           <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
             <Text style={styles.nextButtonText}>
-              Next Scenario ({currentScenarioIndex + 1}/{GAME_SCENARIOS.length})
+              Next Scenario ({currentScenarioIndex + 1}/{scenarios.length})
             </Text>
           </TouchableOpacity>
         </>
@@ -106,6 +121,26 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: SPACING.lg,
+  },
+  difficultyBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.background.secondary,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
+    borderRadius: 20,
+    marginBottom: SPACING.md,
+    alignSelf: 'center',
+  },
+  difficultyIcon: {
+    fontSize: 18,
+    marginRight: SPACING.xs,
+  },
+  difficultyText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.text.primary,
   },
   tableWrapper: {
     marginTop: SPACING.md,

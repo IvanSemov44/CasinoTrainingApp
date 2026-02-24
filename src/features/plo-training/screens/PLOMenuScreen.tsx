@@ -3,58 +3,35 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import type { PLOStackParamList } from '../navigation';
+import { DIFFICULTY_INFO } from '../constants/gameScenarios';
+import type { PLODifficulty } from '../types';
 
 type PLOMenuScreenProps = StackScreenProps<PLOStackParamList, 'PLOMenu'>;
+
+const DIFFICULTIES: PLODifficulty[] = ['easy', 'medium', 'advanced'];
 
 export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Pot Limit Omaha Training</Text>
-      <Text style={styles.subtitle}>Select training mode</Text>
+      <Text style={styles.subtitle}>Select difficulty level</Text>
 
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigation.navigate('PLOGameTraining')}
-      >
-        <Text style={styles.cardIcon}>🃏</Text>
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>Game Training</Text>
-          <Text style={styles.cardDescription}>Practice PLO gameplay scenarios</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigation.navigate('PLOTraining', { mode: 'basic' })}
-      >
-        <Text style={styles.cardIcon}>🎮</Text>
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>Basic Training</Text>
-          <Text style={styles.cardDescription}>Learn the fundamentals</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigation.navigate('PLOTraining', { mode: 'advanced' })}
-      >
-        <Text style={styles.cardIcon}>🎯</Text>
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>Advanced Training</Text>
-          <Text style={styles.cardDescription}>Master complex scenarios</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigation.navigate('PLOPotCalculation')}
-      >
-        <Text style={styles.cardIcon}>💰</Text>
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>Pot Calculation</Text>
-          <Text style={styles.cardDescription}>Practice dealer pot calculations</Text>
-        </View>
-      </TouchableOpacity>
+      {DIFFICULTIES.map((difficulty) => {
+        const info = DIFFICULTY_INFO[difficulty];
+        return (
+          <TouchableOpacity
+            key={difficulty}
+            style={[styles.card, styles[`${difficulty}Card`]]}
+            onPress={() => navigation.navigate('PLOGameTraining', { difficulty })}
+          >
+            <Text style={styles.cardIcon}>{info.icon}</Text>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{info.label}</Text>
+              <Text style={styles.cardDescription}>{info.description}</Text>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 }
@@ -86,9 +63,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: SPACING.md,
     borderWidth: 2,
-    borderColor: COLORS.text.gold,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  easyCard: {
+    borderColor: '#4CAF50',
+  },
+  mediumCard: {
+    borderColor: '#FF9800',
+  },
+  advancedCard: {
+    borderColor: '#f44336',
   },
   cardIcon: {
     fontSize: 40,
@@ -104,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xs,
   },
   cardDescription: {
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.text.secondary,
   },
 });

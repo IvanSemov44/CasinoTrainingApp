@@ -1,4 +1,6 @@
 // PLO Training types
+export type PLODifficulty = 'easy' | 'medium' | 'advanced';
+
 export type Position = 'SB' | 'BB' | 'UTG' | 'MP' | 'CO' | 'D';
 
 export type PlayerActionType = 'bet' | 'fold' | 'call' | 'raise' | 'pot';

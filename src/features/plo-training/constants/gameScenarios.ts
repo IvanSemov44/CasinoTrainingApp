@@ -1,7 +1,14 @@
 /**
  * PLO Game Training Scenarios
  * One hand from preflop through turn showing pot calculation progression
+ * 
+ * Difficulty levels:
+ * - easy: Preflop only (communityCards: 0)
+ * - medium: Easy + Flop (communityCards: 0-3)
+ * - advanced: Medium + Turn and River (communityCards: 0-5)
  */
+
+import type { PLODifficulty } from '../types';
 
 export interface PlayerScenario {
   position: number;
@@ -19,11 +26,13 @@ export interface GameScenario {
   communityCards: number;
   correctAnswer: number;
   explanation: string;
+  difficulty: PLODifficulty;
 }
 
 export const GAME_SCENARIOS: GameScenario[] = [
   {
     // Question 1: Preflop - UTG asks pot after blinds
+    difficulty: 'easy',
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false },
@@ -39,6 +48,7 @@ export const GAME_SCENARIOS: GameScenario[] = [
   },
   {
     // Question 2: UTG raises to $7, MP asks pot
+    difficulty: 'easy',
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isRequesting: true },
@@ -55,6 +65,7 @@ export const GAME_SCENARIOS: GameScenario[] = [
   {
     // Question 3: Preflop ends - MP raised to $24, CO/D/SB fold, BB and UTG call. Pot = $73 goes to center
     // FLOP: BB bets $50, UTG asks pot
+    difficulty: 'medium',
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false },
@@ -70,6 +81,7 @@ export const GAME_SCENARIOS: GameScenario[] = [
   },
   {
     // Question 4: UTG raises to $223, MP folds, BB asks pot
+    difficulty: 'medium',
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isFolded: true },
@@ -86,6 +98,7 @@ export const GAME_SCENARIOS: GameScenario[] = [
   {
     // Question 5: BB raises $742, UTG calls $519 more. Flop betting ends. Pot = $73 + $223 + $742 + $519 = $1,557 goes to center
     // TURN: BB bets $120, UTG asks pot
+    difficulty: 'advanced',
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isFolded: true },
@@ -100,3 +113,41 @@ export const GAME_SCENARIOS: GameScenario[] = [
     explanation: 'TURN: BB bets $120\nPot in center: $1,557 ($73 preflop + $223 UTG + $742 BB + $519 UTG call on flop)\nLast Action: $120 (BB bet)\nPot = $1,557 + 3×$120 = $1,917'
   }
 ];
+
+/**
+ * Get scenarios filtered by difficulty level
+ * - easy: Only preflop scenarios (communityCards: 0)
+ * - medium: Easy + flop scenarios (communityCards: 0-3)
+ * - advanced: All scenarios including turn and river
+ */
+export function getScenariosByDifficulty(difficulty: PLODifficulty): GameScenario[] {
+  switch (difficulty) {
+    case 'easy':
+      return GAME_SCENARIOS.filter(s => s.difficulty === 'easy');
+    case 'medium':
+      return GAME_SCENARIOS.filter(s => s.difficulty === 'easy' || s.difficulty === 'medium');
+    case 'advanced':
+      return GAME_SCENARIOS;
+  }
+}
+
+/**
+ * Get difficulty display info
+ */
+export const DIFFICULTY_INFO: Record<PLODifficulty, { label: string; description: string; icon: string }> = {
+  easy: {
+    label: 'Easy',
+    description: 'Preflop only - Learn the basics of pot calculation',
+    icon: '🌱',
+  },
+  medium: {
+    label: 'Medium',
+    description: 'Preflop + Flop - Practice multi-street scenarios',
+    icon: '🌿',
+  },
+  advanced: {
+    label: 'Advanced',
+    description: 'All streets - Master complex pot calculations',
+    icon: '🌳',
+  },
+};

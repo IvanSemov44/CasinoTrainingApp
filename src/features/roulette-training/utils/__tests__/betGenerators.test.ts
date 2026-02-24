@@ -8,6 +8,7 @@ import {
   generateSingleBetFromConfig,
 } from '../betGenerators';
 import type { BetType } from '../../types/exercise.types';
+import type { RouletteNumber } from '@app-types/roulette.types';
 
 describe('betGenerators', () => {
   describe('distributeChipsRandomly', () => {
@@ -160,7 +161,7 @@ describe('betGenerators', () => {
   });
 
   describe('generateSingleBetFromConfig', () => {
-    const possibleBets = [
+    const possibleBets: RouletteNumber[][] = [
       [1, 2], [2, 3], [4, 5], [5, 6], [7, 8], [8, 9],
     ];
 
@@ -205,7 +206,7 @@ describe('betGenerators', () => {
     });
 
     describe('with different bet types', () => {
-      const cornerBets = [
+      const cornerBets: RouletteNumber[][] = [
         [1, 2, 4, 5],
         [2, 3, 5, 6],
         [4, 5, 7, 8],
@@ -219,7 +220,7 @@ describe('betGenerators', () => {
         expect(bet.payout).toBe(8);
       });
 
-      const streetBets = [
+      const streetBets: RouletteNumber[][] = [
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
@@ -233,7 +234,7 @@ describe('betGenerators', () => {
         expect(bet.payout).toBe(11);
       });
 
-      const straightBets = [
+      const straightBets: RouletteNumber[][] = [
         [0], [1], [2], [3], [4], [5],
       ];
 

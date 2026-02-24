@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
         <TouchableOpacity 
           style={styles.menuButton}
-          onPress={() => navigation.navigate('PLOGameTraining')}
+          onPress={() => navigation.navigate('PLOMenu')}
         >
           <Text style={styles.menuButtonText}>♠️ Pot Limit Omaha Training</Text>
         </TouchableOpacity>
