@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setSelectedChipValue, placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
@@ -8,9 +9,15 @@ import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
+import type { RouletteTrainingStackParamList } from '../../navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function RouletteTrainingScreen({ route }: any) {
+type RouletteTrainingScreenRouteProp = RouteProp<RouletteTrainingStackParamList, 'RouletteTraining'>;
+
+interface RouletteTrainingScreenProps {
+  route: RouletteTrainingScreenRouteProp;
+}
+
+export default function RouletteTrainingScreen({ route }: RouletteTrainingScreenProps) {
   const { exercise } = route.params;
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);

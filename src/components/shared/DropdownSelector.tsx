@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from '@styles/colors';
 
 /**
  * Dropdown item configuration
@@ -125,16 +126,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.tertiary,
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
   },
   triggerSelected: {
-    borderColor: '#FFD700',
-    backgroundColor: '#1a6f4f',
+    borderColor: COLORS.border.gold,
+    backgroundColor: COLORS.background.tertiaryLight,
   },
   triggerContent: {
     flexDirection: 'row',
@@ -150,30 +151,30 @@ const styles = StyleSheet.create({
   },
   triggerText: {
     fontSize: 15,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontWeight: '500',
   },
   triggerSubtext: {
     fontSize: 12,
-    color: '#CCCCCC',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   triggerPlaceholder: {
     fontSize: 15,
-    color: '#888',
+    color: COLORS.text.placeholder,
     flex: 1,
   },
   dropdownArrow: {
     fontSize: 12,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginLeft: 10,
   },
   dropdownList: {
     marginTop: 8,
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.tertiary,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
     overflow: 'hidden',
   },
   dropdownItem: {
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a5f3f',
+    borderBottomColor: COLORS.border.primaryDark,
   },
   dropdownItemSelected: {
     backgroundColor: 'rgba(255, 215, 0, 0.15)',
@@ -196,20 +197,20 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
   },
   dropdownItemTextSelected: {
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontWeight: '600',
   },
   dropdownItemExtra: {
     fontSize: 12,
-    color: '#AAAAAA',
+    color: COLORS.text.muted,
     marginTop: 2,
   },
   checkmark: {
     fontSize: 16,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontWeight: 'bold',
   },
 });

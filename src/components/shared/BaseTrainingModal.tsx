@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useModalAnimation } from './useModalAnimation';
 import { DropdownSelector, DropdownItem } from './DropdownSelector';
+import { COLORS } from '@styles/colors';
 
 /**
  * Configuration for a step in the modal
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#0a2f1f',
+    backgroundColor: COLORS.background.primary,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -301,13 +302,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a7f4f',
-    backgroundColor: '#0f4f2f',
+    borderBottomColor: COLORS.border.primary,
+    backgroundColor: COLORS.background.secondary,
   },
   modalTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: COLORS.text.gold,
   },
   closeButton: {
     width: 36,
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 18,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontWeight: '600',
   },
   scrollView: {
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#FFD700',
+    backgroundColor: COLORS.text.gold,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -353,12 +354,12 @@ const styles = StyleSheet.create({
   stepTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
   },
   optionalText: {
     fontSize: 14,
     fontWeight: '400',
-    color: '#AAAAAA',
+    color: COLORS.text.muted,
   },
   numberInputContainer: {
     flexDirection: 'row',
@@ -369,24 +370,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.tertiary,
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
   },
   numberInputTrigger: {
     flex: 1,
   },
   dropdownTriggerText: {
     fontSize: 15,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontWeight: '500',
   },
   dropdownArrow: {
     fontSize: 12,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginLeft: 10,
   },
   customInputContainer: {
@@ -395,27 +396,27 @@ const styles = StyleSheet.create({
   },
   customInputLabel: {
     fontSize: 12,
-    color: '#AAAAAA',
+    color: COLORS.text.muted,
     marginRight: 8,
   },
   customInput: {
     width: 60,
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.tertiary,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
-    color: '#FFFFFF',
+    borderColor: COLORS.border.primary,
+    color: COLORS.text.primary,
     fontSize: 14,
     textAlign: 'center',
   },
   dropdownList: {
     marginTop: 8,
-    backgroundColor: '#1a5f3f',
+    backgroundColor: COLORS.background.tertiary,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
     overflow: 'hidden',
   },
   dropdownItem: {
@@ -424,23 +425,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a5f3f',
+    borderBottomColor: COLORS.border.primaryDark,
   },
   dropdownItemSelected: {
     backgroundColor: 'rgba(255, 215, 0, 0.15)',
   },
   dropdownItemText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     flex: 1,
   },
   dropdownItemTextSelected: {
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontWeight: '600',
   },
   checkmark: {
     fontSize: 16,
-    color: '#FFD700',
+    color: COLORS.text.gold,
     fontWeight: 'bold',
   },
   summaryContainer: {
@@ -449,12 +450,12 @@ const styles = StyleSheet.create({
     padding: 16,
     marginTop: 8,
     borderWidth: 1,
-    borderColor: '#2a7f4f',
+    borderColor: COLORS.border.primary,
   },
   summaryTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFD700',
+    color: COLORS.text.gold,
     marginBottom: 12,
   },
   summaryRow: {
@@ -464,24 +465,24 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: 14,
-    color: '#AAAAAA',
+    color: COLORS.text.muted,
   },
   summaryValue: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
     fontWeight: '500',
   },
   startButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#4CAF50',
+    backgroundColor: COLORS.status.success,
     borderRadius: 12,
     paddingVertical: 16,
     marginTop: 16,
   },
   startButtonDisabled: {
-    backgroundColor: '#2a5f3f',
+    backgroundColor: COLORS.border.primaryDark,
     opacity: 0.6,
   },
   startButtonIcon: {
@@ -491,6 +492,6 @@ const styles = StyleSheet.create({
   startButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: COLORS.text.primary,
   },
 });

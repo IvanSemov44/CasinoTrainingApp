@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { PokerTable } from '../components';
+import type { PLOStackParamList } from '../navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function PLOTrainingScreen({ route }: any) {
-  const { mode } = route.params || { mode: 'basic' };
+type PLOTrainingScreenProps = StackScreenProps<PLOStackParamList, 'PLOTraining'>;
+
+export default function PLOTrainingScreen({ route }: PLOTrainingScreenProps) {
+  const { mode } = route.params;
   const [score, _setScore] = useState(0);
 
   // Sample player data

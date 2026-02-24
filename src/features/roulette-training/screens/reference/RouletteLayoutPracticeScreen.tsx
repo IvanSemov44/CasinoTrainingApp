@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setSelectedChipValue, placeBet, clearBets } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
@@ -9,9 +10,15 @@ import { BetType } from '@app-types/roulette.types';
 import { getNumberColor } from '@constants/roulette.constants';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
+import type { RouletteTrainingStackParamList } from '../../navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function RouletteLayoutPracticeScreen({ navigation }: any) {
+type RouletteLayoutPracticeNavigationProp = StackNavigationProp<RouletteTrainingStackParamList, 'RouletteLayoutPractice'>;
+
+interface RouletteLayoutPracticeScreenProps {
+  navigation: RouletteLayoutPracticeNavigationProp;
+}
+
+export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLayoutPracticeScreenProps) {
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const placedBets = useAppSelector(state => state.roulette.placedBets);

@@ -12,7 +12,7 @@ export type PLOStackParamList = {
   PLOGameTraining: undefined;
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<PLOStackParamList>();
 
 export const PLORoutes = () => {
   return (

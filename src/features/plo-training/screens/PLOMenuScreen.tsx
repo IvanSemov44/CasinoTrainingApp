@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import type { PLOStackParamList } from '../navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function PLOMenuScreen({ navigation }: any) {
+type PLOMenuScreenProps = StackScreenProps<PLOStackParamList, 'PLOMenu'>;
+
+export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Pot Limit Omaha Training</Text>

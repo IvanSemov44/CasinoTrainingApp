@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../components';
 import { SectorType, CashRequest, ValidationResult } from '../types';
@@ -11,9 +12,11 @@ import {
   calculateCorrectAnswer,
   validateAnswer,
 } from '../utils/calculations';
+import type { CashConversionStackParamList } from '../navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function CashConversionTrainingScreen({ route }: any) {
+type CashConversionTrainingScreenProps = StackScreenProps<CashConversionStackParamList, 'CashConversionTraining'>;
+
+export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
   const { difficulty, sector } = route.params;
 
   const [currentRequest, setCurrentRequest] = useState<CashRequest | null>(null);

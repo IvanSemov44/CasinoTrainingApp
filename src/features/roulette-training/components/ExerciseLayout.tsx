@@ -8,14 +8,20 @@ import NumberPad from './NumberPad';
 import FeedbackCard from './FeedbackCard';
 import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
 
+// TODO: There are two conflicting BetType definitions that need consolidation:
+// - src/types/roulette.types.ts uses an enum (BetType.STRAIGHT, BetType.SPLIT, etc.)
+// - src/features/roulette-training/types/exercise.types.ts uses string literals ('STRAIGHT' | 'SPLIT' | etc.)
+// This causes type incompatibility. For now, using flexible type to accept both.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FlexiblePlacedBet = any;
+
 interface ExerciseLayoutProps {
   score: number;
   attempts: number;
   showHint: boolean;
   onToggleHint: () => void;
   hintContent: ReactNode;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  placedBets: any[];
+  placedBets: FlexiblePlacedBet[];
   answerLabel: string;
   userAnswer: string;
   onAnswerChange: (text: string) => void;

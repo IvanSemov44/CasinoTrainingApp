@@ -9,7 +9,7 @@ export type CashConversionStackParamList = {
   CashConversionTraining: { difficulty: DifficultyLevel; sector: SectorType; exerciseCount?: number };
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<CashConversionStackParamList>();
 
 export const CashConversionRoutes = () => {
   return (

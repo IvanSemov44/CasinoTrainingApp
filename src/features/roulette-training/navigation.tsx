@@ -14,7 +14,7 @@ import RouletteTrainingScreen from './screens/reference/RouletteTrainingScreen';
 // Type definitions
 export type RouletteTrainingStackParamList = {
   RouletteExercises: undefined;
-  RouletteTraining: undefined;
+  RouletteTraining: { exercise: { title: string; description: string } };
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
   Calculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
