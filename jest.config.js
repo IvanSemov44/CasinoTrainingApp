@@ -14,6 +14,7 @@ module.exports = {
   
   // Module name mapper for path aliases (matching tsconfig.json)
   moduleNameMapper: {
+    '^react-native$': '<rootDir>/src/test-utils/__mocks__/react-native.ts',
     '^@app-types/(.*)$': '<rootDir>/src/types/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@config/(.*)$': '<rootDir>/src/config/$1',

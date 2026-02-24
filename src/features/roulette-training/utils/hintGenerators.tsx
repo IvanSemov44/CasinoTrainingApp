@@ -16,7 +16,7 @@ export function generatePayoutInfo(allowedBetTypes: BetType[]): string {
     SPLIT: '• Split: chips × 17',
     CORNER: '• Corner: chips × 8',
     STREET: '• Street: chips × 11',
-    SIX_LINE: '• Six Line: chips × 5',
+    LINE: '• Six Line: chips × 5',
   };
 
   return allowedBetTypes

@@ -4,7 +4,7 @@ import {
   generateRandomCashAmount,
   generateRandomSector,
 } from '../calculations';
-import { CashRequest, CashAnswer, DifficultyLevel } from '../../types';
+import { CashRequest, CashAnswer } from '../../types';
 
 describe('calculateCorrectAnswer', () => {
   describe('for-the-money requests', () => {

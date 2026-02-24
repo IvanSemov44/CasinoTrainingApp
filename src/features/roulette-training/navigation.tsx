@@ -108,7 +108,7 @@ export const RouletteTrainingRoutes = () => {
       <Stack.Screen
         name="TripleMixedCalculation"
         component={CalculationScreenComponent}
-        initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER'] }}
+        initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER'] as const }}
         options={({ route }) => ({
           title: getScreenTitle('TripleMixedCalculation', route.params)
         })}
@@ -116,7 +116,7 @@ export const RouletteTrainingRoutes = () => {
       <Stack.Screen
         name="AllPositionsCalculation"
         component={CalculationScreenComponent}
-        initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER', 'STREET', 'SIX_LINE'] }}
+        initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER', 'STREET', 'LINE'] as const }}
         options={({ route }) => ({
           title: getScreenTitle('AllPositionsCalculation', route.params)
         })}

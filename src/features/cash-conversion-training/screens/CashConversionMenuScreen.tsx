@@ -36,7 +36,7 @@ export default function CashConversionMenuScreen() {
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>How It Works</Text>
           <Text style={styles.infoDescription}>
-            Practice converting cash into sector bets. You'll learn to calculate:
+            Practice converting cash into sector bets. You&apos;ll learn to calculate:
           </Text>
           <View style={styles.trainingTypesList}>
             <Text style={styles.trainingTypeItem}>• Total bet amount per sector</Text>

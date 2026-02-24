@@ -30,7 +30,7 @@ export const BET_TYPE_METADATA: Record<BetType, BetTypeMetadata> = {
     payout: 11,
     enumValue: RouletteBetType.STREET,
   },
-  SIX_LINE: {
+  LINE: {
     name: 'Six Line',
     payout: 5,
     enumValue: RouletteBetType.LINE,
@@ -43,7 +43,7 @@ export const BET_PAYOUTS: Record<BetType, number> = {
   SPLIT: BET_TYPE_METADATA.SPLIT.payout,
   CORNER: BET_TYPE_METADATA.CORNER.payout,
   STREET: BET_TYPE_METADATA.STREET.payout,
-  SIX_LINE: BET_TYPE_METADATA.SIX_LINE.payout,
+  LINE: BET_TYPE_METADATA.LINE.payout,
 } as const;
 
 // Payout lookup for RouletteBetType enum (for layout screens)

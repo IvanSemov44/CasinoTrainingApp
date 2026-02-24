@@ -21,7 +21,7 @@ import {
 const BET_PROBABILITIES = {
   CORNER: 0.3,  // 70% chance to include corners
   STREET: 0.4,  // 60% chance to include streets
-  SIX_LINE: 0.5, // 50% chance to include six lines
+  LINE: 0.5, // 50% chance to include six lines
 } as const;
 
 /**
@@ -136,11 +136,11 @@ export function generateBetsForNumber(
   }
 
   // Add six lines if included
-  if (allowedBetTypes.includes('SIX_LINE')) {
+  if (allowedBetTypes.includes('LINE')) {
     const possibleSixLines = getSixLinesForNumber(number);
-    if (possibleSixLines.length > 0 && shouldInclude(BET_PROBABILITIES.SIX_LINE)) {
+    if (possibleSixLines.length > 0 && shouldInclude(BET_PROBABILITIES.LINE)) {
       betPositions.push({
-        type: 'SIX_LINE',
+        type: 'LINE',
         numbers: getRandomElement(possibleSixLines),
       });
     }

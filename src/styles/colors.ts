@@ -15,6 +15,14 @@ export const COLORS = {
     tertiaryLight: '#1a6f4f',
     /** Overlay for modals */
     overlay: 'rgba(0, 0, 0, 0.7)',
+    /** Pure black */
+    dark: '#000000',
+    /** Dark gray */
+    darkGray: '#1a1a1a',
+    /** Medium gray */
+    mediumGray: '#2a2a2a',
+    /** Hint background */
+    hint: '#2a4f3f',
   },
 
   // Text colors
@@ -39,18 +47,36 @@ export const COLORS = {
     primaryDark: '#2a5f3f',
     /** Gold accent border */
     gold: '#FFD700',
+    /** Hint border */
+    hint: '#3a6f5f',
   },
 
   // Status colors
   status: {
     /** Success green */
     success: '#4CAF50',
+    /** Success dark green variant */
+    successAlt: '#2d5f2d',
     /** Error red */
-    error: '#ef4444',
+    error: '#CC0000',
+    /** Error dark variant */
+    errorAlt: '#5f2d2d',
+    /** Error bright border */
+    errorBorder: '#FF0000',
     /** Warning yellow */
     warning: '#eab308',
     /** Info blue */
     info: '#3b82f6',
+  },
+
+  // Difficulty badge colors
+  difficulty: {
+    /** Easy - green */
+    easy: '#4CAF50',
+    /** Medium - orange */
+    medium: '#FF9800',
+    /** Hard - red */
+    hard: '#F44336',
   },
 
   // Chip colors for roulette
