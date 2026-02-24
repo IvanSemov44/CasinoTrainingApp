@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1771937133768" clover="3.2.0">
-  <project timestamp="1771937133768" name="All files">
-    <metrics statements="1551" coveredstatements="263" conditionals="817" coveredconditionals="117" methods="526" coveredmethods="68" elements="2894" coveredelements="448" complexity="0" loc="1551" ncloc="1551" packages="48" files="102" classes="102"/>
+<coverage generated="1771944678496" clover="3.2.0">
+  <project timestamp="1771944678496" name="All files">
+    <metrics statements="1538" coveredstatements="327" conditionals="807" coveredconditionals="144" methods="523" coveredmethods="93" elements="2868" coveredelements="564" complexity="0" loc="1538" ncloc="1538" packages="48" files="100" classes="100"/>
     <package name="components">
       <metrics statements="76" coveredstatements="0" conditionals="49" coveredconditionals="0" methods="27" coveredmethods="0"/>
       <file name="ChipSelector.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\components\ChipSelector.tsx">
@@ -103,7 +103,7 @@
       </file>
     </package>
     <package name="components.roulette">
-      <metrics statements="209" coveredstatements="0" conditionals="104" coveredconditionals="0" methods="69" coveredmethods="0"/>
+      <metrics statements="209" coveredstatements="15" conditionals="104" coveredconditionals="12" methods="69" coveredmethods="5"/>
       <file name="RouletteChip.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\components\roulette\RouletteChip.tsx">
         <metrics statements="7" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
@@ -153,22 +153,22 @@
         <line num="111" count="0" type="stmt"/>
       </file>
       <file name="RouletteNumberCell.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\components\roulette\RouletteNumberCell.tsx">
-        <metrics statements="15" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="51" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
+        <metrics statements="15" coveredstatements="15" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="27" count="22" type="stmt"/>
+        <line num="28" count="22" type="stmt"/>
+        <line num="29" count="22" type="stmt"/>
+        <line num="32" count="22" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="38" count="22" type="stmt"/>
+        <line num="43" count="22" type="stmt"/>
+        <line num="49" count="22" type="stmt"/>
+        <line num="50" count="22" type="cond" truecount="4" falsecount="0"/>
+        <line num="51" count="22" type="cond" truecount="2" falsecount="0"/>
+        <line num="52" count="22" type="stmt"/>
+        <line num="55" count="22" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
       </file>
       <file name="RouletteNumberGrid.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\components\roulette\RouletteNumberGrid.tsx">
         <metrics statements="30" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="10" coveredmethods="0"/>
@@ -339,19 +339,19 @@
       </file>
     </package>
     <package name="components.roulette.hooks">
-      <metrics statements="10" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="0"/>
+      <metrics statements="10" coveredstatements="10" conditionals="7" coveredconditionals="7" methods="7" coveredmethods="7"/>
       <file name="useRouletteBets.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\components\roulette\hooks\useRouletteBets.ts">
-        <metrics statements="10" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="cond" truecount="0" falsecount="5"/>
-        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <metrics statements="10" coveredstatements="10" conditionals="7" coveredconditionals="7" methods="7" coveredmethods="7"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="5" count="14" type="stmt"/>
+        <line num="7" count="17" type="cond" truecount="5" falsecount="0"/>
+        <line num="10" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="14" count="15" type="stmt"/>
+        <line num="16" count="26" type="stmt"/>
+        <line num="19" count="14" type="stmt"/>
+        <line num="22" count="13" type="stmt"/>
       </file>
     </package>
     <package name="components.roulette.styles">
@@ -864,9 +864,9 @@
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="navigation.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\navigation.tsx">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
       </file>
     </package>
     <package name="features.plo-training.components">
@@ -945,10 +945,15 @@
       </file>
     </package>
     <package name="features.plo-training.constants">
-      <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="10" coveredstatements="4" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="gameScenarios.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\constants\gameScenarios.ts">
-        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="24" count="0" type="stmt"/>
+        <metrics statements="6" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="124" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="128" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
       </file>
       <file name="plo.constants.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\constants\plo.constants.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -959,67 +964,43 @@
       </file>
     </package>
     <package name="features.plo-training.screens">
-      <metrics statements="49" coveredstatements="0" conditionals="27" coveredconditionals="0" methods="14" coveredmethods="0"/>
+      <metrics statements="31" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="8" coveredmethods="0"/>
       <file name="PLOGameTrainingScreen.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\screens\PLOGameTrainingScreen.tsx">
-        <metrics statements="22" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
+        <metrics statements="25" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
       </file>
       <file name="PLOMenuScreen.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\screens\PLOMenuScreen.tsx">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-      </file>
-      <file name="PLOPotCalculationScreen.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\screens\PLOPotCalculationScreen.tsx">
-        <metrics statements="16" coveredstatements="0" conditionals="15" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="10" count="0" type="stmt"/>
+        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-      </file>
-      <file name="PLOTrainingScreen.tsx" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\plo-training\screens\PLOTrainingScreen.tsx">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
       </file>
     </package>
     <package name="features.plo-training.utils">
@@ -1062,16 +1043,16 @@
         <line num="100" count="13" type="stmt"/>
         <line num="101" count="13" type="stmt"/>
         <line num="103" count="13" type="stmt"/>
-        <line num="104" count="162" type="stmt"/>
-        <line num="105" count="27" type="cond" truecount="1" falsecount="1"/>
-        <line num="107" count="27" type="stmt"/>
-        <line num="108" count="27" type="stmt"/>
-        <line num="111" count="27" type="cond" truecount="2" falsecount="0"/>
-        <line num="113" count="27" type="cond" truecount="2" falsecount="0"/>
-        <line num="114" count="8" type="stmt"/>
-        <line num="120" count="19" type="stmt"/>
-        <line num="121" count="19" type="stmt"/>
-        <line num="126" count="19" type="stmt"/>
+        <line num="104" count="186" type="stmt"/>
+        <line num="105" count="31" type="cond" truecount="1" falsecount="1"/>
+        <line num="107" count="31" type="stmt"/>
+        <line num="108" count="31" type="stmt"/>
+        <line num="111" count="31" type="cond" truecount="2" falsecount="0"/>
+        <line num="113" count="31" type="cond" truecount="2" falsecount="0"/>
+        <line num="114" count="10" type="stmt"/>
+        <line num="120" count="21" type="stmt"/>
+        <line num="121" count="21" type="stmt"/>
+        <line num="126" count="21" type="stmt"/>
         <line num="131" count="13" type="stmt"/>
         <line num="132" count="78" type="cond" truecount="3" falsecount="0"/>
         <line num="134" count="13" type="stmt"/>
@@ -1128,42 +1109,42 @@
       <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="announcedBets.constants.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\racetrack\constants\announcedBets.constants.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
       </file>
       <file name="racetrack.constants.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\racetrack\constants\racetrack.constants.ts">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="73" count="1" type="stmt"/>
-        <line num="83" count="1" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
       </file>
     </package>
     <package name="features.racetrack.hooks">
-      <metrics statements="16" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <metrics statements="16" coveredstatements="16" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
       <file name="useAnnouncedBets.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\racetrack\hooks\useAnnouncedBets.ts">
-        <metrics statements="16" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
+        <metrics statements="16" coveredstatements="16" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+        <line num="22" count="68" type="stmt"/>
+        <line num="40" count="15" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="42" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="44" count="9" type="stmt"/>
+        <line num="45" count="53" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="53" type="stmt"/>
+        <line num="54" count="9" type="stmt"/>
+        <line num="60" count="15" type="stmt"/>
+        <line num="61" count="5" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+        <line num="64" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="66" count="3" type="stmt"/>
+        <line num="67" count="15" type="stmt"/>
+        <line num="70" count="3" type="stmt"/>
+        <line num="73" count="15" type="stmt"/>
       </file>
     </package>
     <package name="features.racetrack.screens">
@@ -1180,13 +1161,13 @@
       <metrics statements="20" coveredstatements="20" conditionals="13" coveredconditionals="13" methods="5" coveredmethods="5"/>
       <file name="racetrack.utils.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\racetrack\utils\racetrack.utils.ts">
         <metrics statements="20" coveredstatements="20" conditionals="13" coveredconditionals="13" methods="5" coveredmethods="5"/>
-        <line num="16" count="6" type="stmt"/>
-        <line num="17" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="4" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
-        <line num="21" count="18" type="stmt"/>
-        <line num="22" count="18" type="stmt"/>
-        <line num="24" count="4" type="stmt"/>
+        <line num="16" count="11" type="stmt"/>
+        <line num="17" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="7" type="stmt"/>
+        <line num="20" count="7" type="stmt"/>
+        <line num="21" count="33" type="stmt"/>
+        <line num="22" count="33" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
         <line num="31" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="32" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="34" count="2" type="stmt"/>
@@ -1364,32 +1345,32 @@
       </file>
     </package>
     <package name="features.roulette-training.hooks">
-      <metrics statements="23" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
+      <metrics statements="23" coveredstatements="23" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
       <file name="useExerciseState.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\roulette-training\hooks\useExerciseState.ts">
-        <metrics statements="23" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
+        <metrics statements="23" coveredstatements="23" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
+        <line num="13" count="59" type="stmt"/>
+        <line num="14" count="59" type="stmt"/>
+        <line num="15" count="59" type="stmt"/>
+        <line num="16" count="59" type="stmt"/>
+        <line num="17" count="59" type="stmt"/>
+        <line num="18" count="59" type="stmt"/>
+        <line num="20" count="59" type="stmt"/>
+        <line num="21" count="14" type="stmt"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="24" count="14" type="stmt"/>
+        <line num="25" count="14" type="stmt"/>
+        <line num="26" count="14" type="stmt"/>
+        <line num="28" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="7" type="stmt"/>
+        <line num="30" count="7" type="stmt"/>
+        <line num="33" count="14" type="stmt"/>
+        <line num="36" count="59" type="stmt"/>
+        <line num="37" count="7" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="39" count="7" type="stmt"/>
+        <line num="42" count="59" type="stmt"/>
+        <line num="43" count="4" type="stmt"/>
+        <line num="46" count="59" type="stmt"/>
       </file>
     </package>
     <package name="features.roulette-training.screens.exercises">
@@ -1606,7 +1587,7 @@
         <line num="50" count="56" type="stmt"/>
         <line num="51" count="56" type="stmt"/>
         <line num="52" count="165" type="stmt"/>
-        <line num="54" count="177" type="stmt"/>
+        <line num="54" count="172" type="stmt"/>
         <line num="57" count="56" type="stmt"/>
         <line num="58" count="56" type="stmt"/>
         <line num="59" count="165" type="stmt"/>
@@ -1628,7 +1609,7 @@
         <line num="103" count="7" type="stmt"/>
         <line num="104" count="7" type="stmt"/>
         <line num="106" count="7" type="stmt"/>
-        <line num="107" count="12" type="stmt"/>
+        <line num="107" count="13" type="stmt"/>
         <line num="116" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="117" count="1" type="stmt"/>
         <line num="118" count="1" type="cond" truecount="3" falsecount="1"/>
@@ -1644,11 +1625,11 @@
         <line num="151" count="10" type="cond" truecount="4" falsecount="0"/>
         <line num="153" count="2" type="stmt"/>
         <line num="154" count="2" type="stmt"/>
-        <line num="157" count="16" type="stmt"/>
+        <line num="157" count="17" type="stmt"/>
         <line num="161" count="10" type="stmt"/>
-        <line num="162" count="21" type="cond" truecount="1" falsecount="1"/>
-        <line num="163" count="21" type="cond" truecount="1" falsecount="1"/>
-        <line num="164" count="21" type="stmt"/>
+        <line num="162" count="22" type="cond" truecount="1" falsecount="1"/>
+        <line num="163" count="22" type="cond" truecount="1" falsecount="1"/>
+        <line num="164" count="22" type="stmt"/>
         <line num="173" count="10" type="stmt"/>
         <line num="185" count="27" type="stmt"/>
         <line num="186" count="27" type="stmt"/>
@@ -1659,7 +1640,7 @@
       <file name="exerciseHelpers.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\features\roulette-training\utils\exerciseHelpers.ts">
         <metrics statements="21" coveredstatements="21" conditionals="16" coveredconditionals="15" methods="15" coveredmethods="15"/>
         <line num="7" count="5" type="stmt"/>
-        <line num="11" count="53" type="stmt"/>
+        <line num="11" count="54" type="stmt"/>
         <line num="16" count="11" type="stmt"/>
         <line num="18" count="11" type="cond" truecount="2" falsecount="0"/>
         <line num="19" count="2" type="stmt"/>
@@ -1949,8 +1930,8 @@
       <metrics statements="49" coveredstatements="21" conditionals="27" coveredconditionals="12" methods="14" coveredmethods="7"/>
       <file name="randomUtils.ts" path="C:\Users\ivans\Desktop\Dev\CasinoTrainingApp\src\utils\randomUtils.ts">
         <metrics statements="21" coveredstatements="21" conditionals="12" coveredconditionals="12" methods="7" coveredmethods="7"/>
-        <line num="10" count="2403" type="stmt"/>
-        <line num="17" count="220" type="stmt"/>
+        <line num="10" count="2406" type="stmt"/>
+        <line num="17" count="224" type="stmt"/>
         <line num="24" count="13" type="stmt"/>
         <line num="25" count="13" type="stmt"/>
         <line num="26" count="36" type="stmt"/>

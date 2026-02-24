@@ -39,7 +39,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
@@ -158,39 +158,7 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,6 +169,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -220,21 +205,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,58 +258,35 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { StackScreenProps } from '@react-navigation/stack';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import type { PLOStackParamList } from '../navigation';
+import { DIFFICULTY_INFO } from '../constants/gameScenarios';
+import type { PLODifficulty } from '../types';
 &nbsp;
 type PLOMenuScreenProps = StackScreenProps&lt;PLOStackParamList, 'PLOMenu'&gt;;
+&nbsp;
+const DIFFICULTIES: PLODifficulty[] = <span class="cstat-no" title="statement not covered" >['easy', 'medium', 'advanced'];</span>
 &nbsp;
 export default function <span class="fstat-no" title="function not covered" >PLOMenuScreen(</span>{ navigation }: PLOMenuScreenProps) {
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}&gt;
       &lt;Text style={styles.title}&gt;Pot Limit Omaha Training&lt;/Text&gt;
-      &lt;Text style={styles.subtitle}&gt;Select training mode&lt;/Text&gt;
+      &lt;Text style={styles.subtitle}&gt;Select difficulty level&lt;/Text&gt;
 &nbsp;
-      &lt;TouchableOpacity
-        style={styles.card}
-        onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >navigation.navigate('PLOGameTraining')}</span>
-      &gt;
-        &lt;Text style={styles.cardIcon}&gt;🃏&lt;/Text&gt;
-        &lt;View style={styles.cardContent}&gt;
-          &lt;Text style={styles.cardTitle}&gt;Game Training&lt;/Text&gt;
-          &lt;Text style={styles.cardDescription}&gt;Practice PLO gameplay scenarios&lt;/Text&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-&nbsp;
-      &lt;TouchableOpacity
-        style={styles.card}
-        onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >navigation.navigate('PLOTraining', { mode: 'basic' })}</span>
-      &gt;
-        &lt;Text style={styles.cardIcon}&gt;🎮&lt;/Text&gt;
-        &lt;View style={styles.cardContent}&gt;
-          &lt;Text style={styles.cardTitle}&gt;Basic Training&lt;/Text&gt;
-          &lt;Text style={styles.cardDescription}&gt;Learn the fundamentals&lt;/Text&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-&nbsp;
-      &lt;TouchableOpacity
-        style={styles.card}
-        onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >navigation.navigate('PLOTraining', { mode: 'advanced' })}</span>
-      &gt;
-        &lt;Text style={styles.cardIcon}&gt;🎯&lt;/Text&gt;
-        &lt;View style={styles.cardContent}&gt;
-          &lt;Text style={styles.cardTitle}&gt;Advanced Training&lt;/Text&gt;
-          &lt;Text style={styles.cardDescription}&gt;Master complex scenarios&lt;/Text&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
-&nbsp;
-      &lt;TouchableOpacity
-        style={styles.card}
-        onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >navigation.navigate('PLOPotCalculation')}</span>
-      &gt;
-        &lt;Text style={styles.cardIcon}&gt;💰&lt;/Text&gt;
-        &lt;View style={styles.cardContent}&gt;
-          &lt;Text style={styles.cardTitle}&gt;Pot Calculation&lt;/Text&gt;
-          &lt;Text style={styles.cardDescription}&gt;Practice dealer pot calculations&lt;/Text&gt;
-        &lt;/View&gt;
-      &lt;/TouchableOpacity&gt;
+      {DIFFICULTIES.map(<span class="fstat-no" title="function not covered" >(d</span>ifficulty) =&gt; {
+        const info = <span class="cstat-no" title="statement not covered" >DIFFICULTY_INFO[difficulty];</span>
+<span class="cstat-no" title="statement not covered" >        return (</span>
+          &lt;TouchableOpacity
+            key={difficulty}
+            style={[styles.card, styles[`${difficulty}Card`]]}
+            onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >navigation.navigate('PLOGameTraining', { difficulty })}</span>
+          &gt;
+            &lt;Text style={styles.cardIcon}&gt;{info.icon}&lt;/Text&gt;
+            &lt;View style={styles.cardContent}&gt;
+              &lt;Text style={styles.cardTitle}&gt;{info.label}&lt;/Text&gt;
+              &lt;Text style={styles.cardDescription}&gt;{info.description}&lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/TouchableOpacity&gt;
+        );
+      })}
     &lt;/ScrollView&gt;
   );
 }
@@ -371,9 +318,17 @@ const styles = <span class="cstat-no" title="statement not covered" >StyleSheet.
     borderRadius: 12,
     marginBottom: SPACING.md,
     borderWidth: 2,
-    borderColor: COLORS.text.gold,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  easyCard: {
+    borderColor: '#4CAF50',
+  },
+  mediumCard: {
+    borderColor: '#FF9800',
+  },
+  advancedCard: {
+    borderColor: '#f44336',
   },
   cardIcon: {
     fontSize: 40,
@@ -389,7 +344,7 @@ const styles = <span class="cstat-no" title="statement not covered" >StyleSheet.
     marginBottom: SPACING.xs,
   },
   cardDescription: {
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.text.secondary,
   },
 });
@@ -400,7 +355,7 @@ const styles = <span class="cstat-no" title="statement not covered" >StyleSheet.
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-24T12:45:33.397Z
+                at 2026-02-24T14:51:18.227Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

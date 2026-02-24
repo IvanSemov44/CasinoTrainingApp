@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -133,40 +133,40 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,41 +190,41 @@ export interface ExerciseState {
   showHint: boolean;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >useExerciseState(</span>) {
-  const [userAnswer, setUserAnswer] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [score, setScore] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [attempts, setAttempts] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [showFeedback, setShowFeedback] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [isCorrect, setIsCorrect] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [showHint, setShowHint] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+export function useExerciseState() {
+  const [userAnswer, setUserAnswer] = useState('');
+  const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 &nbsp;
-  const checkAnswer = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(c</span>orrectAnswer: number, onCorrect?: () =&gt; void) =&gt; {</span>
-    const userNum = <span class="cstat-no" title="statement not covered" >parseInt(userAnswer);</span>
-    const correct = <span class="cstat-no" title="statement not covered" >userNum === correctAnswer;</span>
+  const checkAnswer = useCallback((correctAnswer: number, onCorrect?: () =&gt; void) =&gt; {
+    const userNum = parseInt(userAnswer);
+    const correct = userNum === correctAnswer;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsCorrect(correct);</span>
-<span class="cstat-no" title="statement not covered" >    setShowFeedback(true);</span>
-<span class="cstat-no" title="statement not covered" >    setAttempts(<span class="fstat-no" title="function not covered" >pr</span>ev =&gt; <span class="cstat-no" title="statement not covered" >prev + 1)</span>;</span>
+    setIsCorrect(correct);
+    setShowFeedback(true);
+    setAttempts(prev =&gt; prev + 1);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (correct) {</span>
-<span class="cstat-no" title="statement not covered" >      setScore(<span class="fstat-no" title="function not covered" >pr</span>ev =&gt; <span class="cstat-no" title="statement not covered" >prev + 1)</span>;</span>
-<span class="cstat-no" title="statement not covered" >      onCorrect?.();</span>
+    if (correct) {
+      setScore(prev =&gt; prev + 1);
+      onCorrect?.();
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return correct;</span>
+    return correct;
   }, [userAnswer]);
 &nbsp;
-  const resetAnswer = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setUserAnswer('');</span>
-<span class="cstat-no" title="statement not covered" >    setShowFeedback(false);</span>
-<span class="cstat-no" title="statement not covered" >    setShowHint(false);</span>
+  const resetAnswer = useCallback(() =&gt; {
+    setUserAnswer('');
+    setShowFeedback(false);
+    setShowHint(false);
   }, []);
 &nbsp;
-  const toggleHint = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setShowHint(<span class="fstat-no" title="function not covered" >pr</span>ev =&gt; <span class="cstat-no" title="statement not covered" >!prev)</span>;</span>
+  const toggleHint = useCallback(() =&gt; {
+    setShowHint(prev =&gt; !prev);
   }, []);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     userAnswer,
     setUserAnswer,
     score,
@@ -244,7 +244,7 @@ export function <span class="fstat-no" title="function not covered" >useExercise
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-24T12:45:33.397Z
+                at 2026-02-24T14:51:18.227Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

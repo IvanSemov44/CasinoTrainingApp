@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,49 +88,49 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { RouletteNumber, PlacedBet } from '../../../types/roulette.types';
 &nbsp;
-export const useRouletteBets = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>lacedBets: PlacedBet[]) =&gt; {</span>
-  const getBetAmount = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>umbers: RouletteNumber[]) =&gt; {</span>
-    const matchingBets = <span class="cstat-no" title="statement not covered" >placedBets.filter(<span class="fstat-no" title="function not covered" >be</span>t =&gt; {</span>
+export const useRouletteBets = (placedBets: PlacedBet[]) =&gt; {
+  const getBetAmount = (numbers: RouletteNumber[]) =&gt; {
+    const matchingBets = placedBets.filter(bet =&gt; {
       // Safety check
-<span class="cstat-no" title="statement not covered" >      if (!bet || !bet.numbers || !Array.isArray(bet.numbers)) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+      if (!bet || !bet.numbers || !Array.isArray(bet.numbers)) return false;
       
       // Check if same length
-<span class="cstat-no" title="statement not covered" >      if (bet.numbers.length !== numbers.length) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+      if (bet.numbers.length !== numbers.length) return false;
       
       // Sort both arrays and compare
-      const sortedBetNumbers = <span class="cstat-no" title="statement not covered" >[...bet.numbers].sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >a - b)</span>;</span>
-      const sortedNumbers = <span class="cstat-no" title="statement not covered" >[...numbers].sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >a - b)</span>;</span>
+      const sortedBetNumbers = [...bet.numbers].sort((a, b) =&gt; a - b);
+      const sortedNumbers = [...numbers].sort((a, b) =&gt; a - b);
       
-<span class="cstat-no" title="statement not covered" >      return sortedBetNumbers.every(<span class="fstat-no" title="function not covered" >(n</span>, i) =&gt; <span class="cstat-no" title="statement not covered" >n === sortedNumbers[i])</span>;</span>
+      return sortedBetNumbers.every((n, i) =&gt; n === sortedNumbers[i]);
     });
     
-<span class="cstat-no" title="statement not covered" >    return matchingBets.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, bet) =&gt; <span class="cstat-no" title="statement not covered" >sum + bet.amount,</span> 0);</span>
+    return matchingBets.reduce((sum, bet) =&gt; sum + bet.amount, 0);
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return { getBetAmount };</span>
+  return { getBetAmount };
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -139,7 +139,7 @@ export const useRouletteBets = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-24T12:45:33.397Z
+                at 2026-02-24T14:51:18.227Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
