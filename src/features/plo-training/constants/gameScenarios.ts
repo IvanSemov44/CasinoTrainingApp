@@ -2,6 +2,9 @@
  * PLO Game Training Scenarios
  * One hand from preflop through turn showing pot calculation progression
  * 
+ * Note: In this game, Small Blind = Big Blind (equal blinds)
+ * Blinds can be: 2/2, 5/5, 10/10
+ * 
  * Difficulty levels:
  * - easy: Preflop only (communityCards: 0)
  * - medium: Easy + Flop (communityCards: 0-3)
@@ -27,45 +30,50 @@ export interface GameScenario {
   correctAnswer: number;
   explanation: string;
   difficulty: PLODifficulty;
+  blindLevel: number; // Both SB and BB are equal to this value
 }
 
 export const GAME_SCENARIOS: GameScenario[] = [
   {
-    // Question 1: Preflop - UTG asks pot after blinds
+    // Question 1: Preflop - UTG asks pot after blinds (2/2 game)
     difficulty: 'easy',
+    blindLevel: 2,
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false },
       { position: 3, name: 'UTG', chipAmount: 350, isDealer: false, isRequesting: true },
       { position: 4, name: 'BB', chipAmount: 288, isDealer: false, betAmount: 2 },
-      { position: 5, name: 'SB', chipAmount: 309, isDealer: false, betAmount: 1 },
+      { position: 5, name: 'SB', chipAmount: 309, isDealer: false, betAmount: 2 },
       { position: 6, name: 'D', chipAmount: 290, isDealer: true },
     ],
     potAmount: 0,
     communityCards: 0,
-    correctAnswer: 7,
-    explanation: 'Preflop:\nDead Money: $1 (SB)\nLast Action: $2 (BB)\nPot = $1 + 3×$2 = $7'
+    correctAnswer: 8,
+    explanation: 'Preflop (2/2 blinds):\nDead Money: $2 (SB)\nLast Action: $2 (BB)\nPot = $2 + 3×$2 = $8'
   },
   {
-    // Question 2: UTG raises to $7, MP asks pot
+    // Question 2: UTG raises to $8 (pot), MP asks pot
     difficulty: 'easy',
+    blindLevel: 2,
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isRequesting: true },
-      { position: 3, name: 'UTG', chipAmount: 350, isDealer: false, betAmount: 7 },
+      { position: 3, name: 'UTG', chipAmount: 350, isDealer: false, betAmount: 8 },
       { position: 4, name: 'BB', chipAmount: 288, isDealer: false, betAmount: 2 },
-      { position: 5, name: 'SB', chipAmount: 309, isDealer: false, betAmount: 1 },
+      { position: 5, name: 'SB', chipAmount: 309, isDealer: false, betAmount: 2 },
       { position: 6, name: 'D', chipAmount: 290, isDealer: true },
     ],
     potAmount: 0,
     communityCards: 0,
-    correctAnswer: 24,
-    explanation: 'Preflop:\nDead Money: $3 (SB $1 + BB $2)\nLast Action: $7 (UTG)\nPot = $3 + 3×$7 = $24'
+    correctAnswer: 28,
+    explanation: 'Preflop (2/2 blinds):\nDead Money: $4 (SB $2 + BB $2)\nLast Action: $8 (UTG pot raise)\nPot = $4 + 3×$8 = $28'
   },
   {
-    // Question 3: Preflop ends - MP raised to $24, CO/D/SB fold, BB and UTG call. Pot = $73 goes to center
+    // Question 3: Preflop ends - MP raised to $28, CO/D/SB fold, BB and UTG call
+    // Pot = $86 goes to center
     // FLOP: BB bets $50, UTG asks pot
     difficulty: 'medium',
+    blindLevel: 2,
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false },
@@ -74,31 +82,34 @@ export const GAME_SCENARIOS: GameScenario[] = [
       { position: 5, name: 'SB', chipAmount: 309, isDealer: false, isFolded: true },
       { position: 6, name: 'D', chipAmount: 290, isDealer: true, isFolded: true },
     ],
-    potAmount: 73,
+    potAmount: 86,
     communityCards: 3,
-    correctAnswer: 223,
-    explanation: 'FLOP: BB bets $50\nPot in center: $73 (from preflop: SB $1 + MP $24 + UTG $24 + BB $24)\nLast Action: $50 (BB bet)\nPot = $73 + 3×$50 = $223'
+    correctAnswer: 236,
+    explanation: 'FLOP: BB bets $50\nPot in center: $86 (from preflop: SB $2 + MP $28 + UTG $28 + BB $28)\nLast Action: $50 (BB bet)\nPot = $86 + 3×$50 = $236'
   },
   {
-    // Question 4: UTG raises to $223, MP folds, BB asks pot
+    // Question 4: UTG raises to $236, MP folds, BB asks pot
     difficulty: 'medium',
+    blindLevel: 2,
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isFolded: true },
-      { position: 3, name: 'UTG', chipAmount: 350, isDealer: false, betAmount: 223 },
+      { position: 3, name: 'UTG', chipAmount: 350, isDealer: false, betAmount: 236 },
       { position: 4, name: 'BB', chipAmount: 288, isDealer: false, betAmount: 50, isRequesting: true },
       { position: 5, name: 'SB', chipAmount: 309, isDealer: false, isFolded: true },
       { position: 6, name: 'D', chipAmount: 290, isDealer: true, isFolded: true },
     ],
-    potAmount: 73,
+    potAmount: 86,
     communityCards: 3,
-    correctAnswer: 742,
-    explanation: 'FLOP: UTG raises to $223\nPot in center: $123 ($73 preflop + BB $50)\nLast Action: $223 (UTG raise)\nBB has $50 in front\nPot = $123 + 3×$223 - $50 = $742'
+    correctAnswer: 794,
+    explanation: 'FLOP: UTG raises to $236\nPot in center: $136 ($86 preflop + BB $50)\nLast Action: $236 (UTG raise)\nBB has $50 in front\nPot = $136 + 3×$236 - $50 = $794'
   },
   {
-    // Question 5: BB raises $742, UTG calls $519 more. Flop betting ends. Pot = $73 + $223 + $742 + $519 = $1,557 goes to center
+    // Question 5: BB raises $794, UTG calls $558 more. Flop betting ends.
+    // Pot = $86 + $236 + $794 + $558 = $1,674 goes to center
     // TURN: BB bets $120, UTG asks pot
     difficulty: 'advanced',
+    blindLevel: 2,
     players: [
       { position: 1, name: 'CO', chipAmount: 300, isDealer: false, isFolded: true },
       { position: 2, name: 'MP', chipAmount: 280, isDealer: false, isFolded: true },
@@ -107,10 +118,10 @@ export const GAME_SCENARIOS: GameScenario[] = [
       { position: 5, name: 'SB', chipAmount: 309, isDealer: false, isFolded: true },
       { position: 6, name: 'D', chipAmount: 290, isDealer: true, isFolded: true },
     ],
-    potAmount: 1557,
+    potAmount: 1674,
     communityCards: 4,
-    correctAnswer: 1917,
-    explanation: 'TURN: BB bets $120\nPot in center: $1,557 ($73 preflop + $223 UTG + $742 BB + $519 UTG call on flop)\nLast Action: $120 (BB bet)\nPot = $1,557 + 3×$120 = $1,917'
+    correctAnswer: 2034,
+    explanation: 'TURN: BB bets $120\nPot in center: $1,674 ($86 preflop + $236 UTG + $794 BB + $558 UTG call on flop)\nLast Action: $120 (BB bet)\nPot = $1,674 + 3×$120 = $2,034'
   }
 ];
 
@@ -151,3 +162,9 @@ export const DIFFICULTY_INFO: Record<PLODifficulty, { label: string; description
     icon: '🌳',
   },
 };
+
+/**
+ * Available blind levels (SB = BB)
+ */
+export const BLIND_LEVELS = [2, 5, 10] as const;
+export type BlindLevel = typeof BLIND_LEVELS[number];

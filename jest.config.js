@@ -1,21 +1,19 @@
-/**
- * Jest configuration for Casino Training App
- * Custom configuration without jest-expo preset to avoid reanimated issues
- */
 module.exports = {
-  // Setup files to run before tests
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  
-  // Test match patterns
-  testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)+(spec|test).[jt]s?(x)'
+  setupFilesAfterEnv: ['<rootDir>/jest.setupAfterEnv.js'],
+  setupFiles: ['<rootDir>/jest.setup.js'],
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
   ],
-  
-  // Module name mapper for path aliases (matching tsconfig.json)
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  verbose: true,
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
   moduleNameMapper: {
-    '^react-native$': '<rootDir>/src/test-utils/__mocks__/react-native.ts',
-    '^@app-types/(.*)$': '<rootDir>/src/types/$1',
+    '^@react-native/(.*)$': '<rootDir>/node_modules/@react-native/$1',
+    '^@styles/(.*)$': '<rootDir>/src/styles/$1',
+    '^@app-types$': '<rootDir>/src/types',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@config/(.*)$': '<rootDir>/src/config/$1',
     '^@constants/(.*)$': '<rootDir>/src/constants/$1',
@@ -28,27 +26,8 @@ module.exports = {
     '^@store/(.*)$': '<rootDir>/src/store/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  
-  // Coverage configuration
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/index.ts',
-    '!src/**/__tests__/**',
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/__tests__/helpers/',
   ],
-  
-  // Coverage output directory
-  coverageDirectory: 'coverage',
-  
-  // Test environment
-  testEnvironment: 'node',
-  
-  // Module file extensions
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  
-  // Clear mocks between tests
-  clearMocks: true,
-  
-  // Verbose output
-  verbose: true,
 };

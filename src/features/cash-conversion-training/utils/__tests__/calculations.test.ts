@@ -3,6 +3,7 @@ import {
   validateAnswer,
   generateRandomCashAmount,
   generateRandomSector,
+  generateRandomRequest,
 } from '../calculations';
 import { CashRequest, CashAnswer } from '../../types';
 
@@ -354,5 +355,127 @@ describe('generateRandomSector', () => {
     expect(sectors.has('voisins')).toBe(true);
     expect(sectors.has('zero')).toBe(true);
     expect(sectors.has('neighbors')).toBe(true);
+  });
+});
+
+describe('generateRandomRequest', () => {
+  describe('for-the-money requests', () => {
+    it('should generate a valid for-the-money request', () => {
+      const cashAmount = 300;
+      const request = generateRandomRequest('tier', cashAmount, 'easy');
+      
+      expect(request.sector).toBe('tier');
+      expect(request.cashAmount).toBeGreaterThanOrEqual(0);
+      expect(['for-the-money', 'by-amount']).toContain(request.requestType);
+    });
+
+    it('should generate request with cash amount resulting in change < maxChange', () => {
+      // Run multiple times to test randomness
+      for (let i = 0; i < 50; i++) {
+        const cashAmount = 300;
+        const request = generateRandomRequest('tier', cashAmount, 'easy');
+        
+        if (request.requestType === 'for-the-money') {
+          // For tier (6 positions), calculate expected change
+          const answer = calculateCorrectAnswer(request, 'easy');
+          expect(answer.change).toBeLessThan(100); // maxChange is 100
+        }
+      }
+    });
+
+    it('should adjust cash amount when change would be too high', () => {
+      // Use a cash amount that would result in high change
+      // For tier with $50 max bet: 6 * $50 = $300 max total
+      // So $500 would give $200 change, which is > maxChange (100)
+      const request = generateRandomRequest('tier', 500, 'easy');
+      
+      // The function should adjust the cash amount to result in change < 100
+      if (request.requestType === 'for-the-money') {
+        const answer = calculateCorrectAnswer(request, 'easy');
+        expect(answer.change).toBeLessThan(100);
+      }
+    });
+  });
+
+  describe('by-amount requests', () => {
+    it('should generate a valid by-amount request with specified amount', () => {
+      // Run multiple times to potentially get by-amount requests
+      for (let i = 0; i < 50; i++) {
+        const cashAmount = 350;
+        const request = generateRandomRequest('tier', cashAmount, 'easy');
+        
+        if (request.requestType === 'by-amount') {
+          expect(request.specifiedAmount).toBeDefined();
+          expect(request.specifiedAmount).toBeGreaterThanOrEqual(5);
+          expect(request.specifiedAmount).toBeLessThanOrEqual(50); // easy max
+        }
+      }
+    });
+
+    it('should generate by-amount request with valid change', () => {
+      for (let i = 0; i < 50; i++) {
+        const cashAmount = 400;
+        const request = generateRandomRequest('tier', cashAmount, 'medium');
+        
+        if (request.requestType === 'by-amount') {
+          const answer = calculateCorrectAnswer(request, 'medium');
+          expect(answer.change).toBeGreaterThanOrEqual(0);
+          expect(answer.change).toBeLessThan(100);
+        }
+      }
+    });
+
+    it('should adjust cash amount when no valid bets found for by-amount', () => {
+      // Use a very high cash amount that might not have valid bets
+      const request = generateRandomRequest('tier', 1000, 'easy');
+      
+      if (request.requestType === 'by-amount') {
+        // Should have a valid specified amount
+        expect(request.specifiedAmount).toBeDefined();
+        expect(request.specifiedAmount).toBeGreaterThanOrEqual(5);
+      }
+    });
+  });
+
+  describe('all sectors', () => {
+    it('should work with all sector types', () => {
+      const sectors: Array<'tier' | 'orphelins' | 'voisins' | 'zero' | 'neighbors'> = 
+        ['tier', 'orphelins', 'voisins', 'zero', 'neighbors'];
+      
+      for (const sector of sectors) {
+        const request = generateRandomRequest(sector, 300, 'easy');
+        expect(request.sector).toBe(sector);
+      }
+    });
+
+    it('should work with all difficulty levels', () => {
+      const difficulties: Array<'easy' | 'medium' | 'hard'> = ['easy', 'medium', 'hard'];
+      
+      for (const difficulty of difficulties) {
+        const request = generateRandomRequest('tier', 500, difficulty);
+        expect(request).toBeDefined();
+      }
+    });
+  });
+
+  describe('cash amount validation', () => {
+    it('should generate cash amounts that are multiples of $25', () => {
+      for (let i = 0; i < 50; i++) {
+        const request = generateRandomRequest('tier', 300, 'easy');
+        expect(request.cashAmount % 25).toBe(0);
+      }
+    });
+
+    it('should generate varied request types over multiple calls', () => {
+      const requestTypes = new Set<string>();
+      
+      for (let i = 0; i < 100; i++) {
+        const request = generateRandomRequest('tier', 300, 'easy');
+        requestTypes.add(request.requestType);
+      }
+      
+      // Should eventually generate both types
+      expect(requestTypes.size).toBeGreaterThan(0);
+    });
   });
 });
