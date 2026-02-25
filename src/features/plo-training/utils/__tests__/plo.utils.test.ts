@@ -165,7 +165,8 @@ describe('plo.utils', () => {
       const request = generateRandomPotRequest();
 
       expect(request.smallBlind).toBeGreaterThan(0);
-      expect(request.bigBlind).toBeGreaterThan(request.smallBlind);
+      // PLO uses equal blinds (SB = BB), so bigBlind should be >= smallBlind
+      expect(request.bigBlind).toBeGreaterThanOrEqual(request.smallBlind);
     });
 
     it('should have at least one bet action', () => {

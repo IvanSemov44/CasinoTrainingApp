@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+ import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { COLORS, SPACING } from '../../roulette-training/constants/theme';
 import { RouletteLayout } from '../../../components/roulette';
@@ -41,7 +41,7 @@ export default function RouletteGameScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="roulette-game-container">
       <View style={styles.gameContainer}>
         {/* Racetrack at the top */}
         <View style={styles.racetrackContainer}>

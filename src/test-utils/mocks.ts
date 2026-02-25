@@ -1,6 +1,6 @@
 /**
- * Reusable mocks for Casino Training App tests
- * Provides mock functions and objects for testing
+ * Reusable Mocks for Casino Training App tests
+ * Centralize all mock implementations here
  */
 
 // ============================================
@@ -11,32 +11,45 @@ export const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
   reset: jest.fn(),
+  replace: jest.fn(),
   push: jest.fn(),
   pop: jest.fn(),
-  replace: jest.fn(),
-  dispatch: jest.fn(),
+  popToTop: jest.fn(),
   setParams: jest.fn(),
+  dispatch: jest.fn(),
   isFocused: jest.fn(() => true),
   canGoBack: jest.fn(() => true),
+  getParent: jest.fn(),
+  getState: jest.fn(),
 };
 
 export const mockRoute = {
   key: 'test-key',
   name: 'TestScreen',
   params: {},
+  path: undefined,
 };
 
-/**
- * Setup mock for react-navigation
- * Call this in your test file or in a beforeEach hook
- */
+export const mockNavigationProp = {
+  navigation: mockNavigation,
+  route: mockRoute,
+};
+
+// ============================================
+// React Navigation Hook Mocks
+// ============================================
+
+export const mockUseNavigation = () => mockNavigation;
+export const mockUseRoute = () => mockRoute;
+
+// Full navigation mock setup
 export const setupNavigationMocks = () => {
   jest.mock('@react-navigation/native', () => ({
     ...jest.requireActual('@react-navigation/native'),
-    useNavigation: () => mockNavigation,
-    useRoute: () => mockRoute,
+    useNavigation: mockUseNavigation,
+    useRoute: mockUseRoute,
     useFocusEffect: jest.fn(),
-    useIsFocused: () => true,
+    useIsFocused: jest.fn(() => true),
   }));
 };
 
@@ -55,83 +68,120 @@ export const mockAsyncStorage = {
   multiRemove: jest.fn(() => Promise.resolve()),
 };
 
-/**
- * Setup mock for AsyncStorage
- */
-export const setupAsyncStorageMock = () => {
-  jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
+// ============================================
+// Timer Mocks
+// ============================================
+
+export const mockTimers = {
+  setTimeout: jest.fn((callback: () => void, _delay: number) => {
+    callback();
+    return 1;
+  }),
+  clearTimeout: jest.fn(),
+  setInterval: jest.fn(() => 1),
+  clearInterval: jest.fn(),
+  requestAnimationFrame: jest.fn((callback: FrameRequestCallback) => {
+    callback(0);
+    return 1;
+  }),
+  cancelAnimationFrame: jest.fn(),
 };
 
 // ============================================
-// Reanimated Mock
+// Animated Value Mock
 // ============================================
 
-/**
- * Setup mock for react-native-reanimated
- * Already configured in jest.setup.js, but available for individual tests
- */
-export const setupReanimatedMock = () => {
-  jest.mock('react-native-reanimated', () => {
-    const Reanimated = require('react-native-reanimated/mock');
-    Reanimated.default.call = () => {};
-    return Reanimated;
-  });
+interface MockAnimatedValue {
+  setValue: jest.Mock;
+  setOffset: jest.Mock;
+  flattenOffset: jest.Mock;
+  extractOffset: jest.Mock;
+  addListener: jest.Mock;
+  removeListener: jest.Mock;
+  removeAllListeners: jest.Mock;
+  stopAnimation: jest.Mock;
+  resetAnimation: jest.Mock;
+  interpolate: jest.Mock;
+  _value: number;
+  _offset: number;
+  _animation: null;
+  _tracking: null;
+}
+
+export const createMockAnimatedValue = (initialValue: number = 0): MockAnimatedValue => ({
+  setValue: jest.fn(),
+  setOffset: jest.fn(),
+  flattenOffset: jest.fn(),
+  extractOffset: jest.fn(),
+  addListener: jest.fn(),
+  removeListener: jest.fn(),
+  removeAllListeners: jest.fn(),
+  stopAnimation: jest.fn(),
+  resetAnimation: jest.fn(),
+  interpolate: jest.fn(() => createMockAnimatedValue(0)),
+  _value: initialValue,
+  _offset: 0,
+  _animation: null,
+  _tracking: null,
+});
+
+// ============================================
+// Gesture Handler Mocks
+// ============================================
+
+export const mockGestureHandler = {
+  onGestureEvent: jest.fn(),
+  onHandlerStateChange: jest.fn(),
+  hitSlop: undefined,
+  enabled: true,
+  waitFor: undefined,
+  simultaneousHandlers: undefined,
+  shouldCancelWhenOutside: true,
 };
 
 // ============================================
-// Gesture Handler Mock
+// Sound/Audio Mocks
 // ============================================
 
-/**
- * Setup mock for react-native-gesture-handler
- */
-export const setupGestureHandlerMock = () => {
-  jest.mock('react-native-gesture-handler', () => {
-    const View = require('react-native').View;
-    return {
-      Swipeable: View,
-      DrawerLayout: View,
-      State: {},
-      ScrollView: View,
-      Slider: View,
-      Switch: View,
-      TextInput: View,
-      ToolbarAndroid: View,
-      ViewPagerAndroid: View,
-      DrawerLayoutAndroid: View,
-      WebView: View,
-      NativeViewGestureHandler: View,
-      TapGestureHandler: View,
-      FlingGestureHandler: View,
-      ForceTouchGestureHandler: View,
-      LongPressGestureHandler: View,
-      PanGestureHandler: View,
-      PinchGestureHandler: View,
-      RotationGestureHandler: View,
-      RawButton: View,
-      BaseButton: View,
-      RectButton: View,
-      BorderlessButton: View,
-      FlatList: View,
-      gestureHandlerRootHOC: jest.fn((component) => component),
-      Directions: {},
-    };
-  });
+export const mockSound = {
+  play: jest.fn(() => Promise.resolve()),
+  pause: jest.fn(() => Promise.resolve()),
+  stop: jest.fn(() => Promise.resolve()),
+  unloadAsync: jest.fn(() => Promise.resolve()),
+  setPositionAsync: jest.fn(() => Promise.resolve()),
+  setVolumeAsync: jest.fn(() => Promise.resolve()),
+  setRateAsync: jest.fn(() => Promise.resolve()),
+  getStatusAsync: jest.fn(() => Promise.resolve({ isLoaded: true, isPlaying: false })),
+};
+
+export const mockAudio = {
+  Sound: {
+    createAsync: jest.fn(() => Promise.resolve({ sound: mockSound, status: { isLoaded: true } })),
+  },
+  setAudioModeAsync: jest.fn(() => Promise.resolve()),
 };
 
 // ============================================
-// Alert Mock
+// Haptic Feedback Mock
 // ============================================
 
-export const mockAlert = {
-  alert: jest.fn(),
+export const mockHaptics = {
+  impactAsync: jest.fn(() => Promise.resolve()),
+  notificationAsync: jest.fn(() => Promise.resolve()),
+  selectionAsync: jest.fn(() => Promise.resolve()),
 };
 
-/**
- * Setup mock for React Native Alert
- */
-export const setupAlertMock = () => {
-  jest.mock('react-native/Libraries/Alert/Alert', () => mockAlert);
+// ============================================
+// Platform Mock
+// ============================================
+
+export const mockPlatform = (os: 'ios' | 'android' | 'web' = 'ios') => {
+  jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+    OS: os,
+    Version: os === 'ios' ? '14.0' : '30',
+    select: jest.fn((obj: Record<string, any>) => obj[os]),
+    isTV: false,
+  }));
 };
 
 // ============================================
@@ -145,22 +195,9 @@ export const mockDimensions = {
     scale: 2,
     fontScale: 1,
   })),
-  addEventListener: jest.fn(),
+  addEventListener: jest.fn(() => ({ remove: jest.fn() })),
   removeEventListener: jest.fn(),
-};
-
-/**
- * Setup mock for React Native Dimensions
- */
-export const setupDimensionsMock = (width = 375, height = 812) => {
-  mockDimensions.get.mockReturnValue({
-    width,
-    height,
-    scale: 2,
-    fontScale: 1,
-  });
-  
-  jest.mock('react-native/Libraries/Utilities/Dimensions', () => mockDimensions);
+  set: jest.fn(),
 };
 
 // ============================================
@@ -171,178 +208,64 @@ export const mockKeyboard = {
   dismiss: jest.fn(),
   addListener: jest.fn(() => ({ remove: jest.fn() })),
   removeListener: jest.fn(),
-  removeAllListeners: jest.fn(),
-};
-
-/**
- * Setup mock for React Native Keyboard
- */
-export const setupKeyboardMock = () => {
-  jest.mock('react-native/Libraries/Components/Keyboard/Keyboard', () => mockKeyboard);
+  isVisible: jest.fn(() => false),
 };
 
 // ============================================
-// Platform Mock
+// Alert Mock
 // ============================================
 
-export const mockPlatform = {
-  OS: 'ios',
-  Version: '14.0',
-  select: jest.fn((obj) => obj.ios || obj.default),
-};
-
-/**
- * Setup mock for React Native Platform
- */
-export const setupPlatformMock = (os: 'ios' | 'android' = 'ios') => {
-  mockPlatform.OS = os;
-  jest.mock('react-native/Libraries/Utilities/Platform', () => mockPlatform);
+export const mockAlert = {
+  alert: jest.fn(),
 };
 
 // ============================================
-// Timer Mocks
+// Clipboard Mock
 // ============================================
 
-/**
- * Setup fake timers for testing timers and animations
- */
-export const setupFakeTimers = () => {
-  jest.useFakeTimers();
-};
-
-export const cleanupFakeTimers = () => {
-  jest.useRealTimers();
+export const mockClipboard = {
+  getString: jest.fn(() => Promise.resolve('')),
+  setString: jest.fn(),
 };
 
 // ============================================
-// Sound Mock (for future audio features)
+// Vibration Mock
 // ============================================
 
-export const mockSound = {
-  play: jest.fn(() => Promise.resolve()),
-  pause: jest.fn(() => Promise.resolve()),
-  stop: jest.fn(() => Promise.resolve()),
-  release: jest.fn(),
-  setVolume: jest.fn(),
-  setSpeed: jest.fn(),
+export const mockVibration = {
+  vibrate: jest.fn(),
+  cancel: jest.fn(),
 };
 
 // ============================================
-// Haptic Feedback Mock
+// Helper to reset all mocks
 // ============================================
 
-export const mockHapticFeedback = {
-  impact: jest.fn(),
-  notification: jest.fn(),
-  selection: jest.fn(),
-};
-
-// ============================================
-// Redux Mock Store
-// ============================================
-
-import { configureStore } from '@reduxjs/toolkit';
-
-/**
- * Create a mock Redux store for testing
- * @param reducer - The reducer to use
- * @param preloadedState - Optional preloaded state
- */
-export const createMockStore = (reducer: any, preloadedState?: any) => {
-  return configureStore({
-    reducer,
-    preloadedState,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: false,
-        immutableCheck: false,
-      }),
-  });
-};
-
-// ============================================
-// Test Utilities
-// ============================================
-
-/**
- * Wait for all pending promises to resolve
- * Useful for testing async operations
- */
-export const flushPromises = () => new Promise(setImmediate);
-
-/**
- * Create a mock function that returns a specific value
- */
-export const createMockFn = <T>(returnValue: T) => jest.fn(() => returnValue);
-
-/**
- * Create a mock function that resolves to a specific value
- */
-export const createMockAsyncFn = <T>(returnValue: T) => jest.fn(() => Promise.resolve(returnValue));
-
-/**
- * Reset all mocks between tests
- * Call this in afterEach hook
- */
 export const resetAllMocks = () => {
-  jest.clearAllMocks();
+  // Navigation
   mockNavigation.navigate.mockClear();
   mockNavigation.goBack.mockClear();
+  mockNavigation.reset.mockClear();
+  mockNavigation.replace.mockClear();
+  mockNavigation.push.mockClear();
+  mockNavigation.pop.mockClear();
+  mockNavigation.popToTop.mockClear();
+  mockNavigation.setParams.mockClear();
+  mockNavigation.dispatch.mockClear();
+  
+  // AsyncStorage
   mockAsyncStorage.getItem.mockClear();
   mockAsyncStorage.setItem.mockClear();
+  mockAsyncStorage.removeItem.mockClear();
+  mockAsyncStorage.clear.mockClear();
+  
+  // Sound
+  mockSound.play.mockClear();
+  mockSound.pause.mockClear();
+  mockSound.stop.mockClear();
+  
+  // Haptics
+  mockHaptics.impactAsync.mockClear();
+  mockHaptics.notificationAsync.mockClear();
+  mockHaptics.selectionAsync.mockClear();
 };
-
-// ============================================
-// Accessibility Mocks
-// ============================================
-
-/**
- * Check if element is accessible
- */
-export const isAccessible = (element: any) => {
-  return element.props.accessible !== false;
-};
-
-/**
- * Get accessibility label from element
- */
-export const getAccessibilityLabel = (element: any) => {
-  return element.props.accessibilityLabel;
-};
-
-/**
- * Get accessibility role from element
- */
-export const getAccessibilityRole = (element: any) => {
-  return element.props.accessibilityRole;
-};
-
-// ============================================
-// Event Mocks
-// ============================================
-
-/**
- * Create a mock event for testing event handlers
- */
-export const createMockEvent = (overrides = {}) => ({
-  nativeEvent: {
-    timestamp: Date.now(),
-    ...overrides,
-  },
-  preventDefault: jest.fn(),
-  stopPropagation: jest.fn(),
-});
-
-/**
- * Create a mock gesture event for testing gesture handlers
- */
-export const createMockGestureEvent = (overrides = {}) => ({
-  nativeEvent: {
-    state: 4, // BEGAN
-    x: 0,
-    y: 0,
-    absoluteX: 0,
-    absoluteY: 0,
-    ...overrides,
-  },
-});

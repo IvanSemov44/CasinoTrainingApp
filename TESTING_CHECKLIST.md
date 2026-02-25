@@ -352,3 +352,126 @@ Screenshot: [attach if possible]
 _________________________________________________________________
 _________________________________________________________________
 _________________________________________________________________
+
+---
+
+## 🤖 Automated Testing Status
+
+### Unit Test Coverage (Updated: 2026-02-25)
+
+| Metric | Value | Target |
+|--------|-------|--------|
+| **Overall Coverage** | 77.54% | 80% |
+| **Statements** | 77.54% | 80% |
+| **Branches** | 66.91% | 70% |
+| **Functions** | 69.60% | 75% |
+| **Lines** | 77.39% | 80% |
+| **Test Suites** | 27 | - |
+| **Total Tests** | 457 | - |
+| **Passing Tests** | 457 | - |
+
+### Test Files by Feature
+
+#### Components (97.43% coverage)
+| File | Tests | Coverage |
+|------|-------|----------|
+| `ChipSelector.test.tsx` | 18 | 100% |
+| `LoadingSpinner.test.tsx` | 15 | 100% |
+| `ErrorBoundary.test.tsx` | 14 | 100% |
+| `Racetrack.test.tsx` | - | 91.66% |
+| `RouletteChip.test.tsx` | 22 | 100% |
+
+#### Roulette Components (43.29% coverage)
+| File | Tests | Coverage |
+|------|-------|----------|
+| `RouletteNumberCell.test.tsx` | 22 | 100% |
+| `RouletteLayout.tsx` | - | 72.72% |
+| `RouletteNumberGrid.tsx` | - | 83.33% |
+
+#### Shared Components (100% coverage for tested)
+| File | Tests | Coverage |
+|------|-------|----------|
+| `DropdownSelector.test.tsx` | 22 | 100% |
+| `useModalAnimation.test.ts` | 8 | 100% |
+
+#### Features
+
+**Call Bets Training (100% coverage for components)**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `ChallengeDisplay.test.tsx` | 12 | 100% |
+| `ResultFeedback.test.tsx` | 16 | 100% |
+| `CallBetsTrainingScreen.test.tsx` | 16 | 69.69% |
+| `validation.test.ts` | 13 | 100% |
+
+**Cash Conversion Training**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `calculations.test.ts` | 35 | 100% |
+| `CashConversionMenuScreen.test.tsx` | 13 | 85.71% |
+
+**PLO Training**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `plo.utils.test.ts` | 12 | 98.14% |
+| `PLOMenuScreen.test.tsx` | 9 | 100% |
+
+**Racetrack**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `racetrack.utils.test.ts` | 20 | 100% |
+| `useAnnouncedBets.test.ts` | 16 | 100% |
+
+**Roulette Training**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `exerciseHelpers.test.ts` | 22 | 100% |
+| `betGenerators.test.ts` | 18 | 88.40% |
+| `useExerciseState.test.ts` | 16 | 100% |
+
+**Roulette Game**
+| File | Tests | Coverage |
+|------|-------|----------|
+| `RouletteGameScreen.test.tsx` | 7 | 70.58% |
+
+#### Utilities
+| File | Tests | Coverage |
+|------|-------|----------|
+| `randomUtils.test.ts` | 30 | 100% |
+| `roulette.utils.test.ts` | 29 | 96.55% |
+
+#### Integration Tests
+| File | Tests | Coverage |
+|------|-------|----------|
+| `navigation.test.tsx` | 8 | - |
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run with coverage
+npm test -- --coverage
+
+# Run specific test file
+npm test -- path/to/test.test.ts
+
+# Run tests in watch mode
+npm test -- --watch
+```
+
+### Coverage Improvement Roadmap
+
+1. **Priority 1 - Components with 0% coverage:**
+   - `TrainingSelectionModal.tsx` (4.12%)
+   - `BaseTrainingModal.tsx` (5.88%)
+
+2. **Priority 2 - Components with low coverage:**
+   - `RouletteOutsideBets.tsx` (52.63%)
+   - `RouletteColumnBets.tsx` (40%)
+   - `RouletteZeroColumn.tsx` (57.14%)
+
+3. **Priority 3 - Improve branch coverage:**
+   - Current: 66.91%
+   - Target: 70%+

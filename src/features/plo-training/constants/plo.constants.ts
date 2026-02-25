@@ -13,14 +13,11 @@ export const POSITION_NAMES: Record<Position, string> = {
   D: 'Dealer',
 };
 
-// Common blind levels
+// PLO uses equal blinds: SB = BB
 export const BLIND_LEVELS = [
-  { sb: 1, bb: 2 },
-  { sb: 2, bb: 5 },
-  { sb: 5, bb: 10 },
-  { sb: 10, bb: 20 },
-  { sb: 25, bb: 50 },
-  { sb: 50, bb: 100 },
+  { sb: 2, bb: 2 },
+  { sb: 5, bb: 5 },
+  { sb: 10, bb: 10 },
 ];
 
 // Training configuration

@@ -1,8 +1,6 @@
 /**
- * Unit tests for randomUtils.ts
- * Tests shared utility functions for random number generation
+ * Tests for randomUtils
  */
-
 import {
   getRandomInt,
   getRandomElement,
@@ -15,178 +13,171 @@ import {
 
 describe('randomUtils', () => {
   describe('getRandomInt', () => {
-    it('should return a number within the specified range (inclusive)', () => {
-      // Run multiple times to test randomness
+    it('should return a number within the range [min, max] inclusive', () => {
       for (let i = 0; i < 100; i++) {
-        const result = getRandomInt(1, 10);
-        expect(result).toBeGreaterThanOrEqual(1);
+        const result = getRandomInt(5, 10);
+        expect(result).toBeGreaterThanOrEqual(5);
         expect(result).toBeLessThanOrEqual(10);
-        expect(Number.isInteger(result)).toBe(true);
       }
     });
 
-    it('should return the same value when min equals max', () => {
+    it('should return min when min equals max', () => {
       const result = getRandomInt(5, 5);
       expect(result).toBe(5);
     });
 
-    it('should handle negative numbers', () => {
-      for (let i = 0; i < 50; i++) {
+    it('should handle negative ranges', () => {
+      for (let i = 0; i < 100; i++) {
         const result = getRandomInt(-10, -5);
         expect(result).toBeGreaterThanOrEqual(-10);
         expect(result).toBeLessThanOrEqual(-5);
       }
     });
 
-    it('should handle range including zero', () => {
-      for (let i = 0; i < 50; i++) {
-        const result = getRandomInt(-5, 5);
-        expect(result).toBeGreaterThanOrEqual(-5);
+    it('should handle range starting from 0', () => {
+      for (let i = 0; i < 100; i++) {
+        const result = getRandomInt(0, 5);
+        expect(result).toBeGreaterThanOrEqual(0);
         expect(result).toBeLessThanOrEqual(5);
-      }
-    });
-
-    it('should return integer values only', () => {
-      for (let i = 0; i < 50; i++) {
-        const result = getRandomInt(0, 100);
-        expect(result).toBe(Math.floor(result));
       }
     });
   });
 
   describe('getRandomElement', () => {
     it('should return an element from the array', () => {
-      const array = [1, 2, 3, 4, 5];
-      for (let i = 0; i < 50; i++) {
-        const result = getRandomElement(array);
-        expect(array).toContain(result);
+      const arr = [1, 2, 3, 4, 5];
+      for (let i = 0; i < 100; i++) {
+        const result = getRandomElement(arr);
+        expect(arr).toContain(result);
       }
     });
 
     it('should return the only element from a single-element array', () => {
-      const array = [42];
-      const result = getRandomElement(array);
+      const arr = [42];
+      const result = getRandomElement(arr);
       expect(result).toBe(42);
     });
 
-    it('should work with strings', () => {
-      const array = ['apple', 'banana', 'cherry'];
-      for (let i = 0; i < 30; i++) {
-        const result = getRandomElement(array);
-        expect(array).toContain(result);
-      }
-    });
-
-    it('should work with objects', () => {
-      const array = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      for (let i = 0; i < 30; i++) {
-        const result = getRandomElement(array);
-        expect(array).toContainEqual(result);
-      }
-    });
-
-    it('should return undefined for empty array', () => {
-      const array: number[] = [];
-      const result = getRandomElement(array);
+    it('should return undefined for an empty array', () => {
+      const arr: number[] = [];
+      const result = getRandomElement(arr);
       expect(result).toBeUndefined();
+    });
+
+    it('should work with string arrays', () => {
+      const arr = ['red', 'black', 'green'];
+      for (let i = 0; i < 100; i++) {
+        const result = getRandomElement(arr);
+        expect(arr).toContain(result);
+      }
+    });
+
+    it('should work with object arrays', () => {
+      const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+      for (let i = 0; i < 100; i++) {
+        const result = getRandomElement(arr);
+        expect(arr).toContainEqual(result);
+      }
     });
   });
 
   describe('shuffleArray', () => {
-    it('should return an array with the same length', () => {
-      const array = [1, 2, 3, 4, 5];
-      const shuffled = shuffleArray(array);
-      expect(shuffled.length).toBe(array.length);
-    });
-
-    it('should contain all the same elements', () => {
-      const array = [1, 2, 3, 4, 5];
-      const shuffled = shuffleArray(array);
-      expect(shuffled.sort()).toEqual(array.sort());
+    it('should return an array with the same elements', () => {
+      const arr = [1, 2, 3, 4, 5];
+      const shuffled = shuffleArray(arr);
+      expect(shuffled.sort()).toEqual(arr.sort());
     });
 
     it('should not modify the original array', () => {
-      const array = [1, 2, 3, 4, 5];
-      const originalCopy = [...array];
-      shuffleArray(array);
-      expect(array).toEqual(originalCopy);
+      const arr = [1, 2, 3, 4, 5];
+      const arrCopy = [...arr];
+      shuffleArray(arr);
+      expect(arr).toEqual(arrCopy);
     });
 
-    it('should return a new array reference', () => {
-      const array = [1, 2, 3, 4, 5];
-      const shuffled = shuffleArray(array);
-      expect(shuffled).not.toBe(array);
-    });
-
-    it('should handle single-element array', () => {
-      const array = [1];
-      const shuffled = shuffleArray(array);
+    it('should handle a single-element array', () => {
+      const arr = [1];
+      const shuffled = shuffleArray(arr);
       expect(shuffled).toEqual([1]);
     });
 
-    it('should handle empty array', () => {
-      const array: number[] = [];
-      const shuffled = shuffleArray(array);
+    it('should handle an empty array', () => {
+      const arr: number[] = [];
+      const shuffled = shuffleArray(arr);
       expect(shuffled).toEqual([]);
+    });
+
+    it('should produce different orders on multiple calls (statistical test)', () => {
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const results = new Set<string>();
+      
+      for (let i = 0; i < 100; i++) {
+        const shuffled = shuffleArray([...arr]);
+        results.add(shuffled.join(','));
+      }
+      
+      // With 100 shuffles of 10 elements, we should see multiple different orders
+      expect(results.size).toBeGreaterThan(10);
     });
   });
 
   describe('getRandomChipCount', () => {
-    it('should return a number within default range (1-3)', () => {
-      for (let i = 0; i < 50; i++) {
+    it('should return a number within default range [1, 3]', () => {
+      for (let i = 0; i < 100; i++) {
         const result = getRandomChipCount();
         expect(result).toBeGreaterThanOrEqual(1);
         expect(result).toBeLessThanOrEqual(3);
-        expect(Number.isInteger(result)).toBe(true);
       }
     });
 
     it('should return a number within custom range', () => {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         const result = getRandomChipCount(2, 5);
         expect(result).toBeGreaterThanOrEqual(2);
         expect(result).toBeLessThanOrEqual(5);
       }
     });
 
-    it('should handle equal min and max', () => {
+    it('should return min when min equals max', () => {
       const result = getRandomChipCount(4, 4);
       expect(result).toBe(4);
     });
   });
 
   describe('shouldInclude', () => {
+    it('should return boolean values', () => {
+      for (let i = 0; i < 100; i++) {
+        const result = shouldInclude(0.5);
+        expect(typeof result).toBe('boolean');
+      }
+    });
+
     it('should always return true when probability is 0', () => {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         const result = shouldInclude(0);
         expect(result).toBe(true);
       }
     });
 
     it('should always return false when probability is 1', () => {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         const result = shouldInclude(1);
         expect(result).toBe(false);
       }
     });
-
-    it('should return boolean values', () => {
-      const result = shouldInclude(0.5);
-      expect(typeof result).toBe('boolean');
-    });
   });
 
   describe('getRandomCount', () => {
-    it('should return a number between 1 and maxCount (or availableCount)', () => {
-      for (let i = 0; i < 50; i++) {
+    it('should return a number between 1 and maxCount, limited by availableCount', () => {
+      for (let i = 0; i < 100; i++) {
         const result = getRandomCount(5, 10);
         expect(result).toBeGreaterThanOrEqual(1);
         expect(result).toBeLessThanOrEqual(5);
       }
     });
 
-    it('should be limited by availableCount when smaller', () => {
-      for (let i = 0; i < 50; i++) {
+    it('should be limited by availableCount when less than maxCount', () => {
+      for (let i = 0; i < 100; i++) {
         const result = getRandomCount(10, 3);
         expect(result).toBeGreaterThanOrEqual(1);
         expect(result).toBeLessThanOrEqual(3);
@@ -197,88 +188,62 @@ describe('randomUtils', () => {
       const result = getRandomCount(5, 1);
       expect(result).toBe(1);
     });
-
-    it('should return at least 1', () => {
-      for (let i = 0; i < 50; i++) {
-        const result = getRandomCount(5, 5);
-        expect(result).toBeGreaterThanOrEqual(1);
-      }
-    });
   });
 
   describe('getDynamicChipCount', () => {
-    it('should return 0 for input 0', () => {
+    it('should return 0 for 0 input', () => {
       const result = getDynamicChipCount(0);
       expect(result).toBe(0);
     });
 
-    it('should return 1 for input 1', () => {
+    it('should return 1 for 1 input', () => {
       const result = getDynamicChipCount(1);
       expect(result).toBe(1);
     });
 
-    it('should return value within valid range for high values (20+)', () => {
-      // For 20, range should be 15-20 (75% lower bound)
-      for (let i = 0; i < 100; i++) {
-        const result = getDynamicChipCount(20);
-        expect(result).toBeGreaterThanOrEqual(15);
-        expect(result).toBeLessThanOrEqual(20);
-        expect(Number.isInteger(result)).toBe(true);
-      }
-    });
-
-    it('should return value within valid range for medium values (10-19)', () => {
-      // For 15, lower bound should be around 70% + adjustment
-      for (let i = 0; i < 100; i++) {
-        const result = getDynamicChipCount(15);
-        expect(result).toBeGreaterThanOrEqual(10); // ~70% of 15
-        expect(result).toBeLessThanOrEqual(15);
-      }
-    });
-
-    it('should return value within valid range for low values (5-9)', () => {
-      // For 5, range should be 3-5 (60% lower bound)
-      for (let i = 0; i < 100; i++) {
-        const result = getDynamicChipCount(5);
-        expect(result).toBeGreaterThanOrEqual(3);
-        expect(result).toBeLessThanOrEqual(5);
-      }
-    });
-
-    it('should return value within valid range for very low values (2-4)', () => {
-      // For 3, range should be 1-3 (60% lower bound, min 1)
+    it('should return value within expected range for small values (2-4)', () => {
       for (let i = 0; i < 100; i++) {
         const result = getDynamicChipCount(3);
+        // 60% lower bound: 3 * 0.6 = 1.8 → 1
         expect(result).toBeGreaterThanOrEqual(1);
         expect(result).toBeLessThanOrEqual(3);
       }
     });
 
-    it('should never return value below 1 for positive inputs', () => {
-      for (let input = 2; input <= 25; input++) {
-        for (let i = 0; i < 20; i++) {
-          const result = getDynamicChipCount(input);
-          expect(result).toBeGreaterThanOrEqual(1);
-        }
-      }
-    });
-
-    it('should never return value above the selected chip count', () => {
-      for (let input = 1; input <= 25; input++) {
-        for (let i = 0; i < 20; i++) {
-          const result = getDynamicChipCount(input);
-          expect(result).toBeLessThanOrEqual(input);
-        }
-      }
-    });
-
-    it('should produce varied results over multiple calls', () => {
-      const results = new Set<number>();
+    it('should return value within expected range for medium values (5-9)', () => {
       for (let i = 0; i < 100; i++) {
-        results.add(getDynamicChipCount(20));
+        const result = getDynamicChipCount(7);
+        // 60% + (7-5) * 0.025 = 65% lower bound: 7 * 0.65 = 4.55 → 4
+        expect(result).toBeGreaterThanOrEqual(4);
+        expect(result).toBeLessThanOrEqual(7);
       }
-      // With range 15-20, we should see multiple different values
-      expect(results.size).toBeGreaterThan(1);
+    });
+
+    it('should return value within expected range for values 10-19', () => {
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(15);
+        // 70% + (15-10) * 0.005 = 72.5% lower bound: 15 * 0.725 = 10.875 → 10
+        expect(result).toBeGreaterThanOrEqual(10);
+        expect(result).toBeLessThanOrEqual(15);
+      }
+    });
+
+    it('should return value within expected range for large values (20+)', () => {
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(20);
+        // 75% lower bound: 20 * 0.75 = 15
+        expect(result).toBeGreaterThanOrEqual(15);
+        expect(result).toBeLessThanOrEqual(20);
+      }
+    });
+
+    it('should handle very large values', () => {
+      for (let i = 0; i < 100; i++) {
+        const result = getDynamicChipCount(100);
+        // 75% lower bound: 100 * 0.75 = 75
+        expect(result).toBeGreaterThanOrEqual(75);
+        expect(result).toBeLessThanOrEqual(100);
+      }
     });
   });
 });

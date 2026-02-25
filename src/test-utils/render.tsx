@@ -1,37 +1,49 @@
 /**
- * Custom render function for testing with all providers
+ * Custom render function with all providers
  * Use this instead of @testing-library/react-native render
  */
 import React from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-// Mock store for tests - simplified version without Redux
-const MockStoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};
-
-// All providers wrapper for tests
+/**
+ * All providers wrapper for tests
+ * Add any global providers here (Redux, Theme, etc.)
+ */
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <MockStoreProvider>
-    <NavigationContainer>
-      {children}
-    </NavigationContainer>
-  </MockStoreProvider>
+  <NavigationContainer>
+    {children}
+  </NavigationContainer>
 );
 
 /**
- * Custom render function that wraps components with all necessary providers
- * @param ui - The component to render
+ * Custom render that includes all providers
+ * @param ui - React element to render
  * @param options - Render options
  */
 const customRender = (
   ui: React.ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
+  options?: RenderOptions
 ) => render(ui, { wrapper: AllProviders, ...options });
 
 // Re-export everything from testing library
 export * from '@testing-library/react-native';
 
-// Override render with our custom version
+// Override render with our custom one
 export { customRender as render };
+
+/**
+ * Render with navigation for screen tests
+ * @param ui - React element to render
+ * @param navigationProps - Additional navigation props
+ */
+export const renderWithNavigation = (
+  ui: React.ReactElement,
+  navigationProps?: { initialRoute?: string }
+) => {
+  return render(
+    <NavigationContainer>
+      {ui}
+    </NavigationContainer>
+  );
+};
