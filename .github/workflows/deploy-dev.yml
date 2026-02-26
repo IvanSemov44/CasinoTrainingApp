@@ -1,8 +1,9 @@
-name: Deploy Development
+name: Deploy Development (Manual)
+
+# Disable auto-deploy since Vercel auto-deploys preview on push to any branch
+# To enable: change to 'on: push: branches: [develop]'
 
 on:
-  push:
-    branches: [develop]
   workflow_dispatch:
 
 jobs:

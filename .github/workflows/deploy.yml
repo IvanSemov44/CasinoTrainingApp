@@ -1,8 +1,9 @@
-name: Deploy to Vercel
+name: Deploy to Vercel (Manual)
+
+# Disable auto-deploy since Vercel auto-deploys on push
+# To enable: change to 'on: push: branches: [main]'
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
