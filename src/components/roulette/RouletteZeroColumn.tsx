@@ -19,12 +19,16 @@ const RouletteZeroColumn: React.FC<RouletteZeroColumnProps> = ({
 }) => {
   const styles = { ...getZeroColumnStyles(cellSize), ...getRouletteStyles(cellSize) };
   const chipSize = cellSize * 0.4;
+  const betAmount = getBetAmount([0]);
 
   return (
     <View style={styles.zeroColumn}>
       {/* Zero cell */}
       <TouchableOpacity
         style={[styles.zeroCell, styles.greenCell]}
+        accessibilityLabel="Zero, number 0"
+        accessibilityRole="button"
+        accessibilityState={betAmount > 0 ? { selected: true } : undefined}
         onPress={() => {
           onNumberPress(0);
           if (onBetAreaPress) {
@@ -33,7 +37,7 @@ const RouletteZeroColumn: React.FC<RouletteZeroColumnProps> = ({
         }}
       >
         <Text style={styles.numberText}>0</Text>
-        <RouletteChip amount={getBetAmount([0])} size={chipSize} />
+        <RouletteChip amount={betAmount} size={chipSize} />
       </TouchableOpacity>
     </View>
   );

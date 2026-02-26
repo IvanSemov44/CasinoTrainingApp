@@ -11,6 +11,8 @@ interface RouletteColumnBetsProps {
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
 }
 
+const COLUMN_LABELS = ['Column 1', 'Column 2', 'Column 3'];
+
 const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
   cellSize,
   getBetAmount,
@@ -21,41 +23,26 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
 
   return (
     <View style={styles.columnBetsContainer}>
-      <TouchableOpacity 
-        style={styles.columnBet}
-        onPress={() => {
-          if (onBetAreaPress) {
-            onBetAreaPress(BetType.COLUMN, LAYOUT_GRID[0]);
-          }
-        }}
-      >
-        <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[0])} size={chipSize} />
-      </TouchableOpacity>
-      
-      <TouchableOpacity 
-        style={styles.columnBet}
-        onPress={() => {
-          if (onBetAreaPress) {
-            onBetAreaPress(BetType.COLUMN, LAYOUT_GRID[1]);
-          }
-        }}
-      >
-        <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[1])} size={chipSize} />
-      </TouchableOpacity>
-      
-      <TouchableOpacity 
-        style={styles.columnBet}
-        onPress={() => {
-          if (onBetAreaPress) {
-            onBetAreaPress(BetType.COLUMN, LAYOUT_GRID[2]);
-          }
-        }}
-      >
-        <Text style={styles.columnBetText}>2 to 1</Text>
-        <RouletteChip amount={getBetAmount(LAYOUT_GRID[2])} size={chipSize} />
-      </TouchableOpacity>
+      {[0, 1, 2].map((columnIndex) => {
+        const betAmount = getBetAmount(LAYOUT_GRID[columnIndex]);
+        return (
+          <TouchableOpacity 
+            key={columnIndex}
+            style={styles.columnBet}
+            accessibilityLabel={`${COLUMN_LABELS[columnIndex]} bet, 2 to 1`}
+            accessibilityRole="button"
+            accessibilityState={betAmount > 0 ? { selected: true } : undefined}
+            onPress={() => {
+              if (onBetAreaPress) {
+                onBetAreaPress(BetType.COLUMN, LAYOUT_GRID[columnIndex]);
+              }
+            }}
+          >
+            <Text style={styles.columnBetText}>2 to 1</Text>
+            <RouletteChip amount={betAmount} size={chipSize} />
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

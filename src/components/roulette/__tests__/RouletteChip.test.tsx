@@ -190,11 +190,17 @@ describe('RouletteChip', () => {
       expect(getByText('10000')).toBeTruthy();
     });
 
-    it('should handle negative amounts (edge case)', () => {
-      // Component will render negative amounts since it only checks for 0
-      const { getByText } = render(<RouletteChip amount={-5} size={20} />);
+    it('should not render negative amounts', () => {
+      // Component should not render negative amounts (defensive programming)
+      const { queryByText } = render(<RouletteChip amount={-5} size={20} />);
       
-      expect(getByText('-5')).toBeTruthy();
+      expect(queryByText('-5')).toBeNull();
+    });
+
+    it('should not render zero amount', () => {
+      const { queryByText } = render(<RouletteChip amount={0} size={20} />);
+      
+      expect(queryByText('0')).toBeNull();
     });
   });
 });

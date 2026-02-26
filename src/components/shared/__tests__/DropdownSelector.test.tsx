@@ -232,4 +232,66 @@ describe('DropdownSelector', () => {
       expect(queryByText('Max $')).toBeNull();
     });
   });
+
+  describe('error handling', () => {
+    it('should handle empty items array gracefully', () => {
+      const { getByText } = render(
+        <DropdownSelector {...defaultProps} items={[]} />
+      );
+      // Should still render placeholder
+      expect(getByText('Select difficulty...')).toBeTruthy();
+    });
+
+    it('should not crash when onSelect is undefined', () => {
+      const { getByText } = render(
+        <DropdownSelector
+          {...defaultProps}
+          showDropdown={true}
+          onSelect={undefined as any}
+        />
+      );
+
+      // Should not throw when pressing an item
+      expect(() => fireEvent.press(getByText('Easy'))).not.toThrow();
+    });
+
+    it('should not crash when onToggleDropdown is undefined', () => {
+      const { getByText } = render(
+        <DropdownSelector
+          {...defaultProps}
+          onToggleDropdown={undefined as any}
+        />
+      );
+
+      // Should not throw when pressing trigger
+      expect(() => fireEvent.press(getByText('Select difficulty...'))).not.toThrow();
+    });
+
+    it('should handle selectedKey that does not exist in items', () => {
+      const { getByText } = render(
+        <DropdownSelector {...defaultProps} selectedKey="nonexistent" />
+      );
+      // Should render placeholder when key not found
+      expect(getByText('Select difficulty...')).toBeTruthy();
+    });
+
+    it('should handle items with duplicate keys', () => {
+      const duplicateItems: DropdownItem[] = [
+        { key: 'duplicate', label: 'First' },
+        { key: 'duplicate', label: 'Second' },
+      ];
+
+      const { getByText } = render(
+        <DropdownSelector
+          {...defaultProps}
+          items={duplicateItems}
+          showDropdown={true}
+        />
+      );
+
+      // Should render both items (component doesn't prevent duplicates)
+      expect(getByText('First')).toBeTruthy();
+      expect(getByText('Second')).toBeTruthy();
+    });
+  });
 });

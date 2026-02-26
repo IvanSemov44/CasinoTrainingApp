@@ -112,4 +112,39 @@ describe('RouletteZeroColumn', () => {
       expect(UNSAFE_root).toBeTruthy();
     });
   });
+
+  describe('accessibility', () => {
+    it('should have accessibility label on zero cell', () => {
+      const { getByLabelText } = render(<RouletteZeroColumn {...defaultProps} />);
+      
+      expect(getByLabelText('Zero, number 0')).toBeTruthy();
+    });
+
+    it('should have button accessibility role on zero cell', () => {
+      const { getByLabelText } = render(<RouletteZeroColumn {...defaultProps} />);
+      
+      const zeroCell = getByLabelText('Zero, number 0');
+      expect(zeroCell.props.accessibilityRole).toBe('button');
+    });
+
+    it('should indicate selected state when zero has a bet', () => {
+      const getBetAmount = jest.fn(() => 100);
+      const { getByLabelText } = render(
+        <RouletteZeroColumn {...defaultProps} getBetAmount={getBetAmount} />
+      );
+
+      const zeroCell = getByLabelText('Zero, number 0');
+      expect(zeroCell.props.accessibilityState).toEqual({ selected: true });
+    });
+
+    it('should not have selected state when zero has no bet', () => {
+      const getBetAmount = jest.fn(() => 0);
+      const { getByLabelText } = render(
+        <RouletteZeroColumn {...defaultProps} getBetAmount={getBetAmount} />
+      );
+
+      const zeroCell = getByLabelText('Zero, number 0');
+      expect(zeroCell.props.accessibilityState).toBeUndefined();
+    });
+  });
 });

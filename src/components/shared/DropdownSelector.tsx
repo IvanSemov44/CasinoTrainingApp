@@ -59,7 +59,9 @@ export function DropdownSelector({
   const selectedItem = items.find(item => item.key === selectedKey);
 
   const handleSelect = (key: string) => {
-    onSelect(key);
+    if (onSelect) {
+      onSelect(key);
+    }
   };
 
   return (

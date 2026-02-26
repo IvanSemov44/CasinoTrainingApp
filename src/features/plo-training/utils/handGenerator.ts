@@ -1,25 +1,21 @@
 /**
  * PLO Hand Generator
  *
- * Produces realistic Pot Limit Omaha hands. Action flows preflop → flop → turn.
- * At one point each street the action freezes because a player is about to
- * pot-raise and asks the dealer: "How much is pot?"
- *
- * Rules baked in:
- *  - ONLY players who intend to pot-raise ask the dealer.
- *  - Callers NEVER ask; they just call.
- *  - After asking, the player always pots (that's the whole point of asking).
- *  - Players can limp (call the blind) preflop.
- *  - Non-requesters can raise to any valid size (not necessarily pot-sized).
- *  - A player who called $X and later folded to a re-raise keeps their chips
- *    visible on the table as dead money (isFolded=true, betAmount=$X).
- *
  * Formula: Pot = Dead Money + 3 × Last Action
- *  Dead money = centerPot + all current-street bets EXCEPT the requester's
- *               AND the last aggressor's.
  *
- * Key fix: when a re-raise happens, ALL pending players are resolved —
- * this includes both callers AND the previous raiser (who must now call or fold).
+ * Action order:
+ *  Preflop:  UTG → MP → CO → D → SB → BB  (SB/BB blinds auto-posted)
+ *  Postflop: SB → BB → UTG → MP → CO → D
+ *
+ * Key rules enforced:
+ *  1. A player can fold on their turn if there is an outstanding raise to call.
+ *     (They cannot fold before it is their turn.)
+ *  2. The action log only contains what each player did ON THEIR OWN TURN.
+ *     Players who had chips in front but hadn't yet responded to the last raise
+ *     are shown as-is on the table — they respond to the requester's pot-raise
+ *     in the post-ask narrative, NOT in the pre-ask log.
+ *  3. Center-pot for the next street counts every player in remainingPlayers
+ *     as contributing correctAnswer (they call the pot-raise).
  */
 
 import { getRandomElement } from '@utils/randomUtils';
@@ -32,11 +28,7 @@ const POSITION_SLOT: Record<string, number> = {
 };
 
 const ALL_POSITIONS = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'] as const;
-
-// Preflop: UTG is first to act, BB has last option
-const PREFLOP_ORDER = ['UTG', 'MP', 'CO', 'D', 'SB', 'BB'] as const;
-
-// Post-flop: SB is first active player, D acts last
+const PREFLOP_ORDER  = ['UTG', 'MP', 'CO', 'D', 'SB', 'BB'] as const;
 const POSTFLOP_ORDER = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'] as const;
 
 const STARTING_STACKS: Record<number, number[]> = {
@@ -57,59 +49,19 @@ function weightedPick<T>(items: readonly T[], weights: number[]): T {
   return items[items.length - 1];
 }
 
-/** Non-requester raise size: clean integer multiples. */
 function pickRaiseAmount(currentBet: number, phase: 'first' | 'reRaise'): number {
-  if (phase === 'first') {
-    return currentBet * getRandomElement([2, 3, 4]);
-  }
-  return currentBet * getRandomElement([2, 3]);
+  return currentBet * (phase === 'first'
+    ? getRandomElement([2, 3, 4])
+    : getRandomElement([2, 3]));
 }
 
 function pickPostflopBet(centerPot: number, blindLevel: number): number {
-  const fraction = getRandomElement([0.5, 0.67, 1.0]);
-  const raw = Math.round(centerPot * fraction);
+  const raw = Math.round(centerPot * getRandomElement([0.5, 0.67, 1.0]));
   return Math.max(Math.round(raw / blindLevel) * blindLevel, blindLevel * 2);
-}
-
-// ─── Re-raise resolution ─────────────────────────────────────────────────────
-
-/**
- * When a new raise arrives, every player who already has chips in front and
- * hasn't folded must decide again: call the new amount or fold.
- * This includes both callers AND the previous raiser.
- *
- * Returns which players ended up calling (for adding back to pendingResolution).
- */
-function resolveReRaise(
-  toResolve: string[],
-  raiseAmt: number,
-  foldedSet: Set<string>,
-  bets: Record<string, number>,
-  log: string[],
-  foldProbability: number,
-): string[] {
-  const calledPlayers: string[] = [];
-  for (const p of toResolve) {
-    if (foldedSet.has(p)) continue;
-    if (Math.random() < foldProbability) {
-      foldedSet.add(p);
-      log.push(`${p} folds`);
-      // bets[p] intentionally left as-is (dead money stays visible on table)
-    } else {
-      bets[p] = raiseAmt;
-      log.push(`${p} calls $${raiseAmt}`);
-      calledPlayers.push(p);
-    }
-  }
-  return calledPlayers;
 }
 
 // ─── Core pot formula ────────────────────────────────────────────────────────
 
-/**
- * Pot = Dead Money + 3 × Last Action
- * Dead money = centerPot + all current-street bets EXCEPT requester and last aggressor
- */
 function calcPot(
   centerPot: number,
   bets: Record<string, number>,
@@ -123,19 +75,46 @@ function calcPot(
   return dead + 3 * (bets[lastAggressor] ?? 0);
 }
 
-/** Total chips collected for the NEXT street's center pot. */
+/**
+ * Compute center pot for the next street.
+ *
+ * Players in remainingPlayers called the pot-raise → each contributes correctAnswer.
+ * Everyone else contributes their current bet (dead money).
+ */
 function computeNewCenterPot(
   centerPot: number,
   bets: Record<string, number>,
-  requester: string,
-  lastAggressor: string,
+  remainingPlayers: string[],
   correctAnswer: number,
 ): number {
-  let streetTotal = 0;
-  for (const [p, bet] of Object.entries(bets)) {
-    streetTotal += (p === requester || p === lastAggressor) ? correctAnswer : bet;
+  let total = centerPot;
+  for (const p of ALL_POSITIONS) {
+    total += remainingPlayers.includes(p) ? correctAnswer : (bets[p] ?? 0);
   }
-  return centerPot + streetTotal;
+  return total;
+}
+
+// ─── Post-ask narrative ───────────────────────────────────────────────────────
+
+/**
+ * After the requester asks and pots, all other active players respond.
+ * This is logged as history for the next street, NOT in the pre-ask action log.
+ * Players not in foldedSet who aren't in remainingPlayers fold to the pot-raise.
+ */
+function buildPostAskLines(
+  requester: string,
+  foldedSet: Set<string>,
+  remainingPlayers: string[],
+  correctAnswer: number,
+): string[] {
+  const lines: string[] = [`${requester} pots to $${correctAnswer}`];
+  for (const p of ALL_POSITIONS) {
+    if (p === requester || foldedSet.has(p)) continue;
+    lines.push(remainingPlayers.includes(p)
+      ? `${p} calls $${correctAnswer}`
+      : `${p} folds`);
+  }
+  return lines;
 }
 
 // ─── Explanation ─────────────────────────────────────────────────────────────
@@ -149,28 +128,21 @@ function buildExplanation(
 ): string {
   const lastAction = bets[lastAggressor] ?? 0;
   const requesterBet = bets[requester] ?? 0;
-
   let dead = centerPot;
   const parts: string[] = [];
   if (centerPot > 0) parts.push(`$${centerPot} (center)`);
-
   for (const [p, amt] of Object.entries(bets)) {
     if (p !== requester && p !== lastAggressor) {
       dead += amt;
       parts.push(`$${amt} (${p})`);
     }
   }
-
   const answer = dead + 3 * lastAction;
-  const lines: string[] = [street.toUpperCase()];
-
-  if (requesterBet > 0) {
-    lines.push(`${requester} has $${requesterBet} in front → excluded from dead money`);
-  }
+  const lines = [street.toUpperCase()];
+  if (requesterBet > 0) lines.push(`${requester} has $${requesterBet} in front → excluded`);
   lines.push(`Dead money: ${parts.length ? parts.join(' + ') : '$0'} = $${dead}`);
   lines.push(`Last action: $${lastAction} (${lastAggressor})`);
   lines.push(`Pot = $${dead} + 3×$${lastAction} = $${answer}`);
-
   return lines.join('\n');
 }
 
@@ -207,118 +179,83 @@ function generatePreflopMoment(
   let lastAggressor = 'BB';
   let currentBet = blindLevel;
 
-  /**
-   * pendingResolution: tracks ALL players who have chips committed in the current
-   * betting round (callers + the current raiser). When a new raise arrives,
-   * every player in this list (except the new raiser) must call or fold.
-   * This fixes the bug where the previous raiser (e.g. UTG) was never given
-   * a choice when a subsequent player (e.g. CO) re-raised.
-   */
-  const pendingResolution: string[] = [];
-
-  // ── Choose requester ──────────────────────────────────────────────────────
-  // UTG=5%  MP=10%  CO=20%  D=25%  SB=15%  BB=25%
+  // Requester weights: UTG=5% MP=10% CO=20% D=25% SB=15% BB=25%
   const requester = weightedPick(PREFLOP_ORDER, [0.05, 0.10, 0.20, 0.25, 0.15, 0.25]);
   const requesterIdx = PREFLOP_ORDER.indexOf(requester);
 
-  // ── Generate actions for every player who acts BEFORE the requester ────────
   for (let i = 0; i < requesterIdx; i++) {
     const player = PREFLOP_ORDER[i];
     const myBet = bets[player] ?? 0;
     const toCall = currentBet - myBet;
-    const firstRaiseHappened = lastAggressor !== 'BB';
+    const raiseHappened = lastAggressor !== 'BB';
 
     let action: 'fold' | 'call' | 'raise';
     let raiseAmt = 0;
 
-    if (!firstRaiseHappened && myBet === 0) {
-      // Opener: fold 15%, limp 20%, raise 65%
+    if (!raiseHappened && myBet === 0) {
+      // Opener (no prior raise): fold 15%, limp 20%, raise 65%
       const r = Math.random();
-      if (r < 0.15)      { action = 'fold'; }
-      else if (r < 0.35) { action = 'call'; }
-      else               { action = 'raise'; raiseAmt = pickRaiseAmount(currentBet, 'first'); }
+      action = r < 0.15 ? 'fold' : r < 0.35 ? 'call' : 'raise';
+      if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
 
-    } else if (!firstRaiseHappened && myBet === blindLevel) {
-      // SB/BB with blind already in, no raise yet → fold 25%, check 20%, raise 55%
+    } else if (!raiseHappened && myBet === blindLevel) {
+      // Blind with option, no raise yet: fold 25%, check 20%, raise 55%
       const r = Math.random();
-      if (r < 0.25)      { action = 'fold'; }
-      else if (r < 0.45) { action = 'call'; }
-      else               { action = 'raise'; raiseAmt = pickRaiseAmount(currentBet, 'first'); }
+      action = r < 0.25 ? 'fold' : r < 0.45 ? 'call' : 'raise';
+      if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
 
     } else if (toCall > 0) {
-      // Facing a raise: fold 35%, call 40%, re-raise 25%
+      // Facing a raise on their turn: fold 35%, call 40%, re-raise 25%
       const r = Math.random();
-      if (r < 0.35)      { action = 'fold'; }
-      else if (r < 0.75) { action = 'call'; }
-      else               { action = 'raise'; raiseAmt = pickRaiseAmount(currentBet, 'reRaise'); }
+      action = r < 0.35 ? 'fold' : r < 0.75 ? 'call' : 'raise';
+      if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'reRaise');
 
     } else {
-      // Already matched (BB option with no raise) — check
+      // Already matched (BB option check)
       action = 'call';
     }
 
-    // ── Apply action ─────────────────────────────────────────────────────────
     if (action === 'fold') {
       foldedSet.add(player);
       log.push(`${player} folds`);
-      // Remove from pending if they were there
-      const idx = pendingResolution.indexOf(player);
-      if (idx >= 0) pendingResolution.splice(idx, 1);
 
     } else if (action === 'call') {
       if (toCall > 0) {
         bets[player] = currentBet;
         log.push(`${player} calls $${currentBet}`);
       }
-      // track as pending — if someone re-raises, they must decide again
-      if (!pendingResolution.includes(player)) pendingResolution.push(player);
 
     } else {
-      // ── Raise / Re-raise ──────────────────────────────────────────────────
-      // Resolve ALL pending players (callers + previous raiser) before applying
-      const toResolve = pendingResolution.filter(p => p !== player);
-      const calledPlayers = resolveReRaise(toResolve, raiseAmt, foldedSet, bets, log, 0.60);
-
-      // Reset pending: start fresh with whoever called
-      pendingResolution.length = 0;
-      pendingResolution.push(...calledPlayers);
-
       bets[player] = raiseAmt;
       log.push(`${player} ${lastAggressor === 'BB' ? 'raises' : 're-raises'} to $${raiseAmt}`);
       lastAggressor = player;
       currentBet = raiseAmt;
-
-      // The raiser is now pending — a future re-raise would require them to respond
-      pendingResolution.push(player);
     }
   }
 
+  // Players not yet processed (those who had chips in front but the loop
+  // reached the freeze point before they could respond to the last raise)
+  // will respond in buildPostAskLines — they either call or fold the pot-raise.
+
   const correctAnswer = calcPot(0, bets, requester, lastAggressor);
   const explanation = buildExplanation(0, bets, requester, lastAggressor, 'preflop');
-  const players = buildPlayers(bets, foldedSet, requester, stacks);
-  const newCenterPot = computeNewCenterPot(0, bets, requester, lastAggressor, correctAnswer);
 
   const active = (ALL_POSITIONS as readonly string[]).filter(
     p => !foldedSet.has(p) && p !== requester && p !== lastAggressor,
   );
   const extraSurvivor = active.length > 0 && Math.random() < 0.4
-    ? [getRandomElement(active)]
-    : [];
+    ? [getRandomElement(active)] : [];
   const remainingPlayers = [...new Set([requester, lastAggressor, ...extraSurvivor])];
 
-  const accumulatedLog = ['PREFLOP', ...log];
+  const players = buildPlayers(bets, foldedSet, requester, stacks);
+  const newCenterPot = computeNewCenterPot(0, bets, remainingPlayers, correctAnswer);
+
+  const actionLog = ['PREFLOP', ...log];
+  const postAskLines = buildPostAskLines(requester, foldedSet, remainingPlayers, correctAnswer);
+  const accumulatedLog = [...actionLog, ...postAskLines];
 
   return {
-    askMoment: {
-      street: 'preflop',
-      communityCards: 0,
-      centerPot: 0,
-      players,
-      actionLog: accumulatedLog,
-      requesterName: requester,
-      correctAnswer,
-      explanation,
-    },
+    askMoment: { street: 'preflop', communityCards: 0, centerPot: 0, players, actionLog, requesterName: requester, correctAnswer, explanation },
     remainingPlayers,
     newCenterPot,
     accumulatedLog,
@@ -344,7 +281,6 @@ function generatePostflopMoment(
   );
   const bets: Record<string, number> = {};
   const log: string[] = [];
-  const pendingResolution: string[] = [];
 
   let lastAggressor: string | null = null;
   let currentBet = 0;
@@ -355,9 +291,8 @@ function generatePostflopMoment(
 
   const requesterIdx = Math.random() < 0.30
     ? 0
-    : Math.floor(orderedActors.length * 0.5 + Math.random() * (orderedActors.length * 0.5));
+    : Math.floor(orderedActors.length * 0.5 + Math.random() * orderedActors.length * 0.5);
   const requester = orderedActors[Math.min(requesterIdx, orderedActors.length - 1)];
-
   const priorActors = orderedActors.slice(0, orderedActors.indexOf(requester));
 
   for (const player of priorActors) {
@@ -368,54 +303,43 @@ function generatePostflopMoment(
     let amount = 0;
 
     if (!betMade) {
-      if (Math.random() < 0.40) { action = 'check'; }
-      else { action = 'bet'; amount = pickPostflopBet(centerPot, blindLevel); }
+      action = Math.random() < 0.40 ? 'check' : 'bet';
+      if (action === 'bet') amount = pickPostflopBet(centerPot, blindLevel);
     } else if (toCall > 0) {
       const r = Math.random();
-      if (r < 0.30)      { action = 'fold'; }
-      else if (r < 0.75) { action = 'call'; }
-      else               { action = 'raise'; amount = pickRaiseAmount(currentBet, 'reRaise'); }
+      action = r < 0.30 ? 'fold' : r < 0.75 ? 'call' : 'raise';
+      if (action === 'raise') amount = pickRaiseAmount(currentBet, 'reRaise');
     } else {
       action = 'check';
     }
 
     if (action === 'check') {
-      // No log entry (keeps log clean)
+      // no log
+
     } else if (action === 'bet') {
       bets[player] = amount;
       log.push(`${player} bets $${amount}`);
       lastAggressor = player;
       currentBet = amount;
-      pendingResolution.push(player);
 
     } else if (action === 'fold') {
       foldedSet.add(player);
       log.push(`${player} folds`);
-      const idx = pendingResolution.indexOf(player);
-      if (idx >= 0) pendingResolution.splice(idx, 1);
 
     } else if (action === 'call') {
       bets[player] = currentBet;
       log.push(`${player} calls $${currentBet}`);
-      if (!pendingResolution.includes(player)) pendingResolution.push(player);
 
     } else {
-      // Re-raise: resolve all pending (callers + previous bettor/raiser)
-      const toResolve = pendingResolution.filter(p => p !== player);
-      const calledPlayers = resolveReRaise(toResolve, amount, foldedSet, bets, log, 0.55);
-
-      pendingResolution.length = 0;
-      pendingResolution.push(...calledPlayers);
-
+      // Re-raise: log it (any prior players with outstanding balance respond in post-ask)
       bets[player] = amount;
       log.push(`${player} re-raises to $${amount}`);
       lastAggressor = player;
       currentBet = amount;
-      pendingResolution.push(player);
     }
   }
 
-  // Need at least one bet/raise for a valid ask moment
+  // Need at least one bet before the ask
   if (!lastAggressor) {
     if (priorActors.length > 0) {
       const firstActor = priorActors[0];
@@ -423,31 +347,24 @@ function generatePostflopMoment(
       bets[firstActor] = betAmt;
       log.unshift(`${firstActor} bets $${betAmt}`);
       lastAggressor = firstActor;
+      currentBet = betAmt;
     } else {
-      // Requester is first to act with no prior bet — can't ask
       return null;
     }
   }
 
   const correctAnswer = calcPot(centerPot, bets, requester, lastAggressor);
   const explanation = buildExplanation(centerPot, bets, requester, lastAggressor, street);
-  const players = buildPlayers(bets, foldedSet, requester, stacks);
-  const newCenterPot = computeNewCenterPot(centerPot, bets, requester, lastAggressor, correctAnswer);
   const nextRemaining = remainingPlayers.filter(p => !foldedSet.has(p));
+  const players = buildPlayers(bets, foldedSet, requester, stacks);
+  const newCenterPot = computeNewCenterPot(centerPot, bets, nextRemaining, correctAnswer);
 
-  const accumulatedLog = [...historicalLog, street.toUpperCase(), ...log];
+  const actionLog = [...historicalLog, street.toUpperCase(), ...log];
+  const postAskLines = buildPostAskLines(requester, foldedSet, nextRemaining, correctAnswer);
+  const accumulatedLog = [...actionLog, ...postAskLines];
 
   return {
-    askMoment: {
-      street,
-      communityCards,
-      centerPot,
-      players,
-      actionLog: accumulatedLog,
-      requesterName: requester,
-      correctAnswer,
-      explanation,
-    },
+    askMoment: { street, communityCards, centerPot, players, actionLog, requesterName: requester, correctAnswer, explanation },
     remainingPlayers: nextRemaining,
     newCenterPot,
     accumulatedLog,
@@ -457,56 +374,60 @@ function generatePostflopMoment(
 // ─── Public API ──────────────────────────────────────────────────────────────
 
 /**
- * Generate a complete PLO hand with 1–3 embedded ask moments.
- *
- * Easy     → preflop only   (1 ask)
- * Medium   → preflop + flop (1–2 asks)
- * Advanced → all streets    (1–3 asks)
+ * Easy     → 2–3 independent preflop ask moments
+ * Medium   → preflop (1 ask) + flop (1 ask)
+ * Advanced → preflop + flop + turn + river (1 ask each)
  */
 export function generateHand(
   difficulty: PLODifficulty,
   blindLevel: number,
 ): GeneratedHand {
   const base = STARTING_STACKS[blindLevel] ?? STARTING_STACKS[2];
-  const stacks = [...base].sort(() => Math.random() - 0.5);
 
+  if (difficulty === 'easy') {
+    const count = 2 + Math.floor(Math.random() * 2);
+    const askMoments: AskMoment[] = [];
+    for (let i = 0; i < count; i++) {
+      const stacks = [...base].sort(() => Math.random() - 0.5);
+      askMoments.push(generatePreflopMoment(blindLevel, stacks).askMoment);
+    }
+    return { blindLevel, askMoments };
+  }
+
+  const stacks = [...base].sort(() => Math.random() - 0.5);
   const askMoments: AskMoment[] = [];
 
-  // ── Preflop ──
   const preflop = generatePreflopMoment(blindLevel, stacks);
   askMoments.push(preflop.askMoment);
 
-  if (difficulty === 'easy') return { blindLevel, askMoments };
-
-  // ── Flop ──
   if (preflop.remainingPlayers.length >= 2) {
     const flop = generatePostflopMoment(
-      'flop', 3,
-      preflop.remainingPlayers,
-      preflop.newCenterPot,
-      stacks,
-      blindLevel,
-      preflop.accumulatedLog,
+      'flop', 3, preflop.remainingPlayers, preflop.newCenterPot,
+      stacks, blindLevel, preflop.accumulatedLog,
     );
     if (flop) {
       askMoments.push(flop.askMoment);
 
-      // ── Turn (advanced only) ──
       if (difficulty === 'advanced' && flop.remainingPlayers.length >= 2) {
         const turn = generatePostflopMoment(
-          'turn', 4,
-          flop.remainingPlayers,
-          flop.newCenterPot,
-          stacks,
-          blindLevel,
-          flop.accumulatedLog,
+          'turn', 4, flop.remainingPlayers, flop.newCenterPot,
+          stacks, blindLevel, flop.accumulatedLog,
         );
-        if (turn) askMoments.push(turn.askMoment);
+        if (turn) {
+          askMoments.push(turn.askMoment);
+
+          if (turn.remainingPlayers.length >= 2) {
+            const river = generatePostflopMoment(
+              'river', 5, turn.remainingPlayers, turn.newCenterPot,
+              stacks, blindLevel, turn.accumulatedLog,
+            );
+            if (river) askMoments.push(river.askMoment);
+          }
+        }
       }
     }
   }
 
   if (askMoments.length === 0) return generateHand(difficulty, blindLevel);
-
   return { blindLevel, askMoments };
 }

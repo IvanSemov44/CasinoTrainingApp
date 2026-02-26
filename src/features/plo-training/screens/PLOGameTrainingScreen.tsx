@@ -23,6 +23,11 @@ function freshHand(difficulty: Parameters<typeof generateHand>[0]): GeneratedHan
   return generateHand(difficulty, getRandomElement([...BLIND_LEVELS]));
 }
 
+/** Points earned for the Nth correct answer in a row: 1, 2, 4, 8, … */
+function streakMultiplier(streakAfterAnswer: number): number {
+  return Math.pow(2, streakAfterAnswer - 1);
+}
+
 export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {
   const { difficulty } = route.params;
   const difficultyInfo = DIFFICULTY_INFO[difficulty];
@@ -33,13 +38,13 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
   const [phase, setPhase] = useState<Phase>('asking');
   const [userAnswer, setUserAnswer] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [sessionPoints, setSessionPoints] = useState(0);
   const [sessionCorrect, setSessionCorrect] = useState(0);
   const [sessionTotal, setSessionTotal] = useState(0);
   const [streak, setStreak] = useState(0);
 
   const dealingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // When dealing phase starts, generate new hand after delay
   useEffect(() => {
     if (phase === 'dealing') {
       dealingTimer.current = setTimeout(() => {
@@ -50,9 +55,7 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
         setPhase('asking');
       }, DEALING_DURATION_MS);
     }
-    return () => {
-      if (dealingTimer.current) clearTimeout(dealingTimer.current);
-    };
+    return () => { if (dealingTimer.current) clearTimeout(dealingTimer.current); };
   }, [phase, difficulty]);
 
   const moment = hand.askMoments[momentIndex];
@@ -60,15 +63,18 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
   const handleCheck = useCallback(() => {
     const correct = userAnswer === moment.correctAnswer;
     setIsCorrect(correct);
+    setSessionTotal(t => t + 1);
     if (correct) {
+      const newStreak = streak + 1;
+      const earned = streakMultiplier(newStreak);
+      setStreak(newStreak);
       setSessionCorrect(c => c + 1);
-      setStreak(s => s + 1);
+      setSessionPoints(p => p + earned);
     } else {
       setStreak(0);
     }
-    setSessionTotal(t => t + 1);
     setPhase('feedback');
-  }, [userAnswer, moment.correctAnswer]);
+  }, [userAnswer, moment.correctAnswer, streak]);
 
   const handleContinue = useCallback(() => {
     const hasNext = momentIndex + 1 < hand.askMoments.length;
@@ -84,8 +90,12 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
   const isLastMoment = momentIndex + 1 >= hand.askMoments.length;
   const headerContext = `$${hand.blindLevel}/$${hand.blindLevel} · ${moment.street.toUpperCase()}`;
   const accuracy = sessionTotal > 0
-    ? Math.round((sessionCorrect / sessionTotal) * 100)
-    : null;
+    ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
+
+  // Points earned on the last correct answer (computable from current streak)
+  const lastEarned = isCorrect ? streakMultiplier(streak) : 0;
+  // Multiplier for the NEXT correct answer
+  const upcomingMultiplier = Math.pow(2, streak);
 
   // ── Dealing overlay ─────────────────────────────────────────────────────────
   if (phase === 'dealing') {
@@ -107,15 +117,15 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
           <Text style={styles.contextText}>{headerContext}</Text>
         </View>
         <View style={styles.rightBadges}>
-          {streak >= 2 && (
+          {streak >= 1 && (
             <View style={styles.streakBadge}>
-              <Text style={styles.streakText}>🔥 {streak}</Text>
+              <Text style={styles.streakText}>🔥 ×{upcomingMultiplier}</Text>
             </View>
           )}
           <View style={styles.scoreBadge}>
-            <Text style={styles.scoreText}>{sessionCorrect}/{sessionTotal}</Text>
+            <Text style={styles.scoreText}>{sessionPoints} pts</Text>
             {accuracy !== null && (
-              <Text style={styles.accuracyText}>{accuracy}%</Text>
+              <Text style={styles.accuracyText}>{sessionCorrect}/{sessionTotal} · {accuracy}%</Text>
             )}
           </View>
         </View>
@@ -155,9 +165,14 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
       ) : (
         <>
           <View style={[styles.resultCard, isCorrect ? styles.correctCard : styles.incorrectCard]}>
-            <Text style={styles.resultTitle}>
-              {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
-            </Text>
+            <View style={styles.resultHeader}>
+              <Text style={styles.resultTitle}>
+                {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
+              </Text>
+              {isCorrect && (
+                <Text style={styles.earnedPoints}>+{lastEarned} pt{lastEarned !== 1 ? 's' : ''}</Text>
+              )}
+            </View>
 
             <View style={styles.answerRow}>
               <Text style={styles.answerLabel}>Your answer:</Text>
@@ -176,6 +191,12 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
             <View style={styles.explanationBox}>
               <Text style={styles.explanationText}>{moment.explanation}</Text>
             </View>
+
+            {isCorrect && streak >= 2 && (
+              <Text style={styles.streakNote}>
+                🔥 {streak} in a row! Next correct = ×{upcomingMultiplier}
+              </Text>
+            )}
           </View>
 
           <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
@@ -192,7 +213,6 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
 }
 
 const styles = StyleSheet.create({
-  // ── Dealing screen ───────────────────────────────────────────────────────────
   dealingContainer: {
     flex: 1,
     backgroundColor: COLORS.background.primary,
@@ -200,9 +220,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 16,
   },
-  dealingIcon: {
-    fontSize: 56,
-  },
+  dealingIcon: { fontSize: 56 },
   dealingText: {
     color: COLORS.text.gold,
     fontSize: 22,
@@ -210,14 +228,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
 
-  // ── Main screen ──────────────────────────────────────────────────────────────
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  content: {
-    padding: SPACING.lg,
-  },
+  container: { flex: 1, backgroundColor: COLORS.background.primary },
+  content: { padding: SPACING.lg },
+
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -232,20 +245,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 20,
   },
-  difficultyIcon: {
-    fontSize: 16,
-    marginRight: 6,
-  },
-  contextText: {
-    color: COLORS.text.primary,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  rightBadges: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
+  difficultyIcon: { fontSize: 16, marginRight: 6 },
+  contextText: { color: COLORS.text.primary, fontSize: 13, fontWeight: '600' },
+
+  rightBadges: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   streakBadge: {
     backgroundColor: '#2a1800',
     borderRadius: 16,
@@ -254,28 +257,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#FF6B00',
   },
-  streakText: {
-    fontSize: 15,
-    fontWeight: '800',
-    color: '#FF6B00',
-  },
-  scoreBadge: {
-    alignItems: 'flex-end',
-  },
-  scoreText: {
-    color: COLORS.text.gold,
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  accuracyText: {
-    color: COLORS.text.secondary,
-    fontSize: 11,
-  },
-  tableWrapper: {
-    marginBottom: SPACING.md,
-  },
+  streakText: { fontSize: 15, fontWeight: '800', color: '#FF6B00' },
 
-  // ── Buttons ──────────────────────────────────────────────────────────────────
+  scoreBadge: { alignItems: 'flex-end' },
+  scoreText: { color: COLORS.text.gold, fontSize: 18, fontWeight: '700' },
+  accuracyText: { color: COLORS.text.secondary, fontSize: 11 },
+
+  tableWrapper: { marginBottom: SPACING.md },
+
   checkButton: {
     backgroundColor: '#4CAF50',
     borderRadius: 12,
@@ -283,15 +272,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
-  disabledButton: {
-    backgroundColor: '#555',
-    opacity: 0.5,
-  },
-  checkButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFF',
-  },
+  disabledButton: { backgroundColor: '#555', opacity: 0.5 },
+  checkButtonText: { fontSize: 18, fontWeight: '700', color: '#FFF' },
+
   continueButton: {
     backgroundColor: '#FFD700',
     borderRadius: 12,
@@ -299,18 +282,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
-  continueButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#0a0a0a',
-  },
+  continueButtonText: { fontSize: 18, fontWeight: '700', color: '#0a0a0a' },
 
-  // ── Result card ──────────────────────────────────────────────────────────────
-  resultCard: {
-    borderRadius: 12,
-    padding: 20,
-    marginTop: 8,
-  },
+  resultCard: { borderRadius: 12, padding: 20, marginTop: 8 },
   correctCard: {
     backgroundColor: '#1a3a1a',
     borderWidth: 2,
@@ -321,13 +295,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#f44336',
   },
-  resultTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#FFF',
-    textAlign: 'center',
+
+  resultHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 14,
   },
+  resultTitle: { fontSize: 24, fontWeight: '700', color: '#FFF' },
+  earnedPoints: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#FFD700',
+  },
+
   answerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -335,19 +316,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#333',
   },
-  answerLabel: {
-    fontSize: 15,
-    color: '#888',
-    fontWeight: '500',
-  },
-  answerValue: {
-    fontSize: 17,
-    color: '#FFF',
-    fontWeight: '700',
-  },
-  correctHighlight: {
-    color: '#4CAF50',
-  },
+  answerLabel: { fontSize: 15, color: '#888', fontWeight: '500' },
+  answerValue: { fontSize: 17, color: '#FFF', fontWeight: '700' },
+  correctHighlight: { color: '#4CAF50' },
+
   explanationBox: {
     marginTop: 14,
     backgroundColor: '#1a1a1a',
@@ -359,5 +331,13 @@ const styles = StyleSheet.create({
     color: '#ddd',
     lineHeight: 20,
     fontFamily: 'monospace',
+  },
+
+  streakNote: {
+    marginTop: 12,
+    textAlign: 'center',
+    color: '#FF6B00',
+    fontSize: 13,
+    fontWeight: '700',
   },
 });
