@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { COLORS } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import RacetrackLayout from '../components/RacetrackLayout';
 
 const { height: screenHeight } = Dimensions.get('window');
 
 export default function RacetrackScreen() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // Use height for width since we're rotating 90 degrees
   const racetrackWidth = Math.min(screenHeight - 150, 800);
 
@@ -18,14 +21,16 @@ export default function RacetrackScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rotatedContainer: {
-    transform: [{ rotate: '90deg' }],
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.primary,
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    rotatedContainer: {
+      transform: [{ rotate: '90deg' }],
+    },
+  });
+}

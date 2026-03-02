@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { ValidationResult } from '../types';
 
 interface ResultFeedbackProps {
@@ -10,6 +10,9 @@ interface ResultFeedbackProps {
 }
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   return (
     <View style={styles.container}>
       <View style={[styles.header, result.isCorrect ? styles.headerCorrect : styles.headerIncorrect]}>
@@ -55,60 +58,62 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    overflow: 'hidden',
-  },
-  header: {
-    padding: SPACING.md,
-    alignItems: 'center',
-  },
-  headerCorrect: {
-    backgroundColor: '#22c55e',
-  },
-  headerIncorrect: {
-    backgroundColor: '#ef4444',
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  comparisonContainer: {
-    padding: SPACING.lg,
-  },
-  answerSection: {
-    marginBottom: SPACING.md,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
-  },
-  answerText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-  },
-  correctText: {
-    color: '#22c55e',
-  },
-  nextButton: {
-    backgroundColor: COLORS.text.gold,
-    padding: SPACING.md,
-    margin: SPACING.lg,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  nextButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.background.primary,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+      overflow: 'hidden',
+    },
+    header: {
+      padding: 16,
+      alignItems: 'center',
+    },
+    headerCorrect: {
+      backgroundColor: colors.status.success,
+    },
+    headerIncorrect: {
+      backgroundColor: colors.status.error,
+    },
+    headerText: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: '#FFF',
+    },
+    comparisonContainer: {
+      padding: 24,
+    },
+    answerSection: {
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.secondary,
+      marginBottom: 4,
+    },
+    answerText: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text.primary,
+      marginBottom: 4,
+    },
+    correctText: {
+      color: colors.status.success,
+    },
+    nextButton: {
+      backgroundColor: colors.text.gold,
+      padding: 16,
+      margin: 24,
+      borderRadius: 8,
+      alignItems: 'center',
+    },
+    nextButtonText: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.background.primary,
+    },
+  });
+}

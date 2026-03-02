@@ -64,6 +64,7 @@ module.exports = function (api) {
             '@screens': './src/screens',
             '@navigation': './src/navigation',
             '@store': './src/store',
+            '@contexts': './src/contexts',
             '@': './src',
           },
         },

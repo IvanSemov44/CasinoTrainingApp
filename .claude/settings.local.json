@@ -4,7 +4,8 @@
       "Bash(npx tsc --noEmit --project tsconfig.json)",
       "Bash(npx tsc --noEmit)",
       "Bash(npx expo start --clear)",
-      "Bash(npx expo start --clear --port 8083)"
+      "Bash(npx expo start --clear --port 8083)",
+      "Bash(wc -l c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/*.tsx c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/roulette/*.tsx c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/shared/*.tsx)"
     ]
   }
 }

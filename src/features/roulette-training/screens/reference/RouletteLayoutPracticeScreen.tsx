@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -9,7 +9,7 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { getNumberColor } from '@constants/roulette.constants';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type RouletteLayoutPracticeNavigationProp = StackNavigationProp<RouletteTrainingStackParamList, 'RouletteLayoutPractice'>;
@@ -24,10 +24,12 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
   const placedBets = useAppSelector(state => state.roulette.placedBets);
   const [_highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
   const [selectedNumber, setSelectedNumber] = useState<RouletteNumber | null>(null);
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const handleNumberPress = (number: RouletteNumber) => {
     setSelectedNumber(number);
-    
+
     // Toggle highlight
     setHighlightedNumbers(prev => {
       if (prev.includes(number)) {
@@ -49,11 +51,11 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
     };
 
     dispatch(placeBet(bet));
-    
+
     // Show bet info
     const color = getNumberColor(numbers[0]);
     const colorText = color === 'red' ? '🔴 Red' : color === 'black' ? '⚫ Black' : '🟢 Green';
-    
+
     Alert.alert(
       `${betType} Bet`,
       `Numbers: ${numbers.join(', ')}\n${numbers.length === 1 ? colorText : ''}\nChip Value: ${selectedChipValue}\nPayout: ${getPayoutForBetType(betType)}:1`,
@@ -100,14 +102,14 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Chip Selector */}
-        <ChipSelector 
+        <ChipSelector
           selectedValue={selectedChipValue}
           onSelectChip={handleChipSelect}
         />
-        
+
         {/* Roulette Layout */}
         <View style={styles.layoutContainer}>
-          <RouletteLayout 
+          <RouletteLayout
             onNumberPress={handleNumberPress}
             onBetAreaPress={handleBetAreaPress}
             placedBets={placedBets}
@@ -146,14 +148,14 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.button, styles.clearButton]}
             onPress={handleClearBets}
           >
             <Text style={styles.buttonText}>🗑️ Clear All Bets</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={[styles.button, styles.backButton]}
             onPress={() => navigation.goBack()}
           >
@@ -165,125 +167,127 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  header: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.lg,
-    borderBottomWidth: BORDERS.width.medium,
-    borderBottomColor: COLORS.border.gold,
-  },
-  headerTitle: {
-    fontSize: TYPOGRAPHY.fontSize.xxl,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.xs,
-    textAlign: 'center',
-  },
-  headerSubtitle: {
-    fontSize: TYPOGRAPHY.fontSize.base,
-    color: COLORS.text.primary,
-    textAlign: 'center',
-    marginBottom: SPACING.md,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statBox: {
-    alignItems: 'center',
-  },
-  statLabel: {
-    fontSize: TYPOGRAPHY.fontSize.xs,
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
-  },
-  statValue: {
-    fontSize: TYPOGRAPHY.fontSize.xl,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: SPACING.sm,
-  },
-  layoutContainer: {
-    marginTop: SPACING.sm,
-  },
-  infoSection: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.md,
-    borderRadius: BORDERS.radius.md,
-    marginTop: SPACING.md,
-    borderWidth: BORDERS.width.medium,
-    borderColor: COLORS.border.gold,
-  },
-  infoTitle: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.sm,
-  },
-  infoText: {
-    fontSize: TYPOGRAPHY.fontSize.base,
-    color: COLORS.text.primary,
-    lineHeight: TYPOGRAPHY.lineHeight.normal,
-  },
-  guideSection: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.md,
-    borderRadius: BORDERS.radius.md,
-    marginTop: SPACING.md,
-    borderWidth: BORDERS.width.medium,
-    borderColor: COLORS.border.primary,
-  },
-  guideTitle: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.sm,
-  },
-  guideContent: {
-    backgroundColor: COLORS.background.dark,
-    padding: 12,
-    borderRadius: BORDERS.radius.sm,
-  },
-  guideText: {
-    fontSize: TYPOGRAPHY.fontSize.sm,
-    color: COLORS.text.primary,
-    lineHeight: TYPOGRAPHY.lineHeight.tight,
-  },
-  guideBold: {
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-  },
-  actionButtons: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  button: {
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    borderWidth: 2,
-  },
-  clearButton: {
-    backgroundColor: COLORS.status.error,
-    borderColor: COLORS.status.error,
-  },
-  backButton: {
-    backgroundColor: COLORS.background.secondary,
-    borderColor: COLORS.border.gold,
-  },
-  buttonText: {
-    color: COLORS.text.primary,
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    header: {
+      backgroundColor: colors.background.secondary,
+      padding: 24,
+      borderBottomWidth: 2,
+      borderBottomColor: colors.border.gold,
+    },
+    headerTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    headerSubtitle: {
+      fontSize: 14,
+      color: colors.text.primary,
+      textAlign: 'center',
+      marginBottom: 16,
+    },
+    statsRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    },
+    statBox: {
+      alignItems: 'center',
+    },
+    statLabel: {
+      fontSize: 12,
+      color: colors.text.secondary,
+      marginBottom: 4,
+    },
+    statValue: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+    },
+    scrollView: {
+      flex: 1,
+    },
+    scrollContent: {
+      padding: 8,
+    },
+    layoutContainer: {
+      marginTop: 8,
+    },
+    infoSection: {
+      backgroundColor: colors.background.secondary,
+      padding: 16,
+      borderRadius: 10,
+      marginTop: 16,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+    },
+    infoTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    infoText: {
+      fontSize: 14,
+      color: colors.text.primary,
+      lineHeight: 22,
+    },
+    guideSection: {
+      backgroundColor: colors.background.secondary,
+      padding: 16,
+      borderRadius: 10,
+      marginTop: 16,
+      borderWidth: 2,
+      borderColor: colors.border.primary,
+    },
+    guideTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    guideContent: {
+      backgroundColor: colors.background.dark,
+      padding: 12,
+      borderRadius: 8,
+    },
+    guideText: {
+      fontSize: 13,
+      color: colors.text.primary,
+      lineHeight: 20,
+    },
+    guideBold: {
+      fontWeight: 'bold',
+      color: colors.text.gold,
+    },
+    actionButtons: {
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    button: {
+      padding: 15,
+      borderRadius: 10,
+      marginBottom: 10,
+      borderWidth: 2,
+    },
+    clearButton: {
+      backgroundColor: colors.status.error,
+      borderColor: colors.status.error,
+    },
+    backButton: {
+      backgroundColor: colors.background.secondary,
+      borderColor: colors.border.gold,
+    },
+    buttonText: {
+      color: '#FFF',
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+  });
+}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { CashRequest } from '../types';
 import { SECTOR_NAMES } from '../constants/sectors';
 
@@ -9,8 +9,11 @@ interface RequestDisplayProps {
 }
 
 export default function RequestDisplay({ request }: RequestDisplayProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const sectorName = SECTOR_NAMES[request.sector];
-  
+
   const requestText =
     request.requestType === 'for-the-money'
       ? `${sectorName} for the money`
@@ -24,27 +27,29 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.lg,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    marginBottom: SPACING.md,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
-    textAlign: 'center',
-  },
-  request: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    textAlign: 'center',
-    fontStyle: 'italic',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      padding: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+      marginBottom: 16,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.secondary,
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    request: {
+      fontSize: 22,
+      fontWeight: '700',
+      color: colors.text.gold,
+      textAlign: 'center',
+      fontStyle: 'italic',
+    },
+  });
+}

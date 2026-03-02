@@ -1,0 +1,234 @@
+import { useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useTheme } from '@contexts/ThemeContext';
+import { PositionMode } from '../types';
+import type { RacetrackPositionStackParamList } from '../navigation';
+import { getWheelOrder, getWheelPosition } from '../utils/validation';
+
+type Props = StackScreenProps<RacetrackPositionStackParamList, 'PositionMenu'>;
+
+interface ModeOption {
+  mode: PositionMode;
+  title: string;
+  description: string;
+  color: string;
+}
+
+const MODE_OPTIONS: ModeOption[] = [
+  {
+    mode: 'single',
+    title: 'Single Number',
+    description: 'Tap the exact number on the racetrack',
+    color: '#3b82f6',
+  },
+  {
+    mode: 'random',
+    title: 'Random Training',
+    description: 'Practice finding numbers randomly',
+    color: '#10b981',
+  },
+];
+
+export default function PositionMenuScreen({ navigation }: Props) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
+  const handleModeSelect = (mode: PositionMode) => {
+    navigation.navigate('PositionTraining', { mode });
+  };
+
+  const wheelOrder = getWheelOrder();
+
+  return (
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Number → Position</Text>
+        <Text style={styles.subtitle}>
+          Find the winning number on the racetrack
+        </Text>
+      </View>
+
+      <View style={styles.wheelPreview}>
+        <Text style={styles.previewTitle}>Wheel Order Reference:</Text>
+        <Text style={styles.previewSubtitle}>
+          Numbers appear in this order around the wheel
+        </Text>
+        <View style={styles.wheelOrderContainer}>
+          {wheelOrder.map((num, index) => (
+            <View key={num} style={styles.wheelNumberBadge}>
+              <Text style={styles.wheelNumberText}>{num}</Text>
+              <Text style={styles.wheelPositionText}>{index + 1}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.modesContainer}>
+        <Text style={styles.sectionTitle}>Select Training Mode:</Text>
+        {MODE_OPTIONS.map((option) => (
+          <TouchableOpacity
+            key={option.mode}
+            style={styles.modeCard}
+            onPress={() => handleModeSelect(option.mode)}
+            activeOpacity={0.75}
+          >
+            <View style={[styles.accentBar, { backgroundColor: option.color }]} />
+            <View style={styles.cardBody}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.modeTitle}>{option.title}</Text>
+                <Text style={styles.arrow}>›</Text>
+              </View>
+              <Text style={styles.modeDescription}>{option.description}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <View style={styles.infoBox}>
+        <Text style={styles.infoTitle}>How to Play:</Text>
+        <Text style={styles.infoText}>1. A winning number is displayed at the top</Text>
+        <Text style={styles.infoText}>2. Tap the exact number location on the racetrack</Text>
+        <Text style={styles.infoText}>3. Get feedback and try the next number</Text>
+        <Text style={styles.infoText}>4. Build your score with each correct answer</Text>
+      </View>
+    </ScrollView>
+  );
+}
+
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    contentContainer: {
+      padding: 24,
+      paddingBottom: 32,
+    },
+    header: {
+      marginBottom: 24,
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 16,
+      color: colors.text.secondary,
+      textAlign: 'center',
+    },
+    wheelPreview: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 24,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    previewTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
+    previewSubtitle: {
+      fontSize: 12,
+      color: colors.text.secondary,
+      marginBottom: 8,
+    },
+    wheelOrderContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 6,
+      justifyContent: 'center',
+    },
+    wheelNumberBadge: {
+      backgroundColor: colors.background.primary,
+      borderRadius: 8,
+      padding: 6,
+      alignItems: 'center',
+      minWidth: 40,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    wheelNumberText: {
+      fontSize: 14,
+      fontWeight: '700',
+      color: colors.text.primary,
+    },
+    wheelPositionText: {
+      fontSize: 10,
+      color: colors.text.muted,
+    },
+    modesContainer: {
+      gap: 16,
+      marginBottom: 32,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+    modeCard: {
+      flexDirection: 'row',
+      backgroundColor: colors.background.secondary,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+      overflow: 'hidden',
+      marginBottom: 12,
+    },
+    accentBar: {
+      width: 4,
+    },
+    cardBody: {
+      flex: 1,
+      padding: 14,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 4,
+    },
+    modeTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text.primary,
+      flex: 1,
+    },
+    arrow: {
+      fontSize: 20,
+      color: colors.text.muted,
+    },
+    modeDescription: {
+      fontSize: 13,
+      color: colors.text.secondary,
+      lineHeight: 18,
+    },
+    infoBox: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    infoTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    infoText: {
+      fontSize: 14,
+      color: colors.text.primary,
+      marginBottom: 4,
+    },
+  });
+}

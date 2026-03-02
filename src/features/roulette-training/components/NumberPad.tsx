@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface NumberPadProps {
   onNumberPress: (num: string) => void;
@@ -21,6 +21,9 @@ const BUTTON_LAYOUT: ButtonConfig[][] = [
 ];
 
 export default function NumberPad({ onNumberPress, onClear, onBackspace, disabled = false }: NumberPadProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const handlePress = (value: string, callback?: () => void) => {
     if (!disabled) {
       if (callback) {
@@ -31,53 +34,29 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
     }
   };
 
-  const renderButton = (config: ButtonConfig, index: number) => {
-    const getAccessibilityLabel = (value: string): string => {
-      switch (value) {
-        case 'C':
-          return 'Clear';
-        case '⌫':
-          return 'Backspace';
-        default:
-          return `Number ${value}`;
-      }
-    };
-
-    const getAccessibilityHint = (value: string): string => {
-      switch (value) {
-        case 'C':
-          return 'Double tap to clear the input';
-        case '⌫':
-          return 'Double tap to delete the last digit';
-        default:
-          return 'Double tap to enter this number';
-      }
-    };
-
-    return (
-      <TouchableOpacity
-        key={`${config.value}-${index}`}
-        style={styles.numberButton}
-        onPress={() => handlePress(config.value, config.action)}
-        disabled={disabled}
-        accessibilityLabel={getAccessibilityLabel(config.value)}
-        accessibilityHint={getAccessibilityHint(config.value)}
-        accessibilityRole="button"
-        accessibilityState={{ disabled }}
-      >
-        <Text style={styles.numberButtonText}>{config.value}</Text>
-      </TouchableOpacity>
-    );
-  };
+  const renderButton = (config: ButtonConfig, index: number) => (
+    <TouchableOpacity
+      key={`${config.value}-${index}`}
+      style={[styles.button, disabled && styles.buttonDisabled]}
+      onPress={() => handlePress(config.value, config.action)}
+      disabled={disabled}
+      activeOpacity={0.7}
+      accessibilityLabel={config.value === 'C' ? 'Clear' : config.value === '⌫' ? 'Backspace' : `Number ${config.value}`}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
+    >
+      <Text style={styles.buttonText}>{config.value}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={styles.numberPad}>
+    <View style={styles.pad}>
       {BUTTON_LAYOUT.map((row, rowIndex) => (
-        <View key={`row-${rowIndex}`} style={styles.numberPadRow}>
+        <View key={`row-${rowIndex}`} style={styles.row}>
           {row.map((config, btnIndex) => renderButton(config, btnIndex))}
         </View>
       ))}
-      <View style={styles.numberPadRow}>
+      <View style={styles.row}>
         {renderButton({ value: 'C', action: onClear }, 0)}
         {renderButton({ value: '0' }, 1)}
         {renderButton({ value: '⌫', action: onBackspace }, 2)}
@@ -86,29 +65,21 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
   );
 }
 
-const styles = StyleSheet.create({
-  numberPad: {
-    marginBottom: SPACING.md,
-  },
-  numberPadRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: SPACING.sm,
-  },
-  numberButton: {
-    flex: 1,
-    backgroundColor: COLORS.background.mediumGray,
-    padding: 12,
-    marginHorizontal: SPACING.xs,
-    borderRadius: BORDERS.radius.sm,
-    borderWidth: BORDERS.width.thin,
-    borderColor: COLORS.border.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  numberButtonText: {
-    color: COLORS.text.gold,
-    fontSize: TYPOGRAPHY.fontSize.xl,
-    fontWeight: 'bold',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    pad: { marginBottom: 12 },
+    row: { flexDirection: 'row', gap: 8, marginBottom: 8 },
+    button: {
+      flex: 1,
+      backgroundColor: colors.background.secondary,
+      paddingVertical: 16,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    buttonDisabled: { opacity: 0.4 },
+    buttonText: { color: colors.text.gold, fontSize: 20, fontWeight: '700' },
+  });
+}

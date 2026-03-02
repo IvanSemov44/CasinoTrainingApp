@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface ExerciseStatsProps {
   score: number;
@@ -8,6 +8,9 @@ interface ExerciseStatsProps {
 }
 
 export default function ExerciseStats({ score, attempts }: ExerciseStatsProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
 
   return (
@@ -20,20 +23,22 @@ export default function ExerciseStats({ score, attempts }: ExerciseStatsProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    padding: SPACING.md,
-    backgroundColor: COLORS.background.darkGray,
-    borderBottomWidth: BORDERS.width.medium,
-    borderBottomColor: COLORS.border.primary,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statsText: {
-    fontSize: TYPOGRAPHY.fontSize.md,
-    color: COLORS.text.gold,
-    fontWeight: '600',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    header: {
+      padding: 16,
+      backgroundColor: colors.background.darkGray,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
+    },
+    statsRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    },
+    statsText: {
+      fontSize: 16,
+      color: colors.text.gold,
+      fontWeight: '600',
+    },
+  });
+}

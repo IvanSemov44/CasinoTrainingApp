@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '../../roulette-training/components/NumberPad';
 import { RequestType } from '../types';
 
@@ -29,6 +29,9 @@ export default function AnswerInput({
   onInputFocus,
   requestType,
 }: AnswerInputProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const handleNumberPress = (num: string) => {
     if (activeInput === 'totalBet') {
       onTotalBetChange(totalBet + num);
@@ -67,11 +70,11 @@ export default function AnswerInput({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Response:</Text>
-      
+
       <View style={styles.inputsContainer}>
         {showTotalBet && (
-          <TouchableOpacity 
-            style={styles.inputGroup} 
+          <TouchableOpacity
+            style={styles.inputGroup}
             onPress={() => onInputFocus('totalBet')}
             activeOpacity={0.7}
           >
@@ -83,8 +86,8 @@ export default function AnswerInput({
         )}
 
         {showBetPerPosition && (
-          <TouchableOpacity 
-            style={styles.inputGroup} 
+          <TouchableOpacity
+            style={styles.inputGroup}
             onPress={() => onInputFocus('betPerPosition')}
             activeOpacity={0.7}
           >
@@ -95,8 +98,8 @@ export default function AnswerInput({
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity 
-          style={styles.inputGroup} 
+        <TouchableOpacity
+          style={styles.inputGroup}
           onPress={() => onInputFocus('change')}
           activeOpacity={0.7}
         >
@@ -116,50 +119,52 @@ export default function AnswerInput({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.lg,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    marginBottom: SPACING.md,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.md,
-    textAlign: 'center',
-  },
-  inputsContainer: {
-    marginBottom: SPACING.md,
-  },
-  inputGroup: {
-    marginBottom: SPACING.md,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-  },
-  display: {
-    backgroundColor: COLORS.background.primary,
-    borderWidth: 2,
-    borderColor: COLORS.border.gold,
-    borderRadius: 8,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-  },
-  displayActive: {
-    borderColor: COLORS.text.gold,
-    backgroundColor: '#1a1a2e',
-  },
-  displayText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    textAlign: 'center',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      padding: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    inputsContainer: {
+      marginBottom: 16,
+    },
+    inputGroup: {
+      marginBottom: 16,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.primary,
+      marginBottom: 4,
+    },
+    display: {
+      backgroundColor: colors.background.primary,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+      borderRadius: 8,
+      paddingHorizontal: 16,
+      paddingVertical: 16,
+    },
+    displayActive: {
+      borderColor: colors.text.gold,
+      backgroundColor: colors.background.tertiary,
+    },
+    displayText: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text.gold,
+      textAlign: 'center',
+    },
+  });
+}

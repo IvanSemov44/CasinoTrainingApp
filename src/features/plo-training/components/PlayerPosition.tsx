@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { PlayerActionType } from '../types';
 
 interface PlayerPositionProps {
@@ -24,6 +24,9 @@ export default function PlayerPosition({
   isFolded,
   isRequesting,
 }: PlayerPositionProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // A folded player with chips in front = called then folded to a re-raise.
   // Their chips stay visible so the dealer can count them as dead money.
   const hasDeadChips = isFolded && betAmount !== undefined && betAmount > 0;
@@ -92,161 +95,163 @@ export default function PlayerPosition({
   );
 }
 
-const styles = StyleSheet.create({
-  playerContainer: {
-    alignItems: 'center',
-    position: 'absolute',
-  },
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    playerContainer: {
+      alignItems: 'center',
+      position: 'absolute',
+    },
 
-  // ── Player card ───────────────────────────────────────────────────────────
-  playerCard: {
-    backgroundColor: COLORS.background.secondary,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    minWidth: 70,
-    alignItems: 'center',
-  },
+    // ── Player card ───────────────────────────────────────────────────────────
+    playerCard: {
+      backgroundColor: colors.background.secondary,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 2,
+      borderColor: colors.text.gold,
+      minWidth: 70,
+      alignItems: 'center',
+    },
 
-  foldedCard: {
-    opacity: 0.45,
-    borderWidth: 1,
-    borderColor: '#555',
-    borderStyle: 'dashed',
-    backgroundColor: '#111',
-  },
+    foldedCard: {
+      opacity: 0.45,
+      borderWidth: 1,
+      borderColor: '#555',
+      borderStyle: 'dashed',
+      backgroundColor: '#111',
+    },
 
-  requestingCard: {
-    borderColor: '#FF4500',
-    borderWidth: 3,
-    backgroundColor: '#1f0a00',
-  },
+    requestingCard: {
+      borderColor: '#FF4500',
+      borderWidth: 3,
+      backgroundColor: '#1f0a00',
+    },
 
-  // ── FOLD badge (inside the card) ──────────────────────────────────────────
-  foldBadge: {
-    backgroundColor: '#4a4a4a',
-    borderRadius: 4,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    marginBottom: 3,
-  },
-  foldBadgeText: {
-    color: '#888',
-    fontSize: 9,
-    fontWeight: '800',
-    letterSpacing: 1,
-  },
+    // ── FOLD badge (inside the card) ──────────────────────────────────────────
+    foldBadge: {
+      backgroundColor: '#4a4a4a',
+      borderRadius: 4,
+      paddingHorizontal: 6,
+      paddingVertical: 2,
+      marginBottom: 3,
+    },
+    foldBadgeText: {
+      color: '#888',
+      fontSize: 9,
+      fontWeight: '800',
+      letterSpacing: 1,
+    },
 
-  // ── Text ──────────────────────────────────────────────────────────────────
-  playerName: {
-    color: COLORS.text.primary,
-    fontSize: 13,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  foldedText: {
-    color: '#555',
-  },
-  chipAmount: {
-    color: COLORS.text.gold,
-    fontSize: 11,
-    fontWeight: '500',
-    textAlign: 'center',
-    marginTop: 2,
-  },
+    // ── Text ──────────────────────────────────────────────────────────────────
+    playerName: {
+      color: colors.text.primary,
+      fontSize: 13,
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+    foldedText: {
+      color: '#555',
+    },
+    chipAmount: {
+      color: colors.text.gold,
+      fontSize: 11,
+      fontWeight: '500',
+      textAlign: 'center',
+      marginTop: 2,
+    },
 
-  // ── Dealer button ─────────────────────────────────────────────────────────
-  dealerButton: {
-    position: 'absolute',
-    top: -10,
-    right: -10,
-    backgroundColor: '#FFD700',
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#000',
-    zIndex: 10,
-  },
-  dealerText: {
-    color: '#000',
-    fontSize: 11,
-    fontWeight: '800',
-  },
+    // ── Dealer button ─────────────────────────────────────────────────────────
+    dealerButton: {
+      position: 'absolute',
+      top: -10,
+      right: -10,
+      backgroundColor: '#FFD700',
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: '#000',
+      zIndex: 10,
+    },
+    dealerText: {
+      color: '#000',
+      fontSize: 11,
+      fontWeight: '800',
+    },
 
-  // ── Active bet chip (orange) ──────────────────────────────────────────────
-  betContainer: {
-    marginTop: 4,
-  },
-  betChip: {
-    backgroundColor: '#CC4400',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#FFD700',
-  },
-  betAmount: {
-    color: '#FFF',
-    fontSize: 13,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
+    // ── Active bet chip (orange) ──────────────────────────────────────────────
+    betContainer: {
+      marginTop: 4,
+    },
+    betChip: {
+      backgroundColor: '#CC4400',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: '#FFD700',
+    },
+    betAmount: {
+      color: '#FFF',
+      fontSize: 13,
+      fontWeight: '700',
+      textAlign: 'center',
+    },
 
-  // ── Dead-money chip (gray, folded-with-chips) ─────────────────────────────
-  deadChip: {
-    backgroundColor: '#2a2a2a',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#555',
-    alignItems: 'center',
-  },
-  deadChipText: {
-    color: '#666',
-    fontSize: 8,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  deadChipAmount: {
-    color: '#777',
-    fontSize: 12,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
+    // ── Dead-money chip (gray, folded-with-chips) ─────────────────────────────
+    deadChip: {
+      backgroundColor: '#2a2a2a',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: '#555',
+      alignItems: 'center',
+    },
+    deadChipText: {
+      color: '#666',
+      fontSize: 8,
+      fontWeight: '700',
+      letterSpacing: 0.5,
+    },
+    deadChipAmount: {
+      color: '#777',
+      fontSize: 12,
+      fontWeight: '600',
+      textAlign: 'center',
+    },
 
-  // ── Action label ──────────────────────────────────────────────────────────
-  actionLabel: {
-    marginTop: 4,
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
-  },
-  actionText: {
-    color: '#FFF',
-    fontSize: 10,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
+    // ── Action label ──────────────────────────────────────────────────────────
+    actionLabel: {
+      marginTop: 4,
+      backgroundColor: '#4CAF50',
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 6,
+    },
+    actionText: {
+      color: '#FFF',
+      fontSize: 10,
+      fontWeight: '700',
+      textAlign: 'center',
+    },
 
-  // ── ASKS POT label ────────────────────────────────────────────────────────
-  requestingLabel: {
-    marginTop: 4,
-    backgroundColor: '#FF4500',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  requestingText: {
-    color: '#FFF',
-    fontSize: 11,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-});
+    // ── ASKS POT label ────────────────────────────────────────────────────────
+    requestingLabel: {
+      marginTop: 4,
+      backgroundColor: '#FF4500',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 6,
+    },
+    requestingText: {
+      color: '#FFF',
+      fontSize: 11,
+      fontWeight: '800',
+      textAlign: 'center',
+    },
+  });
+}

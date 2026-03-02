@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../components';
 import { SectorType, CashRequest, ValidationResult } from '../types';
 import { SECTOR_NAMES, SECTOR_POSITIONS } from '../constants/sectors';
@@ -18,6 +18,8 @@ type CashConversionTrainingScreenProps = StackScreenProps<CashConversionStackPar
 
 export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
   const { difficulty, sector } = route.params;
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const [currentRequest, setCurrentRequest] = useState<CashRequest | null>(null);
   const [totalBet, setTotalBet] = useState('');
@@ -31,7 +33,7 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
     const selectedSector = sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
     const cashAmount = generateRandomCashAmount(difficulty, selectedSector);
     const request = generateRandomRequest(selectedSector, cashAmount, difficulty);
-    
+
     setCurrentRequest(request);
     setTotalBet('');
     setBetPerPosition('');
@@ -58,7 +60,7 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
     // For "for-the-money": user enters betPerPosition and change
     // For "by-amount": user enters totalBet and change
     const userAnswer = {
-      totalBet: currentRequest.requestType === 'for-the-money' 
+      totalBet: currentRequest.requestType === 'for-the-money'
         ? (parseInt(betPerPosition, 10) || 0) * (SECTOR_POSITIONS[currentRequest.sector] || 1)
         : parseInt(totalBet, 10),
       betPerPosition: currentRequest.requestType === 'for-the-money'
@@ -136,42 +138,44 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  contentContainer: {
-    padding: SPACING.lg,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  difficultyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
-  },
-  statsText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-  },
-  checkButton: {
-    backgroundColor: COLORS.text.gold,
-    paddingVertical: SPACING.md,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: SPACING.md,
-  },
-  checkButtonDisabled: {
-    backgroundColor: '#4b5563',
-  },
-  checkButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.background.primary,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    contentContainer: {
+      padding: 24,
+    },
+    header: {
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    difficultyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.secondary,
+      marginBottom: 4,
+    },
+    statsText: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text.primary,
+    },
+    checkButton: {
+      backgroundColor: colors.text.gold,
+      paddingVertical: 16,
+      borderRadius: 12,
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    checkButtonDisabled: {
+      backgroundColor: colors.background.tertiary,
+    },
+    checkButtonText: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.background.primary,
+    },
+  });
+}

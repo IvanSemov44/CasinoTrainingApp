@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 import { CashConversionTrainingModal } from '../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../constants/sectors';
 
 export default function CashConversionMenuScreen() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpenModal = useCallback(() => {
@@ -22,7 +26,7 @@ export default function CashConversionMenuScreen() {
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.startButton}
           onPress={handleOpenModal}
           accessibilityLabel="Start Training"
@@ -74,103 +78,105 @@ export default function CashConversionMenuScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0a2f1f',
-  },
-  contentContainer: {
-    paddingBottom: 40,
-  },
-  header: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#2a7f4f',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#CCCCCC',
-  },
-  content: {
-    padding: 20,
-    alignItems: 'center',
-  },
-  startButton: {
-    backgroundColor: '#1a5f3f',
-    borderRadius: 16,
-    padding: 30,
-    width: '100%',
-    maxWidth: 400,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#2a7f4f',
-    marginTop: 20,
-    marginBottom: 24,
-  },
-  startButtonIcon: {
-    fontSize: 48,
-    marginBottom: 12,
-  },
-  startButtonText: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  startButtonHint: {
-    fontSize: 14,
-    color: '#AAAAAA',
-  },
-  infoSection: {
-    backgroundColor: '#0f4f2f',
-    borderRadius: 12,
-    padding: 16,
-    width: '100%',
-    maxWidth: 400,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#2a7f4f',
-  },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#FFD700',
-    marginBottom: 12,
-  },
-  infoDescription: {
-    fontSize: 14,
-    color: '#CCCCCC',
-    marginBottom: 8,
-  },
-  trainingTypesList: {
-    marginTop: 4,
-  },
-  trainingTypeItem: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    marginBottom: 6,
-  },
-  sectorList: {
-    marginTop: 4,
-  },
-  sectorItem: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  difficultyList: {
-    marginTop: 4,
-  },
-  difficultyItem: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    contentContainer: {
+      paddingBottom: 40,
+    },
+    header: {
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: '800',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.text.secondary,
+    },
+    content: {
+      padding: 20,
+      alignItems: 'center',
+    },
+    startButton: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 16,
+      padding: 30,
+      width: '100%',
+      maxWidth: 400,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      marginTop: 20,
+      marginBottom: 24,
+    },
+    startButtonIcon: {
+      fontSize: 48,
+      marginBottom: 12,
+    },
+    startButtonText: {
+      fontSize: 22,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+    startButtonHint: {
+      fontSize: 14,
+      color: colors.text.muted,
+    },
+    infoSection: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      padding: 16,
+      width: '100%',
+      maxWidth: 400,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    infoTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text.gold,
+      marginBottom: 12,
+    },
+    infoDescription: {
+      fontSize: 14,
+      color: colors.text.secondary,
+      marginBottom: 8,
+    },
+    trainingTypesList: {
+      marginTop: 4,
+    },
+    trainingTypeItem: {
+      fontSize: 14,
+      color: colors.text.primary,
+      marginBottom: 6,
+    },
+    sectorList: {
+      marginTop: 4,
+    },
+    sectorItem: {
+      fontSize: 14,
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+    difficultyList: {
+      marginTop: 4,
+    },
+    difficultyItem: {
+      fontSize: 14,
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+  });
+}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { ValidationResult } from '../types';
 
 interface ResultFeedbackProps {
@@ -10,6 +10,9 @@ interface ResultFeedbackProps {
 }
 
 export default function ResultFeedback({ result, onNext, onClear }: ResultFeedbackProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const isCorrect = result.isCorrect;
 
   return (
@@ -17,7 +20,7 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
       <Text style={styles.title}>
         {isCorrect ? '✅ Perfect!' : '❌ Not Quite'}
       </Text>
-      
+
       <Text style={styles.score}>
         Score: {result.score}%
       </Text>
@@ -49,84 +52,91 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
           style={[styles.button, styles.clearButton]}
           onPress={onClear}
         >
-          <Text style={styles.buttonText}>Clear & Retry</Text>
+          <Text style={styles.clearButtonText}>Clear &amp; Retry</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, styles.nextButton]}
           onPress={onNext}
         >
-          <Text style={styles.buttonText}>Next Challenge</Text>
+          <Text style={styles.nextButtonText}>Next Challenge</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: SPACING.md,
-    borderRadius: 12,
-    borderWidth: 2,
-    marginTop: SPACING.md,
-  },
-  correct: {
-    backgroundColor: '#1a4d2e',
-    borderColor: '#4ade80',
-  },
-  incorrect: {
-    backgroundColor: '#4d1a1a',
-    borderColor: '#ef4444',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    textAlign: 'center',
-    marginBottom: SPACING.sm,
-  },
-  score: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-    textAlign: 'center',
-    marginBottom: SPACING.md,
-  },
-  section: {
-    marginBottom: SPACING.md,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.xs,
-  },
-  betText: {
-    fontSize: 14,
-    color: COLORS.text.primary,
-    marginLeft: SPACING.sm,
-    marginBottom: 2,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    marginTop: SPACING.sm,
-  },
-  button: {
-    flex: 1,
-    paddingVertical: SPACING.sm,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  clearButton: {
-    backgroundColor: '#6b7280',
-  },
-  nextButton: {
-    backgroundColor: COLORS.text.gold,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      padding: 16,
+      borderRadius: 12,
+      borderWidth: 2,
+      marginTop: 16,
+    },
+    correct: {
+      backgroundColor: colors.status.successAlt,
+      borderColor: colors.status.success,
+    },
+    incorrect: {
+      backgroundColor: colors.status.errorAlt,
+      borderColor: colors.status.error,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text.primary,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    score: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text.primary,
+      textAlign: 'center',
+      marginBottom: 16,
+    },
+    section: {
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
+    betText: {
+      fontSize: 14,
+      color: colors.text.primary,
+      marginLeft: 8,
+      marginBottom: 2,
+    },
+    buttonRow: {
+      flexDirection: 'row',
+      gap: 8,
+      marginTop: 8,
+    },
+    button: {
+      flex: 1,
+      paddingVertical: 8,
+      borderRadius: 8,
+      alignItems: 'center',
+    },
+    clearButton: {
+      backgroundColor: colors.background.darkGray,
+    },
+    nextButton: {
+      backgroundColor: colors.text.gold,
+    },
+    clearButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: '#FFF',
+    },
+    nextButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.background.primary,
+    },
+  });
+}

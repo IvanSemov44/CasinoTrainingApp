@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import PokerTable from '../components/PokerTable';
 import PotCalculationInput from '../components/PotCalculationInput';
 import ActionLog from '../components/ActionLog';
@@ -31,6 +31,9 @@ function streakMultiplier(streakAfterAnswer: number): number {
 export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {
   const { difficulty } = route.params;
   const difficultyInfo = DIFFICULTY_INFO[difficulty];
+
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const [hand, setHand] = useState<GeneratedHand>(() => freshHand(difficulty));
   const [handKey, setHandKey] = useState(0);
@@ -212,132 +215,134 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
   );
 }
 
-const styles = StyleSheet.create({
-  dealingContainer: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 16,
-  },
-  dealingIcon: { fontSize: 56 },
-  dealingText: {
-    color: COLORS.text.gold,
-    fontSize: 22,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    dealingContainer: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 16,
+    },
+    dealingIcon: { fontSize: 56 },
+    dealingText: {
+      color: colors.text.gold,
+      fontSize: 22,
+      fontWeight: '700',
+      letterSpacing: 1,
+    },
 
-  container: { flex: 1, backgroundColor: COLORS.background.primary },
-  content: { padding: SPACING.lg },
+    container: { flex: 1, backgroundColor: colors.background.primary },
+    content: { padding: 24 },
 
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  contextBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.background.secondary,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-  },
-  difficultyIcon: { fontSize: 16, marginRight: 6 },
-  contextText: { color: COLORS.text.primary, fontSize: 13, fontWeight: '600' },
+    topBar: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    contextBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.background.secondary,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      borderRadius: 20,
+    },
+    difficultyIcon: { fontSize: 16, marginRight: 6 },
+    contextText: { color: colors.text.primary, fontSize: 13, fontWeight: '600' },
 
-  rightBadges: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  streakBadge: {
-    backgroundColor: '#2a1800',
-    borderRadius: 16,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: '#FF6B00',
-  },
-  streakText: { fontSize: 15, fontWeight: '800', color: '#FF6B00' },
+    rightBadges: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    streakBadge: {
+      backgroundColor: '#2a1800',
+      borderRadius: 16,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: '#FF6B00',
+    },
+    streakText: { fontSize: 15, fontWeight: '800', color: '#FF6B00' },
 
-  scoreBadge: { alignItems: 'flex-end' },
-  scoreText: { color: COLORS.text.gold, fontSize: 18, fontWeight: '700' },
-  accuracyText: { color: COLORS.text.secondary, fontSize: 11 },
+    scoreBadge: { alignItems: 'flex-end' },
+    scoreText: { color: colors.text.gold, fontSize: 18, fontWeight: '700' },
+    accuracyText: { color: colors.text.secondary, fontSize: 11 },
 
-  tableWrapper: { marginBottom: SPACING.md },
+    tableWrapper: { marginBottom: 16 },
 
-  checkButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 12,
-    padding: 18,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  disabledButton: { backgroundColor: '#555', opacity: 0.5 },
-  checkButtonText: { fontSize: 18, fontWeight: '700', color: '#FFF' },
+    checkButton: {
+      backgroundColor: colors.status.success,
+      borderRadius: 12,
+      padding: 18,
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    disabledButton: { backgroundColor: colors.background.tertiary, opacity: 0.5 },
+    checkButtonText: { fontSize: 18, fontWeight: '700', color: '#FFF' },
 
-  continueButton: {
-    backgroundColor: '#FFD700',
-    borderRadius: 12,
-    padding: 18,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  continueButtonText: { fontSize: 18, fontWeight: '700', color: '#0a0a0a' },
+    continueButton: {
+      backgroundColor: colors.text.gold,
+      borderRadius: 12,
+      padding: 18,
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    continueButtonText: { fontSize: 18, fontWeight: '700', color: colors.background.dark },
 
-  resultCard: { borderRadius: 12, padding: 20, marginTop: 8 },
-  correctCard: {
-    backgroundColor: '#1a3a1a',
-    borderWidth: 2,
-    borderColor: '#4CAF50',
-  },
-  incorrectCard: {
-    backgroundColor: '#3a1a1a',
-    borderWidth: 2,
-    borderColor: '#f44336',
-  },
+    resultCard: { borderRadius: 12, padding: 20, marginTop: 8 },
+    correctCard: {
+      backgroundColor: colors.status.successAlt,
+      borderWidth: 2,
+      borderColor: colors.status.success,
+    },
+    incorrectCard: {
+      backgroundColor: colors.status.errorAlt,
+      borderWidth: 2,
+      borderColor: colors.status.error,
+    },
 
-  resultHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 14,
-  },
-  resultTitle: { fontSize: 24, fontWeight: '700', color: '#FFF' },
-  earnedPoints: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: '#FFD700',
-  },
+    resultHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 14,
+    },
+    resultTitle: { fontSize: 24, fontWeight: '700', color: colors.text.primary },
+    earnedPoints: {
+      fontSize: 20,
+      fontWeight: '800',
+      color: colors.text.gold,
+    },
 
-  answerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
-  },
-  answerLabel: { fontSize: 15, color: '#888', fontWeight: '500' },
-  answerValue: { fontSize: 17, color: '#FFF', fontWeight: '700' },
-  correctHighlight: { color: '#4CAF50' },
+    answerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
+    },
+    answerLabel: { fontSize: 15, color: colors.text.secondary, fontWeight: '500' },
+    answerValue: { fontSize: 17, color: colors.text.primary, fontWeight: '700' },
+    correctHighlight: { color: colors.status.success },
 
-  explanationBox: {
-    marginTop: 14,
-    backgroundColor: '#1a1a1a',
-    borderRadius: 8,
-    padding: 14,
-  },
-  explanationText: {
-    fontSize: 13,
-    color: '#ddd',
-    lineHeight: 20,
-    fontFamily: 'monospace',
-  },
+    explanationBox: {
+      marginTop: 14,
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 8,
+      padding: 14,
+    },
+    explanationText: {
+      fontSize: 13,
+      color: colors.text.secondary,
+      lineHeight: 20,
+      fontFamily: 'monospace',
+    },
 
-  streakNote: {
-    marginTop: 12,
-    textAlign: 'center',
-    color: '#FF6B00',
-    fontSize: 13,
-    fontWeight: '700',
-  },
-});
+    streakNote: {
+      marginTop: 12,
+      textAlign: 'center',
+      color: '#FF6B00',
+      fontSize: 13,
+      fontWeight: '700',
+    },
+  });
+}

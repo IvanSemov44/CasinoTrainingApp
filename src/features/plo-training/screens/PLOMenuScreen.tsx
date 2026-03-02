@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import type { PLOStackParamList } from '../navigation';
 import { DIFFICULTY_INFO } from '../constants/gameScenarios';
 import type { PLODifficulty } from '../types';
@@ -10,24 +10,44 @@ type PLOMenuScreenProps = StackScreenProps<PLOStackParamList, 'PLOMenu'>;
 
 const DIFFICULTIES: PLODifficulty[] = ['easy', 'medium', 'advanced'];
 
+const DIFFICULTY_COLOR: Record<PLODifficulty, string> = {
+  easy:     '#4CAF50',
+  medium:   '#FF9800',
+  advanced: '#f44336',
+};
+
 export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.title}>Pot Limit Omaha Training</Text>
-      <Text style={styles.subtitle}>Select difficulty level</Text>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Pot Limit Omaha Training</Text>
+        <Text style={styles.subtitle}>Select difficulty level</Text>
+      </View>
 
       {DIFFICULTIES.map((difficulty) => {
         const info = DIFFICULTY_INFO[difficulty];
         return (
           <TouchableOpacity
             key={difficulty}
-            style={[styles.card, styles[`${difficulty}Card`]]}
+            style={styles.card}
             onPress={() => navigation.navigate('PLOGameTraining', { difficulty })}
+            activeOpacity={0.75}
           >
-            <Text style={styles.cardIcon}>{info.icon}</Text>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{info.label}</Text>
-              <Text style={styles.cardDescription}>{info.description}</Text>
+            <View style={[styles.accentBar, { backgroundColor: DIFFICULTY_COLOR[difficulty] }]} />
+            <View style={styles.cardBody}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>{info.label}</Text>
+                <View style={[styles.badge, { backgroundColor: DIFFICULTY_COLOR[difficulty] + '22' }]}>
+                  <Text style={[styles.badgeText, { color: DIFFICULTY_COLOR[difficulty] }]}>
+                    {difficulty.toUpperCase()}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.cardDesc}>{info.description}</Text>
+              <Text style={styles.cardArrow}>›</Text>
             </View>
           </TouchableOpacity>
         );
@@ -36,60 +56,70 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  contentContainer: {
-    padding: SPACING.lg,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    textAlign: 'center',
-    marginBottom: SPACING.xs,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: COLORS.text.secondary,
-    textAlign: 'center',
-    marginBottom: SPACING.xl,
-  },
-  card: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.lg,
-    borderRadius: 12,
-    marginBottom: SPACING.md,
-    borderWidth: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  easyCard: {
-    borderColor: '#4CAF50',
-  },
-  mediumCard: {
-    borderColor: '#FF9800',
-  },
-  advancedCard: {
-    borderColor: '#f44336',
-  },
-  cardIcon: {
-    fontSize: 40,
-    marginRight: SPACING.md,
-  },
-  cardContent: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-  },
-  cardDescription: {
-    fontSize: 14,
-    color: COLORS.text.secondary,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.background.primary },
+    content: { padding: 20, paddingBottom: 40 },
+    header: {
+      marginBottom: 24,
+    },
+    title: {
+      fontSize: 26,
+      fontWeight: '800',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.text.secondary,
+    },
+    card: {
+      flexDirection: 'row',
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      marginBottom: 10,
+      overflow: 'hidden',
+    },
+    accentBar: {
+      width: 4,
+    },
+    cardBody: {
+      flex: 1,
+      padding: 16,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 6,
+    },
+    cardTitle: {
+      fontSize: 17,
+      fontWeight: '700',
+      color: colors.text.primary,
+      flex: 1,
+      marginRight: 8,
+    },
+    badge: {
+      borderRadius: 6,
+      paddingHorizontal: 7,
+      paddingVertical: 2,
+    },
+    badgeText: {
+      fontSize: 10,
+      fontWeight: '700',
+      letterSpacing: 0.5,
+    },
+    cardDesc: {
+      fontSize: 13,
+      color: colors.text.secondary,
+      lineHeight: 19,
+      marginBottom: 8,
+    },
+    cardArrow: {
+      fontSize: 20,
+      color: colors.text.muted,
+      textAlign: 'right',
+    },
+  });
+}

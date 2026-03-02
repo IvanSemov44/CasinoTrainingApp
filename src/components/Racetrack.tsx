@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { WHEEL_ORDER } from '../constants/roulette.constants';
 import { RouletteNumber } from '../types/roulette.types';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface RacetrackProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -10,22 +10,25 @@ interface RacetrackProps {
   highlightedNumbers?: RouletteNumber[];
 }
 
-const Racetrack: React.FC<RacetrackProps> = ({ 
+const Racetrack: React.FC<RacetrackProps> = ({
   onNumberPress,
-  highlightedNumbers = [] 
+  highlightedNumbers = []
 }) => {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const getNumberColor = (num: RouletteNumber): string => {
     if (num === 0) return '#006400';
     const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    return redNumbers.includes(num) ? '#CC0000' : COLORS.background.dark;
+    return redNumbers.includes(num) ? '#CC0000' : colors.background.dark;
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Racetrack - Neighbor Bets</Text>
-      
-      <ScrollView 
-        horizontal 
+
+      <ScrollView
+        horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.wheelContainer}
       >
@@ -33,7 +36,7 @@ const Racetrack: React.FC<RacetrackProps> = ({
           const isHighlighted = highlightedNumbers.includes(num);
           const backgroundColor = getNumberColor(num);
           const colorName = num === 0 ? 'green' : [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num) ? 'red' : 'black';
-          
+
           return (
             <TouchableOpacity
               key={num}
@@ -54,7 +57,7 @@ const Racetrack: React.FC<RacetrackProps> = ({
       </ScrollView>
 
       {/* Special bet buttons */}
-      {/* 
+      {/*
         * DEVOPS MODE - REFERENCE ONLY *
         These buttons are intentionally non-functional and serve as visual reference only.
         DO NOT implement onPress handlers for these buttons.
@@ -62,8 +65,8 @@ const Racetrack: React.FC<RacetrackProps> = ({
         For actual announced bets functionality, use the dedicated Announced Bets Training feature.
       */}
       <View style={styles.specialBetsContainer}>
-        <TouchableOpacity 
-          style={styles.specialBet} 
+        <TouchableOpacity
+          style={styles.specialBet}
           disabled
           accessibilityLabel="Voisins du Zero bet, disabled"
           accessibilityHint="This feature is not yet available"
@@ -72,8 +75,8 @@ const Racetrack: React.FC<RacetrackProps> = ({
         >
           <Text style={styles.specialBetText}>Voisins du Zero</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.specialBet} 
+        <TouchableOpacity
+          style={styles.specialBet}
           disabled
           accessibilityLabel="Tiers du Cylindre bet, disabled"
           accessibilityHint="This feature is not yet available"
@@ -82,8 +85,8 @@ const Racetrack: React.FC<RacetrackProps> = ({
         >
           <Text style={styles.specialBetText}>Tiers du Cylindre</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.specialBet} 
+        <TouchableOpacity
+          style={styles.specialBet}
           disabled
           accessibilityLabel="Orphelins bet, disabled"
           accessibilityHint="This feature is not yet available"
@@ -92,8 +95,8 @@ const Racetrack: React.FC<RacetrackProps> = ({
         >
           <Text style={styles.specialBetText}>Orphelins</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.specialBet} 
+        <TouchableOpacity
+          style={styles.specialBet}
           disabled
           accessibilityLabel="Zero Game bet, disabled"
           accessibilityHint="This feature is not yet available"
@@ -107,64 +110,66 @@ const Racetrack: React.FC<RacetrackProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.primary,
-    padding: SPACING.sm,
-    borderRadius: BORDERS.radius.md,
-    borderWidth: 3,
-    borderColor: '#8B4513',
-    marginTop: SPACING.sm,
-  },
-  title: {
-    color: COLORS.text.gold,
-    fontSize: TYPOGRAPHY.fontSize.md,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: SPACING.sm,
-  },
-  wheelContainer: {
-    flexDirection: 'row',
-    paddingVertical: SPACING.xs,
-  },
-  numberCell: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: BORDERS.width.thin,
-    borderColor: COLORS.border.gold,
-    borderRadius: 20,
-    marginHorizontal: 2,
-  },
-  highlightedCell: {
-    borderColor: '#FFFF00',
-    borderWidth: 3,
-  },
-  numberText: {
-    color: COLORS.text.primary,
-    fontSize: TYPOGRAPHY.fontSize.base,
-    fontWeight: 'bold',
-  },
-  specialBetsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: SPACING.sm,
-    gap: SPACING.xs,
-  },
-  specialBet: {
-    backgroundColor: COLORS.background.secondary,
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: SPACING.sm,
-    borderRadius: BORDERS.radius.sm,
-    borderWidth: BORDERS.width.thin,
-    borderColor: COLORS.border.gold,
-  },
-  specialBetText: {
-    color: COLORS.text.primary,
-    fontSize: TYPOGRAPHY.fontSize.xs,
-    fontWeight: 'bold',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.primary,
+      padding: 8,
+      borderRadius: 10,
+      borderWidth: 3,
+      borderColor: '#8B4513',
+      marginTop: 8,
+    },
+    title: {
+      color: colors.text.gold,
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    wheelContainer: {
+      flexDirection: 'row',
+      paddingVertical: 4,
+    },
+    numberCell: {
+      width: 40,
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      borderRadius: 20,
+      marginHorizontal: 2,
+    },
+    highlightedCell: {
+      borderColor: '#FFFF00',
+      borderWidth: 3,
+    },
+    numberText: {
+      color: colors.text.primary,
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    specialBetsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      marginTop: 8,
+      gap: 4,
+    },
+    specialBet: {
+      backgroundColor: colors.background.secondary,
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+    },
+    specialBetText: {
+      color: colors.text.primary,
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
+  });
+}
 
 export default Racetrack;

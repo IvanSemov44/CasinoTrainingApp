@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -8,7 +8,7 @@ import Racetrack from '@components/Racetrack';
 import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type RouletteTrainingScreenRouteProp = RouteProp<RouletteTrainingStackParamList, 'RouletteTraining'>;
@@ -22,6 +22,8 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const handleNumberPress = (number: RouletteNumber) => {
     // Add number to highlighted list
@@ -43,7 +45,7 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
     };
 
     dispatch(placeBet(bet));
-    
+
     Alert.alert(
       'Bet Placed',
       `${selectedChipValue} on number ${number}`,
@@ -62,16 +64,16 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
         <Text style={styles.description}>{exercise.description}</Text>
       </View>
 
-      <ChipSelector 
+      <ChipSelector
         selectedValue={selectedChipValue}
         onSelectChip={handleChipSelect}
       />
-      
-      <RouletteLayout 
+
+      <RouletteLayout
         onNumberPress={handleNumberPress}
       />
-      
-      <Racetrack 
+
+      <Racetrack
         onNumberPress={handleNumberPress}
         highlightedNumbers={highlightedNumbers}
       />
@@ -85,39 +87,40 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  header: {
-    padding: SPACING.lg,
-    backgroundColor: COLORS.background.secondary,
-    borderBottomWidth: BORDERS.width.medium,
-    borderBottomColor: COLORS.border.gold,
-  },
-  title: {
-    fontSize: TYPOGRAPHY.fontSize.xxl,
-    fontWeight: 'bold',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.xs,
-  },
-  description: {
-    fontSize: TYPOGRAPHY.fontSize.base,
-    color: COLORS.text.primary,
-  },
-  infoBox: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.md,
-    margin: SPACING.sm,
-    borderRadius: BORDERS.radius.md,
-    borderWidth: BORDERS.width.thin,
-    borderColor: COLORS.border.gold,
-    marginBottom: SPACING.lg,
-  },
-  infoText: {
-    color: COLORS.text.primary,
-    fontSize: TYPOGRAPHY.fontSize.base,
-    textAlign: 'center',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.primary,
+    },
+    header: {
+      backgroundColor: colors.background.secondary,
+      borderBottomColor: colors.border.gold,
+      borderBottomWidth: 2,
+      padding: 24,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
+    description: {
+      fontSize: 14,
+      color: colors.text.primary,
+    },
+    infoBox: {
+      backgroundColor: colors.background.secondary,
+      padding: 16,
+      margin: 8,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      marginBottom: 24,
+    },
+    infoText: {
+      color: colors.text.primary,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+  });
+}

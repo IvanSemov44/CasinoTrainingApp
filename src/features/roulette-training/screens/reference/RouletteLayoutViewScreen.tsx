@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
-import { COLORS, SPACING } from '@features/roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 const { height } = Dimensions.get('window');
 
@@ -14,7 +14,9 @@ export default function RouletteLayoutViewScreen() {
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const placedBets = useAppSelector(state => state.roulette.placedBets);
   const [_highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
-  
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // Calculate cell size to fill screen height when rotated (width becomes height after 90° rotation)
   // Total layout width = 15 * cellSize (1.5 + 12 + 1.5 for zero + numbers + columns)
   const cellSize = (height - 80) / 15;
@@ -42,7 +44,7 @@ export default function RouletteLayoutViewScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -51,7 +53,7 @@ export default function RouletteLayoutViewScreen() {
         maximumZoomScale={3}
       >
         <View style={styles.layoutWrapper}>
-          <RouletteLayout 
+          <RouletteLayout
             onNumberPress={handleNumberPress}
             onBetAreaPress={handleBetAreaPress}
             placedBets={placedBets}
@@ -64,21 +66,23 @@ export default function RouletteLayoutViewScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: SPACING.lg,
-  },
-  layoutWrapper: {
-    transform: [{ rotate: '90deg' }],
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    scrollView: {
+      flex: 1,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 24,
+    },
+    layoutWrapper: {
+      transform: [{ rotate: '90deg' }],
+    },
+  });
+}

@@ -167,8 +167,7 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
     }
 
     handleClose();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    navigation.navigate(screenName as any, Object.keys(params).length > 0 ? params : undefined);
+    navigation.navigate(screenName, Object.keys(params).length > 0 ? params : undefined);
   }, [selectedTrainingType, selectedDenomination, chipCount, getScreenName, getBetConfigKey, navigation, handleClose]);
 
   // Check if can start training

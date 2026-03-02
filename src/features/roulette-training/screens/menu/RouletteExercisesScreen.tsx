@@ -1,13 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
+import { useTheme } from '@contexts/ThemeContext';
 import type { RouletteTrainingStackParamList } from '../../navigation';
 
 type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
 
 export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const handleOpenModal = useCallback(() => {
     setIsModalVisible(true);
@@ -25,7 +28,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.startButton}
           onPress={handleOpenModal}
           accessibilityLabel="Start Training"
@@ -58,76 +61,80 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0a2f1f',
-  },
-  header: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#2a7f4f',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#CCCCCC',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-    alignItems: 'center',
-  },
-  startButton: {
-    backgroundColor: '#1a5f3f',
-    borderRadius: 16,
-    padding: 30,
-    width: '100%',
-    maxWidth: 400,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#2a7f4f',
-    marginTop: 20,
-  },
-  startButtonIcon: {
-    fontSize: 48,
-    marginBottom: 12,
-  },
-  startButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  startButtonHint: {
-    fontSize: 14,
-    color: '#CCCCCC',
-  },
-  infoSection: {
-    marginTop: 40,
-    padding: 20,
-    backgroundColor: 'rgba(26, 95, 63, 0.5)',
-    borderRadius: 12,
-    width: '100%',
-    maxWidth: 400,
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFD700',
-    marginBottom: 12,
-  },
-  trainingTypesList: {
-    gap: 6,
-  },
-  trainingTypeItem: {
-    fontSize: 14,
-    color: '#CCCCCC',
-    lineHeight: 20,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    header: {
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: '800',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.text.secondary,
+    },
+    content: {
+      flex: 1,
+      padding: 20,
+      alignItems: 'center',
+    },
+    startButton: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 16,
+      padding: 30,
+      width: '100%',
+      maxWidth: 400,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      marginTop: 20,
+    },
+    startButtonIcon: {
+      fontSize: 48,
+      marginBottom: 12,
+    },
+    startButtonText: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+    startButtonHint: {
+      fontSize: 14,
+      color: colors.text.muted,
+    },
+    infoSection: {
+      marginTop: 40,
+      padding: 20,
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      width: '100%',
+      maxWidth: 400,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    infoTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.gold,
+      marginBottom: 12,
+    },
+    trainingTypesList: {
+      gap: 6,
+    },
+    trainingTypeItem: {
+      fontSize: 14,
+      color: colors.text.secondary,
+      lineHeight: 20,
+    },
+  });
+}

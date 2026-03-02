@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
@@ -6,14 +6,8 @@ import ExerciseStats from './ExerciseStats';
 import HintSection from './HintSection';
 import NumberPad from './NumberPad';
 import FeedbackCard from './FeedbackCard';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
-
-// TODO: There are two conflicting BetType definitions that need consolidation:
-// - src/types/roulette.types.ts uses an enum (BetType.STRAIGHT, BetType.SPLIT, etc.)
-// - src/features/roulette-training/types/exercise.types.ts uses string literals ('STRAIGHT' | 'SPLIT' | etc.)
-// This causes type incompatibility. For now, using flexible type to accept both.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type FlexiblePlacedBet = any;
+import { useTheme } from '@contexts/ThemeContext';
+import type { PlacedBet } from '../types/exercise.types';
 
 interface ExerciseLayoutProps {
   score: number;
@@ -21,7 +15,7 @@ interface ExerciseLayoutProps {
   showHint: boolean;
   onToggleHint: () => void;
   hintContent: ReactNode;
-  placedBets: FlexiblePlacedBet[];
+  placedBets: PlacedBet[];
   answerLabel: string;
   userAnswer: string;
   onAnswerChange: (text: string) => void;
@@ -56,6 +50,9 @@ export default function ExerciseLayout({
   maxColumns = 4,
   isLoading = false,
 }: ExerciseLayoutProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   return (
     <ScrollView style={styles.container}>
       <ExerciseStats score={score} attempts={attempts} />
@@ -68,11 +65,11 @@ export default function ExerciseLayout({
         <Text style={styles.layoutLabel}>Visual Reference:</Text>
         {isLoading ? (
           <View style={styles.layoutSkeletonContainer}>
-            <SkeletonLoader width="100%" height={120} borderRadius={BORDERS.radius.sm} />
+            <SkeletonLoader width="100%" height={120} borderRadius={8} />
           </View>
         ) : (
-          <ScrollView 
-            horizontal 
+          <ScrollView
+            horizontal
             style={styles.layoutScrollView}
             contentContainerStyle={styles.layoutWrapper}
           >
@@ -91,7 +88,7 @@ export default function ExerciseLayout({
       <View style={styles.answerSection}>
         <Text style={styles.answerLabel}>{answerLabel}</Text>
         {isLoading ? (
-          <SkeletonLoader width="100%" height={60} borderRadius={BORDERS.radius.md} />
+          <SkeletonLoader width="100%" height={60} borderRadius={10} />
         ) : (
           <TextInput
             style={styles.input}
@@ -107,7 +104,7 @@ export default function ExerciseLayout({
 
         {isLoading ? (
           <View style={styles.skeletonNumberPad}>
-            <SkeletonLoader width="100%" height={180} borderRadius={BORDERS.radius.md} />
+            <SkeletonLoader width="100%" height={180} borderRadius={10} />
           </View>
         ) : !showFeedback && (
           <NumberPad
@@ -119,7 +116,7 @@ export default function ExerciseLayout({
         )}
 
         {isLoading ? (
-          <SkeletonLoader width="100%" height={58} borderRadius={BORDERS.radius.md} />
+          <SkeletonLoader width="100%" height={58} borderRadius={10} />
         ) : !showFeedback ? (
           <TouchableOpacity
             style={styles.checkButton}
@@ -141,68 +138,70 @@ export default function ExerciseLayout({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  layoutContainer: {
-    margin: SPACING.md,
-    marginTop: 0,
-  },
-  layoutLabel: {
-    fontSize: TYPOGRAPHY.fontSize.md,
-    color: COLORS.text.gold,
-    marginBottom: SPACING.sm,
-    fontWeight: '600',
-  },
-  layoutScrollView: {
-    backgroundColor: COLORS.background.dark,
-    borderRadius: BORDERS.radius.sm,
-  },
-  layoutWrapper: {
-    alignItems: 'center',
-    paddingVertical: 0,
-    paddingHorizontal: SPACING.sm,
-  },
-  layoutSkeletonContainer: {
-    backgroundColor: COLORS.background.dark,
-    borderRadius: BORDERS.radius.sm,
-    padding: SPACING.sm,
-  },
-  answerSection: {
-    margin: SPACING.md,
-    marginTop: 0,
-  },
-  answerLabel: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    color: COLORS.text.gold,
-    marginBottom: SPACING.sm,
-    fontWeight: '600',
-  },
-  input: {
-    backgroundColor: COLORS.background.secondary,
-    borderWidth: BORDERS.width.medium,
-    borderColor: COLORS.border.primary,
-    borderRadius: BORDERS.radius.md,
-    padding: SPACING.md,
-    fontSize: TYPOGRAPHY.fontSize.xxl,
-    color: COLORS.text.primary,
-    textAlign: 'center',
-    marginBottom: SPACING.md,
-  },
-  skeletonNumberPad: {
-    marginBottom: SPACING.md,
-  },
-  checkButton: {
-    backgroundColor: COLORS.status.success,
-    padding: SPACING.lg,
-    borderRadius: BORDERS.radius.md,
-    alignItems: 'center',
-  },
-  checkButtonText: {
-    color: COLORS.text.primary,
-    fontSize: TYPOGRAPHY.fontSize.xl,
-    fontWeight: 'bold',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    layoutContainer: {
+      margin: 16,
+      marginTop: 0,
+    },
+    layoutLabel: {
+      fontSize: 16,
+      color: colors.text.gold,
+      marginBottom: 8,
+      fontWeight: '600',
+    },
+    layoutScrollView: {
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 8,
+    },
+    layoutWrapper: {
+      alignItems: 'center',
+      paddingVertical: 0,
+      paddingHorizontal: 8,
+    },
+    layoutSkeletonContainer: {
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 8,
+      padding: 8,
+    },
+    answerSection: {
+      margin: 16,
+      marginTop: 0,
+    },
+    answerLabel: {
+      fontSize: 18,
+      color: colors.text.gold,
+      marginBottom: 8,
+      fontWeight: '600',
+    },
+    input: {
+      backgroundColor: colors.background.secondary,
+      borderWidth: 2,
+      borderColor: colors.border.primary,
+      borderRadius: 10,
+      padding: 16,
+      fontSize: 24,
+      color: colors.text.primary,
+      textAlign: 'center',
+      marginBottom: 16,
+    },
+    skeletonNumberPad: {
+      marginBottom: 16,
+    },
+    checkButton: {
+      backgroundColor: colors.status.success,
+      padding: 24,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    checkButtonText: {
+      color: colors.text.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  });
+}

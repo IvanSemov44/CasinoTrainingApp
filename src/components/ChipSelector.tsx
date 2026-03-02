@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CHIP_VALUES } from '../constants/roulette.constants';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../features/roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface ChipSelectorProps {
   selectedValue: number;
@@ -9,6 +9,9 @@ interface ChipSelectorProps {
 }
 
 const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip }) => {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select Chip Value</Text>
@@ -43,48 +46,50 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.sm,
-    borderRadius: BORDERS.radius.md,
-    marginTop: SPACING.sm,
-  },
-  title: {
-    color: COLORS.text.gold,
-    fontSize: TYPOGRAPHY.fontSize.base,
-    fontWeight: 'bold',
-    marginBottom: SPACING.sm,
-    textAlign: 'center',
-  },
-  chipsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: COLORS.border.gold,
-    margin: SPACING.xs,
-  },
-  selectedChip: {
-    borderWidth: 4,
-    borderColor: '#FFFF00',
-    transform: [{ scale: 1.1 }],
-  },
-  chipText: {
-    color: COLORS.text.primary,
-    fontSize: TYPOGRAPHY.fontSize.base,
-    fontWeight: 'bold',
-  },
-  darkText: {
-    color: COLORS.background.dark,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      padding: 8,
+      borderRadius: 10,
+      marginTop: 8,
+    },
+    title: {
+      color: colors.text.gold,
+      fontSize: 14,
+      fontWeight: 'bold',
+      marginBottom: 8,
+      textAlign: 'center',
+    },
+    chipsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      flexWrap: 'wrap',
+    },
+    chip: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 3,
+      borderColor: colors.border.gold,
+      margin: 4,
+    },
+    selectedChip: {
+      borderWidth: 4,
+      borderColor: '#FFFF00',
+      transform: [{ scale: 1.1 }],
+    },
+    chipText: {
+      color: colors.text.primary,
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    darkText: {
+      color: colors.background.dark,
+    },
+  });
+}
 
 export default ChipSelector;

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { CallBetMode } from '../types';
 import type { CallBetsStackParamList } from '../navigation';
 
@@ -54,6 +54,9 @@ const MODE_OPTIONS: ModeOption[] = [
 ];
 
 export default function CallBetsMenuScreen({ navigation }: Props) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const handleModeSelect = (mode: CallBetMode) => {
     navigation.navigate('CallBetsTraining', { mode });
   };
@@ -71,17 +74,18 @@ export default function CallBetsMenuScreen({ navigation }: Props) {
         {MODE_OPTIONS.map((option) => (
           <TouchableOpacity
             key={option.mode}
-            style={[styles.modeCard, { borderColor: option.color }]}
+            style={styles.modeCard}
             onPress={() => handleModeSelect(option.mode)}
-            activeOpacity={0.7}
+            activeOpacity={0.75}
           >
-            <View style={styles.modeHeader}>
-              <Text style={styles.modeIcon}>{option.icon}</Text>
-              <Text style={[styles.modeTitle, { color: option.color }]}>
-                {option.title}
-              </Text>
+            <View style={[styles.accentBar, { backgroundColor: option.color }]} />
+            <View style={styles.cardBody}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.modeTitle}>{option.title}</Text>
+                <Text style={styles.arrow}>›</Text>
+              </View>
+              <Text style={styles.modeDescription}>{option.description}</Text>
             </View>
-            <Text style={styles.modeDescription}>{option.description}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -97,76 +101,90 @@ export default function CallBetsMenuScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background.primary,
-  },
-  contentContainer: {
-    padding: SPACING.lg,
-    paddingBottom: SPACING.xl,
-  },
-  header: {
-    marginBottom: SPACING.xl,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: COLORS.text.secondary,
-    textAlign: 'center',
-  },
-  modesContainer: {
-    gap: SPACING.md,
-    marginBottom: SPACING.xl,
-  },
-  modeCard: {
-    backgroundColor: COLORS.background.secondary,
-    borderRadius: 12,
-    borderWidth: 3,
-    padding: SPACING.md,
-  },
-  modeHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.xs,
-  },
-  modeIcon: {
-    fontSize: 32,
-    marginRight: SPACING.sm,
-  },
-  modeTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    flex: 1,
-  },
-  modeDescription: {
-    fontSize: 14,
-    color: COLORS.text.secondary,
-    marginLeft: 48,
-  },
-  infoBox: {
-    backgroundColor: COLORS.background.secondary,
-    borderRadius: 12,
-    padding: SPACING.md,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-  },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    marginBottom: SPACING.sm,
-  },
-  infoText: {
-    fontSize: 14,
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background.primary,
+    },
+    contentContainer: {
+      padding: 20,
+      paddingBottom: 40,
+    },
+    header: {
+      marginBottom: 32,
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 26,
+      fontWeight: '800',
+      color: colors.text.gold,
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.text.secondary,
+      textAlign: 'center',
+    },
+    modesContainer: {
+      gap: 12,
+      marginBottom: 32,
+    },
+    modeCard: {
+      flexDirection: 'row',
+      backgroundColor: colors.background.secondary,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+      overflow: 'hidden',
+      marginBottom: 12,
+    },
+    accentBar: {
+      width: 4,
+    },
+    cardBody: {
+      flex: 1,
+      padding: 14,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 4,
+    },
+    modeTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text.primary,
+      flex: 1,
+    },
+    arrow: {
+      fontSize: 20,
+      color: colors.text.muted,
+    },
+    modeDescription: {
+      fontSize: 13,
+      color: colors.text.secondary,
+      lineHeight: 18,
+    },
+    infoBox: {
+      backgroundColor: colors.background.secondary,
+      borderRadius: 14,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    infoTitle: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.text.gold,
+      marginBottom: 8,
+    },
+    infoText: {
+      fontSize: 13,
+      color: colors.text.secondary,
+      marginBottom: 4,
+    },
+  });
+}

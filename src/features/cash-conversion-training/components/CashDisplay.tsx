@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface CashDisplayProps {
   amount: number;
 }
 
 export default function CashDisplay({ amount }: CashDisplayProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // Break down amount into chip denominations
   const getChips = (total: number) => {
     const chips: { value: number; count: number; color: string }[] = [];
@@ -52,58 +55,60 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.lg,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    marginBottom: SPACING.md,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.md,
-    textAlign: 'center',
-  },
-  chipsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: SPACING.md,
-    marginBottom: SPACING.md,
-  },
-  chipRow: {
-    alignItems: 'center',
-  },
-  chip: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    marginBottom: SPACING.xs,
-  },
-  chipValue: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  chipValueWhite: {
-    color: '#FFFFFF',
-  },
-  chipCount: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.primary,
-  },
-  totalAmount: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: COLORS.text.gold,
-    textAlign: 'center',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      padding: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    chipsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: 16,
+      marginBottom: 16,
+    },
+    chipRow: {
+      alignItems: 'center',
+    },
+    chip: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 3,
+      marginBottom: 4,
+    },
+    chipValue: {
+      fontSize: 14,
+      fontWeight: '700',
+      color: '#FFFFFF',
+    },
+    chipValueWhite: {
+      color: '#FFFFFF',
+    },
+    chipCount: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.primary,
+    },
+    totalAmount: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text.gold,
+      textAlign: 'center',
+    },
+  });
+}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../roulette-training/constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 import { CallBetMode } from '../types';
 import { getModeDisplayName } from '../utils/validation';
 
@@ -10,6 +10,9 @@ interface ChallengeDisplayProps {
 }
 
 export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Training Challenge</Text>
@@ -21,34 +24,36 @@ export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayPr
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.background.secondary,
-    padding: SPACING.md,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: COLORS.text.gold,
-    marginBottom: SPACING.md,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
-  },
-  challenge: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-    textAlign: 'center',
-  },
-  highlight: {
-    color: COLORS.text.gold,
-  },
-  info: {
-    fontSize: 14,
-    color: COLORS.text.secondary,
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.secondary,
+      padding: 16,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.text.gold,
+      marginBottom: 16,
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.secondary,
+      marginBottom: 4,
+    },
+    challenge: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    highlight: {
+      color: colors.text.gold,
+    },
+    info: {
+      fontSize: 14,
+      color: colors.text.secondary,
+    },
+  });
+}

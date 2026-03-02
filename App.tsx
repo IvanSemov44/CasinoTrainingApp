@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
 import AppNavigator from './src/navigation/AppNavigator';
 import ErrorBoundary from './src/components/ErrorBoundary';
+import { ThemeProvider } from './src/contexts/ThemeContext';
 import 'react-native-gesture-handler';
 
 // Fix for web scrolling - inject style to override Expo's overflow:hidden
@@ -21,12 +22,14 @@ if (typeof document !== 'undefined') {
 export default function App() {
   return (
     <ErrorBoundary>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
-          <StatusBar style="light" />
-        </PersistGate>
-      </Provider>
+      <ThemeProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <AppNavigator />
+            <StatusBar style="light" />
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

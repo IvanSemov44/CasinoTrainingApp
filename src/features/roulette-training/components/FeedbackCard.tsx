@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '../constants/theme';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface FeedbackCardProps {
   isCorrect: boolean;
@@ -19,11 +19,12 @@ const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(({
   explanation,
   onNextQuestion,
 }) => {
-  // Memoize the card style
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
   const cardStyle = useMemo(() => [
     styles.feedbackCard,
     isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect,
-  ], [isCorrect]);
+  ], [styles, isCorrect]);
 
   return (
     <View style={styles.feedbackContainer}>
@@ -56,58 +57,60 @@ const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(({
 
 FeedbackCard.displayName = 'FeedbackCard';
 
-const styles = StyleSheet.create({
-  feedbackContainer: {
-    gap: SPACING.md,
-  },
-  feedbackCard: {
-    padding: SPACING.lg,
-    borderRadius: BORDERS.radius.md,
-    alignItems: 'center',
-  },
-  feedbackCorrect: {
-    backgroundColor: COLORS.status.successAlt,
-    borderWidth: BORDERS.width.medium,
-    borderColor: COLORS.status.success,
-  },
-  feedbackIncorrect: {
-    backgroundColor: COLORS.status.errorAlt,
-    borderWidth: BORDERS.width.medium,
-    borderColor: COLORS.status.error,
-  },
-  feedbackIcon: {
-    fontSize: TYPOGRAPHY.fontSize.xxxl,
-    marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
-  },
-  feedbackText: {
-    fontSize: TYPOGRAPHY.fontSize.xxl,
-    fontWeight: 'bold',
-    color: COLORS.text.primary,
-    marginBottom: SPACING.sm,
-  },
-  feedbackAnswer: {
-    fontSize: TYPOGRAPHY.fontSize.lg,
-    color: COLORS.text.primary,
-    marginBottom: SPACING.xs,
-  },
-  feedbackExplanation: {
-    fontSize: TYPOGRAPHY.fontSize.md,
-    color: COLORS.text.secondary,
-    fontStyle: 'italic',
-    marginTop: SPACING.xs,
-  },
-  nextButton: {
-    backgroundColor: COLORS.status.success,
-    padding: SPACING.lg,
-    borderRadius: BORDERS.radius.md,
-    alignItems: 'center',
-  },
-  nextButtonText: {
-    color: COLORS.background.dark,
-    fontSize: TYPOGRAPHY.fontSize.xl,
-    fontWeight: 'bold',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    feedbackContainer: {
+      gap: 16,
+    },
+    feedbackCard: {
+      padding: 24,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    feedbackCorrect: {
+      backgroundColor: colors.status.successAlt,
+      borderWidth: 2,
+      borderColor: colors.status.success,
+    },
+    feedbackIncorrect: {
+      backgroundColor: colors.status.errorAlt,
+      borderWidth: 2,
+      borderColor: colors.status.error,
+    },
+    feedbackIcon: {
+      fontSize: 48,
+      marginBottom: 8,
+      color: colors.text.primary,
+    },
+    feedbackText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text.primary,
+      marginBottom: 8,
+    },
+    feedbackAnswer: {
+      fontSize: 18,
+      color: colors.text.primary,
+      marginBottom: 4,
+    },
+    feedbackExplanation: {
+      fontSize: 16,
+      color: colors.text.secondary,
+      fontStyle: 'italic',
+      marginTop: 4,
+    },
+    nextButton: {
+      backgroundColor: colors.status.success,
+      padding: 24,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    nextButtonText: {
+      color: colors.background.dark,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  });
+}
 
 export default FeedbackCard;
