@@ -1,6 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZE } from '@styles/index';
+import logger from '@services/logger.service';
 
 interface FeatureErrorBoundaryProps {
   children: ReactNode;
@@ -40,10 +41,8 @@ class FeatureErrorBoundary extends Component<FeatureErrorBoundaryProps, FeatureE
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log error to console in development
-    if (__DEV__) {
-      console.error(`Error in ${this.props.featureName}:`, error);
-      console.error('Component stack:', errorInfo.componentStack);
-    }
+    logger.error(`Error in ${this.props.featureName}`, error);
+    logger.error('Component stack', undefined, { componentStack: errorInfo.componentStack });
   }
 
   handleReset = (): void => {

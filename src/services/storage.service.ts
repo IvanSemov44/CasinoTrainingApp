@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import logger from '@services/logger.service';
 import { UserProgress, ExerciseResult } from '../types/roulette.types';
 
 const STORAGE_KEYS = {
@@ -13,7 +14,7 @@ export const storageService = {
       const jsonValue = JSON.stringify(progress);
       await AsyncStorage.setItem(STORAGE_KEYS.USER_PROGRESS, jsonValue);
     } catch (error) {
-      console.error('Error saving progress:', error);
+      logger.error('Error saving progress', error);
       throw error;
     }
   },
@@ -24,7 +25,7 @@ export const storageService = {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROGRESS);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (error) {
-      console.error('Error loading progress:', error);
+      logger.error('Error loading progress', error);
       return null;
     }
   },
@@ -37,7 +38,7 @@ export const storageService = {
       const jsonValue = JSON.stringify(updatedResults);
       await AsyncStorage.setItem(STORAGE_KEYS.EXERCISE_RESULTS, jsonValue);
     } catch (error) {
-      console.error('Error saving exercise result:', error);
+      logger.error('Error saving exercise result', error);
       throw error;
     }
   },
@@ -48,7 +49,7 @@ export const storageService = {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEYS.EXERCISE_RESULTS);
       return jsonValue != null ? JSON.parse(jsonValue) : [];
     } catch (error) {
-      console.error('Error loading exercise results:', error);
+      logger.error('Error loading exercise results', error);
       return [];
     }
   },
@@ -61,7 +62,7 @@ export const storageService = {
         STORAGE_KEYS.EXERCISE_RESULTS,
       ]);
     } catch (error) {
-      console.error('Error clearing data:', error);
+      logger.error('Error clearing data', error);
       throw error;
     }
   },

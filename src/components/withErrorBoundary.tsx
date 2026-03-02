@@ -1,6 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZE } from '@styles/index';
+import logger from '@services/logger.service';
 
 interface WithErrorBoundaryState {
   hasError: boolean;
@@ -31,10 +32,8 @@ function withErrorBoundary<P extends object>(
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-      if (__DEV__) {
-        console.error(`Error in ${featureName}:`, error);
-        console.error('Component stack:', errorInfo.componentStack);
-      }
+      logger.error(`Error in ${featureName}`, error);
+      logger.error('Component stack', undefined, { componentStack: errorInfo.componentStack });
     }
 
     handleReset = (): void => {

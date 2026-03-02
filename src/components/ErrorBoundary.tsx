@@ -1,6 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@styles';
+import logger from '@services/logger.service';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -42,10 +43,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.setState({ errorInfo });
     
     // Log error to console in development
-    if (__DEV__) {
-      console.error('Error caught by ErrorBoundary:', error);
-      console.error('Component stack:', errorInfo.componentStack);
-    }
+    logger.error('Error caught by ErrorBoundary', error);
+    logger.error('Component stack', undefined, { componentStack: errorInfo.componentStack });
   }
 
   handleReset = (): void => {
