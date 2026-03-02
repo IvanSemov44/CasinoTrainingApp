@@ -1,6 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY, BORDERS } from '@features/roulette-training/constants/theme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@styles';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -115,34 +115,34 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.lg,
   },
   title: {
-    fontSize: TYPOGRAPHY.fontSize.xxl,
+    fontSize: FONT_SIZE.h2,
     fontWeight: 'bold',
     color: COLORS.text.gold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   message: {
-    fontSize: TYPOGRAPHY.fontSize.md,
+    fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
     textAlign: 'center',
     marginBottom: SPACING.lg,
   },
   errorContainer: {
     backgroundColor: COLORS.background.dark,
-    borderRadius: BORDERS.radius.md,
+    borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
     marginBottom: SPACING.lg,
     maxHeight: 200,
     width: '100%',
   },
   errorTitle: {
-    fontSize: TYPOGRAPHY.fontSize.sm,
+    fontSize: FONT_SIZE.sm,
     fontWeight: 'bold',
     color: COLORS.status.error,
     marginBottom: SPACING.xs,
   },
   errorText: {
-    fontSize: TYPOGRAPHY.fontSize.xs,
+    fontSize: FONT_SIZE.xs,
     color: COLORS.status.error,
     marginBottom: SPACING.sm,
   },
@@ -155,10 +155,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.text.gold,
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.xl,
-    borderRadius: BORDERS.radius.md,
+    borderRadius: BORDER_RADIUS.md,
   },
   resetButtonText: {
-    fontSize: TYPOGRAPHY.fontSize.md,
+    fontSize: FONT_SIZE.md,
     fontWeight: 'bold',
     color: COLORS.background.dark,
   },

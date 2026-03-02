@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@features/roulette-training/constants/theme';
+import { COLORS } from '@styles';
 
 interface LoadingSpinnerProps {
   size?: 'small' | 'large';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import withErrorBoundary from '@components/withErrorBoundary';
+import { COLORS } from '@styles';
 import { CallBetsMenuScreen, CallBetsTrainingScreen } from './screens';
-import { COLORS } from '../roulette-training/constants/theme';
 import { CallBetMode } from './types';
 
 export type CallBetsStackParamList = {
