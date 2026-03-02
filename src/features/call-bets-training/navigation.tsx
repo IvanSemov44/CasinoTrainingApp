@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 import { CallBetsMenuScreen, CallBetsTrainingScreen } from './screens';
 import { COLORS } from '../roulette-training/constants/theme';
 import { CallBetMode } from './types';
@@ -10,13 +11,15 @@ export type CallBetsStackParamList = {
 };
 
 const Stack = createStackNavigator<CallBetsStackParamList>();
+const CallBetsMenuScreenWithBoundary = withErrorBoundary(CallBetsMenuScreen, 'Call Bets Training');
+const CallBetsTrainingScreenWithBoundary = withErrorBoundary(CallBetsTrainingScreen, 'Call Bets Training');
 
 export function CallBetsRoutes() {
   return (
     <>
       <Stack.Screen
         name="CallBetsMenu"
-        component={CallBetsMenuScreen}
+        component={CallBetsMenuScreenWithBoundary}
         options={{
           title: 'Call Bets Training',
           headerStyle: { backgroundColor: COLORS.background.primary },
@@ -25,7 +28,7 @@ export function CallBetsRoutes() {
       />
       <Stack.Screen
         name="CallBetsTraining"
-        component={CallBetsTrainingScreen}
+        component={CallBetsTrainingScreenWithBoundary}
         options={{
           title: 'Training',
           headerStyle: { backgroundColor: COLORS.background.primary },

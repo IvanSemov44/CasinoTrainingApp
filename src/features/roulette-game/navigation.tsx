@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 
 // Screens
 import RouletteGameScreen from './screens/RouletteGameScreen';
@@ -10,6 +11,7 @@ export type RouletteGameStackParamList = {
 };
 
 const Stack = createStackNavigator();
+const RouletteGameScreenWithBoundary = withErrorBoundary(RouletteGameScreen, 'Roulette Game');
 
 // All roulette game routes
 export const RouletteGameRoutes = () => {
@@ -17,7 +19,7 @@ export const RouletteGameRoutes = () => {
     <>
       <Stack.Screen
         name="RouletteGame"
-        component={RouletteGameScreen}
+        component={RouletteGameScreenWithBoundary}
         options={{ title: 'Roulette Game' }}
       />
     </>

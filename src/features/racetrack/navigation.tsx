@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 
 // Screens
 import RacetrackScreen from './screens/RacetrackScreen';
@@ -10,6 +11,7 @@ export type RacetrackStackParamList = {
 };
 
 const Stack = createStackNavigator();
+const RacetrackScreenWithBoundary = withErrorBoundary(RacetrackScreen, 'Racetrack');
 
 // All racetrack routes
 export const RacetrackRoutes = () => {
@@ -17,7 +19,7 @@ export const RacetrackRoutes = () => {
     <>
       <Stack.Screen
         name="Racetrack"
-        component={RacetrackScreen}
+        component={RacetrackScreenWithBoundary}
         options={{ title: 'Racetrack' }}
       />
     </>

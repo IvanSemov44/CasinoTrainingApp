@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 import TCPMenuScreen from './screens/TCPMenuScreen';
 import TCPDrillScreen from './screens/TCPDrillScreen';
 import type { TCPDrillType } from './types';
@@ -10,18 +11,20 @@ export type TCPStackParamList = {
 };
 
 const Stack = createStackNavigator<TCPStackParamList>();
+const TCPMenuScreenWithBoundary = withErrorBoundary(TCPMenuScreen, 'Three Card Poker Training');
+const TCPDrillScreenWithBoundary = withErrorBoundary(TCPDrillScreen, 'Three Card Poker Training');
 
 export const TCPRoutes = () => {
   return (
     <>
       <Stack.Screen
         name="TCPMenu"
-        component={TCPMenuScreen}
+        component={TCPMenuScreenWithBoundary}
         options={{ title: 'Three Card Poker' }}
       />
       <Stack.Screen
         name="TCPDrill"
-        component={TCPDrillScreen}
+        component={TCPDrillScreenWithBoundary}
         options={{ title: 'Drill' }}
       />
     </>

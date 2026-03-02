@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import type { BetType } from './types/exercise.types';
@@ -25,6 +26,10 @@ export type RouletteTrainingStackParamList = {
 };
 
 const Stack = createStackNavigator<RouletteTrainingStackParamList>();
+const RouletteExercisesScreenWithBoundary = withErrorBoundary(RouletteExercisesScreen, 'Roulette Training');
+const RouletteTrainingScreenWithBoundary = withErrorBoundary(RouletteTrainingScreen, 'Roulette Training');
+const RouletteLayoutPracticeScreenWithBoundary = withErrorBoundary(RouletteLayoutPracticeScreen, 'Roulette Training');
+const RouletteLayoutViewScreenWithBoundary = withErrorBoundary(RouletteLayoutViewScreen, 'Roulette Training');
 
 // Helper to get screen title based on params
 const getScreenTitle = (
@@ -58,8 +63,7 @@ const getScreenTitle = (
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CalculationScreenComponent = CalculationScreen as React.ComponentType<any>;
+const CalculationScreenComponent = withErrorBoundary(CalculationScreen, 'Roulette Training');
 
 // All roulette training routes
 export const RouletteTrainingRoutes = () => {
@@ -68,24 +72,24 @@ export const RouletteTrainingRoutes = () => {
       {/* Menu Screens */}
       <Stack.Screen
         name="RouletteExercises"
-        component={RouletteExercisesScreen}
+        component={RouletteExercisesScreenWithBoundary}
         options={{ title: 'Roulette Exercises' }}
       />
 
       {/* Reference Screens */}
       <Stack.Screen
         name="RouletteTraining"
-        component={RouletteTrainingScreen}
+        component={RouletteTrainingScreenWithBoundary}
         options={{ title: 'Training' }}
       />
       <Stack.Screen
         name="RouletteLayoutPractice"
-        component={RouletteLayoutPracticeScreen}
+        component={RouletteLayoutPracticeScreenWithBoundary}
         options={{ title: 'Roulette Layout Practice' }}
       />
       <Stack.Screen
         name="RouletteLayoutView"
-        component={RouletteLayoutViewScreen}
+        component={RouletteLayoutViewScreenWithBoundary}
         options={{ title: 'Roulette Layout' }}
       />
 

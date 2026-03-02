@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 import CPMenuScreen from './screens/CPMenuScreen';
 import CPDrillScreen from './screens/CPDrillScreen';
 import type { CPDrillType } from './types';
@@ -10,18 +11,20 @@ export type CPStackParamList = {
 };
 
 const Stack = createStackNavigator<CPStackParamList>();
+const CPMenuScreenWithBoundary = withErrorBoundary(CPMenuScreen, 'Caribbean Poker Training');
+const CPDrillScreenWithBoundary = withErrorBoundary(CPDrillScreen, 'Caribbean Poker Training');
 
 export const CPRoutes = () => {
   return (
     <>
       <Stack.Screen
         name="CPMenu"
-        component={CPMenuScreen}
+        component={CPMenuScreenWithBoundary}
         options={{ title: 'Caribbean Poker' }}
       />
       <Stack.Screen
         name="CPDrill"
-        component={CPDrillScreen}
+        component={CPDrillScreenWithBoundary}
         options={{ title: 'Drill' }}
       />
     </>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import withErrorBoundary from '@components/withErrorBoundary';
 import CashConversionMenuScreen from './screens/CashConversionMenuScreen';
 import CashConversionTrainingScreen from './screens/CashConversionTrainingScreen';
 import { DifficultyLevel, SectorType } from './types';
@@ -10,18 +11,20 @@ export type CashConversionStackParamList = {
 };
 
 const Stack = createStackNavigator<CashConversionStackParamList>();
+const CashConversionMenuScreenWithBoundary = withErrorBoundary(CashConversionMenuScreen, 'Cash Conversion Training');
+const CashConversionTrainingScreenWithBoundary = withErrorBoundary(CashConversionTrainingScreen, 'Cash Conversion Training');
 
 export const CashConversionRoutes = () => {
   return (
     <>
       <Stack.Screen
         name="CashConversionDifficultySelection"
-        component={CashConversionMenuScreen}
+        component={CashConversionMenuScreenWithBoundary}
         options={{ title: 'Cash Conversion Training' }}
       />
       <Stack.Screen
         name="CashConversionTraining"
-        component={CashConversionTrainingScreen}
+        component={CashConversionTrainingScreenWithBoundary}
         options={{ title: 'Training' }}
       />
     </>
