@@ -51,7 +51,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
       showHint={showHint}
       onToggleHint={toggleHint}
       hintContent={hintContent}
-      placedBets={placedBets}
+      placedBets={placedBets as any}
       answerLabel={answerLabel}
       userAnswer={userAnswer}
       onAnswerChange={setUserAnswer}

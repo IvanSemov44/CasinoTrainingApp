@@ -141,7 +141,7 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
   const handleStartTraining = useCallback(() => {
     if (!selectedTrainingType) return;
 
-    const screenName = getScreenName(selectedTrainingType);
+    const screenName = getScreenName(selectedTrainingType) as keyof RouletteTrainingStackParamList;
     const betConfigKey = getBetConfigKey(selectedTrainingType);
     const count = parseInt(chipCount, 10);
 
@@ -167,7 +167,7 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
     }
 
     handleClose();
-    navigation.navigate(screenName, Object.keys(params).length > 0 ? params : undefined);
+    navigation.navigate(screenName as any, Object.keys(params).length > 0 ? params : undefined);
   }, [selectedTrainingType, selectedDenomination, chipCount, getScreenName, getBetConfigKey, navigation, handleClose]);
 
   // Check if can start training

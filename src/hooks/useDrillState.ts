@@ -11,7 +11,7 @@ import { useState, useCallback, useEffect } from 'react';
  * Base scenario interface that all drill scenarios must extend
  */
 export interface BaseDrillScenario {
-  answerType: 'multiple-choice' | 'numeric-input';
+  answerType: 'multiple-choice' | 'numeric';
   correctOption?: string;
   correctAnswer?: number;
   options?: string[];
@@ -33,7 +33,7 @@ export interface DrillState<TScenario extends BaseDrillScenario> {
   selectedOption: string | null;
   setSelectedOption: (option: string | null) => void;
   userAmountStr: string;
-  setUserAmountStr: (amount: string) => void;
+  setUserAmountStr: (amount: string | ((prev: string) => string)) => void;
   
   // Result state
   isCorrect: boolean;
@@ -76,8 +76,8 @@ export interface DrillState<TScenario extends BaseDrillScenario> {
  * ```
  */
 export function useDrillState<TScenario extends BaseDrillScenario>(
-  scenarioGenerator: (drillType: string) => TScenario,
-  drillType: string,
+  scenarioGenerator: (drillType: any) => TScenario,
+  drillType: any,
   streakMultiplierFn: (streak: number) => number = (s) => Math.pow(2, s - 1),
 ): DrillState<TScenario> {
   // Scenario state

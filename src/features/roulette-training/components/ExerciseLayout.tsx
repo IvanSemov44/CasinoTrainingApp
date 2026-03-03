@@ -7,7 +7,7 @@ import HintSection from './HintSection';
 import NumberPad from './NumberPad';
 import FeedbackCard from './FeedbackCard';
 import { useTheme } from '@contexts/ThemeContext';
-import type { PlacedBet } from '../types/exercise.types';
+import type { PlacedBet } from '@app-types/roulette.types';
 
 interface ExerciseLayoutProps {
   score: number;

@@ -93,7 +93,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               <TouchableOpacity
                 key={g.route}
                 style={[styles.card, { width: cardWidth }]}
-                onPress={() => navigation.navigate(g.route)}
+                onPress={() => navigation.navigate(g.route as any)}
                 activeOpacity={0.75}
               >
                 <Text style={styles.cardEmoji}>{g.emoji}</Text>

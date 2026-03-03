@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
@@ -34,6 +35,7 @@ type Props = StackScreenProps<RacetrackSectorStackParamList, 'SectorTraining'>;
 
 export default function SectorTrainingScreen({ route }: Props) {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const initialMode = route.params?.mode || 'random';
@@ -77,9 +79,24 @@ export default function SectorTrainingScreen({ route }: Props) {
   }, []);
 
   useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    const lockOrientation = async () => {
+      try {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+      } catch {
+        // Screen orientation API not available (e.g., on web browsers)
+      }
+    };
+    lockOrientation();
+
     return () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+      const unlockOrientation = async () => {
+        try {
+          await ScreenOrientation.unlockAsync();
+        } catch {
+          // Screen orientation API not available
+        }
+      };
+      unlockOrientation();
     };
   }, []);
 
@@ -133,16 +150,10 @@ export default function SectorTrainingScreen({ route }: Props) {
   const correctSectorName = result ? getSectorDisplayName(result.correctSector) : '';
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
       {/* ── Left Sidebar HUD ── */}
-      <View style={styles.sidebar}>
-
-        {/* Mode badge */}
-        <View style={[styles.modeBadge, { backgroundColor: modeColor + '22', borderColor: modeColor }]}>
-          <Text style={[styles.modeBadgeText, { color: modeColor }]} numberOfLines={1}>
-            {SECTOR_LABELS[selectedMode].toUpperCase()}
-          </Text>
-        </View>
+      <View style={styles.sidebarContainer}>
+        <ScrollView style={styles.sidebarContent} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
 
         {/* Stats row */}
         <View style={styles.statsRow}>
@@ -186,17 +197,20 @@ export default function SectorTrainingScreen({ route }: Props) {
 
         <View style={styles.spacer} />
 
-        {/* Skip / Next button */}
-        <TouchableOpacity
-          style={[styles.nextBtn, isProcessing && styles.nextBtnReady]}
-          onPress={handleNext}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.nextBtnText, isProcessing && styles.nextBtnTextReady]}>
-            {isProcessing ? 'Next  ›' : 'Skip  ›'}
-          </Text>
-        </TouchableOpacity>
+        {/* Skip button - only show when not processing */}
+        {!isProcessing && (
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={handleNext}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.nextBtnText}>
+              Skip  ›
+            </Text>
+          </TouchableOpacity>
+        )}
 
+        </ScrollView>
       </View>
 
       {/* ── Racetrack ── */}
@@ -221,13 +235,17 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
 
     // ── Sidebar ──────────────────────────────
-    sidebar: {
+    sidebarContainer: {
       width: 172,
       backgroundColor: colors.background.secondary,
       borderRadius: 16,
       borderWidth: 1,
       borderColor: colors.border.primary,
+      overflow: 'hidden',
+    },
+    sidebarContent: {
       padding: 12,
+      paddingBottom: 24,
     },
     modeBadge: {
       alignSelf: 'center',

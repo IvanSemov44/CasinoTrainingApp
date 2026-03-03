@@ -12,7 +12,9 @@ module.exports = {
   },
   moduleNameMapper: {
     '^@react-native/(.*)$': '<rootDir>/node_modules/@react-native/$1',
+    '^@styles$': '<rootDir>/src/styles/index.ts',
     '^@styles/(.*)$': '<rootDir>/src/styles/$1',
+    '^@contexts/(.*)$': '<rootDir>/src/contexts/$1',
     '^@app-types$': '<rootDir>/src/types',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@config/(.*)$': '<rootDir>/src/config/$1',

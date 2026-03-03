@@ -36,6 +36,7 @@ export interface AppColors {
     errorBorder: string;
     warning: string;
     info: string;
+    streak: string;
   };
   difficulty: {
     easy: string;
@@ -80,6 +81,7 @@ export const midnightTheme: AppColors = {
     errorBorder: '#EF4444',
     warning:     '#F59E0B',
     info:        '#3B82F6',
+    streak:      '#FF6B00',
   },
   difficulty: {
     easy:   '#22C55E',
@@ -122,6 +124,7 @@ export const casinoGreenTheme: AppColors = {
     errorBorder: '#EF4444',
     warning:     '#F59E0B',
     info:        '#3B82F6',
+    streak:      '#FF8C42',
   },
   difficulty: {
     easy:   '#22C55E',

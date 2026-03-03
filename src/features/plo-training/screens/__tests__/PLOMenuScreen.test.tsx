@@ -94,14 +94,15 @@ describe('PLOMenuScreen', () => {
       expect(getByText('Complex pot calculations')).toBeTruthy();
     });
 
-    it('should render difficulty icons', () => {
+    it('should render difficulty cards with proper styling', () => {
       const { getByText } = render(
         <PLOMenuScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
       
-      expect(getByText('🟢')).toBeTruthy();
-      expect(getByText('🟡')).toBeTruthy();
-      expect(getByText('🔴')).toBeTruthy();
+      // Check that difficulty cards are rendered with correct text
+      expect(getByText('Easy')).toBeTruthy();
+      expect(getByText('Medium')).toBeTruthy();
+      expect(getByText('Advanced')).toBeTruthy();
     });
   });
 

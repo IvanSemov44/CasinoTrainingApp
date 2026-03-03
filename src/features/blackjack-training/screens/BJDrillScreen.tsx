@@ -35,9 +35,6 @@ export default function BJDrillScreen({ route }: BJDrillScreenProps) {
     sessionPoints,
     sessionCorrect,
     sessionTotal,
-    accuracy,
-    upcomingMultiplier,
-    canSubmit,
     autoSubmit,
     handleSubmit,
     handleNext,
@@ -52,7 +49,6 @@ export default function BJDrillScreen({ route }: BJDrillScreenProps) {
 
   const accuracy = sessionTotal > 0 ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
   const upcomingMultiplier = Math.pow(2, streak);
-  const lastEarned = isCorrect ? streakMultiplier(streak) : 0;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
