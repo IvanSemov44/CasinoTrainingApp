@@ -224,9 +224,9 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       paddingHorizontal: 12,
       paddingVertical: 8,
       borderWidth: 1,
-      borderColor: '#FF6B00',
+      borderColor: colors.status.streak,
     },
-    streakText: { fontSize: 15, fontWeight: '800', color: '#FF6B00' },
+    streakText: { fontSize: 15, fontWeight: '800', color: colors.status.streak },
 
     // Cards
     handBlock: { marginBottom: 16 },
@@ -346,7 +346,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     streakNote: {
       marginTop: 12,
       textAlign: 'center',
-      color: '#FF6B00',
+      color: colors.status.streak,
       fontSize: 13,
       fontWeight: '700',
     },

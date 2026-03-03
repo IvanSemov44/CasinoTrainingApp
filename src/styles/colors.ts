@@ -67,6 +67,8 @@ export const COLORS = {
     warning: '#eab308',
     /** Info blue */
     info: '#3b82f6',
+    /** Streak/Performance accent - orange */
+    streak: '#FF6B00',
   },
 
   // Difficulty badge colors
