@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
+import { colorWithOpacity } from '@styles';
 import type { CPStackParamList } from '../navigation';
 import type { CPDrillType } from '../types';
 
@@ -71,15 +72,14 @@ const DRILLS: DrillInfo[] = [
   },
 ];
 
-const DIFFICULTY_COLOR: Record<DrillInfo['difficulty'], string> = {
-  easy:     '#4CAF50',
-  medium:   '#FF9800',
-  advanced: '#f44336',
-};
-
 export default function CPMenuScreen({ navigation }: CPMenuScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const difficultyColors: Record<DrillInfo['difficulty'], string> = {
+    easy: colors.difficulty.easy,
+    medium: colors.difficulty.medium,
+    advanced: colors.difficulty.hard,
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -95,12 +95,12 @@ export default function CPMenuScreen({ navigation }: CPMenuScreenProps) {
           onPress={() => navigation.navigate('CPDrill', { drillType: drill.drillType })}
           activeOpacity={0.75}
         >
-          <View style={[styles.accentBar, { backgroundColor: DIFFICULTY_COLOR[drill.difficulty] }]} />
+          <View style={[styles.accentBar, { backgroundColor: difficultyColors[drill.difficulty] }]} />
           <View style={styles.cardBody}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>{drill.label}</Text>
-              <View style={[styles.badge, { backgroundColor: DIFFICULTY_COLOR[drill.difficulty] + '22' }]}>
-                <Text style={[styles.badgeText, { color: DIFFICULTY_COLOR[drill.difficulty] }]}>
+              <View style={[styles.badge, { backgroundColor: colorWithOpacity(difficultyColors[drill.difficulty], 0.13) }]}>
+                <Text style={[styles.badgeText, { color: difficultyColors[drill.difficulty] }]}>
                   {drill.difficulty.toUpperCase()}
                 </Text>
               </View>

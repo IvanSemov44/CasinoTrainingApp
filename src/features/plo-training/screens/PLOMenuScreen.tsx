@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
+import { colorWithOpacity } from '@styles';
 import type { PLOStackParamList } from '../navigation';
 import { DIFFICULTY_INFO } from '../constants/gameScenarios';
 import type { PLODifficulty } from '../types';
@@ -10,15 +11,14 @@ type PLOMenuScreenProps = StackScreenProps<PLOStackParamList, 'PLOMenu'>;
 
 const DIFFICULTIES: PLODifficulty[] = ['easy', 'medium', 'advanced'];
 
-const DIFFICULTY_COLOR: Record<PLODifficulty, string> = {
-  easy:     '#4CAF50',
-  medium:   '#FF9800',
-  advanced: '#f44336',
-};
-
 export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const difficultyColors: Record<PLODifficulty, string> = {
+    easy: colors.difficulty.easy,
+    medium: colors.difficulty.medium,
+    advanced: colors.difficulty.hard,
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -36,12 +36,12 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
             onPress={() => navigation.navigate('PLOGameTraining', { difficulty })}
             activeOpacity={0.75}
           >
-            <View style={[styles.accentBar, { backgroundColor: DIFFICULTY_COLOR[difficulty] }]} />
+            <View style={[styles.accentBar, { backgroundColor: difficultyColors[difficulty] }]} />
             <View style={styles.cardBody}>
               <View style={styles.cardHeader}>
                 <Text style={styles.cardTitle}>{info.label}</Text>
-                <View style={[styles.badge, { backgroundColor: DIFFICULTY_COLOR[difficulty] + '22' }]}>
-                  <Text style={[styles.badgeText, { color: DIFFICULTY_COLOR[difficulty] }]}>
+                <View style={[styles.badge, { backgroundColor: colorWithOpacity(difficultyColors[difficulty], 0.13) }]}>
+                  <Text style={[styles.badgeText, { color: difficultyColors[difficulty] }]}>
                     {difficulty.toUpperCase()}
                   </Text>
                 </View>
