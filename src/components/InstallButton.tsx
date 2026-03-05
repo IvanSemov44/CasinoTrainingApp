@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, Text, StyleSheet, Alert } from 'react-native';
+import { Pressable, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 
 interface InstallButtonProps {
@@ -18,22 +18,26 @@ export function InstallButton({ isInstallable, isInstalled, onInstall }: Install
   }
 
   const handlePress = async () => {
+    console.log('[InstallButton] Clicked. isInstallable:', isInstallable);
     setIsLoading(true);
     try {
       if (isInstallable) {
+        console.log('[InstallButton] Calling onInstall()');
         // If beforeinstallprompt was captured, use it
         await onInstall();
+        console.log('[InstallButton] onInstall() completed');
       } else {
-        // Fallback: show install instructions
-        Alert.alert(
-          'Install Casino Training App',
-          'Tap the menu button (⋮) in your browser and select "Install app" or "Add to Home Screen".\n\nOr look for the install icon in the address bar.',
-          [{ text: 'OK' }]
+        // Fallback: show install instructions using window.alert
+        console.log('[InstallButton] Using fallback instructions');
+        window.alert(
+          'Install Casino Training App\n\n' +
+          'Tap the menu button (⋮) in your browser and select "Install app" or "Add to Home Screen".\n\n' +
+          'Or look for the install icon in the address bar.'
         );
       }
     } catch (error) {
-      console.error('Installation error:', error);
-      Alert.alert('Error', 'Could not install app. Try using the browser menu instead.');
+      console.error('[InstallButton] Error:', error);
+      window.alert('Could not install app. Try using the browser menu instead.');
     } finally {
       setIsLoading(false);
     }
