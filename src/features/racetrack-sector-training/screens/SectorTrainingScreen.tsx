@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import * as Haptics from 'expo-haptics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import { RacetrackLayout } from '../../racetrack/components';
@@ -102,7 +103,7 @@ export default function SectorTrainingScreen({ route }: Props) {
     generateNewNumber();
   }, [generateNewNumber]);
 
-  const handleSectorPress = (sector: string) => {
+  const handleSectorPress = async (sector: string) => {
     if (isProcessing) return;
 
     const sectorType = sector as SectorType;
@@ -116,13 +117,28 @@ export default function SectorTrainingScreen({ route }: Props) {
       total: prev.total + 1,
     }));
 
+    // Haptic feedback
     if (validationResult.isCorrect) {
+      try {
+        // Success: double tap haptic
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch {
+        // Haptics may not be available in some environments
+      }
+
       setShowCorrectFeedback(true);
       setIsProcessing(true);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
         generateNewNumber();
       }, 1000);
+    } else {
+      try {
+        // Error: warning haptic
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      } catch {
+        // Haptics may not be available in some environments
+      }
     }
   };
 
@@ -243,8 +259,8 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     sidebarHorizontal: {
       width: '100%',
-      height: 280,
-      maxHeight: 280,
+      height: 220,
+      maxHeight: 220,
     },
     sidebarContent: {
       padding: 12,
