@@ -133,17 +133,9 @@ if (fs.existsSync(indexPath)) {
     html = html.replace('</head>', `\n    <!-- viewport-lock -->
   <style>
     html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
-    body { margin: 0; padding: 0; width: 100%; height: 100%; position: fixed; top: 0; left: 0; overflow: hidden; overscroll-behavior: none; touch-action: none; user-select: none; background-color: #0a1628; }
+    body { margin: 0; padding: 0; width: 100%; height: 100%; position: fixed; top: 0; left: 0; overflow: hidden; overscroll-behavior: none; background-color: #0a1628; }
     #root { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; background-color: #0a1628; }
-  </style>
-  <script>
-    // Block all touch movement - capture:true intercepts before any child handler or native scroll
-    document.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive: false, capture: true });
-    document.addEventListener('touchforcechange', function(e) { e.preventDefault(); }, { passive: false, capture: true });
-    document.addEventListener('gesturestart', function(e) { e.preventDefault(); }, { passive: false, capture: true });
-    document.addEventListener('gesturechange', function(e) { e.preventDefault(); }, { passive: false, capture: true });
-    document.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false, capture: true });
-  </script>\n  </head>`);
+  </style>\n  </head>`);
   }
 
   // Add service worker registration if not present
