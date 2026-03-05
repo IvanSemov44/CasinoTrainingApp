@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 // Paths
 const distPath = path.join(__dirname, '..', 'dist');
@@ -62,23 +61,17 @@ if (fs.existsSync(manifestSource)) {
   console.log('✅ Created manifest.json in dist/');
 }
 
-// Copy service worker with git commit hash in cache name
+// Copy service worker with timestamp-based cache busting
 if (fs.existsSync(swSource)) {
   let swContent = fs.readFileSync(swSource, 'utf8');
 
-  // Get git commit hash (short version)
-  try {
-    const commitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
-    // Replace CACHE_NAME with version including commit hash
-    swContent = swContent.replace(
-      /const CACHE_NAME = '[^']+'/,
-      `const CACHE_NAME = 'casino-training-${commitHash}'`
-    );
-    console.log(`✅ Copied sw.js to dist/ (cache: casino-training-${commitHash})`);
-  } catch (error) {
-    // If git command fails, just copy as-is
-    console.log('⚠️ Could not get git hash, using default cache name');
-  }
+  // Use timestamp to ensure cache busts on every build
+  const timestamp = Date.now();
+  swContent = swContent.replace(
+    /const CACHE_NAME = '[^']+'/,
+    `const CACHE_NAME = 'casino-training-${timestamp}'`
+  );
+  console.log(`✅ Copied sw.js to dist/ (cache: casino-training-${timestamp})`);
 
   fs.writeFileSync(swDest, swContent);
 } else {
