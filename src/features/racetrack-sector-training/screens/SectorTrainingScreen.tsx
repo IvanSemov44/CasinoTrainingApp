@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
@@ -57,6 +57,29 @@ export default function SectorTrainingScreen({ route }: Props) {
   const portraitW = Math.min(winW, useWindowDimensions().height);
   // When rotated 90°, use portrait width for racetrack
   const racetrackSize = portraitW;
+
+  // Play beep sound using Web Audio API
+  const playBeepSound = useCallback((frequency: number, duration: number) => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.value = frequency;
+      oscillator.type = 'sine';
+
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration / 1000);
+    } catch {
+      // Web Audio API not available or blocked
+    }
+  }, []);
 
   const generateNewNumber = useCallback(() => {
     let newNumber: number;
@@ -117,14 +140,17 @@ export default function SectorTrainingScreen({ route }: Props) {
       total: prev.total + 1,
     }));
 
-    // Haptic feedback
+    // Haptic and sound feedback
     if (validationResult.isCorrect) {
       try {
-        // Success: double tap haptic
+        // Success: strong success pattern
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } catch {
-        // Haptics may not be available in some environments
+        // Haptics may not be available
       }
+
+      // Play success beep (high pitch, short)
+      playBeepSound(1000, 150);
 
       setShowCorrectFeedback(true);
       setIsProcessing(true);
@@ -134,11 +160,14 @@ export default function SectorTrainingScreen({ route }: Props) {
       }, 1000);
     } else {
       try {
-        // Error: warning haptic
+        // Wrong: warning pattern (longer vibration)
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       } catch {
-        // Haptics may not be available in some environments
+        // Haptics may not be available
       }
+
+      // Play error buzz (low pitch, longer)
+      playBeepSound(300, 300);
     }
   };
 
@@ -165,69 +194,21 @@ export default function SectorTrainingScreen({ route }: Props) {
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right, flexDirection: 'column' }]}>
-      {/* ── Top Sidebar HUD ── */}
-      <View style={[styles.sidebarContainer, styles.sidebarHorizontal]}>
-        <ScrollView style={styles.sidebarContent} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
-
-        {/* Stats row */}
-        <View style={styles.statsRow}>
-          <View style={styles.statPill}>
-            <Text style={styles.statValue}>{stats.correct}/{stats.total}</Text>
-            <Text style={styles.statLabel}>score</Text>
-          </View>
-          <View style={styles.statPill}>
-            <Text style={[styles.statValue, { color: accuracyColor }]}>{percentage}%</Text>
-            <Text style={styles.statLabel}>accuracy</Text>
+      {/* ── Minimal Top Bar ── */}
+      <View style={styles.topBar}>
+        <View style={styles.scoreDisplay}>
+          <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
+          <Text style={styles.scoreLabel}>score</Text>
+        </View>
+        <View style={styles.targetDisplay}>
+          <Text style={styles.targetSmallLabel}>FIND</Text>
+          <View style={styles.targetSmallCircle}>
+            <Text style={styles.targetSmallNumber}>{currentWinningNumber}</Text>
           </View>
         </View>
-
-        {/* Target number */}
-        <View style={styles.targetSection}>
-          <Text style={styles.targetLabel}>FIND SECTOR FOR</Text>
-          <View style={styles.targetCircle}>
-            <Text style={styles.targetNumber}>{currentWinningNumber}</Text>
-          </View>
-        </View>
-
-        {/* Instruction */}
-        <Text style={styles.instruction}>
-          Tap the sector that contains{' '}
-          <Text style={styles.instructionAccent}>{currentWinningNumber}</Text>
-        </Text>
-
-        {/* Feedback card */}
-        {result && (
-          <View style={[styles.feedbackCard, result.isCorrect ? styles.feedbackOk : styles.feedbackErr]}>
-            <Text style={styles.feedbackTitle}>
-              {result.isCorrect ? '✓  Correct!' : '✗  Wrong sector'}
-            </Text>
-            <Text style={styles.feedbackBody}>
-              {result.isCorrect
-                ? correctSectorName
-                : `Answer: ${correctSectorName}`}
-            </Text>
-          </View>
-        )}
-
-        <View style={styles.spacer} />
-
-        {/* Skip button - only show when not processing */}
-        {!isProcessing && (
-          <TouchableOpacity
-            style={styles.nextBtn}
-            onPress={handleNext}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.nextBtnText}>
-              Skip  ›
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        </ScrollView>
       </View>
 
-      {/* ── Racetrack ── */}
+      {/* ── Racetrack (Hero) ── */}
       <View style={styles.racetrackArea}>
         <RacetrackLayout
           width={racetrackSize}
@@ -244,11 +225,65 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       flex: 1,
       backgroundColor: colors.background.primary,
       flexDirection: 'column',
-      padding: 12,
-      gap: 12,
+      padding: 0,
+      gap: 0,
     },
 
-    // ── Sidebar ──────────────────────────────
+    // ── Top Bar (Minimal) ──────────────────────────────
+    topBar: {
+      flexDirection: 'row',
+      backgroundColor: colors.background.secondary,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
+      gap: 12,
+    },
+    scoreDisplay: {
+      alignItems: 'center',
+      flex: 0.4,
+    },
+    scoreText: {
+      fontSize: 16,
+      fontWeight: '800',
+      color: colors.text.gold,
+    },
+    scoreLabel: {
+      fontSize: 10,
+      color: colors.text.muted,
+      marginTop: 2,
+    },
+    targetDisplay: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      flex: 0.6,
+    },
+    targetSmallLabel: {
+      fontSize: 10,
+      fontWeight: '700',
+      color: colors.text.muted,
+      letterSpacing: 1,
+    },
+    targetSmallCircle: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: colors.text.gold,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.border.gold,
+    },
+    targetSmallNumber: {
+      fontSize: 22,
+      fontWeight: '900',
+      color: colors.background.primary,
+    },
+
+    // ── Sidebar (deprecated, kept for compat) ──────────────────────────────
     sidebarContainer: {
       width: 172,
       backgroundColor: colors.background.secondary,
@@ -259,8 +294,9 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     sidebarHorizontal: {
       width: '100%',
-      height: 220,
-      maxHeight: 220,
+      height: 0,
+      maxHeight: 0,
+      display: 'none' as any,
     },
     sidebarContent: {
       padding: 12,
