@@ -17,14 +17,6 @@ export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
     return null;
   }
 
-  const showInstallInstructions = () => {
-    window.alert(
-      'Install Casino Training App\n\n' +
-      'Tap the menu button (⋮) in your browser and select "Install app" or "Add to Home Screen".\n\n' +
-      'Or look for the install icon in the address bar.'
-    );
-  };
-
   const handlePress = async () => {
     console.log('[InstallButton] Clicked');
     console.log('[InstallButton] window.deferredPrompt:', !!(window as any).deferredPrompt);
@@ -55,17 +47,12 @@ export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
         await onInstall();
         console.log('[InstallButton] onInstall() succeeded');
         return;
-      } catch (installError) {
-        console.log('[InstallButton] onInstall() failed, showing instructions');
-        // Fall through to instructions
+      } catch (_installError) {
+        console.log('[InstallButton] Installation not available');
+        // Silently fail - no popup needed
       }
-
-      // Final fallback: show helpful instructions
-      console.log('[InstallButton] Using fallback instructions');
-      showInstallInstructions();
     } catch (error: any) {
       console.error('[InstallButton] Unexpected error:', error);
-      window.alert('Could not install app. Try using the browser menu instead.');
     } finally {
       setIsLoading(false);
     }
