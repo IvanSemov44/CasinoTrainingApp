@@ -3,11 +3,13 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { RouletteNumber, BetType } from '../../types/roulette.types';
 import RouletteChip from './RouletteChip';
 import { getOutsideBetsStyles, getRouletteStyles } from './styles/roulette.styles';
+import { getCallBetsOutsideBetsStyles, getCallBetsRouletteStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
 
 interface RouletteOutsideBetsProps {
   cellSize: number;
   getBetAmount: (numbers: RouletteNumber[]) => number;
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
+  useCallBetsStyles?: boolean;
 }
 
 // Export number arrays for testing
@@ -25,8 +27,11 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
   cellSize,
   getBetAmount,
   onBetAreaPress,
+  useCallBetsStyles = false,
 }) => {
-  const styles = { ...getOutsideBetsStyles(cellSize), ...getRouletteStyles(cellSize) };
+  const getOutsideFunc = useCallBetsStyles ? getCallBetsOutsideBetsStyles : getOutsideBetsStyles;
+  const getRouletteFunc = useCallBetsStyles ? getCallBetsRouletteStyles : getRouletteStyles;
+  const styles = { ...getOutsideFunc(cellSize), ...getRouletteFunc(cellSize) };
   const chipSize = cellSize * 0.4;
 
   return (

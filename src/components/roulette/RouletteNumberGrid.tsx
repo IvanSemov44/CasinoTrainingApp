@@ -5,6 +5,7 @@ import { LAYOUT_GRID } from '../../constants/roulette.constants';
 import RouletteNumberCell from './RouletteNumberCell';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles } from './styles/roulette.styles';
+import { getCallBetsRouletteStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
 
 interface RouletteNumberGridProps {
   cellSize: number;
@@ -12,6 +13,7 @@ interface RouletteNumberGridProps {
   onNumberPress: (number: RouletteNumber) => void;
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
   maxColumns?: number;
+  useCallBetsStyles?: boolean;
 }
 
 const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
@@ -20,8 +22,10 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
   onNumberPress,
   onBetAreaPress,
   maxColumns,
+  useCallBetsStyles = false,
 }) => {
-  const styles = getRouletteStyles(cellSize);
+  const getStylesFunc = useCallBetsStyles ? getCallBetsRouletteStyles : getRouletteStyles;
+  const styles = getStylesFunc(cellSize);
   const chipSize = cellSize * 0.4;
 
   // Collect all bet areas for rendering in a separate layer

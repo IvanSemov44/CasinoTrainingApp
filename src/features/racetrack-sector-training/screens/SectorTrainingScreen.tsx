@@ -49,15 +49,13 @@ export default function SectorTrainingScreen({ route }: Props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // useWindowDimensions updates reactively after the landscape lock fires.
-  // Math.max ensures we always work in landscape terms regardless of
-  // which orientation the component first rendered in.
-  const { width: winW, height: winH } = useWindowDimensions();
-  const landscapeW = Math.max(winW, winH);
+  // useWindowDimensions updates reactively after the portrait lock fires.
   // Racetrack aspect ratio is height/width ≈ 0.318 (very wide & flat).
-  // Use full available width after sidebar; height will be ~31% of that, always fits.
-  const SIDEBAR_TOTAL = 208; // sidebar(172) + gap(12) + left+right padding(24)
-  const racetrackSize = landscapeW - SIDEBAR_TOTAL - 8;
+  // In portrait mode, rotate racetrack 90° so it's tall and narrow.
+  const { width: winW } = useWindowDimensions();
+  const portraitW = Math.min(winW, useWindowDimensions().height);
+  // When rotated 90°, use portrait width for racetrack
+  const racetrackSize = portraitW;
 
   const generateNewNumber = useCallback(() => {
     let newNumber: number;
@@ -81,7 +79,7 @@ export default function SectorTrainingScreen({ route }: Props) {
   useEffect(() => {
     const lockOrientation = async () => {
       try {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
       } catch {
         // Screen orientation API not available (e.g., on web browsers)
       }
@@ -150,9 +148,9 @@ export default function SectorTrainingScreen({ route }: Props) {
   const correctSectorName = result ? getSectorDisplayName(result.correctSector) : '';
 
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
-      {/* ── Left Sidebar HUD ── */}
-      <View style={styles.sidebarContainer}>
+    <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right, flexDirection: 'column' }]}>
+      {/* ── Top Sidebar HUD ── */}
+      <View style={[styles.sidebarContainer, styles.sidebarHorizontal]}>
         <ScrollView style={styles.sidebarContent} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
 
         {/* Stats row */}
@@ -229,7 +227,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     container: {
       flex: 1,
       backgroundColor: colors.background.primary,
-      flexDirection: 'row',
+      flexDirection: 'column',
       padding: 12,
       gap: 12,
     },
@@ -242,6 +240,11 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       borderWidth: 1,
       borderColor: colors.border.primary,
       overflow: 'hidden',
+    },
+    sidebarHorizontal: {
+      width: '100%',
+      height: 280,
+      maxHeight: 280,
     },
     sidebarContent: {
       padding: 12,
@@ -381,6 +384,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      transform: [{ rotate: '90deg' }],
     },
   });
 }

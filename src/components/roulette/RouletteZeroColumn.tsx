@@ -3,12 +3,14 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { RouletteNumber, BetType } from '../../types/roulette.types';
 import RouletteChip from './RouletteChip';
 import { getZeroColumnStyles, getRouletteStyles } from './styles/roulette.styles';
+import { getCallBetsZeroColumnStyles, getCallBetsRouletteStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
 
 interface RouletteZeroColumnProps {
   cellSize: number;
   getBetAmount: (numbers: RouletteNumber[]) => number;
   onNumberPress: (number: RouletteNumber) => void;
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
+  useCallBetsStyles?: boolean;
 }
 
 const RouletteZeroColumn: React.FC<RouletteZeroColumnProps> = ({
@@ -16,8 +18,11 @@ const RouletteZeroColumn: React.FC<RouletteZeroColumnProps> = ({
   getBetAmount,
   onNumberPress,
   onBetAreaPress,
+  useCallBetsStyles = false,
 }) => {
-  const styles = { ...getZeroColumnStyles(cellSize), ...getRouletteStyles(cellSize) };
+  const getZeroFunc = useCallBetsStyles ? getCallBetsZeroColumnStyles : getZeroColumnStyles;
+  const getRouletteFunc = useCallBetsStyles ? getCallBetsRouletteStyles : getRouletteStyles;
+  const styles = { ...getZeroFunc(cellSize), ...getRouletteFunc(cellSize) };
   const chipSize = cellSize * 0.4;
   const betAmount = getBetAmount([0]);
 

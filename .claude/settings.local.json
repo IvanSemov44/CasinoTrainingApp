@@ -8,7 +8,8 @@
       "Bash(wc -l c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/*.tsx c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/roulette/*.tsx c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/shared/*.tsx)",
       "Bash(npm start)",
       "Bash(npm run build:web)",
-      "Bash(ls -lh /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/dist/assets/*.png)"
+      "Bash(ls -lh /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/dist/assets/*.png)",
+      "WebFetch(domain:pagespeed.web.dev)"
     ]
   }
 }

@@ -8,6 +8,7 @@ import RouletteNumberGrid from './RouletteNumberGrid';
 import RouletteColumnBets from './RouletteColumnBets';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles, getZeroColumnStyles } from './styles/roulette.styles';
+import { getCallBetsRouletteStyles, getCallBetsZeroColumnStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
 
 interface RouletteLayoutProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -18,10 +19,11 @@ interface RouletteLayoutProps {
   showOutsideBets?: boolean;
   showColumnBets?: boolean;
   maxColumns?: number;
+  useCallBetsStyles?: boolean;
 }
 
-const RouletteLayout: React.FC<RouletteLayoutProps> = ({ 
-  onNumberPress, 
+const RouletteLayout: React.FC<RouletteLayoutProps> = ({
+  onNumberPress,
   onBetAreaPress,
   placedBets = [],
   selectedChipValue: _selectedChipValue = 5,
@@ -29,14 +31,17 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
   showOutsideBets = true,
   showColumnBets = true,
   maxColumns,
+  useCallBetsStyles = false,
 }) => {
   const { width } = Dimensions.get('window');
   const defaultCellSize = (width - 100) / 12;
   const numCellSize = cellSize || defaultCellSize;
-  
+
   const { getBetAmount } = useRouletteBets(placedBets);
-  const styles = getRouletteStyles(numCellSize);
-  const zeroStyles = getZeroColumnStyles(numCellSize);
+  const getStylesFunc = useCallBetsStyles ? getCallBetsRouletteStyles : getRouletteStyles;
+  const getZeroStylesFunc = useCallBetsStyles ? getCallBetsZeroColumnStyles : getZeroColumnStyles;
+  const styles = getStylesFunc(numCellSize);
+  const zeroStyles = getZeroStylesFunc(numCellSize);
   const chipSize = numCellSize * 0.4;
 
   // Zero column bet areas that need to overlay the number grid
@@ -116,6 +121,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
           cellSize={numCellSize}
           getBetAmount={getBetAmount}
           onBetAreaPress={onBetAreaPress}
+          useCallBetsStyles={useCallBetsStyles}
         />
       )}
 
@@ -126,6 +132,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
           getBetAmount={getBetAmount}
           onNumberPress={onNumberPress}
           onBetAreaPress={onBetAreaPress}
+          useCallBetsStyles={useCallBetsStyles}
         />
 
         <RouletteNumberGrid
@@ -134,6 +141,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
           onNumberPress={onNumberPress}
           onBetAreaPress={onBetAreaPress}
           maxColumns={maxColumns}
+          useCallBetsStyles={useCallBetsStyles}
         />
 
         {showColumnBets && (
@@ -141,6 +149,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
             cellSize={numCellSize}
             getBetAmount={getBetAmount}
             onBetAreaPress={onBetAreaPress}
+            useCallBetsStyles={useCallBetsStyles}
           />
         )}
         

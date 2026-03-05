@@ -121,6 +121,7 @@ export default function CallBetsTrainingScreen({ route }: Props) {
           placedBets={placedBets}
           selectedChipValue={selectedChipValue}
           cellSize={cellSize}
+          useCallBetsStyles={true}
         />
       </ScrollView>
 

@@ -4,11 +4,13 @@ import { RouletteNumber, BetType } from '../../types/roulette.types';
 import { LAYOUT_GRID } from '../../constants/roulette.constants';
 import RouletteChip from './RouletteChip';
 import { getColumnBetsStyles } from './styles/roulette.styles';
+import { getCallBetsColumnBetsStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
 
 interface RouletteColumnBetsProps {
   cellSize: number;
   getBetAmount: (numbers: RouletteNumber[]) => number;
   onBetAreaPress?: (betType: BetType, numbers: RouletteNumber[]) => void;
+  useCallBetsStyles?: boolean;
 }
 
 const COLUMN_LABELS = ['Column 1', 'Column 2', 'Column 3'];
@@ -17,8 +19,10 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
   cellSize,
   getBetAmount,
   onBetAreaPress,
+  useCallBetsStyles = false,
 }) => {
-  const styles = getColumnBetsStyles(cellSize);
+  const getStylesFunc = useCallBetsStyles ? getCallBetsColumnBetsStyles : getColumnBetsStyles;
+  const styles = getStylesFunc(cellSize);
   const chipSize = cellSize * 0.4;
 
   return (
