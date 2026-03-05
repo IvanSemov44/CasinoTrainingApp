@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 
@@ -17,6 +17,14 @@ export function InstallButton({ isInstallable, isInstalled, onInstall }: Install
     return null;
   }
 
+  const showInstallInstructions = () => {
+    window.alert(
+      'Install Casino Training App\n\n' +
+      'Tap the menu button (⋮) in your browser and select "Install app" or "Add to Home Screen".\n\n' +
+      'Or look for the install icon in the address bar.'
+    );
+  };
+
   const handlePress = async () => {
     console.log('[InstallButton] Clicked. isInstallable:', isInstallable);
     setIsLoading(true);
@@ -29,15 +37,17 @@ export function InstallButton({ isInstallable, isInstalled, onInstall }: Install
       } else {
         // Fallback: show install instructions using window.alert
         console.log('[InstallButton] Using fallback instructions');
-        window.alert(
-          'Install Casino Training App\n\n' +
-          'Tap the menu button (⋮) in your browser and select "Install app" or "Add to Home Screen".\n\n' +
-          'Or look for the install icon in the address bar.'
-        );
+        showInstallInstructions();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('[InstallButton] Error:', error);
-      window.alert('Could not install app. Try using the browser menu instead.');
+      // If error is because install prompt not available, show instructions
+      if (error?.message?.includes('Install prompt not available')) {
+        console.log('[InstallButton] Showing fallback instructions due to missing prompt');
+        showInstallInstructions();
+      } else {
+        window.alert('Could not install app. Try using the browser menu instead.');
+      }
     } finally {
       setIsLoading(false);
     }
