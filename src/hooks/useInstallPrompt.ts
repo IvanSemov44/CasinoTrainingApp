@@ -58,19 +58,26 @@ export function useInstallPrompt() {
   }, []);
 
   const install = async () => {
-    if (!installPrompt) return;
+    console.log('[useInstallPrompt] install() called. installPrompt:', !!installPrompt);
+
+    if (!installPrompt) {
+      console.log('[useInstallPrompt] No installPrompt available, returning false to trigger fallback');
+      throw new Error('Install prompt not available');
+    }
 
     try {
       await installPrompt.prompt();
       const { outcome } = await installPrompt.userChoice;
 
       if (outcome === 'accepted') {
+        console.log('[useInstallPrompt] User accepted installation');
         setIsInstalled(true);
         setIsInstallable(false);
         setInstallPrompt(null);
       }
     } catch (error) {
-      console.error('Installation error:', error);
+      console.error('[useInstallPrompt] Installation error:', error);
+      throw error;
     }
   };
 
