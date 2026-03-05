@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
@@ -7,13 +7,12 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import { useSettings } from '@contexts/SettingsContext';
 import { RacetrackLayout } from '../../racetrack/components';
-import { SectorType, SectorValidationResult, SectorMode, TrainingStats } from '../types';
+import { SectorType, SectorMode, TrainingStats } from '../types';
 import { RacetrackSectorStackParamList } from '../navigation';
 import {
   validateSectorSelection,
   getRandomWinningNumber,
   getSectorForNumber,
-  getSectorDisplayName,
 } from '../utils/validation';
 
 type Props = StackScreenProps<RacetrackSectorStackParamList, 'SectorTraining'>;
@@ -27,7 +26,6 @@ export default function SectorTrainingScreen({ route }: Props) {
   const initialMode = route.params?.mode || 'random';
   const [selectedMode] = useState<SectorMode>(initialMode);
   const [currentWinningNumber, setCurrentWinningNumber] = useState<number>(0);
-  const [result, setResult] = useState<SectorValidationResult | null>(null);
   const [stats, setStats] = useState<TrainingStats>({ correct: 0, total: 0 });
   const [isProcessing, setIsProcessing] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -78,7 +76,6 @@ export default function SectorTrainingScreen({ route }: Props) {
       newNumber = getRandomWinningNumber();
     } while (selectedMode !== 'random' && getSectorForNumber(newNumber) !== selectedMode);
     setCurrentWinningNumber(newNumber);
-    setResult(null);
     setIsProcessing(false);
   }, [selectedMode]);
 
@@ -93,7 +90,7 @@ export default function SectorTrainingScreen({ route }: Props) {
       try {
         await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
       } catch {
-        // Screen orientation API not available (e.g., on web browsers)
+        // Screen orientation API not available
       }
     };
     lockOrientation();
@@ -118,7 +115,6 @@ export default function SectorTrainingScreen({ route }: Props) {
     setIsProcessing(true);
 
     const validationResult = validateSectorSelection(currentWinningNumber, sector as SectorType);
-    setResult(validationResult);
 
     setStats(prev => ({
       correct: prev.correct + (validationResult.isCorrect ? 1 : 0),
@@ -141,81 +137,27 @@ export default function SectorTrainingScreen({ route }: Props) {
     }
   }, [currentWinningNumber, isProcessing, hapticEnabled, soundEnabled, playSoundEffect, generateNewNumber]);
 
-  const handleNext = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    generateNewNumber();
-  };
-
   const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const accuracyColor =
-    stats.total === 0       ? colors.text.muted
-    : percentage >= 80      ? colors.status.success
-    : percentage >= 60      ? colors.text.gold
-    :                         colors.status.error;
-
-  const correctSectorName = result ? getSectorDisplayName(result.correctSector) : '';
+    stats.total === 0      ? colors.text.muted
+    : percentage >= 80     ? colors.status.success
+    : percentage >= 60     ? colors.text.gold
+    :                        colors.status.error;
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
-      {/* ── Top HUD ── */}
-      <View style={[styles.sidebarContainer, styles.sidebarHorizontal]}>
-        <ScrollView
-          style={styles.sidebarContent}
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          bounces={false}
-          overScrollMode="never"
-        >
-          {/* Stats row */}
-          <View style={styles.statsRow}>
-            <View style={styles.statPill}>
-              <Text style={styles.statValue}>{stats.correct}/{stats.total}</Text>
-              <Text style={styles.statLabel}>score</Text>
-            </View>
-            <View style={styles.statPill}>
-              <Text style={[styles.statValue, { color: accuracyColor }]}>{percentage}%</Text>
-              <Text style={styles.statLabel}>accuracy</Text>
-            </View>
+      {/* ── Top Bar ── */}
+      <View style={styles.topBar}>
+        <View style={styles.scoreDisplay}>
+          <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
+          <Text style={[styles.scoreLabel, { color: accuracyColor }]}>{percentage}%</Text>
+        </View>
+        <View style={styles.targetDisplay}>
+          <Text style={styles.targetSmallLabel}>FIND</Text>
+          <View style={styles.targetSmallCircle}>
+            <Text style={styles.targetSmallNumber}>{currentWinningNumber}</Text>
           </View>
-
-          {/* Target number */}
-          <View style={styles.targetSection}>
-            <Text style={styles.targetLabel}>FIND SECTOR FOR</Text>
-            <View style={styles.targetCircle}>
-              <Text style={styles.targetNumber}>{currentWinningNumber}</Text>
-            </View>
-          </View>
-
-          {/* Instruction */}
-          <Text style={styles.instruction}>
-            Tap the sector that contains{' '}
-            <Text style={styles.instructionAccent}>{currentWinningNumber}</Text>
-          </Text>
-
-          {/* Feedback */}
-          {result && (
-            <View style={[styles.feedbackCard, result.isCorrect ? styles.feedbackOk : styles.feedbackErr]}>
-              <Text style={styles.feedbackTitle}>
-                {result.isCorrect ? '✓  Correct!' : '✗  Wrong sector'}
-              </Text>
-              <Text style={styles.feedbackBody}>
-                {result.isCorrect ? correctSectorName : `Answer: ${correctSectorName}`}
-              </Text>
-            </View>
-          )}
-
-          <View style={styles.spacer} />
-
-          {/* Skip button */}
-          {!isProcessing && (
-            <TouchableOpacity style={styles.nextBtn} onPress={handleNext} activeOpacity={0.8}>
-              <Text style={styles.nextBtnText}>Skip  ›</Text>
-            </TouchableOpacity>
-          )}
-        </ScrollView>
+        </View>
       </View>
 
       {/* ── Racetrack ── */}
@@ -235,133 +177,59 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       flex: 1,
       backgroundColor: colors.background.primary,
       flexDirection: 'column',
-      padding: 12,
-      gap: 12,
     },
 
-    // ── HUD ──────────────────────────────────
-    sidebarContainer: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      overflow: 'hidden',
-    },
-    sidebarHorizontal: {
-      width: '100%',
-      height: 220,
-      maxHeight: 220,
-    },
-    sidebarContent: {
-      padding: 12,
-    },
-    statsRow: {
+    // ── Top Bar ──────────────────────────────
+    topBar: {
       flexDirection: 'row',
-      gap: 6,
-      marginBottom: 14,
-    },
-    statPill: {
-      flex: 1,
-      backgroundColor: colors.background.primary,
-      borderRadius: 10,
-      paddingVertical: 7,
+      backgroundColor: colors.background.secondary,
+      paddingHorizontal: 16,
+      paddingVertical: 10,
       alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
     },
-    statValue: {
-      fontSize: 14,
+    scoreDisplay: {
+      alignItems: 'center',
+      gap: 2,
+    },
+    scoreText: {
+      fontSize: 18,
       fontWeight: '800',
       color: colors.text.gold,
     },
-    statLabel: {
-      fontSize: 9,
-      color: colors.text.muted,
+    scoreLabel: {
+      fontSize: 11,
+      fontWeight: '600',
       marginTop: 1,
-      textTransform: 'uppercase',
-      letterSpacing: 0.5,
     },
-
-    // ── Target number ────────────────────────
-    targetSection: {
+    targetDisplay: {
+      flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 12,
+      gap: 10,
     },
-    targetLabel: {
-      fontSize: 10,
+    targetSmallLabel: {
+      fontSize: 11,
       fontWeight: '700',
       color: colors.text.muted,
-      letterSpacing: 1.2,
+      letterSpacing: 1.5,
       textTransform: 'uppercase',
-      marginBottom: 6,
     },
-    targetCircle: {
-      width: 70,
-      height: 70,
-      borderRadius: 35,
+    targetSmallCircle: {
+      width: 54,
+      height: 54,
+      borderRadius: 27,
       backgroundColor: colors.text.gold,
-      borderWidth: 3,
-      borderColor: colors.border.gold,
-      alignItems: 'center',
       justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.border.gold,
     },
-    targetNumber: {
-      fontSize: 34,
+    targetSmallNumber: {
+      fontSize: 24,
       fontWeight: '900',
       color: colors.background.primary,
-    },
-
-    // ── Instruction ──────────────────────────
-    instruction: {
-      fontSize: 12,
-      color: colors.text.secondary,
-      textAlign: 'center',
-      marginBottom: 10,
-      lineHeight: 17,
-    },
-    instructionAccent: {
-      fontWeight: '700',
-      color: colors.text.gold,
-    },
-
-    // ── Feedback card ────────────────────────
-    feedbackCard: {
-      borderRadius: 10,
-      padding: 10,
-      borderWidth: 1.5,
-    },
-    feedbackOk: {
-      backgroundColor: colors.status.successAlt,
-      borderColor: colors.status.success,
-    },
-    feedbackErr: {
-      backgroundColor: colors.status.errorAlt,
-      borderColor: colors.status.error,
-    },
-    feedbackTitle: {
-      fontSize: 13,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 2,
-    },
-    feedbackBody: {
-      fontSize: 11,
-      color: colors.text.secondary,
-    },
-
-    spacer: { flex: 1 },
-
-    // ── Skip button ──────────────────────────
-    nextBtn: {
-      paddingVertical: 10,
-      borderRadius: 10,
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      backgroundColor: colors.background.primary,
-    },
-    nextBtnText: {
-      fontSize: 13,
-      fontWeight: '700',
-      color: colors.text.secondary,
     },
 
     // ── Racetrack ────────────────────────────
