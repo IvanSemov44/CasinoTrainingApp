@@ -132,9 +132,7 @@ if (fs.existsSync(indexPath)) {
   if (!html.includes('viewport-lock')) {
     html = html.replace('</head>', `\n    <!-- viewport-lock -->
   <style>
-    html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
-    body { margin: 0; padding: 0; width: 100%; height: 100%; position: fixed; top: 0; left: 0; overflow: hidden; overscroll-behavior: none; background-color: #0a1628; }
-    #root { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; background-color: #0a1628; }
+    html, body { overscroll-behavior: none; background-color: #0a1628; }
   </style>\n  </head>`);
   }
 
