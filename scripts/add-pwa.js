@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // Paths
 const distPath = path.join(__dirname, '..', 'dist');
@@ -8,6 +9,26 @@ const manifestDest = path.join(distPath, 'manifest.json');
 const indexPath = path.join(distPath, 'index.html');
 const swSource = path.join(__dirname, '..', 'web', 'sw.js');
 const swDest = path.join(distPath, 'sw.js');
+const assetsSource = path.join(__dirname, '..', 'assets');
+const assetsDest = path.join(distPath, 'assets');
+
+// Helper to copy directory recursively
+function copyDir(src, dest) {
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, { recursive: true });
+  }
+  const files = fs.readdirSync(src);
+  files.forEach((file) => {
+    const srcFile = path.join(src, file);
+    const destFile = path.join(dest, file);
+    const stat = fs.statSync(srcFile);
+    if (stat.isDirectory()) {
+      copyDir(srcFile, destFile);
+    } else {
+      fs.copyFileSync(srcFile, destFile);
+    }
+  });
+}
 
 // Copy manifest.json
 if (fs.existsSync(manifestSource)) {
@@ -41,12 +62,35 @@ if (fs.existsSync(manifestSource)) {
   console.log('✅ Created manifest.json in dist/');
 }
 
-// Copy service worker
+// Copy service worker with git commit hash in cache name
 if (fs.existsSync(swSource)) {
-  fs.copyFileSync(swSource, swDest);
-  console.log('✅ Copied sw.js to dist/');
+  let swContent = fs.readFileSync(swSource, 'utf8');
+
+  // Get git commit hash (short version)
+  try {
+    const commitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+    // Replace CACHE_NAME with version including commit hash
+    swContent = swContent.replace(
+      /const CACHE_NAME = '[^']+'/,
+      `const CACHE_NAME = 'casino-training-${commitHash}'`
+    );
+    console.log(`✅ Copied sw.js to dist/ (cache: casino-training-${commitHash})`);
+  } catch (error) {
+    // If git command fails, just copy as-is
+    console.log('⚠️ Could not get git hash, using default cache name');
+  }
+
+  fs.writeFileSync(swDest, swContent);
 } else {
   console.log('⚠️ sw.js not found');
+}
+
+// Copy assets folder (icons)
+if (fs.existsSync(assetsSource)) {
+  copyDir(assetsSource, assetsDest);
+  console.log('✅ Copied assets folder to dist/');
+} else {
+  console.log('⚠️ assets folder not found');
 }
 
 // Update index.html to include manifest link and fix scrolling
