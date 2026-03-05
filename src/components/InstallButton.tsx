@@ -8,7 +8,7 @@ interface InstallButtonProps {
   onInstall: () => void;
 }
 
-export function InstallButton({ isInstallable, isInstalled, onInstall }: InstallButtonProps) {
+export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,28 +26,46 @@ export function InstallButton({ isInstallable, isInstalled, onInstall }: Install
   };
 
   const handlePress = async () => {
-    console.log('[InstallButton] Clicked. isInstallable:', isInstallable);
+    console.log('[InstallButton] Clicked');
+    console.log('[InstallButton] window.deferredPrompt:', !!(window as any).deferredPrompt);
     setIsLoading(true);
     try {
-      if (isInstallable) {
-        console.log('[InstallButton] Calling onInstall()');
-        // If beforeinstallprompt was captured, use it
+      // Check if deferred prompt is available (set when beforeinstallprompt event fired)
+      const deferredPrompt = (window as any).deferredPrompt;
+
+      if (deferredPrompt) {
+        console.log('[InstallButton] Found deferredPrompt, using native install');
+        try {
+          await deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            console.log('[InstallButton] User accepted installation');
+            (window as any).deferredPrompt = null;
+            return;
+          }
+        } catch (promptError) {
+          console.error('[InstallButton] Native prompt error:', promptError);
+          // Continue to fallback
+        }
+      }
+
+      // Try calling onInstall() as fallback (may try Chrome Web Store or other methods)
+      console.log('[InstallButton] Trying onInstall() method');
+      try {
         await onInstall();
-        console.log('[InstallButton] onInstall() completed');
-      } else {
-        // Fallback: show install instructions using window.alert
-        console.log('[InstallButton] Using fallback instructions');
-        showInstallInstructions();
+        console.log('[InstallButton] onInstall() succeeded');
+        return;
+      } catch (installError) {
+        console.log('[InstallButton] onInstall() failed, showing instructions');
+        // Fall through to instructions
       }
+
+      // Final fallback: show helpful instructions
+      console.log('[InstallButton] Using fallback instructions');
+      showInstallInstructions();
     } catch (error: any) {
-      console.error('[InstallButton] Error:', error);
-      // If error is because install prompt not available, show instructions
-      if (error?.message?.includes('Install prompt not available')) {
-        console.log('[InstallButton] Showing fallback instructions due to missing prompt');
-        showInstallInstructions();
-      } else {
-        window.alert('Could not install app. Try using the browser menu instead.');
-      }
+      console.error('[InstallButton] Unexpected error:', error);
+      window.alert('Could not install app. Try using the browser menu instead.');
     } finally {
       setIsLoading(false);
     }

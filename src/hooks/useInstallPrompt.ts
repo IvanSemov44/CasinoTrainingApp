@@ -13,6 +13,7 @@ declare global {
 
 export function useInstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  // Always assume installable if on web (beforeinstallprompt may not fire but app still is installable)
   const [isInstallable, setIsInstallable] = useState(typeof window !== 'undefined');
   const [isInstalled, setIsInstalled] = useState(false);
 
@@ -60,25 +61,41 @@ export function useInstallPrompt() {
   const install = async () => {
     console.log('[useInstallPrompt] install() called. installPrompt:', !!installPrompt);
 
-    if (!installPrompt) {
-      console.log('[useInstallPrompt] No installPrompt available, returning false to trigger fallback');
-      throw new Error('Install prompt not available');
-    }
+    // Try native beforeinstallprompt first
+    if (installPrompt) {
+      try {
+        console.log('[useInstallPrompt] Using native beforeinstallprompt');
+        await installPrompt.prompt();
+        const { outcome } = await installPrompt.userChoice;
 
-    try {
-      await installPrompt.prompt();
-      const { outcome } = await installPrompt.userChoice;
-
-      if (outcome === 'accepted') {
-        console.log('[useInstallPrompt] User accepted installation');
-        setIsInstalled(true);
-        setIsInstallable(false);
-        setInstallPrompt(null);
+        if (outcome === 'accepted') {
+          console.log('[useInstallPrompt] User accepted installation');
+          setIsInstalled(true);
+          setIsInstallable(false);
+          setInstallPrompt(null);
+          return;
+        }
+      } catch (error) {
+        console.error('[useInstallPrompt] Native prompt error:', error);
+        // Fall through to alternative methods
       }
-    } catch (error) {
-      console.error('[useInstallPrompt] Installation error:', error);
-      throw error;
     }
+
+    // Fallback: Try Chrome Web Store install (if available)
+    if (typeof (window as any).chrome?.webstore?.install === 'function') {
+      console.log('[useInstallPrompt] Trying Chrome Web Store install');
+      try {
+        (window as any).chrome.webstore.install();
+        setIsInstalled(true);
+        return;
+      } catch (error) {
+        console.log('[useInstallPrompt] Chrome Web Store install not available');
+      }
+    }
+
+    // Fallback: beforeinstallprompt not available
+    console.log('[useInstallPrompt] beforeinstallprompt not available');
+    throw new Error('Install prompt not available');
   };
 
   return {
