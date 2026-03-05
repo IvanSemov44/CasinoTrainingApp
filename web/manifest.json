@@ -3,15 +3,17 @@
   "short_name": "CasinoTrain",
   "description": "A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "any",
+  "orientation": "portrait-primary",
   "background_color": "#1a472a",
   "theme_color": "#1a472a",
   "icons": [
     {
       "src": "/assets/favicon.png",
       "sizes": "48x48",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/assets/adaptive-icon.png",
@@ -22,10 +24,18 @@
     {
       "src": "/assets/icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "categories": ["education", "training"],
   "lang": "en",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
