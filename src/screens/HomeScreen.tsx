@@ -4,6 +4,8 @@ import {
   useWindowDimensions, Pressable,
 } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useInstallPrompt } from '@hooks/useInstallPrompt';
+import { InstallButton } from '@components/InstallButton';
 import type { NavigationProp } from '../types/navigation.types';
 import type { RootStackParamList } from '../navigation/AppNavigator';
 
@@ -50,6 +52,7 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<keyof RootStackParamList> }) {
   const { colors, themeId, toggleTheme } = useTheme();
   const { width } = useWindowDimensions();
+  const { isInstallable, isInstalled, install } = useInstallPrompt();
 
   const cardWidth = useMemo(() => {
     const gutter = 20;
@@ -71,14 +74,17 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Text style={styles.appTitle}>Casino Dealer</Text>
           <Text style={styles.appSubtitle}>Training Academy</Text>
         </View>
-        <Pressable style={styles.themeToggle} onPress={toggleTheme}>
-          <Text style={styles.themeToggleText}>
-            {themeId === 'midnight' ? '🟢' : '🌑'}
-          </Text>
-          <Text style={styles.themeToggleLabel}>
-            {themeId === 'midnight' ? 'Casino' : 'Midnight'}
-          </Text>
-        </Pressable>
+        <View style={styles.headerButtons}>
+          <InstallButton isInstallable={isInstallable} isInstalled={isInstalled} onInstall={install} />
+          <Pressable style={styles.themeToggle} onPress={toggleTheme}>
+            <Text style={styles.themeToggleText}>
+              {themeId === 'midnight' ? '🟢' : '🌑'}
+            </Text>
+            <Text style={styles.themeToggleLabel}>
+              {themeId === 'midnight' ? 'Casino' : 'Midnight'}
+            </Text>
+          </Pressable>
+        </View>
       </View>
 
       {/* ── Divider ─────────────────────────────────────────────────── */}
@@ -167,6 +173,11 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: '600',
       color: colors.text.secondary,
       letterSpacing: 0.5,
+    },
+    headerButtons: {
+      flexDirection: 'row',
+      gap: 8,
+      alignItems: 'flex-end',
     },
 
     divider: {
