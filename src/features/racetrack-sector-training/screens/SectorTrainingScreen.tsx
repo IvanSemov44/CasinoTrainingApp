@@ -60,26 +60,45 @@ export default function SectorTrainingScreen({ route }: Props) {
   // When rotated 90°, use portrait width for racetrack
   const racetrackSize = portraitW;
 
-  // Play beep sound using Web Audio API
-  const playBeepSound = useCallback((frequency: number, duration: number) => {
+  // Play pleasant game sounds
+  const playSoundEffect = useCallback((type: 'success' | 'error') => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
 
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      if (type === 'success') {
+        // Success: pleasant ding sound (two tones)
+        const playTone = (freq: number, startTime: number, duration: number) => {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          osc.frequency.value = freq;
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(0.2, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+          osc.start(startTime);
+          osc.stop(startTime + duration);
+        };
 
-      oscillator.frequency.value = frequency;
-      oscillator.type = 'sine';
-
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
-
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + duration / 1000);
+        const now = audioContext.currentTime;
+        playTone(523, now, 0.1); // C5 (523 Hz)
+        playTone(659, now + 0.1, 0.15); // E5 (659 Hz) - pleasant chord
+      } else {
+        // Error: soft warning buzz
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.frequency.setValueAtTime(300, audioContext.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+        osc.start(audioContext.currentTime);
+        osc.stop(audioContext.currentTime + 0.3);
+      }
     } catch {
-      // Web Audio API not available or blocked
+      // Web Audio API not available
     }
   }, []);
 
@@ -128,11 +147,13 @@ export default function SectorTrainingScreen({ route }: Props) {
     generateNewNumber();
   }, [generateNewNumber]);
 
-  const handleSectorPress = async (sector: string) => {
+  const handleSectorPress = useCallback(async (sector: string) => {
+    // Debounce: prevent multiple rapid clicks
     if (isProcessing) return;
 
     const sectorType = sector as SectorType;
     setSelectedSector(sectorType);
+    setIsProcessing(true); // Lock immediately to prevent double-clicks
 
     const validationResult = validateSectorSelection(currentWinningNumber, sectorType);
     setResult(validationResult);
@@ -154,8 +175,8 @@ export default function SectorTrainingScreen({ route }: Props) {
       }
 
       if (soundEnabled) {
-        // Play success beep (high pitch, short)
-        playBeepSound(1000, 150);
+        // Play success sound
+        playSoundEffect('success');
       }
 
       setShowCorrectFeedback(true);
@@ -175,11 +196,11 @@ export default function SectorTrainingScreen({ route }: Props) {
       }
 
       if (soundEnabled) {
-        // Play error buzz (low pitch, longer)
-        playBeepSound(300, 300);
+        // Play error sound
+        playSoundEffect('error');
       }
     }
-  };
+  }, [currentWinningNumber, isProcessing, hapticEnabled, soundEnabled, playSoundEffect, generateNewNumber]);
 
   const handleNext = () => {
     if (timeoutRef.current) {
@@ -203,9 +224,9 @@ export default function SectorTrainingScreen({ route }: Props) {
   const correctSectorName = result ? getSectorDisplayName(result.correctSector) : '';
 
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right, flexDirection: 'column' }]}>
-      {/* ── Minimal Top Bar ── */}
-      <View style={styles.topBar}>
+    <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right, flexDirection: 'row' }]}>
+      {/* ── Side Bar (Rotated) ── */}
+      <View style={[styles.topBar, { transform: [{ rotate: '-90deg' }], position: 'absolute', left: 0, top: '50%', zIndex: 10 }]}>
         <View style={styles.scoreDisplay}>
           <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
           <Text style={styles.scoreLabel}>score</Text>
@@ -218,7 +239,7 @@ export default function SectorTrainingScreen({ route }: Props) {
         </View>
       </View>
 
-      {/* ── Racetrack (Hero) ── */}
+      {/* ── Racetrack (Hero - Full Screen) ── */}
       <View style={styles.racetrackArea}>
         <RacetrackLayout
           width={racetrackSize}
@@ -444,6 +465,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     // ── Racetrack ──────────────────────────────
     racetrackArea: {
       flex: 1,
+      width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
       transform: [{ rotate: '90deg' }],

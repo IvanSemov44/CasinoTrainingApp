@@ -84,6 +84,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               {themeId === 'midnight' ? 'Casino' : 'Midnight'}
             </Text>
           </Pressable>
+          <Pressable style={styles.settingsBtn} onPress={() => navigation.navigate('Settings')}>
+            <Text style={styles.settingsBtnText}>⚙️</Text>
+          </Pressable>
         </View>
       </View>
 
@@ -173,6 +176,19 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: '600',
       color: colors.text.secondary,
       letterSpacing: 0.5,
+    },
+    settingsBtn: {
+      width: 40,
+      height: 40,
+      borderRadius: 8,
+      backgroundColor: colors.background.secondary,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    settingsBtnText: {
+      fontSize: 18,
     },
     headerButtons: {
       flexDirection: 'row',

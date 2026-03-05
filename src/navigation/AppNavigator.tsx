@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
 import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
 import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
@@ -21,6 +22,7 @@ import { useTheme } from '../contexts/ThemeContext';
 export type RootStackParamList = {
   Home: undefined;
   Progress: undefined;
+  Settings: undefined;
 } & RouletteTrainingStackParamList
   & RacetrackStackParamList
   & RouletteGameStackParamList
@@ -78,6 +80,11 @@ export default function AppNavigator() {
           name="Progress"
           component={ProgressScreen}
           options={{ title: 'My Progress' }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ title: 'Settings' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
