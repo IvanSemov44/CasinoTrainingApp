@@ -7,6 +7,7 @@ import { store, persistor } from './src/store';
 import AppNavigator from './src/navigation/AppNavigator';
 import ErrorBoundary from './src/components/ErrorBoundary';
 import { ThemeProvider } from './src/contexts/ThemeContext';
+import { SettingsProvider } from './src/contexts/SettingsContext';
 import 'react-native-gesture-handler';
 
 // Fix for web scrolling - inject style to override Expo's overflow:hidden
@@ -25,12 +26,14 @@ export default function App() {
     <SafeAreaProvider>
       <ErrorBoundary>
         <ThemeProvider>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <AppNavigator />
-              <StatusBar style="light" />
-            </PersistGate>
-          </Provider>
+          <SettingsProvider>
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <AppNavigator />
+                <StatusBar style="light" />
+              </PersistGate>
+            </Provider>
+          </SettingsProvider>
         </ThemeProvider>
       </ErrorBoundary>
     </SafeAreaProvider>

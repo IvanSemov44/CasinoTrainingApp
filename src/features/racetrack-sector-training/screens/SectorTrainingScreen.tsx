@@ -5,6 +5,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
+import { useSettings } from '@contexts/SettingsContext';
 import { RacetrackLayout } from '../../racetrack/components';
 import { SectorType, SectorValidationResult, SectorMode, TrainingStats } from '../types';
 import { RacetrackSectorStackParamList } from '../navigation';
@@ -36,6 +37,7 @@ type Props = StackScreenProps<RacetrackSectorStackParamList, 'SectorTraining'>;
 
 export default function SectorTrainingScreen({ route }: Props) {
   const { colors } = useTheme();
+  const { soundEnabled, hapticEnabled } = useSettings();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -142,15 +144,19 @@ export default function SectorTrainingScreen({ route }: Props) {
 
     // Haptic and sound feedback
     if (validationResult.isCorrect) {
-      try {
-        // Success: strong success pattern
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      } catch {
-        // Haptics may not be available
+      if (hapticEnabled) {
+        try {
+          // Success: strong success pattern
+          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        } catch {
+          // Haptics may not be available
+        }
       }
 
-      // Play success beep (high pitch, short)
-      playBeepSound(1000, 150);
+      if (soundEnabled) {
+        // Play success beep (high pitch, short)
+        playBeepSound(1000, 150);
+      }
 
       setShowCorrectFeedback(true);
       setIsProcessing(true);
@@ -159,15 +165,19 @@ export default function SectorTrainingScreen({ route }: Props) {
         generateNewNumber();
       }, 1000);
     } else {
-      try {
-        // Wrong: warning pattern (longer vibration)
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-      } catch {
-        // Haptics may not be available
+      if (hapticEnabled) {
+        try {
+          // Wrong: warning pattern (longer vibration)
+          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        } catch {
+          // Haptics may not be available
+        }
       }
 
-      // Play error buzz (low pitch, longer)
-      playBeepSound(300, 300);
+      if (soundEnabled) {
+        // Play error buzz (low pitch, longer)
+        playBeepSound(300, 300);
+      }
     }
   };
 
