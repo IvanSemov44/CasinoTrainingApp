@@ -93,25 +93,57 @@ if (fs.existsSync(assetsSource)) {
   console.log('⚠️ assets folder not found');
 }
 
-// Update index.html to include manifest link and fix scrolling
+// Update index.html to include all PWA meta tags and manifest link
 if (fs.existsSync(indexPath)) {
   let html = fs.readFileSync(indexPath, 'utf8');
-  
+
+  // Add PWA meta tags if not present
+  const pwaMetas = `    <meta name="theme-color" content="#1a472a" />
+    <meta name="background-color" content="#1a472a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Casino Training" />
+    <meta name="application-name" content="Casino Training App" />
+    <meta name="description" content="A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="msapplication-TileColor" content="#1a472a" />
+    <meta name="msapplication-tap-highlight" content="no" />`;
+
+  if (!html.includes('apple-mobile-web-app-capable')) {
+    // Remove any existing theme-color and description tags to avoid duplicates
+    html = html.replace(/<meta name="theme-color"[^>]*>/g, '');
+    html = html.replace(/<meta name="description"[^>]*>/g, '');
+    // Add PWA meta tags before </head>
+    html = html.replace('</head>', pwaMetas + '\n  </head>');
+  }
+
   // Add manifest link if not present
   if (!html.includes('rel="manifest"')) {
-    html = html.replace('</head>', '  <link rel="manifest" href="/manifest.json" />\n</head>');
+    html = html.replace('</head>', '\n    <link rel="manifest" href="/manifest.json" />\n  </head>');
   }
-  
+
+  // Add apple touch icons if not present
+  if (!html.includes('rel="apple-touch-icon"')) {
+    html = html.replace('</head>', '\n    <link rel="apple-touch-icon" href="/assets/adaptive-icon.png" />\n    <link rel="apple-touch-icon" sizes="180x180" href="/assets/adaptive-icon.png" />\n  </head>');
+  }
+
+  // Fix viewport meta tag - ensure it has proper PWA configuration
+  if (html.includes('name="viewport"')) {
+    html = html.replace(
+      /name="viewport"\s+content="[^"]*"/,
+      'name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"'
+    );
+  }
+
   // Add overflow fix and root height fix for scrolling
   if (!html.includes('overflow: auto')) {
-    html = html.replace('</head>', `  <style>
-    html, body { height: 100%; margin: 0; padding: 0; }
+    html = html.replace('</head>', `\n    <style>
+    html, body { height: 100%; margin: 0; padding: 0; background-color: #1a472a; }
     #root { min-height: 100%; height: auto; }
     body { overflow: auto !important; }
-  </style>
-</head>`);
+  </style>\n  </head>`);
   }
-  
+
   // Add service worker registration if not present
   if (!html.includes('serviceWorker')) {
     const swScript = `
@@ -131,9 +163,9 @@ if (fs.existsSync(indexPath)) {
     </script>`;
     html = html.replace('</body>', swScript + '\n  </body>');
   }
-  
+
   fs.writeFileSync(indexPath, html);
-  console.log('✅ Updated index.html with PWA support');
+  console.log('✅ Updated index.html with complete PWA support');
 }
 
 console.log('\n🚀 PWA files ready! Serve the dist/ folder to test installation.');
