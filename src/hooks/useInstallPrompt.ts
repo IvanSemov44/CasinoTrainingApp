@@ -13,7 +13,7 @@ declare global {
 
 export function useInstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(typeof window !== 'undefined');
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
