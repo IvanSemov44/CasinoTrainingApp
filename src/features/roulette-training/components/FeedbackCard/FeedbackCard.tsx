@@ -1,17 +1,11 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-
-interface FeedbackCardProps {
-  isCorrect: boolean;
-  correctAnswer: number;
-  explanation?: string;
-  onNextQuestion: () => void;
-}
+import type { FeedbackCardProps } from './FeedbackCard.types';
 
 /**
  * Feedback card component for displaying exercise results
- * Memoized to prevent unnecessary re-renders
+ * Shows correctness, correct answer, and optional explanation
  */
 const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(({
   isCorrect,

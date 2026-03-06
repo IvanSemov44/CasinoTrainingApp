@@ -2,34 +2,17 @@ import React, { ReactNode, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
-import ExerciseStats from './ExerciseStats';
-import HintSection from './HintSection';
-import NumberPad from './NumberPad';
-import FeedbackCard from './FeedbackCard';
+import ExerciseStats from '../ExerciseStats';
+import HintSection from '../HintSection';
+import NumberPad from '../NumberPad';
+import FeedbackCard from '../FeedbackCard';
 import { useTheme } from '@contexts/ThemeContext';
-import type { PlacedBet } from '@app-types/roulette.types';
+import type { ExerciseLayoutProps } from './ExerciseLayout.types';
 
-interface ExerciseLayoutProps {
-  score: number;
-  attempts: number;
-  showHint: boolean;
-  onToggleHint: () => void;
-  hintContent: ReactNode;
-  placedBets: PlacedBet[];
-  answerLabel: string;
-  userAnswer: string;
-  onAnswerChange: (text: string) => void;
-  showFeedback: boolean;
-  onCheckAnswer: () => void;
-  isCorrect: boolean;
-  correctAnswer: number;
-  explanation?: string;
-  onNextQuestion: () => void;
-  cellSize?: number;
-  maxColumns?: number;
-  isLoading?: boolean;
-}
-
+/**
+ * Main layout component for exercise screens
+ * Orchestrates roulette visualization, input handling, and feedback display
+ */
 export default function ExerciseLayout({
   score,
   attempts,

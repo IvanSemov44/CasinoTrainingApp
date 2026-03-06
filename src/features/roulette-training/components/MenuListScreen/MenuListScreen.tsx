@@ -2,29 +2,12 @@ import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import SkeletonLoader from '@components/SkeletonLoader';
 import { useTheme } from '@contexts/ThemeContext';
+import type { MenuListScreenProps } from './MenuListScreen.types';
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
-
-export interface MenuItem {
-  id: string;
-  title: string;
-  description: string;
-  difficulty: Difficulty;
-  onPress: () => void;
-  extraInfo?: string;
-}
-
-// MenuTheme kept for backwards compatibility — ignored internally
-export type MenuTheme = 'green' | 'dark';
-
-interface MenuListScreenProps {
-  title: string;
-  subtitle?: string;
-  items: MenuItem[];
-  theme?: MenuTheme;
-  isLoading?: boolean;
-}
-
+/**
+ * Menu component that displays a list of exercises/items
+ * with difficulty badges and optional loading skeleton
+ */
 const SkeletonMenuItem: React.FC = () => {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
@@ -44,7 +27,12 @@ const SkeletonMenuItem: React.FC = () => {
   );
 };
 
-export default function MenuListScreen({ title, subtitle, items, isLoading = false }: MenuListScreenProps) {
+export default function MenuListScreen({
+  title,
+  subtitle,
+  items,
+  isLoading = false,
+}: MenuListScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
