@@ -10,7 +10,9 @@
       "Bash(npm run build:web)",
       "Bash(ls -lh /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/dist/assets/*.png)",
       "WebFetch(domain:pagespeed.web.dev)",
-      "Bash(npm i @vercel/speed-insights)"
+      "Bash(npm i @vercel/speed-insights)",
+      "Bash(grep -r \"from ''@features/roulette-training''\" c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src --include=\"*.ts\" --include=\"*.tsx\")",
+      "Bash(npm run build)"
     ]
   }
 }

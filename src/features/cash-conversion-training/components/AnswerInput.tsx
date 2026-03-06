@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import NumberPad from '../../roulette-training/components/NumberPad';
+import NumberPad from '@components/NumberPad';
 import { RequestType } from '../types';
 
 interface AnswerInputProps {

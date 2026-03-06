@@ -24,6 +24,5 @@ export * from './constants/betCombinations';
 // Util exports
 export * from './utils/exerciseHelpers';
 export * from './utils/exerciseStyles';
-export * from './utils/randomUtils';
 export * from './utils/betGenerators';
 export * from './utils/hintGenerators';

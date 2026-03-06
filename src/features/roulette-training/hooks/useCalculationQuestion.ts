@@ -9,7 +9,7 @@ import {
   createMockBets,
 } from '../utils/exerciseHelpers';
 import { generateBetsForNumber, generateSingleBetFromConfig } from '../utils/betGenerators';
-import { getRandomInt, getRandomElement } from '../utils/randomUtils';
+import { getRandomInt, getRandomElement } from '@utils/randomUtils';
 import { generateHintContent } from '../utils/hintGenerators';
 
 type QuestionType = 'ASK_PAYOUT' | 'ASK_CHIPS' | 'ASK_CASH';

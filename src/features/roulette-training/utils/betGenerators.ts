@@ -13,7 +13,7 @@ import {
   shuffleArray,
   shouldInclude,
   getDynamicChipCount,
-} from './randomUtils';
+} from '@utils/randomUtils';
 
 /**
  * Configuration for bet generation probabilities

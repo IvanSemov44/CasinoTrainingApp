@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import NumberPad from '../../roulette-training/components/NumberPad';
+import NumberPad from '@components/NumberPad';
 
 interface PotCalculationInputProps {
   onSubmit: (amount: number) => void;
