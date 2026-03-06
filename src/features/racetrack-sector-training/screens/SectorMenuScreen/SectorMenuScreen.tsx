@@ -1,12 +1,9 @@
 import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
-import { SectorMode } from '../types';
-import type { RacetrackSectorStackParamList } from '../navigation';
-import { getSectorOptions, getSectorDisplayName } from '../utils/validation';
-
-type Props = StackScreenProps<RacetrackSectorStackParamList, 'SectorMenu'>;
+import { SectorMode } from '../../types';
+import { getSectorOptions, getSectorDisplayName } from '../../utils/validation';
+import type { SectorMenuScreenProps } from './SectorMenuScreen.types';
 
 interface ModeOption {
   mode: SectorMode;
@@ -57,7 +54,7 @@ const MODE_OPTIONS: ModeOption[] = [
   },
 ];
 
-export default function SectorMenuScreen({ navigation }: Props) {
+export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 

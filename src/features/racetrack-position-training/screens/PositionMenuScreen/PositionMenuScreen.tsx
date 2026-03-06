@@ -1,12 +1,9 @@
 import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
-import { PositionMode } from '../types';
-import type { RacetrackPositionStackParamList } from '../navigation';
-import { getWheelOrder, getWheelPosition } from '../utils/validation';
-
-type Props = StackScreenProps<RacetrackPositionStackParamList, 'PositionMenu'>;
+import { PositionMode } from '../../types';
+import { getWheelOrder, getWheelPosition } from '../../utils/validation';
+import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
 
 interface ModeOption {
   mode: PositionMode;
@@ -36,7 +33,7 @@ const MODE_OPTIONS: ModeOption[] = [
   },
 ];
 
-export default function PositionMenuScreen({ navigation }: Props) {
+export default function PositionMenuScreen({ navigation }: PositionMenuScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 

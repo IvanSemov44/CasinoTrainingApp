@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
-import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../components';
-import { SectorType, CashRequest, ValidationResult } from '../types';
-import { SECTOR_NAMES, SECTOR_POSITIONS } from '../constants/sectors';
+import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../components';
+import { SectorType, CashRequest, ValidationResult } from '../../types';
+import { SECTOR_NAMES, SECTOR_POSITIONS } from '../../constants/sectors';
 import {
   generateRandomCashAmount,
   generateRandomSector,
   generateRandomRequest,
   calculateCorrectAnswer,
   validateAnswer,
-} from '../utils/calculations';
-import type { CashConversionStackParamList } from '../navigation';
-
-type CashConversionTrainingScreenProps = StackScreenProps<CashConversionStackParamList, 'CashConversionTraining'>;
+} from '../../utils/calculations';
+import type { CashConversionTrainingScreenProps } from './CashConversionTrainingScreen.types';
 
 export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
   const { difficulty, sector } = route.params;

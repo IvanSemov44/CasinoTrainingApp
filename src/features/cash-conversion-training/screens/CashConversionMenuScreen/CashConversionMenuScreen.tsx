@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { CashConversionTrainingModal } from '../components';
-import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../constants/sectors';
+import { CashConversionTrainingModal } from '../../components';
+import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
 
 export default function CashConversionMenuScreen() {
   const { colors } = useTheme();

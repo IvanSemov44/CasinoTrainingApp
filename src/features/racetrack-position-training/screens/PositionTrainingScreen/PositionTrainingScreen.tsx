@@ -2,25 +2,22 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
-import { RacetrackLayout } from '../../racetrack/components';
-import { PositionValidationResult, PositionMode, TrainingStats } from '../types';
-import { RacetrackPositionStackParamList } from '../navigation';
+import { RacetrackLayout } from '../../../racetrack/components';
+import { PositionValidationResult, PositionMode, TrainingStats } from '../../types';
 import {
   validatePositionSelection,
   getRandomWinningNumber,
   getWheelPosition,
-} from '../utils/validation';
+} from '../../utils/validation';
+import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 
 const MODE_LABELS: Record<PositionMode, string> = {
   single: 'SINGLE',
   random: 'RANDOM',
 };
 
-type Props = StackScreenProps<RacetrackPositionStackParamList, 'PositionTraining'>;
-
-export default function PositionTrainingScreen({ route }: Props) {
+export default function PositionTrainingScreen({ route }: PositionTrainingScreenProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(colors), [colors]);

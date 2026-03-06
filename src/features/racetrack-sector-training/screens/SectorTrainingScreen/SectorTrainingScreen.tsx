@@ -3,19 +3,16 @@ import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import { useSettings } from '@contexts/SettingsContext';
-import { RacetrackLayout } from '../../racetrack/components';
-import { SectorType, SectorMode, TrainingStats } from '../types';
-import { RacetrackSectorStackParamList } from '../navigation';
+import { RacetrackLayout } from '../../../racetrack/components';
+import { SectorType, SectorMode, TrainingStats } from '../../types';
 import {
   validateSectorSelection,
   getRandomWinningNumber,
   getSectorForNumber,
-} from '../utils/validation';
-
-type Props = StackScreenProps<RacetrackSectorStackParamList, 'SectorTraining'>;
+} from '../../utils/validation';
+import type { SectorTrainingScreenProps } from './SectorTrainingScreen.types';
 
 function playTone(ctx: AudioContext, freq: number, startTime: number, duration: number) {
   const osc = ctx.createOscillator();
@@ -30,7 +27,7 @@ function playTone(ctx: AudioContext, freq: number, startTime: number, duration: 
   osc.stop(startTime + duration);
 }
 
-export default function SectorTrainingScreen({ route }: Props) {
+export default function SectorTrainingScreen({ route }: SectorTrainingScreenProps) {
   const { colors } = useTheme();
   const { soundEnabled, hapticEnabled } = useSettings();
   const insets = useSafeAreaInsets();
