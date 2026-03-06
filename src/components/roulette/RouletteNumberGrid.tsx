@@ -5,7 +5,7 @@ import { LAYOUT_GRID } from '../../constants/roulette.constants';
 import RouletteNumberCell from './RouletteNumberCell';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles } from './styles/roulette.styles';
-import { getCallBetsRouletteStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
+import { getCallBetsRouletteStyles } from './styles/callBetsRouletteStyles';
 
 interface RouletteNumberGridProps {
   cellSize: number;

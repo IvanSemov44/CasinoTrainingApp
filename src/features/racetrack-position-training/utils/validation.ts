@@ -2,6 +2,7 @@
  * Racetrack Position Validation Utilities
  */
 
+import { getRandomElement } from '@utils/randomUtils';
 import { PositionValidationResult, WheelPosition } from '../types';
 
 // European Roulette wheel order
@@ -52,7 +53,7 @@ export function validatePositionSelection(
  * Get a random winning number from all roulette numbers
  */
 export function getRandomWinningNumber(): number {
-  return ALL_ROULETTE_NUMBERS[Math.floor(Math.random() * ALL_ROULETTE_NUMBERS.length)];
+  return getRandomElement(ALL_ROULETTE_NUMBERS);
 }
 
 /**

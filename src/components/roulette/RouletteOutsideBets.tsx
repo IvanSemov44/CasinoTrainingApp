@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { RouletteNumber, BetType } from '../../types/roulette.types';
 import RouletteChip from './RouletteChip';
 import { getOutsideBetsStyles, getRouletteStyles } from './styles/roulette.styles';
-import { getCallBetsOutsideBetsStyles, getCallBetsRouletteStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
+import { getCallBetsOutsideBetsStyles, getCallBetsRouletteStyles } from './styles/callBetsRouletteStyles';
 
 interface RouletteOutsideBetsProps {
   cellSize: number;

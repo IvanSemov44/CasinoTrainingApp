@@ -1,3 +1,4 @@
+import { getRandomElement } from '@utils/randomUtils';
 import { PlacedBet } from '../../../types/roulette.types';
 import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
 import { ValidationResult, CallBetMode } from '../types';
@@ -75,7 +76,7 @@ export function validateCallBet(
  */
 export function getRandomMode(): Exclude<CallBetMode, 'random'> {
   const modes: Array<Exclude<CallBetMode, 'random'>> = ['tier', 'orphelins', 'voisins', 'zero'];
-  return modes[Math.floor(Math.random() * modes.length)];
+  return getRandomElement(modes);
 }
 
 /**

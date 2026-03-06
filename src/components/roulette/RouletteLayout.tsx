@@ -8,7 +8,7 @@ import RouletteNumberGrid from './RouletteNumberGrid';
 import RouletteColumnBets from './RouletteColumnBets';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles, getZeroColumnStyles } from './styles/roulette.styles';
-import { getCallBetsRouletteStyles, getCallBetsZeroColumnStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
+import { getCallBetsRouletteStyles, getCallBetsZeroColumnStyles } from './styles/callBetsRouletteStyles';
 
 interface RouletteLayoutProps {
   onNumberPress: (number: RouletteNumber) => void;

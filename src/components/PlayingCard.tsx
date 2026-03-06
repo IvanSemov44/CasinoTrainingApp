@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 import type { Card } from '@utils/cardUtils';
 import { isRed } from '@utils/cardUtils';
 
@@ -25,55 +26,59 @@ const SUIT_SYMBOL: Record<string, string> = {
 };
 
 export default function PlayingCard({ card, faceDown = false, size = 'md' }: PlayingCardProps) {
+  const { colors } = useTheme();
+  const dynamicStyles = useMemo(() => makeStyles(colors), [colors]);
   const d = DIMENSIONS[size];
 
   if (faceDown) {
     return (
-      <View style={[styles.card, { width: d.width, height: d.height }, styles.faceDown]} />
+      <View style={[dynamicStyles.card, { width: d.width, height: d.height }, dynamicStyles.faceDown]} />
     );
   }
 
   const symbol = SUIT_SYMBOL[card.suit];
-  const color  = isRed(card.suit) ? '#CC0000' : '#111111';
+  const color  = isRed(card.suit) ? colors.status.error : colors.text.primary;
 
   return (
-    <View style={[styles.card, { width: d.width, height: d.height }]}>
-      <Text style={[styles.cornerTL, { fontSize: d.cornerFont, color }]}>{card.rank}</Text>
-      <Text style={[styles.suitCenter, { fontSize: d.centerFont, color }]}>{symbol}</Text>
-      <Text style={[styles.cornerBR, { fontSize: d.cornerFont, color }]}>{card.rank}</Text>
+    <View style={[dynamicStyles.card, { width: d.width, height: d.height }]}>
+      <Text style={[dynamicStyles.cornerTL, { fontSize: d.cornerFont, color }]}>{card.rank}</Text>
+      <Text style={[dynamicStyles.suitCenter, { fontSize: d.centerFont, color }]}>{symbol}</Text>
+      <Text style={[dynamicStyles.cornerBR, { fontSize: d.cornerFont, color }]}>{card.rank}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  faceDown: {
-    backgroundColor: '#1A237E',
-    borderColor: '#283593',
-  },
-  cornerTL: {
-    position: 'absolute',
-    top: 3,
-    left: 5,
-    fontWeight: '700',
-    lineHeight: 16,
-  },
-  suitCenter: {
-    fontWeight: '400',
-  },
-  cornerBR: {
-    position: 'absolute',
-    bottom: 3,
-    right: 5,
-    fontWeight: '700',
-    lineHeight: 16,
-    transform: [{ rotate: '180deg' }],
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    card: {
+      backgroundColor: colors.text.primary,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: colors.border.hint,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    faceDown: {
+      backgroundColor: colors.background.tertiary,
+      borderColor: colors.border.primaryDark,
+    },
+    cornerTL: {
+      position: 'absolute',
+      top: 3,
+      left: 5,
+      fontWeight: '700',
+      lineHeight: 16,
+    },
+    suitCenter: {
+      fontWeight: '400',
+    },
+    cornerBR: {
+      position: 'absolute',
+      bottom: 3,
+      right: 5,
+      fontWeight: '700',
+      lineHeight: 16,
+      transform: [{ rotate: '180deg' }],
+    },
+  });
+}

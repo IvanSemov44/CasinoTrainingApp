@@ -4,7 +4,7 @@ import { RouletteNumber, BetType } from '../../types/roulette.types';
 import { LAYOUT_GRID } from '../../constants/roulette.constants';
 import RouletteChip from './RouletteChip';
 import { getColumnBetsStyles } from './styles/roulette.styles';
-import { getCallBetsColumnBetsStyles } from '../../features/call-bets-training/styles/callBetsRouletteStyles';
+import { getCallBetsColumnBetsStyles } from './styles/callBetsRouletteStyles';
 
 interface RouletteColumnBetsProps {
   cellSize: number;

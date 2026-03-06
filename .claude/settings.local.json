@@ -12,7 +12,9 @@
       "WebFetch(domain:pagespeed.web.dev)",
       "Bash(npm i @vercel/speed-insights)",
       "Bash(grep -r \"from ''@features/roulette-training''\" c:/Users/ivans/Desktop/Dev/CasinoTrainingApp/src --include=\"*.ts\" --include=\"*.tsx\")",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(xargs wc -l)",
+      "Bash(grep -n \"color: ''#\" /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/roulette-game/screens/RouletteGameScreen.tsx)"
     ]
   }
 }

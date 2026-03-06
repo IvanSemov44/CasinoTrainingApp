@@ -249,14 +249,14 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
 
     submitBtn: { backgroundColor: colors.status.success, borderRadius: 12, padding: 18, alignItems: 'center', marginTop: 4 },
     submitBtnDisabled: { backgroundColor: colors.background.tertiary, opacity: 0.5 },
-    submitBtnText: { fontSize: 17, fontWeight: '700', color: '#FFF' },
+    submitBtnText: { fontSize: 17, fontWeight: '700', color: colors.text.primary },
 
     resultCard: { borderRadius: 14, padding: 20, marginTop: 4 },
     resultCorrect: { backgroundColor: colors.status.successAlt, borderWidth: 1.5, borderColor: colors.status.success },
     resultIncorrect: { backgroundColor: colors.status.errorAlt, borderWidth: 1.5, borderColor: colors.status.error },
     resultHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 },
-    resultIcon: { fontSize: 22, fontWeight: '800', color: '#FFF' },
-    resultTitle: { fontSize: 22, fontWeight: '700', color: '#FFF', flex: 1 },
+    resultIcon: { fontSize: 22, fontWeight: '800', color: colors.text.primary },
+    resultTitle: { fontSize: 22, fontWeight: '700', color: colors.text.primary, flex: 1 },
     pointsEarned: { fontSize: 18, fontWeight: '800', color: colors.text.gold },
 
     answerRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border.primaryDark },
@@ -269,6 +269,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     streakNote: { marginTop: 12, textAlign: 'center', color: colors.status.streak, fontSize: 13, fontWeight: '700' },
 
     continueBtn: { backgroundColor: colors.text.gold, borderRadius: 12, padding: 18, alignItems: 'center', marginTop: 14 },
-    continueBtnText: { fontSize: 17, fontWeight: '700', color: '#000' },
+    continueBtnText: { fontSize: 17, fontWeight: '700', color: colors.background.dark },
   });
 }

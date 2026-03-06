@@ -2,6 +2,7 @@
  * Racetrack Sector Validation Utilities
  */
 
+import { getRandomElement } from '@utils/randomUtils';
 import { SectorType, SectorValidationResult, SectorMode } from '../types';
 
 // Sector number mappings - strict non-overlapping definitions
@@ -67,7 +68,7 @@ export function validateSectorSelection(
  * Get a random winning number from all roulette numbers
  */
 export function getRandomWinningNumber(): number {
-  return ALL_ROULETTE_NUMBERS[Math.floor(Math.random() * ALL_ROULETTE_NUMBERS.length)];
+  return getRandomElement(ALL_ROULETTE_NUMBERS);
 }
 
 /**
@@ -75,7 +76,7 @@ export function getRandomWinningNumber(): number {
  */
 export function getRandomSectorMode(): SectorType {
   const sectors: SectorType[] = ['tier', 'orphelins', 'voisins', 'zero'];
-  return sectors[Math.floor(Math.random() * sectors.length)];
+  return getRandomElement(sectors);
 }
 
 /**
