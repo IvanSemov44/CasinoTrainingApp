@@ -1,5 +1,6 @@
 import { CashRequest, CashAnswer, ValidationResult, DifficultyLevel, SectorType } from '../types';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET, MIN_BET_PER_POSITION, BET_INCREMENT } from '../constants/sectors';
+import { getRandomElement, getRandomInt } from '@utils/randomUtils';
 
 export function calculateCorrectAnswer(
   request: CashRequest,
@@ -70,34 +71,34 @@ const MIN_CASH_PERCENTAGE: Record<DifficultyLevel, number> = {
 export function generateRandomCashAmount(difficulty: DifficultyLevel, sector?: Exclude<SectorType, 'random'>): number {
   const maxBet = DIFFICULTY_MAX_BET[difficulty];
   const minPercentage = MIN_CASH_PERCENTAGE[difficulty];
-  
+
   // Calculate max cash based on sector: maxBet × positions
   // If no sector specified, use Tier (6 positions) as default
   const positions = sector ? SECTOR_POSITIONS[sector] : 6;
   const maxCash = maxBet * positions;
-  
+
   // Calculate absolute minimum: positions × $5, rounded up to nearest $25
   // This ensures the cash amount can always cover at least $5 per position
   const absoluteMinCash = Math.ceil(positions * MIN_BET_PER_POSITION / CASH_STEP) * CASH_STEP;
-  
+
   // Calculate minimum cash from percentage (for medium/hard difficulties)
   const percentageMinCash = Math.ceil(maxCash * minPercentage / CASH_STEP) * CASH_STEP;
-  
+
   // Use the higher of absolute minimum or percentage minimum
   const minCash = Math.max(absoluteMinCash, percentageMinCash);
-  
+
   // Generate possible amounts from min to max with step
   const possibleAmounts: number[] = [];
   for (let amount = minCash; amount <= maxCash; amount += CASH_STEP) {
     possibleAmounts.push(amount);
   }
-  
-  return possibleAmounts[Math.floor(Math.random() * possibleAmounts.length)];
+
+  return getRandomElement(possibleAmounts);
 }
 
 export function generateRandomSector(): Exclude<SectorType, 'random'> {
   const sectors: Exclude<SectorType, 'random'>[] = ['tier', 'orphelins', 'voisins', 'zero', 'neighbors'];
-  return sectors[Math.floor(Math.random() * sectors.length)];
+  return getRandomElement(sectors);
 }
 
 export function generateRandomRequest(
@@ -105,7 +106,7 @@ export function generateRandomRequest(
   cashAmount: number,
   difficulty: DifficultyLevel
 ): CashRequest {
-  const requestType = Math.random() > 0.5 ? 'for-the-money' : 'by-amount';
+  const requestType = getRandomInt(0, 99) > 50 ? 'for-the-money' : 'by-amount';
   const positions = SECTOR_POSITIONS[sector];
   const maxBet = DIFFICULTY_MAX_BET[difficulty];
   const maxChange = 100; // Maximum allowed change/rest
@@ -126,7 +127,7 @@ export function generateRandomRequest(
       // Ensure adjustedCash is a multiple of CASH_STEP ($25)
       const targetTotal = totalBet;
       const maxChangeInSteps = Math.floor(maxChange / CASH_STEP);
-      const changeInSteps = Math.floor(Math.random() * maxChangeInSteps);
+      const changeInSteps = getRandomInt(0, maxChangeInSteps - 1);
       const adjustedCash = targetTotal + changeInSteps * CASH_STEP;
       return {
         cashAmount: adjustedCash,
@@ -156,10 +157,10 @@ export function generateRandomRequest(
     
     // If no valid bets found, adjust cash amount to work with a random bet
     if (possibleBets.length === 0) {
-      const randomBet = Math.floor(Math.random() * (maxBet / BET_INCREMENT)) * BET_INCREMENT + MIN_BET_PER_POSITION;
+      const randomBet = getRandomInt(0, Math.floor(maxBet / BET_INCREMENT) - 1) * BET_INCREMENT + MIN_BET_PER_POSITION;
       // Ensure adjustedCash is a multiple of CASH_STEP ($25)
       const maxChangeInSteps = Math.floor(maxChange / CASH_STEP);
-      const changeInSteps = Math.floor(Math.random() * maxChangeInSteps);
+      const changeInSteps = getRandomInt(0, maxChangeInSteps - 1);
       const adjustedCash = randomBet * positions + changeInSteps * CASH_STEP;
       return {
         cashAmount: adjustedCash,
@@ -169,7 +170,7 @@ export function generateRandomRequest(
       };
     }
     
-    const specifiedAmount = possibleBets[Math.floor(Math.random() * possibleBets.length)];
+    const specifiedAmount = getRandomElement(possibleBets);
     
     return {
       cashAmount,
