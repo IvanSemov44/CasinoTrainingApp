@@ -80,7 +80,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     headerText: {
       fontSize: 24,
       fontWeight: '700',
-      color: '#FFF',
+      color: colors.text.primary,
     },
     comparisonContainer: {
       padding: 24,
