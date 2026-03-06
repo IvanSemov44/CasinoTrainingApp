@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 import { PotRequest, Position } from '../types';
 import { POSITIONS } from '../constants/plo.constants';
 import PokerTable from './PokerTable';
@@ -20,6 +21,9 @@ interface TablePlayer {
 }
 
 export default function GameStateDisplay({ request }: GameStateDisplayProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const { smallBlind, bigBlind, previousActions, requestingPosition } = request;
 
   // Map positions to player numbers (1-6) - matching black labels in image
@@ -91,30 +95,32 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
-  },
-  blindsSection: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  blindsTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFD700',
-    marginBottom: 10,
-  },
-  blindsRow: {
-    flexDirection: 'row',
-    gap: 20,
-  },
-  blindText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontWeight: '500',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      marginBottom: 20,
+    },
+    blindsSection: {
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 12,
+      padding: 15,
+      marginBottom: 20,
+      alignItems: 'center',
+    },
+    blindsTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text.gold,
+      marginBottom: 10,
+    },
+    blindsRow: {
+      flexDirection: 'row',
+      gap: 20,
+    },
+    blindText: {
+      fontSize: 16,
+      color: colors.text.primary,
+      fontWeight: '500',
+    },
+  });
+}

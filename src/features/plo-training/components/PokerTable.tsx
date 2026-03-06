@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 import PlayerPosition from './PlayerPosition';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -22,6 +23,9 @@ interface PokerTableProps {
 }
 
 export default function PokerTable({ players, potAmount = 0, communityCards = 0 }: PokerTableProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // Table dimensions - responsive to screen size
   const isLandscape = screenWidth > screenHeight;
   const maxWidth = isLandscape ? screenWidth * 0.6 : screenWidth - 40;
@@ -100,70 +104,72 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tableContainer: {
-    position: 'relative',
-  },
-  table: {
-    backgroundColor: '#0a5f38',
-    borderRadius: 120,
-    borderWidth: 8,
-    borderColor: '#8B4513',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-  },
-  tableInner: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 112,
-    borderWidth: 2,
-    borderColor: '#FFD700',
-    margin: 4,
-  },
-  potArea: {
-    backgroundColor: '#1a7f50',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#FFD700',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  potLabel: {
-    color: '#FFD700',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
-  potAmount: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: '700',
-    marginTop: 2,
-  },
-  cardsArea: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
-  },
-  card: {
-    width: 35,
-    height: 50,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#333',
-  },
-  playerWrapper: {
-    position: 'absolute',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    tableContainer: {
+      position: 'relative',
+    },
+    table: {
+      backgroundColor: colors.background.primary,
+      borderRadius: 120,
+      borderWidth: 8,
+      borderColor: colors.status.error,
+      elevation: 5,
+      shadowColor: colors.background.dark,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+    },
+    tableInner: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 112,
+      borderWidth: 2,
+      borderColor: colors.text.gold,
+      margin: 4,
+    },
+    potArea: {
+      backgroundColor: colors.background.tertiary,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.text.gold,
+      alignItems: 'center',
+      marginTop: 8,
+    },
+    potLabel: {
+      color: colors.text.gold,
+      fontSize: 12,
+      fontWeight: '700',
+      letterSpacing: 1,
+    },
+    potAmount: {
+      color: colors.text.primary,
+      fontSize: 20,
+      fontWeight: '700',
+      marginTop: 2,
+    },
+    cardsArea: {
+      flexDirection: 'row',
+      gap: 8,
+      marginBottom: 12,
+    },
+    card: {
+      width: 35,
+      height: 50,
+      backgroundColor: colors.text.primary,
+      borderRadius: 4,
+      borderWidth: 1,
+      borderColor: colors.border.primary,
+    },
+    playerWrapper: {
+      position: 'absolute',
+    },
+  });
+}

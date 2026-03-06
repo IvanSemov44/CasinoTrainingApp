@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '@components/NumberPad';
 
 interface PotCalculationInputProps {
@@ -8,6 +9,9 @@ interface PotCalculationInputProps {
 }
 
 export default function PotCalculationInput({ onSubmit, disabled = false }: PotCalculationInputProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   const [inputValue, setInputValue] = useState('');
 
   const handleNumberPress = (num: string) => {
@@ -60,40 +64,42 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#FFD700',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  displayContainer: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 20,
-  },
-  displayLabel: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 8,
-    fontWeight: '500',
-  },
-  displayField: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 8,
-    padding: 15,
-    borderWidth: 2,
-    borderColor: '#FFD700',
-  },
-  displayText: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    textAlign: 'center',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      width: '100%',
+    },
+    label: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text.gold,
+      marginBottom: 15,
+      textAlign: 'center',
+    },
+    displayContainer: {
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 12,
+      padding: 20,
+      marginBottom: 20,
+    },
+    displayLabel: {
+      fontSize: 14,
+      color: colors.text.placeholder,
+      marginBottom: 8,
+      fontWeight: '500',
+    },
+    displayField: {
+      backgroundColor: colors.background.hint,
+      borderRadius: 8,
+      padding: 15,
+      borderWidth: 2,
+      borderColor: colors.text.gold,
+    },
+    displayText: {
+      fontSize: 32,
+      fontWeight: '700',
+      color: colors.text.primary,
+      textAlign: 'center',
+    },
+  });
+}

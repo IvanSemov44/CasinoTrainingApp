@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 
 const STREET_HEADERS = new Set(['PREFLOP', 'FLOP', 'TURN', 'RIVER']);
 
@@ -9,6 +10,9 @@ interface ActionLogProps {
 }
 
 export default function ActionLog({ lines, requesterName }: ActionLogProps) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
+
   // The last street header in the log is the current street
   let lastHeaderIdx = -1;
   for (let i = 0; i < lines.length; i++) {
@@ -53,55 +57,57 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#111',
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 16,
-    borderLeftWidth: 3,
-    borderLeftColor: '#FFD700',
-  },
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.darkGray,
+      borderRadius: 10,
+      padding: 14,
+      marginBottom: 16,
+      borderLeftWidth: 3,
+      borderLeftColor: colors.text.gold,
+    },
 
-  // ── Street section headers ────────────────────────────────────────────────
-  streetHeader: {
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 1.5,
-    marginBottom: 4,
-  },
-  streetHeaderSpacing: {
-    marginTop: 10,
-  },
-  currentHeader: {
-    color: '#FFD700',
-  },
-  prevHeader: {
-    color: '#444',
-  },
+    // ── Street section headers ────────────────────────────────────────────────
+    streetHeader: {
+      fontSize: 10,
+      fontWeight: '800',
+      letterSpacing: 1.5,
+      marginBottom: 4,
+    },
+    streetHeaderSpacing: {
+      marginTop: 10,
+    },
+    currentHeader: {
+      color: colors.text.gold,
+    },
+    prevHeader: {
+      color: colors.text.muted,
+    },
 
-  // ── Action lines ──────────────────────────────────────────────────────────
-  line: {
-    color: '#ccc',
-    fontSize: 13,
-    lineHeight: 20,
-    fontFamily: 'monospace',
-  },
-  historicalLine: {
-    color: '#555',
-  },
+    // ── Action lines ──────────────────────────────────────────────────────────
+    line: {
+      color: colors.text.secondary,
+      fontSize: 13,
+      lineHeight: 20,
+      fontFamily: 'monospace',
+    },
+    historicalLine: {
+      color: colors.text.muted,
+    },
 
-  // ── "Asks pot" footer ─────────────────────────────────────────────────────
-  askIndicator: {
-    marginTop: 10,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#333',
-  },
-  askText: {
-    color: '#FF4500',
-    fontSize: 13,
-    fontWeight: '700',
-    fontStyle: 'italic',
-  },
-});
+    // ── "Asks pot" footer ─────────────────────────────────────────────────────
+    askIndicator: {
+      marginTop: 10,
+      paddingTop: 10,
+      borderTopWidth: 1,
+      borderTopColor: colors.border.primary,
+    },
+    askText: {
+      color: colors.status.warning,
+      fontSize: 13,
+      fontWeight: '700',
+      fontStyle: 'italic',
+    },
+  });
+}
