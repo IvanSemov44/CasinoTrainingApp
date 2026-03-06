@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { useTheme } from '@contexts/ThemeContext';
 import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
+import { SectorReferenceCard } from '../../components/SectorReferenceCard';
+import { SectorInfoBox } from '../../components/SectorInfoBox';
 import type { SectorMenuScreenProps } from './SectorMenuScreen.types';
 
 interface ModeOption {
@@ -73,19 +75,7 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
         </Text>
       </View>
 
-      <View style={styles.sectorPreview}>
-        <Text style={styles.previewTitle}>Sector Reference:</Text>
-        {sectorOptions.map((option) => (
-          <View key={option.sector} style={styles.previewRow}>
-            <Text style={[styles.previewName, { color: MODE_OPTIONS.find(m => m.mode === option.sector)?.color || colors.text.primary }]}>
-              {option.name}:
-            </Text>
-            <Text style={styles.previewNumbers}>
-              {option.numbers.join(', ')}
-            </Text>
-          </View>
-        ))}
-      </View>
+      <SectorReferenceCard sectorOptions={sectorOptions} sectorColors={SECTOR_ACCENT_COLORS} />
 
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
@@ -108,19 +98,12 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
         ))}
       </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>How to Play:</Text>
-        <Text style={styles.infoText}>1. A winning number is displayed at the top</Text>
-        <Text style={styles.infoText}>2. Tap the correct sector on the racetrack</Text>
-        <Text style={styles.infoText}>3. Get feedback and try the next number</Text>
-        <Text style={styles.infoText}>4. Build your score with each correct answer</Text>
-      </View>
+      <SectorInfoBox />
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -145,34 +128,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontSize: 16,
       color: colors.text.secondary,
       textAlign: 'center',
-    },
-    sectorPreview: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 24,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    previewTitle: {
-      fontSize: 16,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    previewRow: {
-      flexDirection: 'row',
-      marginBottom: 4,
-    },
-    previewName: {
-      fontSize: 14,
-      fontWeight: '600',
-      width: 140,
-    },
-    previewNumbers: {
-      fontSize: 14,
-      color: colors.text.secondary,
-      flex: 1,
     },
     modesContainer: {
       gap: 16,
@@ -221,24 +176,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.secondary,
       lineHeight: 18,
     },
-    infoBox: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    infoTitle: {
-      fontSize: 18,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    infoText: {
-      fontSize: 14,
-      color: colors.text.primary,
-      marginBottom: 4,
-    },
   });
-  /* eslint-enable react-native/no-unused-styles */
 }
