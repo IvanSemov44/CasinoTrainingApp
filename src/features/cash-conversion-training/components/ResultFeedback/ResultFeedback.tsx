@@ -1,13 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { ValidationResult } from '../types';
-
-interface ResultFeedbackProps {
-  result: ValidationResult;
-  onNext: () => void;
-  sectorName: string;
-}
+import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {
   const { colors } = useTheme();

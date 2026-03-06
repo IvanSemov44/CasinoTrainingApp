@@ -8,9 +8,10 @@ import {
   type SummaryItem,
   type NumberInputConfig,
 } from '@components/shared';
-import { DifficultyLevel, SectorType } from '../types';
-import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../constants/sectors';
-import type { CashConversionStackParamList } from '../navigation';
+import { DifficultyLevel, SectorType } from '../../types';
+import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
+import type { CashConversionStackParamList } from '../../navigation';
+import type { CashConversionTrainingModalProps } from './CashConversionTrainingModal.types';
 
 // Difficulty options
 const DIFFICULTY_OPTIONS: DropdownItem[] = [
@@ -31,11 +32,6 @@ const SECTOR_OPTIONS: DropdownItem[] = [
 
 // Exercise count options
 const EXERCISE_COUNT_OPTIONS = [5, 10, 15, 20, 25, 30];
-
-interface CashConversionTrainingModalProps {
-  visible: boolean;
-  onClose: () => void;
-}
 
 export default function CashConversionTrainingModal({ visible, onClose }: CashConversionTrainingModalProps) {
   const navigation = useNavigation<StackNavigationProp<CashConversionStackParamList>>();

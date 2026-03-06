@@ -1,11 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { CHIP_DENOMINATIONS } from '../constants/denominations';
-
-interface CashDisplayProps {
-  amount: number;
-}
+import { CHIP_DENOMINATIONS } from '../../constants/denominations';
+import type { CashDisplayProps } from './CashDisplay.types';
 
 export default function CashDisplay({ amount }: CashDisplayProps) {
   const { colors } = useTheme();

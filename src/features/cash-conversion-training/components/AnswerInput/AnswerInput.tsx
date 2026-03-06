@@ -2,20 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '@components/NumberPad';
-import { RequestType } from '../types';
-
-interface AnswerInputProps {
-  totalBet: string;
-  betPerPosition: string;
-  change: string;
-  onTotalBetChange: (value: string) => void;
-  onBetPerPositionChange: (value: string) => void;
-  onChangeChange: (value: string) => void;
-  sectorName: string;
-  activeInput: 'totalBet' | 'betPerPosition' | 'change';
-  onInputFocus: (input: 'totalBet' | 'betPerPosition' | 'change') => void;
-  requestType: RequestType;
-}
+import type { AnswerInputProps } from './AnswerInput.types';
 
 export default function AnswerInput({
   totalBet,

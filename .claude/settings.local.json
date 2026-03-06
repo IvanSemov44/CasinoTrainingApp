@@ -29,7 +29,8 @@
       "Bash(for dir in PlayerPosition PokerTable GameStateDisplay ActionLog PotCalculationInput)",
       "Bash(do)",
       "Bash(echo \"=== $dir ===\")",
-      "Read(//c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/plo-training/components/**)"
+      "Read(//c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/plo-training/components/**)",
+      "Bash(ls -d src/features/cash-conversion-training/components/*/)"
     ]
   }
 }

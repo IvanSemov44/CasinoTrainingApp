@@ -1,12 +1,9 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { CashRequest } from '../types';
-import { SECTOR_NAMES } from '../constants/sectors';
-
-interface RequestDisplayProps {
-  request: CashRequest;
-}
+import { CashRequest } from '../../types';
+import { SECTOR_NAMES } from '../../constants/sectors';
+import type { RequestDisplayProps } from './RequestDisplay.types';
 
 export default function RequestDisplay({ request }: RequestDisplayProps) {
   const { colors } = useTheme();
