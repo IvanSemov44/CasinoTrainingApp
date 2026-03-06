@@ -1,13 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { CallBetMode } from '../types';
-import { getModeDisplayName } from '../utils/validation';
-
-interface ChallengeDisplayProps {
-  mode: Exclude<CallBetMode, 'random'>;
-  totalBets: number;
-}
+import { getModeDisplayName } from '../../utils/validation';
+import type { ChallengeDisplayProps } from './ChallengeDisplay.types';
 
 export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayProps) {
   const { colors } = useTheme();

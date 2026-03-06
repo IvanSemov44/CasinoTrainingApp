@@ -8,16 +8,12 @@ import {
   BOTTOM_CELL_BOUNDARIES,
   VIEWBOX,
   SECTION_LABELS,
-} from '../constants';
+} from '../../constants';
 import {
   getTopNumberCenterX,
   getBottomNumberCenterX,
-} from '../utils';
-
-interface RacetrackTrackSvgProps {
-  width: number;
-  height: number;
-}
+} from '../../utils';
+import { RacetrackTrackSvgProps } from './RacetrackTrackSvg.types';
 
 export default function RacetrackTrackSvg({ width, height }: RacetrackTrackSvgProps) {
   return (

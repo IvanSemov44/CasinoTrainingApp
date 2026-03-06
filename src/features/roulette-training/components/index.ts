@@ -1,8 +1,11 @@
 export { default as ExerciseLayout } from './ExerciseLayout';
 export type { ExerciseLayoutProps } from './ExerciseLayout';
 export { default as ExerciseStats } from './ExerciseStats';
+export type { ExerciseStatsProps } from './ExerciseStats/ExerciseStats.types';
 export { default as FeedbackCard } from './FeedbackCard';
 export { default as HintSection } from './HintSection';
+export type { HintSectionProps } from './HintSection/HintSection.types';
 export { default as NumberPad } from './NumberPad';
+export type { NumberPadProps } from './NumberPad/NumberPad.types';
 export { default as MenuListScreen } from './MenuListScreen';
 export type { MenuItem, Difficulty, MenuListScreenProps } from './MenuListScreen';

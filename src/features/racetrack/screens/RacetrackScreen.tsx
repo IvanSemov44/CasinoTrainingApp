@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import RacetrackLayout from '../components/RacetrackLayout';
+import { RacetrackLayout } from '../components';
 
 const { height: screenHeight } = Dimensions.get('window');
 

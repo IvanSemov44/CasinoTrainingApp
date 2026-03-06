@@ -1,19 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
-import {
-  VIEWBOX,
-} from '../constants';
-import RacetrackTrackSvg from './RacetrackTrackSvg';
-import RacetrackOverlays from './RacetrackOverlays';
-import { styles } from './RacetrackLayout.styles';
-
-type SectionType = 'tier' | 'orphelins' | 'voisins' | 'zero';
-
-interface RacetrackLayoutProps {
-  width?: number;
-  onNumberPress?: (number: string) => void;
-  onSectionPress?: (section: SectionType) => void;
-}
+import { View, StyleSheet } from 'react-native';
+import { VIEWBOX } from '../../constants';
+import { RacetrackTrackSvg } from '../RacetrackTrackSvg';
+import { RacetrackOverlays } from '../RacetrackOverlays';
+import { RacetrackLayoutProps } from './RacetrackLayout.types';
 
 export default function RacetrackLayout({
   width = 350,
@@ -34,3 +24,10 @@ export default function RacetrackLayout({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

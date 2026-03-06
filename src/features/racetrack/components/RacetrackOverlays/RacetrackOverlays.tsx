@@ -7,28 +7,14 @@ import {
   RIGHT_NUMBERS,
   VIEWBOX,
   SECTORS,
-} from '../constants';
+} from '../../constants';
 import {
   getTopNumberCenterX,
   getBottomNumberCenterX,
-} from '../utils';
+} from '../../utils';
+import { RacetrackOverlaysProps, SectorButtonConfig } from './RacetrackOverlays.types';
 
-type SectionType = 'tier' | 'orphelins' | 'voisins' | 'zero';
-
-interface RacetrackOverlaysProps {
-  width: number;
-  height: number;
-  onNumberPress?: (number: string) => void;
-  onSectionPress?: (section: SectionType) => void;
-}
-
-const SECTOR_BUTTONS: Array<{
-  section: SectionType;
-  startX: number;
-  endX: number;
-  radiusLeft?: number;
-  radiusRight?: number;
-}> = [
+const SECTOR_BUTTONS: SectorButtonConfig[] = [
   { section: 'tier', startX: 221, endX: 428, radiusLeft: 30 },
   { section: 'orphelins', startX: 428, endX: 610 },
   { section: 'voisins', startX: 610, endX: 815 },
