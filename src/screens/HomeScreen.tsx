@@ -30,7 +30,6 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
     label: 'ROULETTE',
     games: [
       { route: 'RouletteExercises',                title: 'Roulette Training',       emoji: '🎰', tags: 'Payouts · Splits · Streets' },
-      { route: 'CallBetsMenu',                     title: 'Call Bets',               emoji: '📣', tags: 'Voisins · Tiers · Orphelins' },
       { route: 'SectorTraining',                   title: 'Sector Training',         emoji: '🎯', tags: 'Number → Sector' },
       { route: 'PositionTraining',                 title: 'Position Training',       emoji: '📍', tags: 'Number → Position' },
       { route: 'CashConversionDifficultySelection',title: 'Cash Conversion',         emoji: '💰', tags: 'Chip exchange' },
@@ -40,7 +39,6 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
   {
     label: 'POKER',
     games: [
-      { route: 'PLOMenu',  title: 'Pot Limit Omaha',       emoji: '♠️', tags: 'Dealing · Pot calc' },
       { route: 'TCPMenu',  title: 'Three Card Poker',      emoji: '🃏', tags: 'Qualify · Payouts' },
       { route: 'BJMenu',   title: 'Blackjack',             emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
       { route: 'CPMenu',   title: 'Caribbean Poker',       emoji: '🌴', tags: 'Swap · Bonus · A-K' },

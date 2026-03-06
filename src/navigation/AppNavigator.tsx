@@ -7,11 +7,9 @@ import SettingsScreen from '../screens/SettingsScreen';
 import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
 import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
 import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
-import { CallBetsRoutes, type CallBetsStackParamList } from '../features/call-bets-training';
 import { RacetrackSectorRoutes, type RacetrackSectorStackParamList } from '../features/racetrack-sector-training';
 import { RacetrackPositionRoutes, type RacetrackPositionStackParamList } from '../features/racetrack-position-training';
 import { CashConversionRoutes, type CashConversionStackParamList } from '../features/cash-conversion-training';
-import { PLORoutes, type PLOStackParamList } from '../features/plo-training';
 import { TCPRoutes, type TCPStackParamList } from '../features/three-card-poker-training';
 import { BJRoutes, type BJStackParamList } from '../features/blackjack-training';
 import { CPRoutes, type CPStackParamList } from '../features/caribbean-poker-training';
@@ -26,11 +24,9 @@ export type RootStackParamList = {
 } & RouletteTrainingStackParamList
   & RacetrackStackParamList
   & RouletteGameStackParamList
-  & CallBetsStackParamList
   & RacetrackSectorStackParamList
   & RacetrackPositionStackParamList
   & CashConversionStackParamList
-  & PLOStackParamList
   & TCPStackParamList
   & BJStackParamList
   & CPStackParamList
@@ -66,11 +62,9 @@ export default function AppNavigator() {
         {RouletteTrainingRoutes()}
         {RacetrackRoutes()}
         {RouletteGameRoutes()}
-        {CallBetsRoutes()}
         {RacetrackSectorRoutes()}
         {RacetrackPositionRoutes()}
         {CashConversionRoutes()}
-        {PLORoutes()}
         {TCPRoutes()}
         {BJRoutes()}
         {CPRoutes()}
