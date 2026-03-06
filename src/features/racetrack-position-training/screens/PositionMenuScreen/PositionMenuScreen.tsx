@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { useTheme } from '@contexts/ThemeContext';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
+import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
+import { PositionInfoBox } from '../../components/PositionInfoBox';
 import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
 
 interface ModeOption {
@@ -52,20 +54,7 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
         </Text>
       </View>
 
-      <View style={styles.wheelPreview}>
-        <Text style={styles.previewTitle}>Wheel Order Reference:</Text>
-        <Text style={styles.previewSubtitle}>
-          Numbers appear in this order around the wheel
-        </Text>
-        <View style={styles.wheelOrderContainer}>
-          {wheelOrder.map((num, index) => (
-            <View key={num} style={styles.wheelNumberBadge}>
-              <Text style={styles.wheelNumberText}>{num}</Text>
-              <Text style={styles.wheelPositionText}>{index + 1}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
+      <PositionWheelOrderCard wheelOrder={wheelOrder} />
 
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
@@ -88,19 +77,12 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
         ))}
       </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>How to Play:</Text>
-        <Text style={styles.infoText}>1. A winning number is displayed at the top</Text>
-        <Text style={styles.infoText}>2. Tap the exact number location on the racetrack</Text>
-        <Text style={styles.infoText}>3. Get feedback and try the next number</Text>
-        <Text style={styles.infoText}>4. Build your score with each correct answer</Text>
-      </View>
+      <PositionInfoBox />
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -125,49 +107,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontSize: 16,
       color: colors.text.secondary,
       textAlign: 'center',
-    },
-    wheelPreview: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 24,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    previewTitle: {
-      fontSize: 16,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 4,
-    },
-    previewSubtitle: {
-      fontSize: 12,
-      color: colors.text.secondary,
-      marginBottom: 8,
-    },
-    wheelOrderContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 6,
-      justifyContent: 'center',
-    },
-    wheelNumberBadge: {
-      backgroundColor: colors.background.primary,
-      borderRadius: 8,
-      padding: 6,
-      alignItems: 'center',
-      minWidth: 40,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    wheelNumberText: {
-      fontSize: 14,
-      fontWeight: '700',
-      color: colors.text.primary,
-    },
-    wheelPositionText: {
-      fontSize: 10,
-      color: colors.text.muted,
     },
     modesContainer: {
       gap: 16,
@@ -216,24 +155,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.secondary,
       lineHeight: 18,
     },
-    infoBox: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    infoTitle: {
-      fontSize: 18,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    infoText: {
-      fontSize: 14,
-      color: colors.text.primary,
-      marginBottom: 4,
-    },
   });
-  /* eslint-enable react-native/no-unused-styles */
 }
