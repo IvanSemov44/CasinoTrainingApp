@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { CHIP_DENOMINATIONS } from '../constants/denominations';
 
 interface CashDisplayProps {
   amount: number;
@@ -15,14 +16,7 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
     const chips: { value: number; count: number; color: string }[] = [];
     let remaining = total;
 
-    const denominations = [
-      { value: 1000, color: '#FFD700' },
-      { value: 500, color: '#9370DB' },
-      { value: 100, color: '#000000' },
-      { value: 25, color: '#228B22' },
-    ];
-
-    for (const denom of denominations) {
+    for (const denom of CHIP_DENOMINATIONS) {
       if (remaining >= denom.value) {
         const count = Math.floor(remaining / denom.value);
         chips.push({ value: denom.value, count, color: denom.color });
@@ -41,7 +35,7 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
       <View style={styles.chipsContainer}>
         {chips.map((chip, index) => (
           <View key={index} style={styles.chipRow}>
-            <View style={[styles.chip, { backgroundColor: chip.color, borderColor: chip.value === 100 ? '#FFFFFF' : chip.color }]}>
+            <View style={[styles.chip, { backgroundColor: chip.color, borderColor: chip.value === 100 ? colors.text.primary : chip.color }]}>
               <Text style={[styles.chipValue, chip.value === 100 && styles.chipValueWhite]}>
                 ${chip.value}
               </Text>
@@ -94,10 +88,10 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     chipValue: {
       fontSize: 14,
       fontWeight: '700',
-      color: '#FFFFFF',
+      color: colors.text.primary,
     },
     chipValueWhite: {
-      color: '#FFFFFF',
+      color: colors.text.primary,
     },
     chipCount: {
       fontSize: 16,
