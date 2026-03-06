@@ -42,8 +42,8 @@ export default function SectorTrainingScreen({ route }: Props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { width: winW, height: winH } = useWindowDimensions();
-  const racetrackSize = Math.min(winW, winH);
+  const { height: winH } = useWindowDimensions();
+  const racetrackSize = winH - insets.top - insets.bottom - 56 - 40;
 
   const playSoundEffect = useCallback((type: 'success' | 'error') => {
     try {
@@ -117,21 +117,25 @@ export default function SectorTrainingScreen({ route }: Props) {
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
+      <View style={styles.racetrackArea}>
+        <RacetrackLayout width={racetrackSize} onSectionPress={handleSectorPress} />
+      </View>
+
       <View style={styles.topBar}>
         <View style={styles.scoreDisplay}>
-          <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
-          <Text style={[styles.scoreLabel, { color: accuracyColor }]}>{percentage}%</Text>
+          <View style={styles.scoreRow}>
+            <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
+            <Text style={[styles.scoreLabel, { color: accuracyColor }]}>{percentage}%</Text>
+          </View>
+          <View style={styles.accuracyBarBg}>
+            <View style={[styles.accuracyBar, { width: `${percentage}%`, backgroundColor: accuracyColor }]} />
+          </View>
         </View>
         <View style={styles.targetDisplay}>
-          <Text style={styles.targetSmallLabel}>FIND</Text>
           <View style={styles.targetSmallCircle}>
             <Text style={styles.targetSmallNumber}>{currentWinningNumber}</Text>
           </View>
         </View>
-      </View>
-
-      <View style={styles.racetrackArea}>
-        <RacetrackLayout width={racetrackSize} onSectionPress={handleSectorPress} />
       </View>
     </View>
   );
@@ -142,57 +146,86 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     container: {
       flex: 1,
       backgroundColor: colors.background.primary,
-      flexDirection: 'column',
+      flexDirection: 'row',
       overflow: 'hidden',
     },
     topBar: {
-      flexDirection: 'row',
+      flexDirection: 'column',
       backgroundColor: colors.background.secondary,
-      paddingHorizontal: 16,
-      paddingVertical: 10,
+      paddingHorizontal: 6,
+      paddingVertical: 12,
       alignItems: 'center',
-      justifyContent: 'space-between',
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.primary,
+      justifyContent: 'space-around',
+      gap: 12,
+      borderLeftWidth: 1.5,
+      borderLeftColor: colors.border.gold,
+      width: 54,
     },
     scoreDisplay: {
       alignItems: 'center',
-      gap: 2,
+      gap: 4,
+      flexDirection: 'column',
+      transform: [{ rotate: '90deg' }],
+      paddingBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border.primary,
     },
-    scoreText: {
-      fontSize: 18,
-      fontWeight: '800',
-      color: colors.text.gold,
-    },
-    scoreLabel: {
-      fontSize: 11,
-      fontWeight: '600',
-      marginTop: 1,
-    },
-    targetDisplay: {
+    scoreRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 10,
+      gap: 6,
+    },
+    scoreText: {
+      fontSize: 14,
+      fontWeight: '900',
+      color: colors.text.gold,
+      letterSpacing: 0.3,
+    },
+    scoreLabel: {
+      fontSize: 10,
+      fontWeight: '700',
+      letterSpacing: 0.3,
+    },
+    accuracyBarBg: {
+      width: 60,
+      height: 3,
+      borderRadius: 1.5,
+      backgroundColor: colors.background.tertiary,
+      overflow: 'hidden',
+    },
+    accuracyBar: {
+      height: 3,
+      borderRadius: 1.5,
+    },
+    targetDisplay: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      transform: [{ rotate: '90deg' }],
     },
     targetSmallLabel: {
-      fontSize: 11,
+      fontSize: 6,
       fontWeight: '700',
       color: colors.text.muted,
-      letterSpacing: 1.5,
+      letterSpacing: 0.4,
       textTransform: 'uppercase',
+      marginBottom: 2,
     },
     targetSmallCircle: {
-      width: 54,
-      height: 54,
-      borderRadius: 27,
+      width: 38,
+      height: 38,
+      borderRadius: 19,
       backgroundColor: colors.text.gold,
       justifyContent: 'center',
       alignItems: 'center',
-      borderWidth: 2,
+      borderWidth: 2.5,
       borderColor: colors.border.gold,
+      shadowColor: colors.text.gold,
+      shadowOpacity: 0.4,
+      shadowRadius: 5,
+      elevation: 4,
     },
     targetSmallNumber: {
-      fontSize: 24,
+      fontSize: 16,
       fontWeight: '900',
       color: colors.background.primary,
     },

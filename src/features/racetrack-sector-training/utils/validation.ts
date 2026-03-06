@@ -41,13 +41,18 @@ export function getSectorForNumber(number: number): SectorType | null {
 
 /**
  * Validate user's sector selection against the winning number
+ * Special case: All Jeu Zéro numbers are part of Voisins du Zéro betting region
  */
 export function validateSectorSelection(
   winningNumber: number,
   selectedSector: SectorType | null
 ): SectorValidationResult {
   const correctSector = getSectorForNumber(winningNumber);
-  const isCorrect = selectedSector === correctSector;
+
+  // Allow either 'zero' or 'voisins' for all zero sector numbers (0, 3, 12, 15, 26, 32, 35)
+  const isCorrect = correctSector === 'zero'
+    ? (selectedSector === 'zero' || selectedSector === 'voisins')
+    : selectedSector === correctSector;
 
   return {
     isCorrect,
