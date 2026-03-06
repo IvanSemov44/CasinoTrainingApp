@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import RouletteNumberCell from '../RouletteNumberCell';
+import RouletteNumberCell from './RouletteNumberCell';
 import { BetType } from '../../../types/roulette.types';
 
 // Mock the constants
@@ -17,7 +17,7 @@ jest.mock('../../../constants/roulette.constants', () => ({
 }));
 
 // Mock the styles
-jest.mock('../styles/roulette.styles', () => ({
+jest.mock('./styles/roulette.styles', () => ({
   getRouletteStyles: (cellSize: number) => ({
     numberCell: { width: cellSize, height: cellSize },
     greenCell: { backgroundColor: '#008000' },
@@ -28,7 +28,7 @@ jest.mock('../styles/roulette.styles', () => ({
 }));
 
 // Mock RouletteChip
-jest.mock('../RouletteChip', () => {
+jest.mock('./RouletteChip', () => {
   const { View } = require('react-native');
   const MockRouletteChip = ({ amount, size }: { amount: number; size: number }) => (
     <View testID={`chip-${amount}-${size}`} />

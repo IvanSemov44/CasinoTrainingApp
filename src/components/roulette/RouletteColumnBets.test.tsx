@@ -3,17 +3,17 @@
  */
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import RouletteColumnBets from '../RouletteColumnBets';
+import RouletteColumnBets from './RouletteColumnBets';
 import { BetType } from '../../../types/roulette.types';
 
 // Mock RouletteChip since it's tested separately
-jest.mock('../RouletteChip', () => {
+jest.mock('./RouletteChip', () => {
   const MockRouletteChip: React.FC<{ amount: number; size: number }> = () => null;
   return MockRouletteChip;
 });
 
 // Mock the styles
-jest.mock('../styles/roulette.styles', () => ({
+jest.mock('./styles/roulette.styles', () => ({
   getColumnBetsStyles: () => ({
     columnBetsContainer: {},
     columnBet: {},

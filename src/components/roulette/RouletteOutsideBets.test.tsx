@@ -13,17 +13,17 @@ import RouletteOutsideBets, {
   FIRST_DOZEN,
   SECOND_DOZEN,
   THIRD_DOZEN,
-} from '../RouletteOutsideBets';
+} from './RouletteOutsideBets';
 import { BetType } from '../../../types/roulette.types';
 
 // Mock RouletteChip since it's tested separately
-jest.mock('../RouletteChip', () => {
+jest.mock('./RouletteChip', () => {
   const MockRouletteChip: React.FC<{ amount: number; size: number }> = () => null;
   return MockRouletteChip;
 });
 
 // Mock the styles
-jest.mock('../styles/roulette.styles', () => ({
+jest.mock('./styles/roulette.styles', () => ({
   getOutsideBetsStyles: () => ({
     outsideBetsRow: {},
     emptyCorner: {},
