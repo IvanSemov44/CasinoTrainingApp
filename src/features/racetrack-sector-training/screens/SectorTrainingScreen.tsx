@@ -143,6 +143,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       flex: 1,
       backgroundColor: colors.background.primary,
       flexDirection: 'column',
+      overflow: 'hidden',
     },
     topBar: {
       flexDirection: 'row',
