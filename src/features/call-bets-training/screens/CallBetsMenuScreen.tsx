@@ -12,59 +12,55 @@ interface ModeOption {
   title: string;
   description: string;
   icon: string;
-  color: string;
 }
 
-// Accent colors for call bet modes - visual hierarchy indicators
-const MODE_ACCENT_COLORS: Record<CallBetMode, string> = {
-  tier: '#ef4444',       // Red
-  orphelins: '#f59e0b',  // Amber
-  voisins: '#3b82f6',    // Blue
-  zero: '#8b5cf6',       // Purple
-  random: '#10b981',     // Green
-};
-
-const MODE_OPTIONS: ModeOption[] = [
-  {
-    mode: 'tier',
+const MODE_CONFIGS: Record<CallBetMode, Omit<ModeOption, 'mode'>> = {
+  tier: {
     title: 'Tier du Cylindre',
     description: '6 split bets on the wheel opposite to zero',
     icon: '🎯',
-    color: MODE_ACCENT_COLORS.tier,
   },
-  {
-    mode: 'orphelins',
+  orphelins: {
     title: 'Orphelins',
     description: '1 straight + 4 splits on the orphan numbers',
     icon: '🎲',
-    color: MODE_ACCENT_COLORS.orphelins,
   },
-  {
-    mode: 'voisins',
+  voisins: {
     title: 'Voisins du Zéro',
     description: '9 bets covering neighbors of zero',
     icon: '👥',
-    color: MODE_ACCENT_COLORS.voisins,
   },
-  {
-    mode: 'zero',
+  zero: {
     title: 'Jeu Zéro',
     description: '1 straight + 3 splits close to zero',
     icon: '0️⃣',
-    color: MODE_ACCENT_COLORS.zero,
   },
-  {
-    mode: 'random',
+  random: {
     title: 'Random Training',
     description: 'Practice all call bets randomly',
     icon: '🎰',
-    color: MODE_ACCENT_COLORS.random,
   },
-];
+};
 
 export default function CallBetsMenuScreen({ navigation }: Props) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+
+  const getModeColor = (mode: CallBetMode): string => {
+    const colorMap: Record<CallBetMode, string> = {
+      tier: colors.difficulty.hard,
+      orphelins: colors.status.warning,
+      voisins: colors.status.info,
+      zero: colors.status.error,
+      random: colors.difficulty.easy,
+    };
+    return colorMap[mode];
+  };
+
+  const modeOptions: ModeOption[] = Object.entries(MODE_CONFIGS).map(([mode, config]) => ({
+    mode: mode as CallBetMode,
+    ...config,
+  }));
 
   const handleModeSelect = (mode: CallBetMode) => {
     navigation.navigate('CallBetsTraining', { mode });
@@ -80,14 +76,14 @@ export default function CallBetsMenuScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.modesContainer}>
-        {MODE_OPTIONS.map((option) => (
+        {modeOptions.map((option) => (
           <TouchableOpacity
             key={option.mode}
             style={styles.modeCard}
             onPress={() => handleModeSelect(option.mode)}
             activeOpacity={0.75}
           >
-            <View style={[styles.accentBar, { backgroundColor: option.color }]} />
+            <View style={[styles.accentBar, { backgroundColor: getModeColor(option.mode) }]} />
             <View style={styles.cardBody}>
               <View style={styles.cardHeader}>
                 <Text style={styles.modeTitle}>{option.title}</Text>
