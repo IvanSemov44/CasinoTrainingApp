@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { View, Animated, StyleSheet, ViewStyle, StyleProp, DimensionValue } from 'react-native';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface SkeletonLoaderProps {
   width: DimensionValue;
@@ -14,6 +15,8 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   borderRadius = 4,
   style,
 }) => {
+  const { colors } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
   const shimmerValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -66,15 +69,17 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#2a2a2a',
-    overflow: 'hidden',
-  },
-  shimmer: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
-});
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.mediumGray,
+      overflow: 'hidden',
+    },
+    shimmer: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: `${colors.text.primary}10`,
+    },
+  });
+}
 
 export default SkeletonLoader;

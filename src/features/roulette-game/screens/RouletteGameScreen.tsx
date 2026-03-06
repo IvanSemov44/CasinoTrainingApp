@@ -79,7 +79,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       paddingTop: 24,
     },
     gameContainer: {
-      backgroundColor: '#1a472a',
+      backgroundColor: colors.background.darkGray,
       borderRadius: 12,
       borderWidth: 3,
       borderColor: colors.border.gold,

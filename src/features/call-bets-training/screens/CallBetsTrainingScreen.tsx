@@ -195,16 +195,16 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     buttonText: {
       fontSize: 14,
       fontWeight: '600',
-      color: '#FFF',
+      color: colors.text.primary,
     },
     buttonDisabled: {
       opacity: 0.5,
     },
     rouletteContainer: {
-      backgroundColor: '#1a472a',
+      backgroundColor: colors.background.darkGray,
       borderRadius: 12,
       borderWidth: 3,
-      borderColor: '#FFD700',
+      borderColor: colors.text.gold,
       marginBottom: 16,
     },
     rouletteContent: {

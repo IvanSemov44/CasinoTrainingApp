@@ -131,7 +131,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     clearButtonText: {
       fontSize: 16,
       fontWeight: '600',
-      color: '#FFF',
+      color: colors.text.primary,
     },
     nextButtonText: {
       fontSize: 16,
