@@ -19,11 +19,12 @@ export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
 
   const handlePress = async () => {
     console.log('[InstallButton] Clicked');
-    console.log('[InstallButton] window.deferredPrompt:', !!(window as any).deferredPrompt);
+    const windowWithDeferred = window as unknown as { deferredPrompt?: { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> } };
+    console.log('[InstallButton] window.deferredPrompt:', !!windowWithDeferred.deferredPrompt);
     setIsLoading(true);
     try {
       // Check if deferred prompt is available (set when beforeinstallprompt event fired)
-      const deferredPrompt = (window as any).deferredPrompt;
+      const deferredPrompt = windowWithDeferred.deferredPrompt;
 
       if (deferredPrompt) {
         console.log('[InstallButton] Found deferredPrompt, using native install');
@@ -32,7 +33,7 @@ export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
           const { outcome } = await deferredPrompt.userChoice;
           if (outcome === 'accepted') {
             console.log('[InstallButton] User accepted installation');
-            (window as any).deferredPrompt = null;
+            windowWithDeferred.deferredPrompt = undefined;
             return;
           }
         } catch (promptError) {
@@ -47,11 +48,11 @@ export function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
         await onInstall();
         console.log('[InstallButton] onInstall() succeeded');
         return;
-      } catch (_installError) {
+      } catch {
         console.log('[InstallButton] Installation not available');
         // Silently fail - no popup needed
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[InstallButton] Unexpected error:', error);
     } finally {
       setIsLoading(false);

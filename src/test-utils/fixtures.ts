@@ -4,7 +4,7 @@
  */
 
 import { CashRequest, CashAnswer } from '../features/cash-conversion-training/types';
-import { PotRequest, Position, PlayerAction } from '../features/plo-training/types';
+import { PotRequest, Position } from '../features/plo-training/types';
 import { BetType, RouletteNumber } from '../types/roulette.types';
 
 // ============================================

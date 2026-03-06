@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import BJMenuScreen from './BJMenuScreen';
-import type { BJMenuScreenProps } from './BJMenuScreen.types';
 
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);

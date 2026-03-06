@@ -167,6 +167,7 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
     }
 
     handleClose();
+    // screenName is guaranteed to be a valid key here based on the logic above
     navigation.navigate(screenName as any, Object.keys(params).length > 0 ? params : undefined);
   }, [selectedTrainingType, selectedDenomination, chipCount, getScreenName, getBetConfigKey, navigation, handleClose]);
 

@@ -56,6 +56,7 @@ export default function ProgressScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary, padding: 20 },
     title: { fontSize: 26, fontWeight: '800', color: colors.text.gold, marginBottom: 24 },
@@ -93,4 +94,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     resultTime: { fontSize: 13, color: colors.text.secondary },
     resultDate: { fontSize: 13, color: colors.text.muted },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

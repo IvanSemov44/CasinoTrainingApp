@@ -35,11 +35,11 @@ export { customRender as render };
 /**
  * Render with navigation for screen tests
  * @param ui - React element to render
- * @param navigationProps - Additional navigation props
+ * @param _navigationProps - Additional navigation props
  */
 export const renderWithNavigation = (
   ui: React.ReactElement,
-  navigationProps?: { initialRoute?: string }
+  _navigationProps?: { initialRoute?: string }
 ) => {
   return render(
     <NavigationContainer>

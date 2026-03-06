@@ -210,6 +210,7 @@ export default function DrillScreen<TScenario extends BaseDrillScenario = BaseDr
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary },
     content: { padding: 20, paddingBottom: 40 },
@@ -271,4 +272,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     continueBtn: { backgroundColor: colors.text.gold, borderRadius: 12, padding: 18, alignItems: 'center', marginTop: 14 },
     continueBtnText: { fontSize: 17, fontWeight: '700', color: colors.background.dark },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

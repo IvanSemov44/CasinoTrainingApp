@@ -82,13 +82,14 @@ export function useInstallPrompt() {
     }
 
     // Fallback: Try Chrome Web Store install (if available)
-    if (typeof (window as any).chrome?.webstore?.install === 'function') {
+    const windowWithChrome = window as unknown as { chrome?: { webstore?: { install?: () => void } } };
+    if (typeof windowWithChrome.chrome?.webstore?.install === 'function') {
       console.log('[useInstallPrompt] Trying Chrome Web Store install');
       try {
-        (window as any).chrome.webstore.install();
+        windowWithChrome.chrome.webstore.install?.();
         setIsInstalled(true);
         return;
-      } catch (error) {
+      } catch {
         console.log('[useInstallPrompt] Chrome Web Store install not available');
       }
     }

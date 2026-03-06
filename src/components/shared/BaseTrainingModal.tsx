@@ -290,6 +290,7 @@ export function BaseTrainingModal({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     overlay: {
       flex: 1,
@@ -498,4 +499,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.primary,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

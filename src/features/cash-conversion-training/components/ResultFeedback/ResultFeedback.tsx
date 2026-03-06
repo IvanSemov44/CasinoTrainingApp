@@ -53,6 +53,7 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -110,4 +111,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

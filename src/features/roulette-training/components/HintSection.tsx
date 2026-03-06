@@ -35,6 +35,7 @@ export default function HintSection({ isOpen, onToggle, children }: HintSectionP
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     hintButton: {
       margin: 16,
@@ -65,4 +66,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 22,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

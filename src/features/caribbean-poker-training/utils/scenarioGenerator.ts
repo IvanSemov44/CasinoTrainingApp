@@ -1,4 +1,4 @@
-import { dealCards, SUITS, type Card } from '@utils/cardUtils';
+import { dealCards, type Card } from '@utils/cardUtils';
 import {
   evaluateFiveCardHand,
   fiveCardHandName,

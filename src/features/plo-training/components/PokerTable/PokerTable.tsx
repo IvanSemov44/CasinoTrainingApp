@@ -89,6 +89,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       alignItems: 'center',
@@ -156,4 +157,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       position: 'absolute',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

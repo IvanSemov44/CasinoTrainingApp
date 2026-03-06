@@ -54,6 +54,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.darkGray,
@@ -106,4 +107,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontStyle: 'italic',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

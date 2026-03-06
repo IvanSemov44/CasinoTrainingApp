@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { SectorMode } from '../../types';
-import { getSectorOptions, getSectorDisplayName } from '../../utils/validation';
+import { getSectorOptions } from '../../utils/validation';
 import type { SectorMenuScreenProps } from './SectorMenuScreen.types';
 
 interface ModeOption {
@@ -120,6 +120,7 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -239,4 +240,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginBottom: 4,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

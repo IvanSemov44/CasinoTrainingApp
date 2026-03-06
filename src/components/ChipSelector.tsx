@@ -47,6 +47,7 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -90,6 +91,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.dark,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }
 
 export default ChipSelector;

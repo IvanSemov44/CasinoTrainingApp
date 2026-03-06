@@ -238,7 +238,9 @@ export const createBets = (count: number, overrides?: Partial<Bet>): Bet[] => {
     const builder = new BetBuilder();
     if (overrides) {
       Object.entries(overrides).forEach(([key, value]) => {
-        (builder as any)[`with${key.charAt(0).toUpperCase() + key.slice(1)}`]?.(value);
+        const methodName = `with${key.charAt(0).toUpperCase() + key.slice(1)}`;
+        const method = (builder as unknown as Record<string, (val: unknown) => BetBuilder>)[methodName];
+        method?.(value);
       });
     }
     return builder.withId(`bet-${i}`).build();

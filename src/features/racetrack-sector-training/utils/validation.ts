@@ -3,7 +3,7 @@
  */
 
 import { getRandomElement } from '@utils/randomUtils';
-import { SectorType, SectorValidationResult, SectorMode } from '../types';
+import { SectorType, SectorValidationResult } from '../types';
 
 // Sector number mappings - strict non-overlapping definitions
 // Priority order: zero > tier > orphelins > voisins

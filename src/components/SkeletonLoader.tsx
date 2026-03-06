@@ -70,6 +70,7 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.mediumGray,
@@ -80,6 +81,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       backgroundColor: `${colors.text.primary}10`,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }
 
 export default SkeletonLoader;

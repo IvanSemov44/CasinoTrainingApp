@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { PositionMode } from '../../types';
-import { getWheelOrder, getWheelPosition } from '../../utils/validation';
+import { getWheelOrder } from '../../utils/validation';
 import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
 
 interface ModeOption {
@@ -100,6 +100,7 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -234,4 +235,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginBottom: 4,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

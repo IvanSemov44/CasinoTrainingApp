@@ -179,7 +179,7 @@ export const mockPlatform = (os: 'ios' | 'android' | 'web' = 'ios') => {
   jest.mock('react-native/Libraries/Utilities/Platform', () => ({
     OS: os,
     Version: os === 'ios' ? '14.0' : '30',
-    select: jest.fn((obj: Record<string, any>) => obj[os]),
+    select: jest.fn((obj: Record<string, unknown>) => obj[os]),
     isTV: false,
   }));
 };

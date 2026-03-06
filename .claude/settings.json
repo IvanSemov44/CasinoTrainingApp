@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx eslint src/features/racetrack-sector-training/screens/SectorTrainingScreen/SectorTrainingScreen.tsx)",
+      "Bash(npx eslint src/test-utils/mocks.ts)",
+      "Bash(npx eslint src/test-utils/__mocks__/react-native.ts)",
+      "Read(//c/Users/ivans/Desktop/Dev/CasinoTrainingApp/**)",
+      "Bash(grep \"\\\\.tsx\\\\|\\\\.ts$\")",
+      "Read(//^/c/|^C:/{current_file=$0} /Unused style detected/**)",
+      "Read(//tsx|ts$/{current_file=$0} /Unused style detected/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\components\\roulette",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\features\\racetrack-sector-training\\screens\\SectorTrainingScreen",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\features\\roulette-training\\screens\\exercises",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\test-utils",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\test-utils\\__mocks__",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\components\\shared",
+      "C:\\Users\\ivans\\Desktop\\Dev\\CasinoTrainingApp\\src\\hooks"
+    ]
+  }
+}

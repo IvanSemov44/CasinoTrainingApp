@@ -15,6 +15,8 @@ import { BJRoutes, type BJStackParamList } from '../features/blackjack-training'
 import { CPRoutes, type CPStackParamList } from '../features/caribbean-poker-training';
 import { THURoutes, type THUStackParamList } from '../features/texas-holdem-ultimate-training';
 import { RKRoutes, type RKStackParamList } from '../features/roulette-knowledge-training';
+import { CallBetsRoutes, type CallBetsStackParamList } from '../features/call-bets-training';
+import { PLORoutes, type PLOStackParamList } from '../features/plo-training';
 import { useTheme } from '../contexts/ThemeContext';
 
 export type RootStackParamList = {
@@ -31,7 +33,9 @@ export type RootStackParamList = {
   & BJStackParamList
   & CPStackParamList
   & THUStackParamList
-  & RKStackParamList;
+  & RKStackParamList
+  & CallBetsStackParamList
+  & PLOStackParamList;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -70,6 +74,8 @@ export default function AppNavigator() {
         {CPRoutes()}
         {THURoutes()}
         {RKRoutes()}
+        {CallBetsRoutes()}
+        {PLORoutes()}
         <Stack.Screen
           name="Progress"
           component={ProgressScreen}

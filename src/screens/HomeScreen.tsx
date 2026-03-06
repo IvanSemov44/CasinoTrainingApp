@@ -11,13 +11,6 @@ import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Route = keyof Omit<RootStackParamList, 'Home' | 'Progress'>;
 
-type GameCard = {
-  route: Route;
-  title: string;
-  emoji: string;
-  tags: string;
-};
-
 interface GameEntry {
   route: Route;
   emoji: string;
@@ -39,10 +32,12 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
   {
     label: 'POKER',
     games: [
-      { route: 'TCPMenu',  title: 'Three Card Poker',      emoji: '🃏', tags: 'Qualify · Payouts' },
-      { route: 'BJMenu',   title: 'Blackjack',             emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
-      { route: 'CPMenu',   title: 'Caribbean Poker',       emoji: '🌴', tags: 'Swap · Bonus · A-K' },
-      { route: 'THUMenu',  title: "Texas Hold'em Ultimate",emoji: '🤠', tags: 'Blind · Trips · Raise' },
+      { route: 'TCPMenu',       title: 'Three Card Poker',      emoji: '🃏', tags: 'Qualify · Payouts' },
+      { route: 'BJMenu',        title: 'Blackjack',             emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
+      { route: 'CPMenu',        title: 'Caribbean Poker',       emoji: '🌴', tags: 'Swap · Bonus · A-K' },
+      { route: 'THUMenu',       title: "Texas Hold'em Ultimate",emoji: '🤠', tags: 'Blind · Trips · Raise' },
+      { route: 'CallBetsMenu',  title: 'Call Bets',             emoji: '📣', tags: 'Voisins · Tiers · Orphelins' },
+      { route: 'PLOMenu',       title: 'Pot Limit Omaha',       emoji: '♠️', tags: 'Dealing · Pot calc' },
     ],
   },
 ];
@@ -125,6 +120,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -260,4 +256,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.gold,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

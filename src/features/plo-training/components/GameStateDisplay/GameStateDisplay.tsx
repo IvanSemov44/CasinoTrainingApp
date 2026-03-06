@@ -93,6 +93,7 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       marginBottom: 20,
@@ -120,4 +121,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: '500',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

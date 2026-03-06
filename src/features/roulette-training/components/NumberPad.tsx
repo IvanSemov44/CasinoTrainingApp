@@ -66,6 +66,7 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     pad: { marginBottom: 12 },
     row: { flexDirection: 'row', gap: 8, marginBottom: 8 },
@@ -82,4 +83,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     buttonDisabled: { opacity: 0.4 },
     buttonText: { color: colors.text.gold, fontSize: 20, fontWeight: '700' },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

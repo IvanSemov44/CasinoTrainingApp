@@ -52,6 +52,7 @@ export default function SettingsScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -112,4 +113,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 19,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import RacetrackOverlays from './RacetrackOverlays';
-import { TOP_NUMBERS, BOTTOM_NUMBERS, LEFT_NUMBERS, RIGHT_NUMBERS } from '../../constants';
 
 describe('RacetrackOverlays', () => {
   const mockOnNumberPress = jest.fn();

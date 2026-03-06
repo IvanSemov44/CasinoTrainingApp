@@ -1,4 +1,4 @@
-import { dealCards, type Card } from '@utils/cardUtils';
+import { dealCards } from '@utils/cardUtils';
 import {
   fiveCardHandName,
   type FiveCardRank,
@@ -11,10 +11,8 @@ import {
 import {
   blindPayout,
   blindMultiplier,
-  blindPushes,
   tripsPayout,
   tripsPlusMultiplier,
-  tripsPlusQualifies,
 } from './payouts';
 import type { THUScenario, THUDrillType } from '../types';
 

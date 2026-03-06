@@ -1,6 +1,5 @@
 import { dealCards, RANKS, SUITS, type Card } from '@utils/cardUtils';
 import {
-  cardBJValue,
   handTotal,
   softAnnouncement,
   dealerMustHit,

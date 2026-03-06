@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { CashRequest } from '../../types';
 import { SECTOR_NAMES } from '../../constants/sectors';
 import type { RequestDisplayProps } from './RequestDisplay.types';
 
@@ -25,6 +24,7 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -49,4 +49,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontStyle: 'italic',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

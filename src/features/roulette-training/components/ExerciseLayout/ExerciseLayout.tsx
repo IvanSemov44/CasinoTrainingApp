@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
@@ -122,6 +122,7 @@ export default function ExerciseLayout({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -187,4 +188,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: 'bold',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

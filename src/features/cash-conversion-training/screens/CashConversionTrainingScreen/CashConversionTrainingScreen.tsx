@@ -136,6 +136,7 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -175,4 +176,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

@@ -44,7 +44,10 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
 
   const playSoundEffect = useCallback((type: 'success' | 'error') => {
     try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const windowWithAudio = window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
+      const AudioContextClass = windowWithAudio.AudioContext || windowWithAudio.webkitAudioContext;
+      if (!AudioContextClass) return;
+      const ctx = new AudioContextClass();
       const now = ctx.currentTime;
       if (type === 'success') {
         playTone(ctx, 523, now, 0.1);
@@ -139,6 +142,7 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -233,4 +237,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

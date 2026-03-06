@@ -5,6 +5,7 @@ import LoadingSpinner from '@components/LoadingSpinner';
 import ExerciseLayout from '../../components/ExerciseLayout';
 import { useCalculationQuestion, type CalculationRouteParams } from '../../hooks/useCalculationQuestion';
 import type { RouletteTrainingStackParamList } from '../../navigation';
+import type { PlacedBet } from '@app-types/roulette.types';
 
 // Union type for all screens that use CalculationScreen
 type CalculationScreenName = 'Calculation' | 'MixedCalculation' | 'TripleMixedCalculation' | 'AllPositionsCalculation' | 'CashHandling';
@@ -51,7 +52,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
       showHint={showHint}
       onToggleHint={toggleHint}
       hintContent={hintContent}
-      placedBets={placedBets as any}
+      placedBets={placedBets as PlacedBet[]}
       answerLabel={answerLabel}
       userAnswer={userAnswer}
       onAnswerChange={setUserAnswer}

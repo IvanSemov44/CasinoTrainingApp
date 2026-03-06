@@ -1,13 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import RacetrackTrackSvg from './RacetrackTrackSvg';
-import {
-  TOP_NUMBERS,
-  BOTTOM_NUMBERS,
-  LEFT_NUMBERS,
-  RIGHT_NUMBERS,
-  SECTION_LABELS,
-} from '../../constants';
 
 describe('RacetrackTrackSvg', () => {
   describe('rendering', () => {

@@ -4,58 +4,83 @@
  */
 import React from 'react';
 
+interface ComponentProps {
+  children?: React.ReactNode;
+  style?: unknown;
+  testID?: string;
+  [key: string]: unknown;
+}
+
+interface TouchableProps extends ComponentProps {
+  onPress?: () => void;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  accessibilityRole?: string;
+}
+
+interface FlatListProps<T> extends ComponentProps {
+  data?: T[];
+  renderItem?: (item: T) => React.ReactNode;
+  keyExtractor?: (item: T) => string;
+}
+
+interface TextInputProps extends ComponentProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+}
+
 // Mock View component
-export const View: React.FC<any> = ({ children, style, testID, ...props }) => 
+export const View: React.FC<ComponentProps> = ({ children, style, testID, ...props }) =>
   React.createElement('View', { style, testID, ...props }, children);
 
 // Mock Text component
-export const Text: React.FC<any> = ({ children, style, ...props }) => 
+export const Text: React.FC<ComponentProps> = ({ children, style, ...props }) =>
   React.createElement('Text', { style, ...props }, children);
 
 // Mock TouchableOpacity component
-export const TouchableOpacity: React.FC<any> = ({ children, onPress, style, testID, accessibilityLabel, accessibilityHint, accessibilityRole, ...props }) => 
-  React.createElement('TouchableOpacity', { 
-    onPress, 
-    style, 
+export const TouchableOpacity: React.FC<TouchableProps> = ({ children, onPress, style, testID, accessibilityLabel, accessibilityHint, accessibilityRole, ...props }) =>
+  React.createElement('TouchableOpacity', {
+    onPress,
+    style,
     testID,
     accessibilityLabel,
     accessibilityHint,
     accessibilityRole,
-    ...props 
+    ...props
   }, children);
 
 // Mock TouchableHighlight component
-export const TouchableHighlight: React.FC<any> = ({ children, onPress, style, ...props }) => 
+export const TouchableHighlight: React.FC<TouchableProps> = ({ children, onPress, style, ...props }) =>
   React.createElement('TouchableHighlight', { onPress, style, ...props }, children);
 
 // Mock TouchableWithoutFeedback component
-export const TouchableWithoutFeedback: React.FC<any> = ({ children, onPress, ...props }) => 
+export const TouchableWithoutFeedback: React.FC<TouchableProps> = ({ children, onPress, ...props }) =>
   React.createElement('TouchableWithoutFeedback', { onPress, ...props }, children);
 
 // Mock ScrollView component
-export const ScrollView: React.FC<any> = ({ children, style, ...props }) => 
+export const ScrollView: React.FC<ComponentProps> = ({ children, style, ...props }) =>
   React.createElement('ScrollView', { style, ...props }, children);
 
 // Mock Image component
-export const Image: React.FC<any> = ({ source, style, testID, ...props }) => 
+export const Image: React.FC<ComponentProps> = ({ source, style, testID, ...props }) =>
   React.createElement('Image', { source, style, testID, ...props });
 
 // Mock ActivityIndicator component
-export const ActivityIndicator: React.FC<any> = ({ size, color, testID, ...props }) => 
+export const ActivityIndicator: React.FC<ComponentProps> = ({ size, color, testID, ...props }) =>
   React.createElement('ActivityIndicator', { size, color, testID, ...props });
 
 // Mock TextInput component
-export const TextInput: React.FC<any> = ({ value, onChangeText, style, testID, ...props }) => 
+export const TextInput: React.FC<TextInputProps> = ({ value, onChangeText, style, testID, ...props }) =>
   React.createElement('TextInput', { value, onChangeText, style, testID, ...props });
 
 // Mock FlatList component
-export const FlatList: React.FC<any> = ({ data, renderItem, keyExtractor, ...props }) => 
+export const FlatList: React.FC<FlatListProps<unknown>> = ({ data, renderItem, keyExtractor, ...props }) =>
   React.createElement('FlatList', { data, renderItem, keyExtractor, ...props });
 
 // Mock StyleSheet
 export const StyleSheet = {
-  create: (styles: any) => styles,
-  flatten: (style: any) => style,
+  create: (styles: Record<string, unknown>) => styles,
+  flatten: (style: unknown) => style,
   hairlineWidth: 1,
   absoluteFill: {
     position: 'absolute',
@@ -82,7 +107,7 @@ export const Dimensions = {
 export const Platform = {
   OS: 'ios',
   Version: '14.0',
-  select: (obj: any) => obj.ios || obj.default,
+  select: (obj: Record<string, unknown>) => (obj as Record<string, unknown>).ios || (obj as Record<string, unknown>).default,
 };
 
 // Mock PixelRatio
@@ -112,7 +137,7 @@ export const Animated = {
   View: View,
   Text: Text,
   Image: Image,
-  createAnimatedComponent: (component: any) => component,
+  createAnimatedComponent: (component: React.ComponentType<unknown>) => component,
   Value: class {
     constructor(value: number = 0) {
       this._value = value;
@@ -121,28 +146,28 @@ export const Animated = {
     setValue(value: number) {
       this._value = value;
     }
-    interpolate(config: any) {
+    interpolate(_config: unknown) {
       return this._value;
     }
   },
   timing: () => ({
-    start: (callback: any) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
     stop: () => {},
   }),
   spring: () => ({
-    start: (callback: any) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
     stop: () => {},
   }),
   decay: () => ({
-    start: (callback: any) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
     stop: () => {},
   }),
   parallel: () => ({
-    start: (callback: any) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
     stop: () => {},
   }),
   sequence: () => ({
-    start: (callback: any) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
     stop: () => {},
   }),
   loop: () => ({
@@ -187,7 +212,7 @@ export const StatusBar = {
 };
 
 // Mock SafeAreaView
-export const SafeAreaView: React.FC<any> = ({ children, style, ...props }) => 
+export const SafeAreaView: React.FC<ComponentProps> = ({ children, style, ...props }) =>
   React.createElement('SafeAreaView', { style, ...props }, children);
 
 // Export default

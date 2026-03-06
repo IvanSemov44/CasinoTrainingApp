@@ -67,6 +67,7 @@ export default function RouletteLayoutViewScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -85,4 +86,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

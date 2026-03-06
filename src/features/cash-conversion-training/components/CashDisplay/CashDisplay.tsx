@@ -47,6 +47,7 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -102,4 +103,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

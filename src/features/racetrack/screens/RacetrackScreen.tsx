@@ -22,6 +22,7 @@ export default function RacetrackScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -33,4 +34,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
+  /* eslint-enable react-native/no-unused-styles */
 }

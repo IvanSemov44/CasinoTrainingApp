@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import RequestDisplay from './RequestDisplay';
 import { CashRequest } from '../../types';
