@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
 } from 'react-native';
@@ -7,26 +7,11 @@ import { useTheme } from '@contexts/ThemeContext';
 import PokerTable from '../components/PokerTable';
 import PotCalculationInput from '../components/PotCalculationInput';
 import ActionLog from '../components/ActionLog';
-import { generateHand } from '../utils/handGenerator';
 import { DIFFICULTY_INFO } from '../constants/gameScenarios';
 import type { PLOStackParamList } from '../navigation';
-import type { GeneratedHand } from '../types';
-import { getRandomElement } from '@utils/randomUtils';
+import { usePLOGameState } from '../hooks/usePLOGameState';
 
-const BLIND_LEVELS = [2, 5, 10] as const;
-const DEALING_DURATION_MS = 1200;
-
-type Phase = 'asking' | 'feedback' | 'dealing';
 type PLOGameTrainingScreenProps = StackScreenProps<PLOStackParamList, 'PLOGameTraining'>;
-
-function freshHand(difficulty: Parameters<typeof generateHand>[0]): GeneratedHand {
-  return generateHand(difficulty, getRandomElement([...BLIND_LEVELS]));
-}
-
-/** Points earned for the Nth correct answer in a row: 1, 2, 4, 8, … */
-function streakMultiplier(streakAfterAnswer: number): number {
-  return Math.pow(2, streakAfterAnswer - 1);
-}
 
 export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {
   const { difficulty } = route.params;
@@ -35,70 +20,29 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  const [hand, setHand] = useState<GeneratedHand>(() => freshHand(difficulty));
-  const [handKey, setHandKey] = useState(0);
-  const [momentIndex, setMomentIndex] = useState(0);
-  const [phase, setPhase] = useState<Phase>('asking');
-  const [userAnswer, setUserAnswer] = useState(0);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [sessionPoints, setSessionPoints] = useState(0);
-  const [sessionCorrect, setSessionCorrect] = useState(0);
-  const [sessionTotal, setSessionTotal] = useState(0);
-  const [streak, setStreak] = useState(0);
+  const gameState = usePLOGameState(difficulty);
+  const {
+    hand,
+    handKey,
+    momentIndex,
+    phase,
+    userAnswer,
+    isCorrect,
+    moment,
+    sessionPoints,
+    sessionCorrect,
+    sessionTotal,
+    streak,
+    isLastMoment,
+    accuracy,
+    lastEarned,
+    upcomingMultiplier,
+    handleCheck,
+    handleContinue,
+    setUserAnswer,
+  } = gameState;
 
-  const dealingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (phase === 'dealing') {
-      dealingTimer.current = setTimeout(() => {
-        setHand(freshHand(difficulty));
-        setMomentIndex(0);
-        setHandKey(k => k + 1);
-        setUserAnswer(0);
-        setPhase('asking');
-      }, DEALING_DURATION_MS);
-    }
-    return () => { if (dealingTimer.current) clearTimeout(dealingTimer.current); };
-  }, [phase, difficulty]);
-
-  const moment = hand.askMoments[momentIndex];
-
-  const handleCheck = useCallback(() => {
-    const correct = userAnswer === moment.correctAnswer;
-    setIsCorrect(correct);
-    setSessionTotal(t => t + 1);
-    if (correct) {
-      const newStreak = streak + 1;
-      const earned = streakMultiplier(newStreak);
-      setStreak(newStreak);
-      setSessionCorrect(c => c + 1);
-      setSessionPoints(p => p + earned);
-    } else {
-      setStreak(0);
-    }
-    setPhase('feedback');
-  }, [userAnswer, moment.correctAnswer, streak]);
-
-  const handleContinue = useCallback(() => {
-    const hasNext = momentIndex + 1 < hand.askMoments.length;
-    if (hasNext) {
-      setMomentIndex(i => i + 1);
-      setUserAnswer(0);
-      setPhase('asking');
-    } else {
-      setPhase('dealing');
-    }
-  }, [momentIndex, hand.askMoments.length]);
-
-  const isLastMoment = momentIndex + 1 >= hand.askMoments.length;
   const headerContext = `$${hand.blindLevel}/$${hand.blindLevel} · ${moment.street.toUpperCase()}`;
-  const accuracy = sessionTotal > 0
-    ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
-
-  // Points earned on the last correct answer (computable from current streak)
-  const lastEarned = isCorrect ? streakMultiplier(streak) : 0;
-  // Multiplier for the NEXT correct answer
-  const upcomingMultiplier = Math.pow(2, streak);
 
   // ── Dealing overlay ─────────────────────────────────────────────────────────
   if (phase === 'dealing') {

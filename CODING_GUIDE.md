@@ -231,6 +231,102 @@ const handlePress = useCallback(() => { ... }, [deps]);
 const styles = useMemo(() => makeStyles(colors), [colors]);
 ```
 
+#### 15. React Compiler — Automatic Memoization
+React Compiler v1.0 is enabled in the build pipeline (Vite + SWC plugin). It automatically optimizes your memoization at build time without code changes.
+
+**What this means:**
+- Existing `useMemo` and `useCallback` hooks continue to work and remain valid
+- The compiler adds automatic memoization on top of your manual memoization
+- No need to remove or change existing patterns — they're not "redundant"
+- `useMemo`/`useCallback` still serve as escape hatches for when you need explicit control
+
+**Current pattern (no changes needed):**
+```tsx
+const { colors } = useTheme();
+const styles = useMemo(() => makeStyles(colors), [colors]);  // Still recommended
+const handlePress = useCallback(() => { ... }, [deps]);       // Still recommended
+```
+
+**Performance gains:** Up to 12% faster loads, 2.5x faster interactions (measured in production).
+
+#### 16. Component Colocation (for Complex Components)
+When components become complex (3+ hooks, 5+ utilities, related types), organize them in a colocated folder structure for better maintainability.
+
+**Simple component (1-2 hooks):**
+```
+src/features/blackjack-training/components/
+├── BJCard.tsx
+├── BJCard.types.ts
+├── BJCard.hooks.ts
+├── BJCard.module.css
+└── index.ts
+```
+
+**Complex component (3+ hooks, 5+ utilities):**
+```
+src/features/blackjack-training/components/BJDrill/
+├── BJDrill.tsx
+├── BJDrill.types.ts
+├── BJDrill.module.css
+├── hooks/
+│   ├── useValidation.ts
+│   ├── useHandlers.ts
+│   ├── useAnimation.ts
+│   └── index.ts
+├── utils/
+│   ├── calculations.ts
+│   ├── formatting.ts
+│   └── index.ts
+└── index.ts
+```
+
+**Barrel exports — minimal public API:**
+```typescript
+// Shared UI components (export types for external use)
+export { default } from './BJCard';
+export type { BJCardProps } from './BJCard.types';  // ✅ OK for shared
+
+// Feature-specific components (export component only)
+export { default } from './BJDrill';
+// ❌ Don't export internal types/hooks
+```
+
+#### 17. Component Testing
+Colocate tests next to their components. Use Vitest + React Testing Library.
+
+**Test file location:**
+```
+src/features/blackjack-training/components/
+├── BJCard.tsx
+├── BJCard.types.ts
+├── BJCard.test.tsx    ← Colocated next to component
+└── index.ts
+```
+
+**Test structure:**
+```typescript
+import { render, screen } from '@testing-library/react-native';
+import { ThemeProvider } from '@contexts/ThemeContext';
+import BJCard from './BJCard';
+
+describe('BJCard', () => {
+  it('renders the card with correct value', () => {
+    render(
+      <ThemeProvider>
+        <BJCard value="K" suit="♠" />
+      </ThemeProvider>
+    );
+    expect(screen.getByText('K')).toBeOnTheScreen();
+  });
+});
+```
+
+**Best practices:**
+- Test user interactions, not implementation details
+- Wrap components in required contexts (ThemeProvider, etc.)
+- Use meaningful test names describing the behavior
+- Keep tests close to components for easier navigation
+
 ---
 
 ## Anti-Patterns — Never Do These
