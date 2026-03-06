@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
@@ -12,6 +12,7 @@ import {
   getRandomWinningNumber,
   getSectorForNumber,
 } from '../../utils/validation';
+import { SectorTrainingHeader } from '../../components/SectorTrainingHeader';
 import type { SectorTrainingScreenProps } from './SectorTrainingScreen.types';
 
 function playTone(ctx: AudioContext, freq: number, startTime: number, duration: number) {
@@ -110,125 +111,34 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
 
   const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const accuracyColor =
-    stats.total === 0  ? colors.text.muted
+    stats.total === 0 ? colors.text.muted
     : percentage >= 80 ? colors.status.success
     : percentage >= 60 ? colors.text.gold
-    :                    colors.status.error;
+    :                     colors.status.error;
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
       <View style={styles.racetrackArea}>
         <RacetrackLayout width={racetrackSize} onSectionPress={handleSectorPress} />
       </View>
-
-      <View style={styles.topBar}>
-        <View style={styles.scoreDisplay}>
-          <View style={styles.scoreRow}>
-            <Text style={styles.scoreText}>{stats.correct}/{stats.total}</Text>
-            <Text style={[styles.scoreLabel, { color: accuracyColor }]}>{percentage}%</Text>
-          </View>
-          <View style={styles.accuracyBarBg}>
-            <View style={[styles.accuracyBar, { width: `${percentage}%`, backgroundColor: accuracyColor }]} />
-          </View>
-        </View>
-        <View style={styles.targetDisplay}>
-          <View style={styles.targetSmallCircle}>
-            <Text style={styles.targetSmallNumber}>{currentWinningNumber}</Text>
-          </View>
-        </View>
-      </View>
+      <SectorTrainingHeader
+        correct={stats.correct}
+        total={stats.total}
+        percentage={percentage}
+        accuracyColor={accuracyColor}
+        currentWinningNumber={currentWinningNumber}
+      />
     </View>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.background.primary,
       flexDirection: 'row',
       overflow: 'hidden',
-    },
-    topBar: {
-      flexDirection: 'column',
-      backgroundColor: colors.background.secondary,
-      paddingHorizontal: 6,
-      paddingVertical: 12,
-      alignItems: 'center',
-      justifyContent: 'space-around',
-      gap: 12,
-      borderLeftWidth: 1.5,
-      borderLeftColor: colors.border.gold,
-      width: 54,
-    },
-    scoreDisplay: {
-      alignItems: 'center',
-      gap: 4,
-      flexDirection: 'column',
-      transform: [{ rotate: '90deg' }],
-      paddingBottom: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.primary,
-    },
-    scoreRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-    },
-    scoreText: {
-      fontSize: 14,
-      fontWeight: '900',
-      color: colors.text.gold,
-      letterSpacing: 0.3,
-    },
-    scoreLabel: {
-      fontSize: 10,
-      fontWeight: '700',
-      letterSpacing: 0.3,
-    },
-    accuracyBarBg: {
-      width: 60,
-      height: 3,
-      borderRadius: 1.5,
-      backgroundColor: colors.background.tertiary,
-      overflow: 'hidden',
-    },
-    accuracyBar: {
-      height: 3,
-      borderRadius: 1.5,
-    },
-    targetDisplay: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      transform: [{ rotate: '90deg' }],
-    },
-    targetSmallLabel: {
-      fontSize: 6,
-      fontWeight: '700',
-      color: colors.text.muted,
-      letterSpacing: 0.4,
-      textTransform: 'uppercase',
-      marginBottom: 2,
-    },
-    targetSmallCircle: {
-      width: 38,
-      height: 38,
-      borderRadius: 19,
-      backgroundColor: colors.text.gold,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 2.5,
-      borderColor: colors.border.gold,
-      shadowColor: colors.text.gold,
-      shadowOpacity: 0.4,
-      shadowRadius: 5,
-      elevation: 4,
-    },
-    targetSmallNumber: {
-      fontSize: 16,
-      fontWeight: '900',
-      color: colors.background.primary,
     },
     racetrackArea: {
       flex: 1,
@@ -237,5 +147,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
 }
