@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Racetrack from '../../../../components/Racetrack';
+import Racetrack from './Racetrack';
 
 describe('Racetrack', () => {
   it('renders without crashing', () => {

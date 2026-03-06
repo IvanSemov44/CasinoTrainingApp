@@ -1,0 +1,8 @@
+fix: resolve NumberPad import paths and clean up artifacts
+
+- Fix ExerciseLayout to import NumberPad from shared components (@components)
+- Remove stale NumberPad barrel export from roulette-training components
+- Delete obsolete eslint_report.txt
+- Add PROGRESS_REPORT.md documenting final quality gate status
+
+All quality gates verified: ESLint (0/0), TypeScript, Jest (67/67 suites, 898/898 tests), and web runtime smoke test passed.

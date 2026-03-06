@@ -4,7 +4,7 @@ import RouletteLayout from '@components/roulette/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
 import ExerciseStats from '../ExerciseStats';
 import HintSection from '../HintSection';
-import NumberPad from '../NumberPad';
+import NumberPad from '@components/NumberPad';
 import FeedbackCard from '../FeedbackCard';
 import { useTheme } from '@contexts/ThemeContext';
 import type { ExerciseLayoutProps } from './ExerciseLayout.types';
