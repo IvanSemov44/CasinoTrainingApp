@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useTheme } from '@contexts/ThemeContext';
@@ -11,6 +11,7 @@ import {
   getWheelPosition,
 } from '../../utils/validation';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
+import { PositionTrainingSidebar } from '../../components/PositionTrainingSidebar';
 
 export default function PositionTrainingScreen({ route }: PositionTrainingScreenProps) {
   const { colors } = useTheme();
@@ -123,68 +124,17 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
-      {/* ── Left Sidebar HUD ── */}
-      <View style={styles.sidebarContainer}>
-        <ScrollView style={styles.sidebarContent} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <PositionTrainingSidebar
+        stats={stats}
+        currentWinningNumber={currentWinningNumber}
+        result={result}
+        isProcessing={isProcessing}
+        wheelPosition={wheelPosition}
+        accuracyColor={accuracyColor}
+        percentage={percentage}
+        onSkip={handleNext}
+      />
 
-        {/* Stats row */}
-        <View style={styles.statsRow}>
-          <View style={styles.statPill}>
-            <Text style={styles.statValue}>{stats.correct}/{stats.total}</Text>
-            <Text style={styles.statLabel}>score</Text>
-          </View>
-          <View style={styles.statPill}>
-            <Text style={[styles.statValue, { color: accuracyColor }]}>{percentage}%</Text>
-            <Text style={styles.statLabel}>accuracy</Text>
-          </View>
-        </View>
-
-        {/* Target number */}
-        <View style={styles.targetSection}>
-          <Text style={styles.targetLabel}>FIND NUMBER</Text>
-          <View style={styles.targetCircle}>
-            <Text style={styles.targetNumber}>{currentWinningNumber}</Text>
-          </View>
-        </View>
-
-        {/* Instruction */}
-        <Text style={styles.instruction}>
-          Tap <Text style={styles.instructionAccent}>{currentWinningNumber}</Text> on the racetrack
-        </Text>
-
-        {/* Feedback card */}
-        {result && (
-          <View style={[styles.feedbackCard, result.isCorrect ? styles.feedbackOk : styles.feedbackErr]}>
-            <Text style={styles.feedbackTitle}>
-              {result.isCorrect ? '✓  Correct!' : '✗  Try again'}
-            </Text>
-            <Text style={styles.feedbackBody}>
-              {result.isCorrect
-                ? `Found at position ${wheelPosition + 1}`
-                : `That was ${result.userNumber}`}
-            </Text>
-          </View>
-        )}
-
-        <View style={styles.spacer} />
-
-        {/* Skip button - only show when not processing */}
-        {!isProcessing && (
-          <TouchableOpacity
-            style={styles.nextBtn}
-            onPress={handleNext}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.nextBtnText}>
-              Skip  ›
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        </ScrollView>
-      </View>
-
-      {/* ── Racetrack ── */}
       <View style={styles.racetrackArea}>
         <RacetrackLayout
           width={racetrackSize}
@@ -196,7 +146,6 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -205,160 +154,10 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       padding: 12,
       gap: 12,
     },
-
-    // ── Sidebar ──────────────────────────────
-    sidebarContainer: {
-      width: 172,
-      backgroundColor: colors.background.secondary,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      overflow: 'hidden',
-    },
-    sidebarContent: {
-      padding: 12,
-      paddingBottom: 24,
-    },
-    modeBadge: {
-      alignSelf: 'center',
-      paddingHorizontal: 12,
-      paddingVertical: 3,
-      borderRadius: 20,
-      borderWidth: 1,
-      marginBottom: 10,
-    },
-    modeBadgeText: {
-      fontSize: 10,
-      fontWeight: '700',
-      letterSpacing: 1.2,
-    },
-    statsRow: {
-      flexDirection: 'row',
-      gap: 6,
-      marginBottom: 14,
-    },
-    statPill: {
-      flex: 1,
-      backgroundColor: colors.background.primary,
-      borderRadius: 10,
-      paddingVertical: 7,
-      alignItems: 'center',
-    },
-    statValue: {
-      fontSize: 14,
-      fontWeight: '800',
-      color: colors.text.gold,
-    },
-    statLabel: {
-      fontSize: 9,
-      color: colors.text.muted,
-      marginTop: 1,
-      textTransform: 'uppercase',
-      letterSpacing: 0.5,
-    },
-
-    // ── Target number ──────────────────────────
-    targetSection: {
-      alignItems: 'center',
-      marginBottom: 12,
-    },
-    targetLabel: {
-      fontSize: 10,
-      fontWeight: '700',
-      color: colors.text.muted,
-      letterSpacing: 1.5,
-      textTransform: 'uppercase',
-      marginBottom: 6,
-    },
-    targetCircle: {
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      backgroundColor: colors.text.gold,
-      borderWidth: 3,
-      borderColor: colors.border.gold,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 5,
-    },
-    targetNumber: {
-      fontSize: 34,
-      fontWeight: '900',
-      color: colors.background.primary,
-    },
-    targetHint: {
-      fontSize: 11,
-      color: colors.text.muted,
-    },
-
-    // ── Instruction ────────────────────────────
-    instruction: {
-      fontSize: 12,
-      color: colors.text.secondary,
-      textAlign: 'center',
-      marginBottom: 10,
-      lineHeight: 17,
-    },
-    instructionAccent: {
-      fontWeight: '700',
-      color: colors.text.gold,
-    },
-
-    // ── Feedback card ──────────────────────────
-    feedbackCard: {
-      borderRadius: 10,
-      padding: 10,
-      borderWidth: 1.5,
-    },
-    feedbackOk: {
-      backgroundColor: colors.status.successAlt,
-      borderColor: colors.status.success,
-    },
-    feedbackErr: {
-      backgroundColor: colors.status.errorAlt,
-      borderColor: colors.status.error,
-    },
-    feedbackTitle: {
-      fontSize: 13,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 2,
-    },
-    feedbackBody: {
-      fontSize: 11,
-      color: colors.text.secondary,
-    },
-
-    spacer: { flex: 1 },
-
-    // ── Next / Skip button ─────────────────────
-    nextBtn: {
-      paddingVertical: 10,
-      borderRadius: 10,
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      backgroundColor: colors.background.primary,
-    },
-    nextBtnReady: {
-      backgroundColor: colors.text.gold,
-      borderColor: colors.text.gold,
-    },
-    nextBtnText: {
-      fontSize: 13,
-      fontWeight: '700',
-      color: colors.text.secondary,
-    },
-    nextBtnTextReady: {
-      color: colors.background.primary,
-    },
-
-    // ── Racetrack ──────────────────────────────
     racetrackArea: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
 }
