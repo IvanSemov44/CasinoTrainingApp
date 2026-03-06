@@ -1,26 +1,10 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import PlayerPosition from './PlayerPosition';
+import PlayerPosition from '../PlayerPosition';
+import type { PokerTableProps } from './PokerTable.types';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
-interface Player {
-  position: number;
-  name?: string;
-  chipAmount?: number;
-  isDealer?: boolean;
-  action?: string;
-  betAmount?: number;
-  isFolded?: boolean;
-  isRequesting?: boolean;
-}
-
-interface PokerTableProps {
-  players: Player[];
-  potAmount?: number;
-  communityCards?: number;
-}
 
 export default function PokerTable({ players, potAmount = 0, communityCards = 0 }: PokerTableProps) {
   const { colors } = useTheme();
@@ -36,7 +20,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
   const getPlayerPosition = (position: number) => {
     const playerWidth = 80;
     const playerHeight = 60;
-    
+
     const positions = [
       // Position 1 - Bottom center
       { top: tableHeight + 10, left: (tableWidth - playerWidth) / 2 },
@@ -69,7 +53,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
                 ))}
               </View>
             )}
-            
+
             {/* Pot in center */}
             {potAmount > 0 && (
               <View style={styles.potArea}>

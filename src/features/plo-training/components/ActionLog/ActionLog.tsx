@@ -1,13 +1,9 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import type { ActionLogProps } from './ActionLog.types';
 
 const STREET_HEADERS = new Set(['PREFLOP', 'FLOP', 'TURN', 'RIVER']);
-
-interface ActionLogProps {
-  lines: string[];
-  requesterName: string;
-}
 
 export default function ActionLog({ lines, requesterName }: ActionLogProps) {
   const { colors } = useTheme();

@@ -1,20 +1,17 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { PotRequest, Position } from '../types';
-import { POSITIONS } from '../constants/plo.constants';
-import PokerTable from './PokerTable';
-
-interface GameStateDisplayProps {
-  request: PotRequest;
-}
+import { POSITIONS } from '../../constants/plo.constants';
+import PokerTable from '../PokerTable';
+import type { GameStateDisplayProps } from './GameStateDisplay.types';
+import type { Position, PlayerActionType } from '../../types';
 
 interface TablePlayer {
   position: number;
   name: string;
   isDealer: boolean;
   chipAmount?: number;
-  action?: string;
+  action?: PlayerActionType;
   betAmount?: number;
   isFolded?: boolean;
   isRequesting?: boolean;
@@ -38,7 +35,7 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
 
   // Build player data from actions
   const playerMap = new Map<Position, TablePlayer>();
-  
+
   // Initialize all positions
   POSITIONS.forEach((pos) => {
     const playerNumber = positionToPlayerNumber[pos];

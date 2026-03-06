@@ -1,18 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { PlayerActionType } from '../types';
-
-interface PlayerPositionProps {
-  position: number;
-  chipAmount?: number;
-  name?: string;
-  isDealer?: boolean;
-  action?: PlayerActionType;
-  betAmount?: number;
-  isFolded?: boolean;
-  isRequesting?: boolean;
-}
+import type { PlayerPositionProps } from './PlayerPosition.types';
 
 export default function PlayerPosition({
   position,

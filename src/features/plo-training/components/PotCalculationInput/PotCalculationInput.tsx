@@ -2,11 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '@components/NumberPad';
-
-interface PotCalculationInputProps {
-  onSubmit: (amount: number) => void;
-  disabled?: boolean;
-}
+import type { PotCalculationInputProps } from './PotCalculationInput.types';
 
 export default function PotCalculationInput({ onSubmit, disabled = false }: PotCalculationInputProps) {
   const { colors } = useTheme();
@@ -17,7 +13,7 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
   const handleNumberPress = (num: string) => {
     const newValue = inputValue + num;
     setInputValue(newValue);
-    
+
     // Auto-submit when user enters a valid amount
     const amount = parseInt(newValue, 10);
     if (amount > 0) {
@@ -32,7 +28,7 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
   const handleBackspace = () => {
     const newValue = inputValue.slice(0, -1);
     setInputValue(newValue);
-    
+
     if (newValue) {
       const amount = parseInt(newValue, 10);
       if (amount > 0) {
@@ -44,7 +40,7 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Enter Pot Amount:</Text>
-      
+
       <View style={styles.displayContainer}>
         <Text style={styles.displayLabel}>Pot:</Text>
         <View style={styles.displayField}>
