@@ -12,24 +12,18 @@ import {
 } from '../../utils/validation';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 
-const MODE_LABELS: Record<PositionMode, string> = {
-  single: 'SINGLE',
-  random: 'RANDOM',
-};
-
 export default function PositionTrainingScreen({ route }: PositionTrainingScreenProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  const initialMode = route.params?.mode || 'random';
-  const [selectedMode] = useState<PositionMode>(initialMode);
+  const initialMode: PositionMode = route.params?.mode || 'random';
   const [currentWinningNumber, setCurrentWinningNumber] = useState<number>(0);
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const [, setSelectedNumber] = useState<number | null>(null);
   const [result, setResult] = useState<PositionValidationResult | null>(null);
   const [stats, setStats] = useState<TrainingStats>({ correct: 0, total: 0 });
 
-  const [showCorrectFeedback, setShowCorrectFeedback] = useState(false);
+  const [, setShowCorrectFeedback] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -82,7 +76,7 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
 
   useEffect(() => {
     generateNewNumber();
-  }, [generateNewNumber]);
+  }, [generateNewNumber, initialMode]);
 
   const handleNumberPress = (numberStr: string) => {
     if (isProcessing) return;

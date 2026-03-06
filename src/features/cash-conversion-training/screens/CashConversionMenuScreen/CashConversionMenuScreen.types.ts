@@ -1,3 +1,1 @@
-export interface CashConversionMenuScreenProps {
-  // This screen has no navigation props
-}
+export type CashConversionMenuScreenProps = Record<string, never>;

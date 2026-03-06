@@ -31,10 +31,9 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
     [params.betConfigKey],
   );
 
-  const betTypesKey = JSON.stringify(params.betTypes);
   const allowedBetTypes: BetType[] = useMemo(
     () => (betConfig ? [betConfig.type as BetType] : (params.betTypes ?? ['STRAIGHT', 'SPLIT'])),
-    [betConfig, betTypesKey],
+    [betConfig, params.betTypes],
   );
 
   const isSingleBet = allowedBetTypes.length === 1;

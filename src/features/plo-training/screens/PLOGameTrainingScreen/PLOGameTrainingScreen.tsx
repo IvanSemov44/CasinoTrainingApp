@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { usePLOGameState } from '../../hooks';
-import { GameStateDisplay, ActionLog, PotCalculationInput } from '../../components';
+import { ActionLog, PotCalculationInput } from '../../components';
 import type { PLOGameTrainingScreenProps } from './PLOGameTrainingScreen.types';
 
 export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {

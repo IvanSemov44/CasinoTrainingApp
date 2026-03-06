@@ -30,8 +30,8 @@ export default function CashDisplay({ amount }: CashDisplayProps) {
     <View style={styles.container}>
       <Text style={styles.title}>Customer gives:</Text>
       <View style={styles.chipsContainer}>
-        {chips.map((chip, index) => (
-          <View key={index} style={styles.chipRow}>
+        {chips.map((chip) => (
+          <View key={`chip-${chip.value}`} style={styles.chipRow}>
             <View style={[styles.chip, { backgroundColor: chip.color, borderColor: chip.value === 100 ? colors.text.primary : chip.color }]}>
               <Text style={[styles.chipValue, chip.value === 100 && styles.chipValueWhite]}>
                 ${chip.value}

@@ -13,10 +13,11 @@ const renderWithProviders = (component: React.ReactElement) => {
 };
 
 describe('SectorTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as any;
-  const mockRoute = {
-    params: { mode: 'random' as const },
-  } as any;
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof SectorTrainingScreen>['navigation'];
+  const makeRoute = (mode?: 'voisins' | 'tier' | 'orphelins' | 'zero' | 'random') => ({
+    params: mode ? { mode } : {},
+  }) as unknown as React.ComponentProps<typeof SectorTrainingScreen>['route'];
+  const mockRoute = makeRoute('random');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -31,7 +32,7 @@ describe('SectorTrainingScreen', () => {
     it('renders with different sector modes', () => {
       const sectors: Array<'voisins' | 'tier' | 'orphelins' | 'zero' | 'random'> = ['voisins', 'tier', 'orphelins', 'zero', 'random'];
       sectors.forEach((sector) => {
-        const sectorRoute = { params: { mode: sector } } as any;
+        const sectorRoute = makeRoute(sector);
         const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={sectorRoute} />);
         expect(toJSON()).toBeTruthy();
       });
@@ -40,31 +41,31 @@ describe('SectorTrainingScreen', () => {
 
   describe('Mode Handling', () => {
     it('handles voisins mode', () => {
-      const voisinsRoute = { params: { mode: 'voisins' as const } } as any;
+      const voisinsRoute = makeRoute('voisins');
       const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={voisinsRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles tier mode', () => {
-      const tierRoute = { params: { mode: 'tier' as const } } as any;
+      const tierRoute = makeRoute('tier');
       const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={tierRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles orphelins mode', () => {
-      const orphelinsRoute = { params: { mode: 'orphelins' as const } } as any;
+      const orphelinsRoute = makeRoute('orphelins');
       const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={orphelinsRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles zero mode', () => {
-      const zeroRoute = { params: { mode: 'zero' as const } } as any;
+      const zeroRoute = makeRoute('zero');
       const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={zeroRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('uses random mode as default if not provided', () => {
-      const emptyRoute = { params: {} } as any;
+      const emptyRoute = makeRoute();
       const { toJSON } = renderWithProviders(<SectorTrainingScreen navigation={mockNavigation} route={emptyRoute} />);
       expect(toJSON()).toBeTruthy();
     });

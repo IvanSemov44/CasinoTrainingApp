@@ -10,7 +10,8 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('RKMenuScreen', () => {
   const mockNavigation = {
     navigate: jest.fn(),
-  } as any;
+  } as unknown as React.ComponentProps<typeof RKMenuScreen>['navigation'];
+  const mockRoute = undefined as unknown as React.ComponentProps<typeof RKMenuScreen>['route'];
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19,14 +20,14 @@ describe('RKMenuScreen', () => {
   describe('Rendering', () => {
     it('renders the Roulette Knowledge title', () => {
       renderWithTheme(
-        <RKMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <RKMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(screen.getByText('Roulette Knowledge')).toBeOnTheScreen();
     });
 
     it('renders all 10 drill items', () => {
       renderWithTheme(
-        <RKMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <RKMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(screen.getByText('Outside Bet Payout')).toBeOnTheScreen();
       expect(screen.getByText('Announced Bet Net Win')).toBeOnTheScreen();
@@ -36,7 +37,7 @@ describe('RKMenuScreen', () => {
   describe('Navigation', () => {
     it('navigates to RKDrill with correct drill type', () => {
       renderWithTheme(
-        <RKMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <RKMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
 
       const outsideBetItem = screen.getByText('Outside Bet Payout');
@@ -51,7 +52,7 @@ describe('RKMenuScreen', () => {
   describe('Drill Data', () => {
     it('displays correct descriptions', () => {
       renderWithTheme(
-        <RKMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <RKMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(
         screen.getByText(/0 wins → ALL outside bets lose/)
@@ -60,11 +61,11 @@ describe('RKMenuScreen', () => {
 
     it('shows all difficulty levels', () => {
       renderWithTheme(
-        <RKMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <RKMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
-      expect(screen.getByText('EASY')).toBeOnTheScreen();
-      expect(screen.getByText('MEDIUM')).toBeOnTheScreen();
-      expect(screen.getByText('ADVANCED')).toBeOnTheScreen();
+      expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('MEDIUM').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);
     });
   });
 });

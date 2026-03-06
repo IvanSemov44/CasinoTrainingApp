@@ -26,10 +26,10 @@ export type RouletteTrainingStackParamList = {
 };
 
 const Stack = createStackNavigator<RouletteTrainingStackParamList>();
-const RouletteExercisesScreenWithBoundary = withErrorBoundary(RouletteExercisesScreen, 'Roulette Training') as React.ComponentType<any>;
-const RouletteTrainingScreenWithBoundary = withErrorBoundary(RouletteTrainingScreen, 'Roulette Training') as React.ComponentType<any>;
-const RouletteLayoutPracticeScreenWithBoundary = withErrorBoundary(RouletteLayoutPracticeScreen, 'Roulette Training') as React.ComponentType<any>;
-const RouletteLayoutViewScreenWithBoundary = withErrorBoundary(RouletteLayoutViewScreen, 'Roulette Training') as React.ComponentType<any>;
+const RouletteExercisesScreenWithBoundary = withErrorBoundary(RouletteExercisesScreen, 'Roulette Training') as React.ComponentType<unknown>;
+const RouletteTrainingScreenWithBoundary = withErrorBoundary(RouletteTrainingScreen, 'Roulette Training') as React.ComponentType<unknown>;
+const RouletteLayoutPracticeScreenWithBoundary = withErrorBoundary(RouletteLayoutPracticeScreen, 'Roulette Training') as React.ComponentType<unknown>;
+const RouletteLayoutViewScreenWithBoundary = withErrorBoundary(RouletteLayoutViewScreen, 'Roulette Training') as React.ComponentType<unknown>;
 
 // Helper to get screen title based on params
 const getScreenTitle = (

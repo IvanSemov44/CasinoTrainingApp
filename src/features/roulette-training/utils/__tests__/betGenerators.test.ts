@@ -166,7 +166,7 @@ describe('betGenerators', () => {
     ];
 
     it('should generate a bet from the possible bets', () => {
-      const { bet, number } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
+      const { bet } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
       
       expect(bet.type).toBe('SPLIT');
       expect(bet.numbers).toHaveLength(2);

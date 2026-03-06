@@ -24,7 +24,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
         if (isHeader) {
           return (
             <Text
-              key={i}
+              key={`header-${line}-${i}`}
               style={[
                 styles.streetHeader,
                 i === lastHeaderIdx ? styles.currentHeader : styles.prevHeader,
@@ -38,7 +38,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
 
         return (
           <Text
-            key={i}
+            key={`line-${i}`}
             style={[styles.line, !isCurrent && styles.historicalLine]}
           >
             {line}
@@ -47,7 +47,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
       })}
 
       <View style={styles.askIndicator}>
-        <Text style={styles.askText}>{requesterName} asks: "How much is pot?"</Text>
+        <Text style={styles.askText}>{requesterName} asks: &quot;How much is pot?&quot;</Text>
       </View>
     </View>
   );

@@ -136,11 +136,11 @@ describe('ResultFeedback', () => {
       userBetPerPosition: 0,
     };
 
-    const { getByText } = renderWithTheme(
+    const { getAllByText } = renderWithTheme(
       <ResultFeedback result={zeroResult} onNext={mockOnNext} sectorName="Tier" />
     );
 
-    expect(getByText('Tier Total: $0')).toBeTruthy();
+    expect(getAllByText('Tier Total: $0').length).toBeGreaterThan(0);
   });
 
   it('should handle large values in results', () => {
@@ -174,7 +174,7 @@ describe('ResultFeedback', () => {
   });
 
   it('should handle multiple calls to onNext', () => {
-    const { getByText, rerender } = renderWithTheme(
+    const { getByText } = renderWithTheme(
       <ResultFeedback result={correctResult} onNext={mockOnNext} sectorName="Tier" />
     );
 

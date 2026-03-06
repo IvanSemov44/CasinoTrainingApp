@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -36,7 +36,7 @@ export default function CallBetsMenuScreen() {
           <TouchableOpacity
             key={mode.key}
             style={styles.modeButton}
-            onPress={() => handleSelectMode(mode.key as any)}
+            onPress={() => handleSelectMode(mode.key)}
             accessibilityLabel={`Start ${mode.label} training`}
             accessibilityRole="button"
           >
@@ -50,7 +50,7 @@ export default function CallBetsMenuScreen() {
       <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>What Are Call Bets?</Text>
         <Text style={styles.infoDescription}>
-          Call bets (or announced bets) are roulette betting patterns based on wheel positions rather than the betting layout. They're common in European casinos.
+          Call bets (or announced bets) are roulette betting patterns based on wheel positions rather than the betting layout. They&apos;re common in European casinos.
         </Text>
       </View>
 
@@ -67,7 +67,7 @@ export default function CallBetsMenuScreen() {
       <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>How To Train</Text>
         <Text style={styles.infoDescription}>
-          Select a call bet type above to start. You'll be shown the wheel positions you need to cover, and you'll place chips on the correct betting layout positions.
+          Select a call bet type above to start. You&apos;ll be shown the wheel positions you need to cover, and you&apos;ll place chips on the correct betting layout positions.
         </Text>
       </View>
     </ScrollView>

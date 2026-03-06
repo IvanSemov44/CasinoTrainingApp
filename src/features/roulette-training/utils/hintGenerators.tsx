@@ -69,7 +69,7 @@ export function generatePayoutHint(
       • Add all payouts together{'\n\n'}
       <Text style={exerciseTextStyles.hintTitle}>Bets on winning number:{'\n'}</Text>
       {bets.map((bet, index) => (
-        <Text key={index} style={exerciseTextStyles.hintBet}>
+        <Text key={`bet-payout-${bet.type}-${index}`} style={exerciseTextStyles.hintBet}>
           {index + 1}. {getBetTypeName(bet.type)}{' '}
           <Text style={exerciseTextStyles.highlightNumber}>{formatBetNumbers(bet)}</Text>
           {' with '}
@@ -98,7 +98,7 @@ export function generateCashHandlingHint(
     <>
       • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>{'\n'}
       {bets.map((bet, index) => (
-        <Text key={index}>
+        <Text key={`bet-cash-${bet.type}-${index}`}>
           • {getBetTypeName(bet.type)}{' '}
           <Text style={exerciseTextStyles.highlightNumber}>{formatBetNumbers(bet)}</Text>
           {': '}

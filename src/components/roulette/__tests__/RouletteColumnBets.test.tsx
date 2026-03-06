@@ -8,8 +8,7 @@ import { BetType } from '../../../types/roulette.types';
 
 // Mock RouletteChip since it's tested separately
 jest.mock('../RouletteChip', () => {
-  const MockRouletteChip: React.FC<{ amount: number; size: number }> = () =>
-    null as any;
+  const MockRouletteChip: React.FC<{ amount: number; size: number }> = () => null;
   return MockRouletteChip;
 });
 

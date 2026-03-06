@@ -1,3 +1,5 @@
+global.__DEV__ = true;
+
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
@@ -14,6 +16,65 @@ jest.mock('react-native-reanimated', () => {
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useNavigation: () => ({ navigate: jest.fn() }),
+}));
+
+jest.mock('@react-navigation/stack', () => {
+  const React = require('react');
+  return {
+    createStackNavigator: () => ({
+      Navigator: ({ children }) => children,
+      Screen: ({ children }) => children,
+    }),
+  };
+});
+
+jest.mock('react-native-svg', () => {
+  const React = require('react');
+  const { View, Text } = require('react-native');
+  const MockSvg = ({ children }) => React.createElement(View, null, children);
+
+  return {
+    __esModule: true,
+    default: MockSvg,
+    Svg: MockSvg,
+    Path: MockSvg,
+    G: MockSvg,
+    Circle: MockSvg,
+    Rect: MockSvg,
+    Line: MockSvg,
+    Polygon: MockSvg,
+    Defs: MockSvg,
+    Stop: MockSvg,
+    LinearGradient: MockSvg,
+    Text: ({ children, ...props }) => React.createElement(Text, props, children),
+    SvgXml: MockSvg,
+  };
+});
+
+jest.mock('expo-screen-orientation', () => ({
+  lockAsync: jest.fn().mockResolvedValue(undefined),
+  unlockAsync: jest.fn().mockResolvedValue(undefined),
+  lockPlatformAsync: jest.fn().mockResolvedValue(undefined),
+  OrientationLock: {
+    PORTRAIT_UP: 'PORTRAIT_UP',
+    LANDSCAPE: 'LANDSCAPE',
+  },
+}));
+
+jest.mock('expo-haptics', () => ({
+  notificationAsync: jest.fn().mockResolvedValue(undefined),
+  impactAsync: jest.fn().mockResolvedValue(undefined),
+  selectionAsync: jest.fn().mockResolvedValue(undefined),
+  NotificationFeedbackType: {
+    Success: 'success',
+    Warning: 'warning',
+    Error: 'error',
+  },
+  ImpactFeedbackStyle: {
+    Light: 'light',
+    Medium: 'medium',
+    Heavy: 'heavy',
+  },
 }));
 
 // Mock react-native-gesture-handler

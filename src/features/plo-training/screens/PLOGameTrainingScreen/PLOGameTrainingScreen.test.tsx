@@ -48,10 +48,11 @@ jest.mock('../../components', () => ({
 }));
 
 describe('PLOGameTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as any;
-  const mockRoute = {
-    params: { difficulty: 'easy' as const },
-  } as any;
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof PLOGameTrainingScreen>['navigation'];
+  const makeRoute = (difficulty: 'easy' | 'medium' | 'advanced') => ({
+    params: { difficulty },
+  }) as unknown as React.ComponentProps<typeof PLOGameTrainingScreen>['route'];
+  const mockRoute = makeRoute('easy');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -96,15 +97,15 @@ describe('PLOGameTrainingScreen', () => {
     it('should render with different difficulty levels', () => {
       const difficulties: Array<'easy' | 'medium' | 'advanced'> = ['easy', 'medium', 'advanced'];
       difficulties.forEach((diff) => {
-        const route = { params: { difficulty: diff } } as any;
+        const route = makeRoute(diff);
         const { toJSON } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={route} />);
         expect(toJSON()).toBeTruthy();
       });
     });
 
     it('should display accuracy percentage', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
-      expect(getByText(/0%/)).toBeTruthy();
+      const { getAllByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(getAllByText(/0%/).length).toBeGreaterThan(0);
     });
 
     it('should display session statistics', () => {

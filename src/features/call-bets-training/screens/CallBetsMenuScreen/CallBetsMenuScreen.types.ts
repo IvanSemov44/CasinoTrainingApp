@@ -1,3 +1,1 @@
-export interface CallBetsMenuScreenProps {
-  // This screen has no navigation props
-}
+export type CallBetsMenuScreenProps = Record<string, never>;

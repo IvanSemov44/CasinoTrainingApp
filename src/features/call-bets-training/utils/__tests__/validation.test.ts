@@ -30,8 +30,8 @@ describe('Call Bets Validation Utils', () => {
         { type: 'split', numbers: [10, 11], amount: 5, id: '2', timestamp: mockTimestamp },
       ];
 
-      // Cast to any to bypass strict PlacedBet type check for the mock
-      const result = validateCallBet('tier', userBets as any);
+      const typedUserBets = userBets as Parameters<typeof validateCallBet>[1];
+      const result = validateCallBet('tier', typedUserBets);
 
       expect(result.isCorrect).toBe(true);
       expect(result.missingBets).toHaveLength(0);
@@ -45,7 +45,8 @@ describe('Call Bets Validation Utils', () => {
         { type: 'split', numbers: [11, 10], amount: 5, id: '2', timestamp: mockTimestamp },
       ];
 
-      const result = validateCallBet('tier', userBets as any);
+      const typedUserBets = userBets as Parameters<typeof validateCallBet>[1];
+      const result = validateCallBet('tier', typedUserBets);
 
       expect(result.isCorrect).toBe(true);
     });
@@ -55,7 +56,8 @@ describe('Call Bets Validation Utils', () => {
         { type: 'split', numbers: [5, 8], amount: 10, id: '1', timestamp: mockTimestamp },
       ];
 
-      const result = validateCallBet('tier', userBets as any);
+      const typedUserBets = userBets as Parameters<typeof validateCallBet>[1];
+      const result = validateCallBet('tier', typedUserBets);
 
       expect(result.isCorrect).toBe(false);
       expect(result.missingBets).toHaveLength(1);
@@ -70,7 +72,8 @@ describe('Call Bets Validation Utils', () => {
         { type: 'straight', numbers: [1], amount: 10, id: '3', timestamp: mockTimestamp }, // Extra
       ];
 
-      const result = validateCallBet('tier', userBets as any);
+      const typedUserBets = userBets as Parameters<typeof validateCallBet>[1];
+      const result = validateCallBet('tier', typedUserBets);
 
       expect(result.isCorrect).toBe(false);
       expect(result.extraBets).toHaveLength(1);

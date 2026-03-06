@@ -54,7 +54,11 @@
       "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/cash-conversion-training/types*)",
       "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/plo-training/types*)",
       "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/roulette-game/types*)",
-      "Bash(npm test -- --passWithNoTests)"
+      "Bash(npm test -- --passWithNoTests)",
+      "Bash(grep -l \"import type { ScreenProps } from ''@app-types/navigation.types''\" src/features/blackjack-training/screens/BJDrillScreen/BJDrillScreen.test.tsx src/features/blackjack-training/screens/BJMenuScreen/BJMenuScreen.test.tsx src/features/call-bets-training/screens/CallBetsTrainingScreen/CallBetsTrainingScreen.test.tsx src/features/caribbean-poker-training/screens/CPDrillScreen/CPDrillScreen.test.tsx src/features/caribbean-poker-training/screens/CPMenuScreen/CPMenuScreen.test.tsx src/features/plo-training/screens/PLOGameTrainingScreen/PLOGameTrainingScreen.test.tsx src/features/plo-training/screens/PLOMenuScreen/PLOMenuScreen.test.tsx src/features/racetrack-position-training/screens/PositionMenuScreen/PositionMenuScreen.test.tsx src/features/racetrack-position-training/screens/PositionTrainingScreen/PositionTrainingScreen.test.tsx src/features/racetrack-sector-training/screens/SectorMenuScreen/SectorMenuScreen.test.tsx src/features/racetrack-sector-training/screens/SectorTrainingScreen/SectorTrainingScreen.test.tsx src/features/roulette-knowledge-training/screens/RKDrillScreen/RKDrillScreen.test.tsx src/features/roulette-knowledge-training/screens/RKMenuScreen/RKMenuScreen.test.tsx src/features/texas-holdem-ultimate-training/screens/THUDrillScreen/THUDrillScreen.test.tsx src/features/texas-holdem-ultimate-training/screens/THUMenuScreen/THUMenuScreen.test.tsx src/features/three-card-poker-training/screens/TCPDrillScreen/TCPDrillScreen.test.tsx src/features/three-card-poker-training/screens/TCPMenuScreen/TCPMenuScreen.test.tsx)",
+      "Bash(grep -l \"as unknown as ScreenProps\" \"C:\\\\Users\\\\ivans\\\\Desktop\\\\Dev\\\\CasinoTrainingApp\\\\src\\\\features\"/**/*.test.tsx)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/*.json)",
+      "Bash(xargs ls -la)"
     ]
   }
 }

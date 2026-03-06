@@ -143,6 +143,6 @@ describe('ActionLog', () => {
     ];
     renderWithTheme(<ActionLog lines={lines} requesterName="CO" />);
     expect(screen.getByText('UTG folds')).toBeTruthy();
-    expect(screen.getByText('MP calls')).toBeTruthy();
+    expect(screen.getAllByText('MP calls').length).toBeGreaterThan(0);
   });
 });

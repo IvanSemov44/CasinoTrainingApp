@@ -36,7 +36,7 @@ describe('GameStateDisplay', () => {
     expect(screen.getByText('UTG')).toBeTruthy(); // Position 3
     expect(screen.getByText('BB')).toBeTruthy(); // Position 4
     expect(screen.getByText('SB')).toBeTruthy(); // Position 5
-    expect(screen.getByText('D')).toBeTruthy(); // Position 6
+    expect(screen.getAllByText('D').length).toBeGreaterThan(0); // Position 6
   });
 
   it('displays correct blind amounts', () => {

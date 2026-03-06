@@ -59,13 +59,18 @@ describe('RouletteGameScreen', () => {
 
   describe('Initial State', () => {
     it('should start with empty placed bets', () => {
-      const { toJSON } = renderWithTheme(<RouletteGameScreen />);
+      renderWithTheme(<RouletteGameScreen />);
       // Initial state should have no placed bets
-      expect(toJSON()).toBeTruthy();
+      const { useAnnouncedBets } = require('../../../racetrack/hooks/useAnnouncedBets');
+      expect(useAnnouncedBets).toHaveBeenCalledWith(
+        expect.objectContaining({
+          selectedChipValue: 5,
+        })
+      );
     });
 
     it('should have default chip value of 5', () => {
-      const { toJSON } = renderWithTheme(<RouletteGameScreen />);
+      renderWithTheme(<RouletteGameScreen />);
       // Default chip value is 5, verified through hook call
       const { useAnnouncedBets } = require('../../../racetrack/hooks/useAnnouncedBets');
       expect(useAnnouncedBets).toHaveBeenCalledWith(

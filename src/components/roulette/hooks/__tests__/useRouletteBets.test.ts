@@ -189,7 +189,7 @@ describe('useRouletteBets', () => {
           payout: 35,
           timestamp: Date.now(),
         },
-      ] as any;
+      ] as unknown as PlacedBet[];
       
       const { result } = renderHook(() => useRouletteBets(placedBets));
       
@@ -201,7 +201,7 @@ describe('useRouletteBets', () => {
         {
           id: 'bet-1',
           type: BetType.STRAIGHT,
-          numbers: [] as any,
+          numbers: [],
           amount: 10,
           payout: 35,
           timestamp: Date.now(),

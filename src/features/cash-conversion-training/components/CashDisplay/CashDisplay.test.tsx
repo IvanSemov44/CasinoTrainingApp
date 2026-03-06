@@ -82,7 +82,7 @@ describe('CashDisplay', () => {
   });
 
   it('should display chips container with chips', () => {
-    const { getByText, getByTestId } = renderWithTheme(
+    const { getByText } = renderWithTheme(
       <CashDisplay amount={300} />
     );
 

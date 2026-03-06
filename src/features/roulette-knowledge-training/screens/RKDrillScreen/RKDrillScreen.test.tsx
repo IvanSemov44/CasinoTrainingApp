@@ -8,10 +8,11 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('RKDrillScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as any;
-  const mockRoute = {
-    params: { drillType: 'outside-bet-payout' },
-  } as any;
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof RKDrillScreen>['navigation'];
+  const makeRoute = (drillType: string) => ({
+    params: { drillType },
+  }) as unknown as React.ComponentProps<typeof RKDrillScreen>['route'];
+  const mockRoute = makeRoute('outside-bet-payout');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -26,9 +27,7 @@ describe('RKDrillScreen', () => {
 
   describe('Props and Params', () => {
     it('uses route params correctly', () => {
-      const customRoute = {
-        params: { drillType: 'announced-inside-mixed' },
-      } as any;
+      const customRoute = makeRoute('announced-inside-mixed');
       const { toJSON } = renderWithTheme(<RKDrillScreen navigation={mockNavigation} route={customRoute} />);
       expect(toJSON()).toBeTruthy();
     });
@@ -43,7 +42,7 @@ describe('RKDrillScreen', () => {
         'announced-inside-mixed',
       ];
       drillTypes.forEach((drillType) => {
-        const route = { params: { drillType } } as any;
+        const route = makeRoute(drillType);
         const { toJSON } = renderWithTheme(<RKDrillScreen navigation={mockNavigation} route={route} />);
         expect(toJSON()).toBeTruthy();
       });

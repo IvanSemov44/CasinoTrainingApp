@@ -7,7 +7,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // Define __DEV__ for tests
-(global as any).__DEV__ = true;
+(global as typeof globalThis & { __DEV__?: boolean }).__DEV__ = true;
 
 // Mock the theme constants
 jest.mock('../../features/roulette-training/constants/theme', () => ({

@@ -39,7 +39,7 @@ export default function MenuListScreen({
   const renderSkeletonItems = () => (
     <>
       {[1, 2, 3, 4].map((index) => (
-        <SkeletonMenuItem key={index} />
+        <SkeletonMenuItem key={`skeleton-${index}`} />
       ))}
     </>
   );

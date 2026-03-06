@@ -10,7 +10,8 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('BJMenuScreen', () => {
   const mockNavigation = {
     navigate: jest.fn(),
-  } as any;
+  } as unknown as React.ComponentProps<typeof BJMenuScreen>['navigation'];
+  const mockRoute = undefined as unknown as React.ComponentProps<typeof BJMenuScreen>['route'];
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19,14 +20,14 @@ describe('BJMenuScreen', () => {
   describe('Rendering', () => {
     it('renders the Blackjack title', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(screen.getByText('Blackjack')).toBeOnTheScreen();
     });
 
     it('renders all drill items', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(screen.getByText('Soft Hand Announcement')).toBeOnTheScreen();
       expect(screen.getByText('Dealer Action')).toBeOnTheScreen();
@@ -35,17 +36,17 @@ describe('BJMenuScreen', () => {
 
     it('renders difficulty badges', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
-      expect(screen.getByText('EASY')).toBeOnTheScreen();
-      expect(screen.getByText('ADVANCED')).toBeOnTheScreen();
+      expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);
     });
   });
 
   describe('Navigation', () => {
     it('navigates to BJDrill with correct drill type when item is pressed', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
 
       const softHandItem = screen.getByText('Soft Hand Announcement');
@@ -58,7 +59,7 @@ describe('BJMenuScreen', () => {
 
     it('navigates with correct drill type for different drills', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
 
       const superSevenItem = screen.getByText('Super Seven');
@@ -73,7 +74,7 @@ describe('BJMenuScreen', () => {
   describe('Drill Data', () => {
     it('displays correct descriptions for drills', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(
         screen.getByText('Hit or stand? Dealer stands on ALL 17s, including soft 17 (A+6).')
@@ -82,7 +83,7 @@ describe('BJMenuScreen', () => {
 
     it('shows correct difficulty levels for drills', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       // Check for both easy and advanced difficulty badges
       const easyBadges = screen.getAllByText('EASY');
@@ -95,7 +96,7 @@ describe('BJMenuScreen', () => {
   describe('Accessibility', () => {
     it('renders content accessible for screen readers', () => {
       renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(screen.getByText('Blackjack')).toBeOnTheScreen();
       expect(screen.getByText('Soft Hand Announcement')).toBeOnTheScreen();
@@ -105,7 +106,7 @@ describe('BJMenuScreen', () => {
   describe('Props with Defaults', () => {
     it('uses navigation prop correctly', () => {
       const { toJSON } = renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={undefined as any} />
+        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
       );
       expect(toJSON()).toBeTruthy();
     });

@@ -35,7 +35,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestForTheMoney} />
     );
 
-    expect(getByText(expect.stringContaining('for the money'))).toBeTruthy();
+    expect(getByText(/for the money/i)).toBeTruthy();
   });
 
   it('should render by-amount request format', () => {
@@ -43,7 +43,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestByAmount} />
     );
 
-    expect(getByText(expect.stringContaining('by $100'))).toBeTruthy();
+    expect(getByText(/by \$100/i)).toBeTruthy();
   });
 
   it('should display sector name in for-the-money request', () => {
@@ -51,7 +51,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestForTheMoney} />
     );
 
-    expect(getByText(expect.stringContaining('Tier'))).toBeTruthy();
+    expect(getByText(/Tier/i)).toBeTruthy();
   });
 
   it('should display sector name in by-amount request', () => {
@@ -59,7 +59,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestByAmount} />
     );
 
-    expect(getByText(expect.stringContaining('Voisins'))).toBeTruthy();
+    expect(getByText(/Voisins/i)).toBeTruthy();
   });
 
   it('should handle orphelins sector', () => {
@@ -73,7 +73,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('Orphelins'))).toBeTruthy();
+    expect(getByText(/Orphelins/i)).toBeTruthy();
   });
 
   it('should handle zero sector', () => {
@@ -87,7 +87,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('Zero'))).toBeTruthy();
+    expect(getByText(/Zero/i)).toBeTruthy();
   });
 
   it('should handle neighbors sector', () => {
@@ -101,7 +101,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('Neighbors'))).toBeTruthy();
+    expect(getByText(/Neighbors/i)).toBeTruthy();
   });
 
   it('should display specified amount in by-amount request', () => {
@@ -116,7 +116,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('$50'))).toBeTruthy();
+    expect(getByText(/\$50/i)).toBeTruthy();
   });
 
   it('should handle different specified amounts', () => {
@@ -131,7 +131,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('$200'))).toBeTruthy();
+    expect(getByText(/\$200/i)).toBeTruthy();
   });
 
   it('should update when request changes', () => {
@@ -139,7 +139,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestForTheMoney} />
     );
 
-    expect(getByText(expect.stringContaining('for the money'))).toBeTruthy();
+    expect(getByText(/for the money/i)).toBeTruthy();
 
     rerender(
       <ThemeProvider>
@@ -147,7 +147,7 @@ describe('RequestDisplay', () => {
       </ThemeProvider>
     );
 
-    expect(getByText(expect.stringContaining('by $100'))).toBeTruthy();
+    expect(getByText(/by \$100/i)).toBeTruthy();
   });
 
   it('should switch from for-the-money to by-amount', () => {
@@ -155,7 +155,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestForTheMoney} />
     );
 
-    expect(getByText(expect.stringContaining('for the money'))).toBeTruthy();
+    expect(getByText(/for the money/i)).toBeTruthy();
 
     rerender(
       <ThemeProvider>
@@ -163,8 +163,8 @@ describe('RequestDisplay', () => {
       </ThemeProvider>
     );
 
-    expect(queryByText(expect.stringContaining('for the money'))).toBeNull();
-    expect(getByText(expect.stringContaining('by $100'))).toBeTruthy();
+    expect(queryByText(/for the money/i)).toBeNull();
+    expect(getByText(/by \$100/i)).toBeTruthy();
   });
 
   it('should render with quotes around request text', () => {
@@ -172,7 +172,7 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={mockRequestForTheMoney} />
     );
 
-    const requestElement = getByText(expect.stringContaining('for the money'));
+    const requestElement = getByText(/for the money/i);
     expect(requestElement).toBeTruthy();
   });
 
@@ -188,6 +188,6 @@ describe('RequestDisplay', () => {
       <RequestDisplay request={request} />
     );
 
-    expect(getByText(expect.stringContaining('$5000'))).toBeTruthy();
+    expect(getByText(/\$5000/i)).toBeTruthy();
   });
 });

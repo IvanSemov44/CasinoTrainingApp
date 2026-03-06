@@ -8,10 +8,11 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('TCPDrillScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as any;
-  const mockRoute = {
-    params: { drillType: 'hand-recognition' },
-  } as any;
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof TCPDrillScreen>['navigation'];
+  const makeRoute = (drillType: string) => ({
+    params: { drillType },
+  }) as unknown as React.ComponentProps<typeof TCPDrillScreen>['route'];
+  const mockRoute = makeRoute('hand-recognition');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -26,9 +27,7 @@ describe('TCPDrillScreen', () => {
 
   describe('Props and Params', () => {
     it('uses route params correctly', () => {
-      const customRoute = {
-        params: { drillType: 'dealer-qualification' },
-      } as any;
+      const customRoute = makeRoute('dealer-qualification');
       const { toJSON } = renderWithTheme(<TCPDrillScreen navigation={mockNavigation} route={customRoute} />);
       expect(toJSON()).toBeTruthy();
     });
@@ -46,9 +45,7 @@ describe('TCPDrillScreen', () => {
     });
 
     it('handles full-outcome drill type', () => {
-      const outcomeRoute = {
-        params: { drillType: 'full-outcome' },
-      } as any;
+      const outcomeRoute = makeRoute('full-outcome');
       const { toJSON } = renderWithTheme(<TCPDrillScreen navigation={mockNavigation} route={outcomeRoute} />);
       expect(toJSON()).toBeTruthy();
     });

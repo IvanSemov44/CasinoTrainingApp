@@ -120,7 +120,8 @@ describe('exerciseHelpers', () => {
 
     it('should always return arrays of length 4', () => {
       for (let num = 0; num <= 12; num++) {
-        const corners = getCornersForNumber(num as any);
+        const rouletteNum = num as Parameters<typeof getCornersForNumber>[0];
+        const corners = getCornersForNumber(rouletteNum);
         corners.forEach(corner => {
           expect(corner).toHaveLength(4);
         });
@@ -146,7 +147,8 @@ describe('exerciseHelpers', () => {
 
     it('should always return arrays of length 3', () => {
       for (let num = 0; num <= 12; num++) {
-        const streets = getStreetsForNumber(num as any);
+        const rouletteNum = num as Parameters<typeof getStreetsForNumber>[0];
+        const streets = getStreetsForNumber(rouletteNum);
         streets.forEach(street => {
           expect(street).toHaveLength(3);
         });
@@ -171,7 +173,8 @@ describe('exerciseHelpers', () => {
 
     it('should always return arrays of length 6', () => {
       for (let num = 1; num <= 12; num++) {
-        const sixLines = getSixLinesForNumber(num as any);
+        const rouletteNum = num as Parameters<typeof getSixLinesForNumber>[0];
+        const sixLines = getSixLinesForNumber(rouletteNum);
         sixLines.forEach(sixLine => {
           expect(sixLine).toHaveLength(6);
         });

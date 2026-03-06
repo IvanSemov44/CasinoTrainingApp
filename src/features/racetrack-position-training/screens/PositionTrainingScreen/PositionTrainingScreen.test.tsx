@@ -8,10 +8,11 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('PositionTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as any;
-  const mockRoute = {
-    params: { mode: 'random' as const },
-  } as any;
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof PositionTrainingScreen>['navigation'];
+  const makeRoute = (mode?: 'random' | 'single') => ({
+    params: mode ? { mode } : {},
+  }) as unknown as React.ComponentProps<typeof PositionTrainingScreen>['route'];
+  const mockRoute = makeRoute('random');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24,9 +25,7 @@ describe('PositionTrainingScreen', () => {
     });
 
     it('renders with single mode param', () => {
-      const singleRoute = {
-        params: { mode: 'single' as const },
-      } as any;
+      const singleRoute = makeRoute('single');
       const { toJSON } = renderWithTheme(<PositionTrainingScreen navigation={mockNavigation} route={singleRoute} />);
       expect(toJSON()).toBeTruthy();
     });
@@ -34,25 +33,19 @@ describe('PositionTrainingScreen', () => {
 
   describe('Mode Handling', () => {
     it('handles random mode', () => {
-      const randomRoute = {
-        params: { mode: 'random' as const },
-      } as any;
+      const randomRoute = makeRoute('random');
       const { toJSON } = renderWithTheme(<PositionTrainingScreen navigation={mockNavigation} route={randomRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles single mode', () => {
-      const singleRoute = {
-        params: { mode: 'single' as const },
-      } as any;
+      const singleRoute = makeRoute('single');
       const { toJSON } = renderWithTheme(<PositionTrainingScreen navigation={mockNavigation} route={singleRoute} />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('uses random mode as default if not provided', () => {
-      const emptyRoute = {
-        params: {},
-      } as any;
+      const emptyRoute = makeRoute();
       const { toJSON } = renderWithTheme(<PositionTrainingScreen navigation={mockNavigation} route={emptyRoute} />);
       expect(toJSON()).toBeTruthy();
     });

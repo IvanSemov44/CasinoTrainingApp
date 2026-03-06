@@ -75,9 +75,12 @@ export interface DrillState<TScenario extends BaseDrillScenario> {
  * const { scenario, handleSubmit, streak, sessionPoints } = drillState;
  * ```
  */
-export function useDrillState<TScenario extends BaseDrillScenario>(
-  scenarioGenerator: (drillType: any) => TScenario,
-  drillType: any,
+export function useDrillState<
+  TScenario extends BaseDrillScenario,
+  TDrillType = unknown,
+>(
+  scenarioGenerator: (drillType: TDrillType) => TScenario,
+  drillType: TDrillType,
   streakMultiplierFn: (streak: number) => number = (s) => Math.pow(2, s - 1),
 ): DrillState<TScenario> {
   // Scenario state

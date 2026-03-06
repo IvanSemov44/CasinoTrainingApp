@@ -49,7 +49,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
             {communityCards > 0 && (
               <View style={styles.cardsArea}>
                 {Array.from({ length: communityCards }).map((_, i) => (
-                  <View key={i} style={styles.card} />
+                  <View key={`community-card-${i}`} style={styles.card} />
                 ))}
               </View>
             )}

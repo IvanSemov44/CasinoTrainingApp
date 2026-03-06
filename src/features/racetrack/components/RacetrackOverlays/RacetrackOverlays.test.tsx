@@ -12,60 +12,60 @@ describe('RacetrackOverlays', () => {
 
   describe('rendering', () => {
     it('should render without crashing', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays width={350} height={140} />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeNull();
     });
 
     it('should render section buttons when onSectionPress is provided', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onSectionPress={mockOnSectionPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should render number buttons when onNumberPress is provided', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should not render section overlay when onSectionPress is undefined', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should not render number overlay when onNumberPress is undefined', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onSectionPress={mockOnSectionPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
   });
 
   describe('section press handlers', () => {
     it('should call onSectionPress with tier when tier button is pressed', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
@@ -74,7 +74,7 @@ describe('RacetrackOverlays', () => {
       );
       // Note: This test structure assumes TouchableOpacity can be identified
       // In practice, you may need to use fireEvent on the entire view
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should call onSectionPress with orphelins', () => {
@@ -113,75 +113,75 @@ describe('RacetrackOverlays', () => {
 
   describe('number press handlers', () => {
     it('should render top number buttons', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should render bottom number buttons', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should render left side number buttons', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
 
     it('should render right side number buttons', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
           onNumberPress={mockOnNumberPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
   });
 
   describe('coordinate transformation', () => {
     it('should handle different widths', () => {
-      const { root: root1 } = render(
+      const { toJSON: toJSON1 } = render(
         <RacetrackOverlays width={200} height={80} />
       );
-      const { root: root2 } = render(
+      const { toJSON: toJSON2 } = render(
         <RacetrackOverlays width={500} height={200} />
       );
-      expect(root1).toBeDefined();
-      expect(root2).toBeDefined();
+      expect(toJSON1()).toBeNull();
+      expect(toJSON2()).toBeNull();
     });
 
     it('should handle different heights', () => {
-      const { root: root1 } = render(
+      const { toJSON: toJSON1 } = render(
         <RacetrackOverlays width={350} height={100} />
       );
-      const { root: root2 } = render(
+      const { toJSON: toJSON2 } = render(
         <RacetrackOverlays width={350} height={200} />
       );
-      expect(root1).toBeDefined();
-      expect(root2).toBeDefined();
+      expect(toJSON1()).toBeNull();
+      expect(toJSON2()).toBeNull();
     });
 
     it('should render both handlers together', () => {
-      const { root } = render(
+      const { toJSON } = render(
         <RacetrackOverlays
           width={350}
           height={140}
@@ -189,7 +189,7 @@ describe('RacetrackOverlays', () => {
           onSectionPress={mockOnSectionPress}
         />
       );
-      expect(root).toBeDefined();
+      expect(toJSON()).toBeTruthy();
     });
   });
 });

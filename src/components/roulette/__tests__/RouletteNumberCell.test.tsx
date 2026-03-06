@@ -30,14 +30,16 @@ jest.mock('../styles/roulette.styles', () => ({
 // Mock RouletteChip
 jest.mock('../RouletteChip', () => {
   const { View } = require('react-native');
-  return ({ amount, size }: { amount: number; size: number }) => (
+  const MockRouletteChip = ({ amount, size }: { amount: number; size: number }) => (
     <View testID={`chip-${amount}-${size}`} />
   );
+  MockRouletteChip.displayName = 'MockRouletteChip';
+  return MockRouletteChip;
 });
 
 describe('RouletteNumberCell', () => {
-  const defaultProps = {
-    number: 5 as any,
+  const defaultProps: React.ComponentProps<typeof RouletteNumberCell> = {
+    number: 5,
     cellSize: 40,
     betAmount: 0,
     onNumberPress: jest.fn(),
@@ -57,7 +59,7 @@ describe('RouletteNumberCell', () => {
 
     it('should render zero correctly', () => {
       const { getByText } = render(
-        <RouletteNumberCell {...defaultProps} number={0 as any} />
+        <RouletteNumberCell {...defaultProps} number={0} />
       );
       
       expect(getByText('0')).toBeTruthy();
@@ -65,7 +67,7 @@ describe('RouletteNumberCell', () => {
 
     it('should render double zero correctly', () => {
       const { getByText } = render(
-        <RouletteNumberCell {...defaultProps} number={'00' as any} />
+        <RouletteNumberCell {...defaultProps} number={'00' as unknown as React.ComponentProps<typeof RouletteNumberCell>['number']} />
       );
       
       expect(getByText('00')).toBeTruthy();
@@ -130,7 +132,7 @@ describe('RouletteNumberCell', () => {
   describe('accessibility', () => {
     it('should have correct accessibility label for red number without bet', () => {
       const { getByLabelText } = render(
-        <RouletteNumberCell {...defaultProps} number={1 as any} />
+        <RouletteNumberCell {...defaultProps} number={1} />
       );
       
       expect(getByLabelText('Number 1, red')).toBeTruthy();
@@ -138,7 +140,7 @@ describe('RouletteNumberCell', () => {
 
     it('should have correct accessibility label for black number without bet', () => {
       const { getByLabelText } = render(
-        <RouletteNumberCell {...defaultProps} number={2 as any} />
+        <RouletteNumberCell {...defaultProps} number={2} />
       );
       
       expect(getByLabelText('Number 2, black')).toBeTruthy();
@@ -146,7 +148,7 @@ describe('RouletteNumberCell', () => {
 
     it('should have correct accessibility label for green number (zero)', () => {
       const { getByLabelText } = render(
-        <RouletteNumberCell {...defaultProps} number={0 as any} />
+        <RouletteNumberCell {...defaultProps} number={0} />
       );
       
       expect(getByLabelText('Number 0, green')).toBeTruthy();
@@ -191,7 +193,7 @@ describe('RouletteNumberCell', () => {
       
       expect(getByText('5')).toBeTruthy();
       
-      rerender(<RouletteNumberCell {...defaultProps} number={10 as any} />);
+      rerender(<RouletteNumberCell {...defaultProps} number={10} />);
       
       expect(queryByText('5')).toBeNull();
       expect(getByText('10')).toBeTruthy();

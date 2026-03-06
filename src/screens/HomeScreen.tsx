@@ -42,7 +42,7 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
   },
 ];
 
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<keyof RootStackParamList> }) {
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
   const { colors, themeId, toggleTheme } = useTheme();
   const { width } = useWindowDimensions();
   const { isInstallable, isInstalled, install } = useInstallPrompt();
@@ -95,7 +95,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               <TouchableOpacity
                 key={g.route}
                 style={[styles.card, { width: cardWidth }]}
-                onPress={() => navigation.navigate(g.route as any)}
+                onPress={() => navigation.navigate(g.route as never)}
                 activeOpacity={0.75}
               >
                 <Text style={styles.cardEmoji}>{g.emoji}</Text>

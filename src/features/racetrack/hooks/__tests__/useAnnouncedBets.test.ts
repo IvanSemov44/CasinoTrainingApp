@@ -4,7 +4,7 @@
  */
 import { renderHook, act } from '@testing-library/react-native';
 import { useAnnouncedBets } from '../useAnnouncedBets';
-import { BetType } from '../../../../types/roulette.types';
+import { BetType, type PlacedBet } from '../../../../types/roulette.types';
 
 describe('useAnnouncedBets', () => {
   const mockOnBetsPlaced = jest.fn();
@@ -26,11 +26,11 @@ describe('useAnnouncedBets', () => {
       });
       
       expect(mockOnBetsPlaced).toHaveBeenCalledTimes(1);
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
       
       // Tier has 6 split bets
       expect(placedBets).toHaveLength(6);
-      placedBets.forEach((bet: any) => {
+      placedBets.forEach((bet) => {
         expect(bet.type).toBe(BetType.SPLIT);
         expect(bet.amount).toBe(5);
         expect(bet.numbers).toHaveLength(2);
@@ -93,7 +93,7 @@ describe('useAnnouncedBets', () => {
       });
       
       const placedBets = mockOnBetsPlaced.mock.calls[0][0];
-      placedBets.forEach((bet: any) => {
+      placedBets.forEach((bet: PlacedBet) => {
         expect(bet.amount).toBe(25);
       });
     });
@@ -113,8 +113,8 @@ describe('useAnnouncedBets', () => {
       const placedBets = mockOnBetsPlaced.mock.calls[0][0];
       
       // Voisins has multiplier 2 on street and corner bets
-      const streetBet = placedBets.find((b: any) => b.type === BetType.STREET);
-      const cornerBet = placedBets.find((b: any) => b.type === BetType.CORNER);
+      const streetBet = (placedBets as PlacedBet[]).find((b) => b.type === BetType.STREET);
+      const cornerBet = (placedBets as PlacedBet[]).find((b) => b.type === BetType.CORNER);
       
       if (streetBet) {
         expect(streetBet.amount).toBe(20); // 10 * 2
@@ -128,7 +128,7 @@ describe('useAnnouncedBets', () => {
       const { result } = renderHook(() => useAnnouncedBets(defaultProps));
       
       act(() => {
-        result.current.handleSectionPress('invalid' as any);
+        result.current.handleSectionPress('invalid' as unknown as Parameters<typeof result.current.handleSectionPress>[0]);
       });
       
       expect(mockOnBetsPlaced).not.toHaveBeenCalled();
@@ -144,11 +144,11 @@ describe('useAnnouncedBets', () => {
       });
       
       expect(mockOnBetsPlaced).toHaveBeenCalledTimes(1);
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
       
       // Neighbors with count 2 = 5 numbers (2 left + center + 2 right)
       expect(placedBets).toHaveLength(5);
-      placedBets.forEach((bet: any) => {
+      placedBets.forEach((bet) => {
         expect(bet.type).toBe(BetType.STRAIGHT);
         expect(bet.amount).toBe(5);
         expect(bet.numbers).toHaveLength(1);
@@ -163,10 +163,10 @@ describe('useAnnouncedBets', () => {
       });
       
       expect(mockOnBetsPlaced).toHaveBeenCalledTimes(1);
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
       
       expect(placedBets).toHaveLength(5);
-      expect(placedBets.some((b: any) => b.numbers[0] === 0)).toBe(true);
+      expect(placedBets.some((b) => b.numbers[0] === 0)).toBe(true);
     });
 
     it('should use selected chip value for neighbor bets', () => {
@@ -181,8 +181,8 @@ describe('useAnnouncedBets', () => {
         result.current.handleNumberPress('17');
       });
       
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
-      placedBets.forEach((bet: any) => {
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
+      placedBets.forEach((bet) => {
         expect(bet.amount).toBe(100);
       });
     });
@@ -216,8 +216,8 @@ describe('useAnnouncedBets', () => {
         result.current.handleSectionPress('tier');
       });
       
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
-      const ids = placedBets.map((b: any) => b.id);
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
+      const ids = placedBets.map((b) => b.id);
       const uniqueIds = new Set(ids);
       
       expect(uniqueIds.size).toBe(placedBets.length);
@@ -230,8 +230,8 @@ describe('useAnnouncedBets', () => {
         result.current.handleSectionPress('tier');
       });
       
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
-      placedBets.forEach((bet: any) => {
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
+      placedBets.forEach((bet) => {
         expect(bet.timestamp).toBeDefined();
         expect(typeof bet.timestamp).toBe('number');
       });
@@ -244,8 +244,8 @@ describe('useAnnouncedBets', () => {
         result.current.handleSectionPress('tier');
       });
       
-      const placedBets = mockOnBetsPlaced.mock.calls[0][0];
-      placedBets.forEach((bet: any) => {
+      const placedBets = mockOnBetsPlaced.mock.calls[0][0] as PlacedBet[];
+      placedBets.forEach((bet) => {
         expect(bet.payout).toBe(17); // Split payout
       });
     });
