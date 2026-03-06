@@ -1,5 +1,6 @@
 import { BetType, RouletteNumber } from '../types/roulette.types';
 import { PAYOUT_RATIOS } from '../constants/roulette.constants';
+import { getRandomInt } from './randomUtils';
 
 /**
  * Calculate the payout for a bet
@@ -61,7 +62,7 @@ export const validateBetPlacement = (
  * Generate a random roulette number
  */
 export const generateRandomNumber = (): RouletteNumber => {
-  return Math.floor(Math.random() * 37) as RouletteNumber;
+  return getRandomInt(0, 36) as RouletteNumber;
 };
 
 /**
