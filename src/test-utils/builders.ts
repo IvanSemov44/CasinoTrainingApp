@@ -6,6 +6,7 @@
 import { CashRequest, CashAnswer } from '../features/cash-conversion-training/types';
 import { PotRequest, Position, PlayerAction, PlayerActionType } from '../features/plo-training/types';
 import { BetType, RouletteNumber, Bet, PlacedBet } from '../types/roulette.types';
+import { getRandomElement, getRandomInt } from '../utils/randomUtils';
 
 // ============================================
 // Cash Request Builder
@@ -248,7 +249,7 @@ export const createBets = (count: number, overrides?: Partial<Bet>): Bet[] => {
  * Create a random roulette number
  */
 export const createRandomRouletteNumber = (): RouletteNumber => {
-  return Math.floor(Math.random() * 37) as RouletteNumber;
+  return getRandomInt(0, 36) as RouletteNumber;
 };
 
 /**
@@ -256,5 +257,5 @@ export const createRandomRouletteNumber = (): RouletteNumber => {
  */
 export const createRandomChipValue = (): number => {
   const chipValues = [1, 5, 10, 25, 100, 500, 1000];
-  return chipValues[Math.floor(Math.random() * chipValues.length)];
+  return getRandomElement(chipValues);
 };

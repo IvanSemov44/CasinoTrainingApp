@@ -1,3 +1,5 @@
+import { shuffleArray } from './randomUtils';
+
 export type Rank = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K';
 export type Suit = 'spades' | 'hearts' | 'diamonds' | 'clubs';
 
@@ -19,17 +21,8 @@ export function buildDeck(): Card[] {
   return deck;
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 export function dealCards(n: number): Card[] {
-  return shuffle(buildDeck()).slice(0, n);
+  return shuffleArray(buildDeck()).slice(0, n);
 }
 
 export function isRed(suit: Suit): boolean {
