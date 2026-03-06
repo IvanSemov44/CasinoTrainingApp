@@ -5,6 +5,7 @@ import {
   dealerQualifies,
   type ThreeCardRank,
 } from '@utils/threeCardEvaluator';
+import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
 import {
   pairPlusMultiplier,
   pairPlusPayout,
@@ -18,16 +19,7 @@ import type { TCPScenario, TCPDrillType } from '../types';
 const BET_AMOUNTS = [10, 15, 20, 25] as const;
 
 function randomBet(): number {
-  return BET_AMOUNTS[Math.floor(Math.random() * BET_AMOUNTS.length)];
-}
-
-function shuffleArray<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+  return getRandomElement([...BET_AMOUNTS]);
 }
 
 // ── Hand-recognition ──────────────────────────────────────────────────────────
@@ -172,7 +164,7 @@ function generateAnteBonusDrill(): TCPScenario {
   // ~50% chance: generate a paying hand; ~50% chance: any hand (may or may not pay)
   let cards = dealCards(3);
   let rank = evaluateThreeCardHand(cards);
-  if (Math.random() < 0.6) {
+  if (getRandomInt(0, 99) < 60) {
     let attempts = 0;
     while (!BONUS_RANKS.includes(rank) && attempts < 20) {
       cards = dealCards(3);

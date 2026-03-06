@@ -3,6 +3,7 @@ import {
   fiveCardHandName,
   type FiveCardRank,
 } from '@utils/fiveCardEvaluator';
+import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
 import {
   bestFiveFromSeven,
   thuDealerQualifies,
@@ -19,17 +20,8 @@ import type { THUScenario, THUDrillType } from '../types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function shuffleArray<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 function pick<T>(arr: readonly T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return getRandomElement([...arr]);
 }
 
 const RANK_ORDER: FiveCardRank[] = [
@@ -79,7 +71,7 @@ function generateHandRecognition(): THUScenario {
 function generateDealerQualification(): THUScenario {
   // ~40% force non-qualifying (high-card)
   let all7 = dealCards(7);
-  if (Math.random() < 0.4) {
+  if (getRandomInt(0, 99) < 40) {
     let att = 0;
     while (thuDealerQualifies(all7) && att < 20) {
       all7 = dealCards(7);
@@ -291,7 +283,7 @@ function generateBlindPayout(): THUScenario {
 const TRIPS_AMOUNTS = [1, 5] as const;
 
 function generateTripsPlusPayout(): THUScenario {
-  const giveTrips = Math.random() < 0.7;
+  const giveTrips = getRandomInt(0, 99) < 70;
   const tripsRanks: FiveCardRank[] = [
     'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
     'flush', 'straight', 'three-of-a-kind',

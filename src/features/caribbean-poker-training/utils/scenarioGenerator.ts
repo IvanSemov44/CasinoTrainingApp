@@ -6,6 +6,7 @@ import {
   compareFiveCardHands,
   type FiveCardRank,
 } from '@utils/fiveCardEvaluator';
+import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
 import {
   callBetMultiplier,
   callBetPayout,
@@ -16,17 +17,8 @@ import type { CPScenario, CPDrillType } from '../types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function shuffleArray<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 function pick<T>(arr: readonly T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return getRandomElement([...arr]);
 }
 
 function suitLabel(suit: string): string {
@@ -75,7 +67,7 @@ function generateHandRecognition(): CPScenario {
 function generateDealerQualification(): CPScenario {
   // ~40% chance: generate a non-qualifying hand (high-card without A+K)
   let cards = dealCards(5);
-  if (Math.random() < 0.4) {
+  if (getRandomInt(0, 99) < 40) {
     let attempts = 0;
     while (caribbeanDealerQualifies(cards) && attempts < 20) {
       cards = dealCards(5);
@@ -215,7 +207,7 @@ function bonusOption(rank: FiveCardRank, swapped: boolean): string {
 }
 
 function generateBonusPayout(): CPScenario {
-  const giveBonusHand = Math.random() < 0.6;
+  const giveBonusHand = getRandomInt(0, 99) < 60;
   let cards = dealCards(5);
   let rank = evaluateFiveCardHand(cards);
 

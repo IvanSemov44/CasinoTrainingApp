@@ -8,6 +8,7 @@ import {
   canSplit,
   superSevenInfo,
 } from '@utils/blackjackEvaluator';
+import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
 import {
   bjPayout,
   bjSideBetPayout,
@@ -19,17 +20,8 @@ import type { BJScenario, BJDrillType } from '../types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function shuffleArray<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 function pick<T>(arr: readonly T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return getRandomElement([...arr]);
 }
 
 function suitLabel(suit: string): string {
@@ -87,7 +79,7 @@ function generateSoftHandRecognition(): BJScenario {
 
 function generateDealerAction(): BJScenario {
   // Deal 2–3 cards, possibly with an Ace
-  const count = Math.random() < 0.7 ? 2 : 3;
+  const count = getRandomInt(0, 99) < 70 ? 2 : 3;
   const cards = dealCards(count);
   const mustHit = dealerMustHit(cards);
   const correct = mustHit ? 'Hit' : 'Stand';
@@ -238,9 +230,9 @@ function generateOddBJPayout(): BJScenario {
 // ── side-bet-payout ───────────────────────────────────────────────────────────
 
 function generateSideBetPayout(): BJScenario {
-  const roll = Math.random();
+  const roll = getRandomInt(0, 99);
 
-  if (roll < 0.4) {
+  if (roll < 40) {
     // BJ side bet — need Ace + 10-value
     const tenRanks: Card['rank'][] = ['10', 'J', 'Q', 'K'];
     const aceCard: Card = { rank: 'A', suit: pick(SUITS) };
@@ -260,7 +252,7 @@ function generateSideBetPayout(): BJScenario {
     };
   }
 
-  if (roll < 0.8) {
+  if (roll < 80) {
     // Pair side bet — two cards same rank
     const rank = pick(RANKS);
     const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [typeof SUITS[number], typeof SUITS[number]];
@@ -285,7 +277,7 @@ function generateSideBetPayout(): BJScenario {
     cards = dealCards(2);
   }
   const bet = pick([5, 10, 20] as const);
-  const betType = Math.random() < 0.5 ? 'BJ Side Bet' : 'Pair Side Bet';
+  const betType = getRandomInt(0, 99) < 50 ? 'BJ Side Bet' : 'Pair Side Bet';
 
   return {
     drillType: 'side-bet-payout',
@@ -307,17 +299,17 @@ const INSURANCE_OPTIONS = [
 ];
 
 function generateInsuranceTiming(): BJScenario {
-  const roll = Math.random();
+  const roll = getRandomInt(0, 99);
   let upcard: Card;
   let correctOption: string;
   let explanation: string;
 
-  if (roll < 0.33) {
+  if (roll < 33) {
     // Dealer Ace
     upcard = { rank: 'A', suit: pick(SUITS) };
     correctOption = INSURANCE_OPTIONS[0];
     explanation = 'Dealer shows Ace → dealer actively offers Insurance to all players (pays 2:1). Max = half of player main bet.';
-  } else if (roll < 0.66) {
+  } else if (roll < 66) {
     // 10-value card
     const tenRanks: Card['rank'][] = ['10', 'J', 'Q', 'K'];
     upcard = { rank: pick(tenRanks), suit: pick(SUITS) };
@@ -368,12 +360,12 @@ function generateSurrender(): BJScenario {
 
 function generateSplitScenario(): BJScenario {
   // 33% same rank (can split), 33% same value diff rank (cannot), 34% different rank & value
-  const roll = Math.random();
+  const roll = getRandomInt(0, 99);
   let cards: Card[];
   let canSplitResult: boolean;
   let explanation: string;
 
-  if (roll < 0.4) {
+  if (roll < 40) {
     // Same rank — can split
     const rank = pick(RANKS);
     const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [typeof SUITS[number], typeof SUITS[number]];
@@ -384,7 +376,7 @@ function generateSplitScenario(): BJScenario {
     } else {
       explanation = `${handLabel(cards)} — same rank. Can split. Equal second bet required.`;
     }
-  } else if (roll < 0.7) {
+  } else if (roll < 70) {
     // Same 10-value, different rank (J+Q, J+K, Q+K, 10+J etc.) — cannot split
     const tenRanks: Card['rank'][] = ['10', 'J', 'Q', 'K'];
     const shuffled = shuffleArray([...tenRanks]);
@@ -436,20 +428,20 @@ function generateSuperSeven(): BJScenario {
   const bet = pick(SS_BETS);
 
   // Weight: 40% one 7, 40% two 7s, 20% three 7s
-  const roll = Math.random();
-  const count = roll < 0.4 ? 1 : roll < 0.8 ? 2 : 3;
+  const roll = getRandomInt(0, 99);
+  const count = roll < 40 ? 1 : roll < 80 ? 2 : 3;
 
   // Build seven cards with chosen suit pattern
   let sevens: Card[];
   if (count === 1) {
     sevens = [{ rank: '7', suit: pick(SUITS) }];
   } else if (count === 2) {
-    const sameSuit = Math.random() < 0.5;
+    const sameSuit = getRandomInt(0, 99) < 50;
     const suit1 = pick(SUITS);
     const suit2 = sameSuit ? suit1 : pick(SUITS.filter(s => s !== suit1));
     sevens = [{ rank: '7', suit: suit1 }, { rank: '7', suit: suit2 }];
   } else {
-    const allSame = Math.random() < 0.3;
+    const allSame = getRandomInt(0, 99) < 30;
     if (allSame) {
       const s = pick(SUITS);
       sevens = [{ rank: '7', suit: s }, { rank: '7', suit: s }, { rank: '7', suit: s }];
