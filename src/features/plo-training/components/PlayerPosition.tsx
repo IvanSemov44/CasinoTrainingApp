@@ -117,27 +117,27 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     foldedCard: {
       opacity: 0.45,
       borderWidth: 1,
-      borderColor: '#555',
+      borderColor: colors.text.muted,
       borderStyle: 'dashed',
-      backgroundColor: '#111',
+      backgroundColor: colors.background.darkGray,
     },
 
     requestingCard: {
-      borderColor: '#FF4500',
+      borderColor: colors.status.warning,
       borderWidth: 3,
-      backgroundColor: '#1f0a00',
+      backgroundColor: colors.background.darkGray,
     },
 
     // ── FOLD badge (inside the card) ──────────────────────────────────────────
     foldBadge: {
-      backgroundColor: '#4a4a4a',
+      backgroundColor: colors.background.hint,
       borderRadius: 4,
       paddingHorizontal: 6,
       paddingVertical: 2,
       marginBottom: 3,
     },
     foldBadgeText: {
-      color: '#888',
+      color: colors.text.placeholder,
       fontSize: 9,
       fontWeight: '800',
       letterSpacing: 1,
@@ -151,7 +151,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
     foldedText: {
-      color: '#555',
+      color: colors.text.muted,
     },
     chipAmount: {
       color: colors.text.gold,
@@ -166,18 +166,18 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       position: 'absolute',
       top: -10,
       right: -10,
-      backgroundColor: '#FFD700',
+      backgroundColor: colors.text.gold,
       width: 22,
       height: 22,
       borderRadius: 11,
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 2,
-      borderColor: '#000',
+      borderColor: colors.background.dark,
       zIndex: 10,
     },
     dealerText: {
-      color: '#000',
+      color: colors.background.dark,
       fontSize: 11,
       fontWeight: '800',
     },
@@ -187,15 +187,15 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginTop: 4,
     },
     betChip: {
-      backgroundColor: '#CC4400',
+      backgroundColor: colors.status.warning,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 10,
       borderWidth: 2,
-      borderColor: '#FFD700',
+      borderColor: colors.text.gold,
     },
     betAmount: {
-      color: '#FFF',
+      color: colors.text.primary,
       fontSize: 13,
       fontWeight: '700',
       textAlign: 'center',
@@ -203,22 +203,22 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
 
     // ── Dead-money chip (gray, folded-with-chips) ─────────────────────────────
     deadChip: {
-      backgroundColor: '#2a2a2a',
+      backgroundColor: colors.background.darkGray,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 10,
       borderWidth: 1,
-      borderColor: '#555',
+      borderColor: colors.text.muted,
       alignItems: 'center',
     },
     deadChipText: {
-      color: '#666',
+      color: colors.text.muted,
       fontSize: 8,
       fontWeight: '700',
       letterSpacing: 0.5,
     },
     deadChipAmount: {
-      color: '#777',
+      color: colors.text.secondary,
       fontSize: 12,
       fontWeight: '600',
       textAlign: 'center',
@@ -227,13 +227,13 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     // ── Action label ──────────────────────────────────────────────────────────
     actionLabel: {
       marginTop: 4,
-      backgroundColor: '#4CAF50',
+      backgroundColor: colors.status.success,
       paddingHorizontal: 8,
       paddingVertical: 2,
       borderRadius: 6,
     },
     actionText: {
-      color: '#FFF',
+      color: colors.text.primary,
       fontSize: 10,
       fontWeight: '700',
       textAlign: 'center',
@@ -242,13 +242,13 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     // ── ASKS POT label ────────────────────────────────────────────────────────
     requestingLabel: {
       marginTop: 4,
-      backgroundColor: '#FF4500',
+      backgroundColor: colors.status.warning,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 6,
     },
     requestingText: {
-      color: '#FFF',
+      color: colors.text.primary,
       fontSize: 11,
       fontWeight: '800',
       textAlign: 'center',
