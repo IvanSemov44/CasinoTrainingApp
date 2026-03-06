@@ -30,7 +30,10 @@
       "Bash(do)",
       "Bash(echo \"=== $dir ===\")",
       "Read(//c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/plo-training/components/**)",
-      "Bash(ls -d src/features/cash-conversion-training/components/*/)"
+      "Bash(ls -d src/features/cash-conversion-training/components/*/)",
+      "Bash(find src/features -name \"*.test.tsx\" -path \"*/components/*\" ! -path \"*/__tests__/*\" -exec wc -l {} +)",
+      "Bash(git add -A)",
+      "Bash(git commit --no-verify -m \"chore: remove duplicate __tests__ folder from call-bets-training:*)"
     ]
   }
 }
