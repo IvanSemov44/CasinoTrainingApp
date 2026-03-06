@@ -102,7 +102,7 @@ const darkTheme = StyleSheet.create({
     padding: SPACING.lg,
     marginBottom: SPACING.md,
     borderWidth: BORDERS.width.thin,
-    borderColor: '#444',
+    borderColor: COLORS.border.primaryDark,
   },
   exerciseHeader: {
     flexDirection: 'row',
