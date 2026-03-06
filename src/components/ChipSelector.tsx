@@ -78,7 +78,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     selectedChip: {
       borderWidth: 4,
-      borderColor: '#FFFF00',
+      borderColor: colors.text.gold,
       transform: [{ scale: 1.1 }],
     },
     chipText: {

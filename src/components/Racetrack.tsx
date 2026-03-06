@@ -10,6 +10,12 @@ interface RacetrackProps {
   highlightedNumbers?: RouletteNumber[];
 }
 
+// Roulette ball colors - standard casino game colors
+const ROULETTE_COLORS = {
+  green: '#2D8659',  // Roulette wheel green (0)
+  red: '#DC143C',    // Crimson red (red numbers)
+};
+
 const Racetrack: React.FC<RacetrackProps> = ({
   onNumberPress,
   highlightedNumbers = []
@@ -18,9 +24,9 @@ const Racetrack: React.FC<RacetrackProps> = ({
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const getNumberColor = (num: RouletteNumber): string => {
-    if (num === 0) return '#006400';
+    if (num === 0) return ROULETTE_COLORS.green;
     const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    return redNumbers.includes(num) ? '#CC0000' : colors.background.dark;
+    return redNumbers.includes(num) ? ROULETTE_COLORS.red : colors.background.dark;
   };
 
   return (
