@@ -33,7 +33,27 @@
       "Bash(ls -d src/features/cash-conversion-training/components/*/)",
       "Bash(find src/features -name \"*.test.tsx\" -path \"*/components/*\" ! -path \"*/__tests__/*\" -exec wc -l {} +)",
       "Bash(git add -A)",
-      "Bash(git commit --no-verify -m \"chore: remove duplicate __tests__ folder from call-bets-training:*)"
+      "Bash(git commit --no-verify -m \"chore: remove duplicate __tests__ folder from call-bets-training:*)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/blackjack-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/three-card-poker-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/caribbean-poker-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/texas-holdem-ultimate-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/roulette-knowledge-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/call-bets-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/racetrack-sector-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/racetrack-position-training/screens/*.tsx)",
+      "Bash(wc -l /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/cash-conversion-training/screens/*.tsx)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/blackjack-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/three-card-poker-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/caribbean-poker-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/texas-holdem-ultimate-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/roulette-knowledge-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/call-bets-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/racetrack-sector-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/racetrack-position-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/cash-conversion-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/plo-training/types*)",
+      "Bash(ls /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/features/roulette-game/types*)"
     ]
   }
 }
