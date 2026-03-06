@@ -18,11 +18,6 @@ const MODE_LABELS: Record<PositionMode, string> = {
   random: 'RANDOM',
 };
 
-const MODE_COLORS: Record<PositionMode, string> = {
-  single: '#3b82f6',
-  random: '#10b981',
-};
-
 type Props = StackScreenProps<RacetrackPositionStackParamList, 'PositionTraining'>;
 
 export default function PositionTrainingScreen({ route }: Props) {
@@ -126,7 +121,6 @@ export default function PositionTrainingScreen({ route }: Props) {
 
   const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const wheelPosition = getWheelPosition(currentWinningNumber);
-  const modeColor = MODE_COLORS[selectedMode];
   const accuracyColor =
     stats.total === 0
       ? colors.text.muted

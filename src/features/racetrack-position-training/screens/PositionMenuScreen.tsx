@@ -15,18 +15,24 @@ interface ModeOption {
   color: string;
 }
 
+// Accent colors for position training modes - visual hierarchy indicators
+const POSITION_ACCENT_COLORS: Record<PositionMode, string> = {
+  single: '#3b82f6',   // Blue
+  random: '#10b981',   // Green
+};
+
 const MODE_OPTIONS: ModeOption[] = [
   {
     mode: 'single',
     title: 'Single Number',
     description: 'Tap the exact number on the racetrack',
-    color: '#3b82f6',
+    color: POSITION_ACCENT_COLORS.single,
   },
   {
     mode: 'random',
     title: 'Random Training',
     description: 'Practice finding numbers randomly',
-    color: '#10b981',
+    color: POSITION_ACCENT_COLORS.random,
   },
 ];
 
