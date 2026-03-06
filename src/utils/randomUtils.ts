@@ -51,22 +51,46 @@ export function getRandomCount(maxCount: number, availableCount: number): number
 }
 
 /**
+ * Weighted random selection from items based on weights
+ * Used for probabilistic action selection in game simulations
+ *
+ * @param items - Array of items to select from
+ * @param weights - Array of weights (relative probabilities)
+ * @returns A randomly selected item based on weights
+ */
+export function getWeightedRandomElement<T>(items: readonly T[], weights: number[]): T {
+  if (items.length === 0) throw new Error('Items array cannot be empty');
+  if (items.length !== weights.length) throw new Error('Items and weights must have same length');
+
+  const total = weights.reduce((sum, w) => sum + w, 0);
+  let r = Math.random() * total;
+
+  for (let i = 0; i < items.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return items[i];
+  }
+
+  // Fallback to last item (handles rounding)
+  return items[items.length - 1];
+}
+
+/**
  * Calculate dynamic chip count with variance based on selected value
  * For higher values (e.g., 20), returns random between 15-20 (75%-100%)
  * For lower values (e.g., 5), returns random between 3-5 (60%-100%)
- * 
+ *
  * @param selectedChipCount - The user-selected chip count
  * @returns A randomized chip count within the calculated range
  */
 export function getDynamicChipCount(selectedChipCount: number): number {
   if (selectedChipCount <= 0) return 0;
   if (selectedChipCount === 1) return 1;
-  
+
   // Calculate the lower bound percentage based on selected value
   // Higher values get 75% lower bound, lower values scale down to 60%
   // This creates realistic training scenarios with appropriate variance
   let lowerBoundPercentage: number;
-  
+
   if (selectedChipCount >= 20) {
     // For 20+: use 75% lower bound (e.g., 20 → 15-20)
     lowerBoundPercentage = 0.75;
@@ -83,10 +107,10 @@ export function getDynamicChipCount(selectedChipCount: number): number {
     // 2 → 1-2, 3 → 2-3, 4 → 2-4
     lowerBoundPercentage = 0.60;
   }
-  
+
   // Calculate lower bound, ensuring it's at least 1
   const lowerBound = Math.max(1, Math.floor(selectedChipCount * lowerBoundPercentage));
-  
+
   // Return random value between lower bound and selected value (inclusive)
   return getRandomInt(lowerBound, selectedChipCount);
 }

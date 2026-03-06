@@ -18,7 +18,7 @@
  *     as contributing correctAnswer (they call the pot-raise).
  */
 
-import { getRandomElement } from '@utils/randomUtils';
+import { getRandomElement, getWeightedRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
 import type { PLODifficulty, HandPlayerState, AskMoment, GeneratedHand } from '../types';
 
 // ─── Table layout ────────────────────────────────────────────────────────────
@@ -38,16 +38,6 @@ const STARTING_STACKS: Record<number, number[]> = {
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function weightedPick<T>(items: readonly T[], weights: number[]): T {
-  const total = weights.reduce((s, w) => s + w, 0);
-  let r = Math.random() * total;
-  for (let i = 0; i < items.length; i++) {
-    r -= weights[i];
-    if (r <= 0) return items[i];
-  }
-  return items[items.length - 1];
-}
 
 function pickRaiseAmount(currentBet: number, phase: 'first' | 'reRaise'): number {
   return currentBet * (phase === 'first'
@@ -180,7 +170,7 @@ function generatePreflopMoment(
   let currentBet = blindLevel;
 
   // Requester weights: UTG=5% MP=10% CO=20% D=25% SB=15% BB=25%
-  const requester = weightedPick(PREFLOP_ORDER, [0.05, 0.10, 0.20, 0.25, 0.15, 0.25]);
+  const requester = getWeightedRandomElement(PREFLOP_ORDER, [0.05, 0.10, 0.20, 0.25, 0.15, 0.25]);
   const requesterIdx = PREFLOP_ORDER.indexOf(requester);
 
   for (let i = 0; i < requesterIdx; i++) {
@@ -194,20 +184,20 @@ function generatePreflopMoment(
 
     if (!raiseHappened && myBet === 0) {
       // Opener (no prior raise): fold 15%, limp 20%, raise 65%
-      const r = Math.random();
-      action = r < 0.15 ? 'fold' : r < 0.35 ? 'call' : 'raise';
+      const r = getRandomInt(0, 99);
+      action = r < 15 ? 'fold' : r < 35 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
 
     } else if (!raiseHappened && myBet === blindLevel) {
       // Blind with option, no raise yet: fold 25%, check 20%, raise 55%
-      const r = Math.random();
-      action = r < 0.25 ? 'fold' : r < 0.45 ? 'call' : 'raise';
+      const r = getRandomInt(0, 99);
+      action = r < 25 ? 'fold' : r < 45 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
 
     } else if (toCall > 0) {
       // Facing a raise on their turn: fold 35%, call 40%, re-raise 25%
-      const r = Math.random();
-      action = r < 0.35 ? 'fold' : r < 0.75 ? 'call' : 'raise';
+      const r = getRandomInt(0, 99);
+      action = r < 35 ? 'fold' : r < 75 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'reRaise');
 
     } else {
@@ -243,7 +233,7 @@ function generatePreflopMoment(
   const active = (ALL_POSITIONS as readonly string[]).filter(
     p => !foldedSet.has(p) && p !== requester && p !== lastAggressor,
   );
-  const extraSurvivor = active.length > 0 && Math.random() < 0.4
+  const extraSurvivor = active.length > 0 && getRandomInt(0, 99) < 40
     ? [getRandomElement(active)] : [];
   const remainingPlayers = [...new Set([requester, lastAggressor, ...extraSurvivor])];
 
@@ -289,9 +279,9 @@ function generatePostflopMoment(
     p => remainingPlayers.includes(p),
   );
 
-  const requesterIdx = Math.random() < 0.30
+  const requesterIdx = getRandomInt(0, 99) < 30
     ? 0
-    : Math.floor(orderedActors.length * 0.5 + Math.random() * orderedActors.length * 0.5);
+    : Math.floor(orderedActors.length * 0.5 + getRandomInt(0, orderedActors.length * 50 - 1) / 100);
   const requester = orderedActors[Math.min(requesterIdx, orderedActors.length - 1)];
   const priorActors = orderedActors.slice(0, orderedActors.indexOf(requester));
 
@@ -303,11 +293,11 @@ function generatePostflopMoment(
     let amount = 0;
 
     if (!betMade) {
-      action = Math.random() < 0.40 ? 'check' : 'bet';
+      action = getRandomInt(0, 99) < 40 ? 'check' : 'bet';
       if (action === 'bet') amount = pickPostflopBet(centerPot, blindLevel);
     } else if (toCall > 0) {
-      const r = Math.random();
-      action = r < 0.30 ? 'fold' : r < 0.75 ? 'call' : 'raise';
+      const r = getRandomInt(0, 99);
+      action = r < 30 ? 'fold' : r < 75 ? 'call' : 'raise';
       if (action === 'raise') amount = pickRaiseAmount(currentBet, 'reRaise');
     } else {
       action = 'check';
@@ -385,16 +375,16 @@ export function generateHand(
   const base = STARTING_STACKS[blindLevel] ?? STARTING_STACKS[2];
 
   if (difficulty === 'easy') {
-    const count = 2 + Math.floor(Math.random() * 2);
+    const count = 2 + getRandomInt(0, 1);
     const askMoments: AskMoment[] = [];
     for (let i = 0; i < count; i++) {
-      const stacks = [...base].sort(() => Math.random() - 0.5);
+      const stacks = shuffleArray(base);
       askMoments.push(generatePreflopMoment(blindLevel, stacks).askMoment);
     }
     return { blindLevel, askMoments };
   }
 
-  const stacks = [...base].sort(() => Math.random() - 0.5);
+  const stacks = shuffleArray(base);
   const askMoments: AskMoment[] = [];
 
   const preflop = generatePreflopMoment(blindLevel, stacks);

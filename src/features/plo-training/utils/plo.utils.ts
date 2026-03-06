@@ -106,9 +106,9 @@ export function generateRandomPotRequest(): PotRequest {
     
     const position = getRandomElement(remainingPositions);
     actedPositions.push(position);
-    
+
     // Random action: fold or raise
-    const actionType = Math.random() > 0.3 ? 'raise' : 'fold';
+    const actionType = getRandomInt(0, 99) > 30 ? 'raise' : 'fold';
     
     if (actionType === 'fold') {
       actions.push({
