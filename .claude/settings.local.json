@@ -9,7 +9,8 @@
       "Bash(npm start)",
       "Bash(npm run build:web)",
       "Bash(ls -lh /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/dist/assets/*.png)",
-      "WebFetch(domain:pagespeed.web.dev)"
+      "WebFetch(domain:pagespeed.web.dev)",
+      "Bash(npm i @vercel/speed-insights)"
     ]
   }
 }
