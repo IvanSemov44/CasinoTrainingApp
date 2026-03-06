@@ -254,7 +254,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
 
     rightBadges: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     streakBadge: {
-      backgroundColor: '#2a1800',
+      backgroundColor: colors.background.darkGray,
       borderRadius: 16,
       paddingVertical: 4,
       paddingHorizontal: 10,
@@ -277,7 +277,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginTop: 16,
     },
     disabledButton: { backgroundColor: colors.background.tertiary, opacity: 0.5 },
-    checkButtonText: { fontSize: 18, fontWeight: '700', color: '#FFF' },
+    checkButtonText: { fontSize: 18, fontWeight: '700', color: colors.text.primary },
 
     continueButton: {
       backgroundColor: colors.text.gold,
