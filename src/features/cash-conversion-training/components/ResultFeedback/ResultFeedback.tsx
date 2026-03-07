@@ -2,19 +2,20 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { FeedbackShell } from '@components/shared/FeedbackShell';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {
   const styles = useThemedStyles(makeStyles);
 
   return (
-    <View style={styles.container}>
-      <View
-        style={[styles.header, result.isCorrect ? styles.headerCorrect : styles.headerIncorrect]}
-      >
-        <Text style={styles.headerText}>{result.isCorrect ? '✓ Correct!' : '✗ Incorrect'}</Text>
-      </View>
-
+    <FeedbackShell
+      isCorrect={result.isCorrect}
+      mode="header"
+      correctTitle="✓ Correct!"
+      incorrectTitle="✗ Incorrect"
+      containerStyle={styles.container}
+    >
       {!result.isCorrect && (
         <View style={styles.comparisonContainer}>
           <View style={styles.answerSection}>
@@ -46,33 +47,14 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
       <TouchableOpacity style={styles.nextButton} onPress={onNext}>
         <Text style={styles.nextButtonText}>Next Challenge</Text>
       </TouchableOpacity>
-    </View>
+    </FeedbackShell>
   );
 }
 
 function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      borderWidth: 2,
-      borderColor: colors.border.gold,
-      overflow: 'hidden',
-    },
-    header: {
-      padding: 16,
-      alignItems: 'center',
-    },
-    headerCorrect: {
-      backgroundColor: colors.status.success,
-    },
-    headerIncorrect: {
-      backgroundColor: colors.status.error,
-    },
-    headerText: {
-      fontSize: 24,
-      fontWeight: '700',
-      color: colors.text.primary,
+      marginTop: 0,
     },
     comparisonContainer: {
       padding: 24,

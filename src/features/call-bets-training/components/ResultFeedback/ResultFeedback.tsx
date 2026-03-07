@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { FeedbackShell } from '@components/shared/FeedbackShell';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, onClear }: ResultFeedbackProps) {
@@ -10,9 +11,14 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
   const isCorrect = result.isCorrect;
 
   return (
-    <View style={[styles.container, isCorrect ? styles.correct : styles.incorrect]}>
-      <Text style={styles.title}>{isCorrect ? '✅ Perfect!' : '❌ Not Quite'}</Text>
-
+    <FeedbackShell
+      isCorrect={isCorrect}
+      mode="container"
+      correctTitle="✅ Perfect!"
+      incorrectTitle="❌ Not Quite"
+      containerStyle={styles.container}
+      contentStyle={styles.content}
+    >
       <Text style={styles.score}>Score: {result.score}%</Text>
 
       {result.missingBets.length > 0 && (
@@ -46,32 +52,17 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
           <Text style={styles.nextButtonText}>Next Challenge</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </FeedbackShell>
   );
 }
 
 function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
-      padding: 16,
-      borderRadius: 12,
-      borderWidth: 2,
       marginTop: 16,
     },
-    correct: {
-      backgroundColor: colors.status.successAlt,
-      borderColor: colors.status.success,
-    },
-    incorrect: {
-      backgroundColor: colors.status.errorAlt,
-      borderColor: colors.status.error,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: '700',
-      color: colors.text.primary,
-      textAlign: 'center',
-      marginBottom: 8,
+    content: {
+      padding: 16,
     },
     score: {
       fontSize: 20,

@@ -20,3 +20,5 @@ export { ScoreAccuracyText } from './ScoreAccuracyText';
 export type { ScoreAccuracyTextProps } from './ScoreAccuracyText';
 export { StatTile } from './StatTile';
 export type { StatTileProps } from './StatTile';
+export { FeedbackShell } from './FeedbackShell';
+export type { FeedbackShellProps } from './FeedbackShell';
