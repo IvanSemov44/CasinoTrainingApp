@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { useModalState } from '@hooks/useModalState';
 import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
@@ -12,16 +13,8 @@ type RouletteExercisesScreenProps = StackScreenProps<
 >;
 
 export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const modal = useModalState();
   const styles = useThemedStyles(makeStyles);
-
-  const handleOpenModal = useCallback(() => {
-    setIsModalVisible(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -33,7 +26,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
       <View style={styles.content}>
         <TouchableOpacity
           style={styles.startButton}
-          onPress={handleOpenModal}
+          onPress={modal.open}
           accessibilityLabel="Start Training"
           accessibilityRole="button"
         >
@@ -56,7 +49,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
         </View>
       </View>
 
-      <TrainingSelectionModal visible={isModalVisible} onClose={handleCloseModal} />
+      <TrainingSelectionModal visible={modal.isVisible} onClose={modal.close} />
     </View>
   );
 }

@@ -1,22 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { useModalState } from '@hooks/useModalState';
 import type { AppColors } from '@styles/themes';
 import { CashConversionTrainingModal } from '../../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
 
 export default function CashConversionMenuScreen() {
   const styles = useThemedStyles(makeStyles);
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleOpenModal = useCallback(() => {
-    setIsModalVisible(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
+  const modal = useModalState();
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -28,7 +20,7 @@ export default function CashConversionMenuScreen() {
       <View style={styles.content}>
         <TouchableOpacity
           style={styles.startButton}
-          onPress={handleOpenModal}
+          onPress={modal.open}
           accessibilityLabel="Start Training"
           accessibilityRole="button"
         >
@@ -80,7 +72,7 @@ export default function CashConversionMenuScreen() {
         </View>
       </View>
 
-      <CashConversionTrainingModal visible={isModalVisible} onClose={handleCloseModal} />
+      <CashConversionTrainingModal visible={modal.isVisible} onClose={modal.close} />
     </ScrollView>
   );
 }
