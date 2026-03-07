@@ -16,3 +16,5 @@ export { ReferenceCard } from './ReferenceCard';
 export type { ReferenceCardProps } from './ReferenceCard';
 export { TrainingHeader } from './TrainingHeader';
 export type { TrainingHeaderProps } from './TrainingHeader';
+export { ScoreAccuracyText } from './ScoreAccuracyText';
+export type { ScoreAccuracyTextProps } from './ScoreAccuracyText';

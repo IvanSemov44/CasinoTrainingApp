@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { ScoreAccuracyText } from '@components/shared/ScoreAccuracyText';
 import type { ExerciseStatsProps } from './ExerciseStats.types';
 
 /**
@@ -11,16 +12,14 @@ import type { ExerciseStatsProps } from './ExerciseStats.types';
 const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({ score, attempts }) => {
   const styles = useThemedStyles(makeStyles);
 
-  const accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
-
   return (
     <View style={styles.header}>
-      <View style={styles.statsRow}>
-        <Text style={styles.statsText}>
-          Score: {score}/{attempts}
-        </Text>
-        <Text style={styles.statsText}>Accuracy: {accuracy}%</Text>
-      </View>
+      <ScoreAccuracyText
+        correct={score}
+        total={attempts}
+        textStyle={styles.statsText}
+        containerStyle={styles.statsRow}
+      />
     </View>
   );
 });

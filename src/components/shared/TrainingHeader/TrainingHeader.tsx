@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { ScoreAccuracyText } from '@components/shared/ScoreAccuracyText';
 
 export interface TrainingHeaderProps {
   title: string;
@@ -15,14 +16,11 @@ export interface TrainingHeaderProps {
  */
 export function TrainingHeader({ title, correct, total }: TrainingHeaderProps) {
   const styles = useThemedStyles(makeStyles);
-  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
   return (
     <View style={styles.header}>
       <Text style={styles.difficultyText}>{title}</Text>
-      <Text style={styles.statsText}>
-        Score: {correct}/{total} ({accuracy}%)
-      </Text>
+      <ScoreAccuracyText correct={correct} total={total} compact textStyle={styles.statsText} />
     </View>
   );
 }
