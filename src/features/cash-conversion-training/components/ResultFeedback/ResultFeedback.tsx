@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { FeedbackShell } from '@components/shared/FeedbackShell';
 import { FeedbackSection } from '@components/shared/FeedbackSection';
+import { FeedbackActions } from '@components/shared/FeedbackActions';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {
@@ -51,9 +52,12 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
         </View>
       )}
 
-      <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-        <Text style={styles.nextButtonText}>Next Challenge</Text>
-      </TouchableOpacity>
+      <FeedbackActions
+        primary={{ label: 'Next Challenge', onPress: onNext }}
+        containerStyle={styles.actionsRow}
+        buttonStyle={styles.nextButton}
+        textStyle={styles.nextButtonText}
+      />
     </FeedbackShell>
   );
 }
@@ -84,16 +88,17 @@ function makeStyles(colors: AppColors) {
     correctText: {
       color: colors.status.success,
     },
+    actionsRow: {
+      marginHorizontal: 24,
+      marginBottom: 24,
+      marginTop: 0,
+    },
     nextButton: {
-      backgroundColor: colors.text.gold,
       padding: 16,
-      margin: 24,
-      borderRadius: 8,
-      alignItems: 'center',
+      backgroundColor: colors.text.gold,
     },
     nextButtonText: {
       fontSize: 18,
-      fontWeight: '700',
       color: colors.background.primary,
     },
   });

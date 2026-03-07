@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { FeedbackShell } from '@components/shared/FeedbackShell';
 import { FeedbackSection } from '@components/shared/FeedbackSection';
+import { FeedbackActions } from '@components/shared/FeedbackActions';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, onClear }: ResultFeedbackProps) {
@@ -50,15 +51,17 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
         </FeedbackSection>
       )}
 
-      <View style={styles.buttonRow}>
-        <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={onClear}>
-          <Text style={styles.clearButtonText}>Clear &amp; Retry</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.button, styles.nextButton]} onPress={onNext}>
-          <Text style={styles.nextButtonText}>Next Challenge</Text>
-        </TouchableOpacity>
-      </View>
+      <FeedbackActions
+        primary={{ label: 'Next Challenge', onPress: onNext }}
+        secondary={{ label: 'Clear & Retry', onPress: onClear }}
+        containerStyle={styles.buttonRow}
+        buttonStyle={styles.button}
+        primaryButtonStyle={styles.nextButton}
+        secondaryButtonStyle={styles.clearButton}
+        textStyle={styles.buttonText}
+        primaryTextStyle={styles.nextButtonText}
+        secondaryTextStyle={styles.clearButtonText}
+      />
     </FeedbackShell>
   );
 }
@@ -94,15 +97,14 @@ function makeStyles(colors: AppColors) {
       marginBottom: 2,
     },
     buttonRow: {
-      flexDirection: 'row',
-      gap: 8,
       marginTop: 8,
     },
     button: {
-      flex: 1,
       paddingVertical: 8,
-      borderRadius: 8,
-      alignItems: 'center',
+    },
+    buttonText: {
+      fontSize: 16,
+      fontWeight: '600',
     },
     clearButton: {
       backgroundColor: colors.background.darkGray,
@@ -111,13 +113,9 @@ function makeStyles(colors: AppColors) {
       backgroundColor: colors.text.gold,
     },
     clearButtonText: {
-      fontSize: 16,
-      fontWeight: '600',
       color: colors.text.primary,
     },
     nextButtonText: {
-      fontSize: 16,
-      fontWeight: '600',
       color: colors.background.primary,
     },
   });

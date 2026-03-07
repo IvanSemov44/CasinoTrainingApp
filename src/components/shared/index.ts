@@ -24,3 +24,5 @@ export { FeedbackShell } from './FeedbackShell';
 export type { FeedbackShellProps } from './FeedbackShell';
 export { FeedbackSection } from './FeedbackSection';
 export type { FeedbackSectionProps } from './FeedbackSection';
+export { FeedbackActions } from './FeedbackActions';
+export type { FeedbackActionsProps, FeedbackActionButton } from './FeedbackActions';
