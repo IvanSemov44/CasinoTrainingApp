@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { MenuScreenHeader } from '@components/shared';
 import type { PLODifficulty } from '../../types';
 import type { PLOMenuScreenProps } from './PLOMenuScreen.types';
 
@@ -26,10 +27,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Pot Limit Omaha Training</Text>
-        <Text style={styles.subtitle}>Learn pot calculations at the table</Text>
-      </View>
+      <MenuScreenHeader title="Pot Limit Omaha Training" subtitle="Learn pot calculations at the table" />
 
       <View style={styles.modesContainer}>
         {modes.map(mode => {
@@ -81,21 +79,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     contentContainer: {
       padding: 16,
-    },
-    header: {
-      alignItems: 'center',
-      marginBottom: 32,
-      marginTop: 16,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 4,
-    },
-    subtitle: {
-      fontSize: 14,
-      color: colors.text.secondary,
     },
     modesContainer: {
       marginBottom: 32,

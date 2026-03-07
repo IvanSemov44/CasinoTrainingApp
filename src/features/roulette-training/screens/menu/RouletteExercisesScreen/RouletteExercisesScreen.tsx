@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection, StartTrainingButton } from '@components/shared';
+import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
@@ -19,10 +19,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Roulette Training</Text>
-        <Text style={styles.subtitle}>Master payout calculations for all bet types</Text>
-      </View>
+      <MenuScreenHeader title="Roulette Training" subtitle="Master payout calculations for all bet types" />
 
       <View style={styles.content}>
         <StartTrainingButton
@@ -54,21 +51,6 @@ function makeStyles(colors: AppColors) {
     container: {
       flex: 1,
       backgroundColor: colors.background.primary,
-    },
-    header: {
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.primary,
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '800',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    subtitle: {
-      fontSize: 14,
-      color: colors.text.secondary,
     },
     content: {
       flex: 1,

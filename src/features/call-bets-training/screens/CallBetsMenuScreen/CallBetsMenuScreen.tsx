@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { InfoSection } from '@components/shared';
+import { InfoSection, MenuScreenHeader } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CallBetsStackParamList } from '../../navigation';
 
@@ -30,10 +30,7 @@ export default function CallBetsMenuScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Call Bets Training</Text>
-        <Text style={styles.subtitle}>Master announced roulette bets</Text>
-      </View>
+      <MenuScreenHeader title="Call Bets Training" subtitle="Master announced roulette bets" />
 
       <View style={styles.content}>
         {modes.map(mode => (
@@ -85,22 +82,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       paddingBottom: 40,
-    },
-    header: {
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.primary,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '800',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    subtitle: {
-      fontSize: 14,
-      color: colors.text.secondary,
     },
     content: {
       padding: 20,

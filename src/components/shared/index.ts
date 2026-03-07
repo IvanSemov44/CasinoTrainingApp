@@ -34,3 +34,5 @@ export { StartTrainingButton } from './StartTrainingButton';
 export type { StartTrainingButtonProps } from './StartTrainingButton';
 export { AccentModeCard } from './AccentModeCard';
 export type { AccentModeCardProps } from './AccentModeCard';
+export { MenuScreenHeader } from './MenuScreenHeader';
+export type { MenuScreenHeaderProps } from './MenuScreenHeader';

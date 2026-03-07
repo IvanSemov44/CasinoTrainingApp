@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader } from '@components/shared';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
@@ -48,10 +48,7 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Number → Position</Text>
-        <Text style={styles.subtitle}>Find the winning number on the racetrack</Text>
-      </View>
+      <MenuScreenHeader title="Number → Position" subtitle="Find the winning number on the racetrack" />
 
       <PositionWheelOrderCard wheelOrder={wheelOrder} />
 
@@ -82,22 +79,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     contentContainer: {
       padding: 24,
       paddingBottom: 32,
-    },
-    header: {
-      marginBottom: 24,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 4,
-      textAlign: 'center',
-    },
-    subtitle: {
-      fontSize: 16,
-      color: colors.text.secondary,
-      textAlign: 'center',
     },
     modesContainer: {
       gap: 16,

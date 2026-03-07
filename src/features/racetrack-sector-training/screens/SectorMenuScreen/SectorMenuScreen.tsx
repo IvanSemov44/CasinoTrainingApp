@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader } from '@components/shared';
 import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
 import { SectorReferenceCard } from '../../components/SectorReferenceCard';
@@ -69,10 +69,7 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Racetrack Sectors</Text>
-        <Text style={styles.subtitle}>Learn which sector contains each winning number</Text>
-      </View>
+      <MenuScreenHeader title="Racetrack Sectors" subtitle="Learn which sector contains each winning number" />
 
       <SectorReferenceCard sectorOptions={sectorOptions} sectorColors={SECTOR_ACCENT_COLORS} />
 
@@ -103,22 +100,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     contentContainer: {
       padding: 24,
       paddingBottom: 32,
-    },
-    header: {
-      marginBottom: 24,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 4,
-      textAlign: 'center',
-    },
-    subtitle: {
-      fontSize: 16,
-      color: colors.text.secondary,
-      textAlign: 'center',
     },
     modesContainer: {
       gap: 16,

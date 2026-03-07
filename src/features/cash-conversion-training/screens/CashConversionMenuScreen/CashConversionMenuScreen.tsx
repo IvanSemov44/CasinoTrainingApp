@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection, StartTrainingButton } from '@components/shared';
+import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CashConversionTrainingModal } from '../../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
@@ -13,10 +13,7 @@ export default function CashConversionMenuScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Cash Conversion Training</Text>
-        <Text style={styles.subtitle}>Master sector bet calculations</Text>
-      </View>
+      <MenuScreenHeader title="Cash Conversion Training" subtitle="Master sector bet calculations" />
 
       <View style={styles.content}>
         <StartTrainingButton
@@ -79,22 +76,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       paddingBottom: 40,
-    },
-    header: {
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.primary,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '800',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    subtitle: {
-      fontSize: 14,
-      color: colors.text.secondary,
     },
     content: {
       padding: 20,
