@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { TrainingHeader } from '@components/shared/TrainingHeader';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../components';
 import { SECTOR_NAMES } from '../../constants/sectors';
 import { useCashConversionState } from './useCashConversionState';
@@ -32,19 +33,13 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
   if (!currentRequest) return null;
 
   const sectorName = SECTOR_NAMES[currentRequest.sector];
+  const title = `${difficulty.toUpperCase()} | ${
+    sector === 'random' ? 'Random' : SECTOR_NAMES[sector as Exclude<SectorType, 'random'>]
+  }`;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.difficultyText}>
-          {difficulty.toUpperCase()} |{' '}
-          {sector === 'random' ? 'Random' : SECTOR_NAMES[sector as Exclude<SectorType, 'random'>]}
-        </Text>
-        <Text style={styles.statsText}>
-          Score: {stats.correct}/{stats.total} (
-          {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
-        </Text>
-      </View>
+      <TrainingHeader title={title} correct={stats.correct} total={stats.total} />
 
       <CashDisplay amount={currentRequest.cashAmount} />
 
@@ -88,21 +83,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       padding: 24,
-    },
-    header: {
-      alignItems: 'center',
-      marginBottom: 16,
-    },
-    difficultyText: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: colors.text.secondary,
-      marginBottom: 4,
-    },
-    statsText: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: colors.text.primary,
     },
     checkButton: {
       backgroundColor: colors.text.gold,

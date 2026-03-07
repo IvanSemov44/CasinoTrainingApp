@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { TrainingHeader } from '@components/shared/TrainingHeader';
 import { ChallengeDisplay, ResultFeedback } from '../../components';
 import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';
@@ -13,17 +14,11 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
   const { stats, result, totalBets, currentMode, generateNewChallenge, handleSubmit, handleClear } =
     useCallBetsState({ mode });
 
+  const title = mode === 'random' ? 'Random Mode' : mode.toUpperCase();
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.difficultyText}>
-          {mode === 'random' ? 'Random Mode' : mode.toUpperCase()}
-        </Text>
-        <Text style={styles.statsText}>
-          Score: {stats.correct}/{stats.total} (
-          {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
-        </Text>
-      </View>
+      <TrainingHeader title={title} correct={stats.correct} total={stats.total} />
 
       {!result && (
         <>
@@ -55,21 +50,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       padding: 24,
-    },
-    header: {
-      alignItems: 'center',
-      marginBottom: 24,
-    },
-    difficultyText: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: colors.text.secondary,
-      marginBottom: 4,
-    },
-    statsText: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: colors.text.primary,
     },
     submitButton: {
       backgroundColor: colors.text.gold,

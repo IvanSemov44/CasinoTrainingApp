@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { ReferenceCard } from '@components/shared/ReferenceCard';
 
 export interface SectorReferenceCardProps {
   sectorOptions: Array<{ sector: string; name: string; numbers: number[] }>;
@@ -14,8 +15,7 @@ export function SectorReferenceCard({ sectorOptions, sectorColors }: SectorRefer
   const styles = makeStyles(colors);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sector Reference:</Text>
+    <ReferenceCard title="Sector Reference:">
       {sectorOptions.map(option => (
         <View key={option.sector} style={styles.row}>
           <Text
@@ -26,26 +26,12 @@ export function SectorReferenceCard({ sectorOptions, sectorColors }: SectorRefer
           <Text style={styles.numbers}>{option.numbers.join(', ')}</Text>
         </View>
       ))}
-    </View>
+    </ReferenceCard>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
   return StyleSheet.create({
-    container: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 24,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
     row: {
       flexDirection: 'row',
       marginBottom: 4,

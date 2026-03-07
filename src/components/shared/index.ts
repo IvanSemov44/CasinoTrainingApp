@@ -12,3 +12,7 @@ export { default as DrillScreen } from './DrillScreen';
 export type { DrillScreenProps } from './DrillScreen';
 export { default as DrillMenuScreen } from './DrillMenuScreen';
 export type { DrillMenuItem, DrillMenuScreenProps } from './DrillMenuScreen';
+export { ReferenceCard } from './ReferenceCard';
+export type { ReferenceCardProps } from './ReferenceCard';
+export { TrainingHeader } from './TrainingHeader';
+export type { TrainingHeaderProps } from './TrainingHeader';
