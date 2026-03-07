@@ -4,7 +4,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import RouletteColumnBets from './RouletteColumnBets';
-import { BetType } from '../../../types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
 
 // Mock RouletteChip since it's tested separately
 jest.mock('./RouletteChip', () => {

@@ -14,7 +14,7 @@ import RouletteOutsideBets, {
   SECOND_DOZEN,
   THIRD_DOZEN,
 } from './RouletteOutsideBets';
-import { BetType } from '../../../types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
 
 // Mock RouletteChip since it's tested separately
 jest.mock('./RouletteChip', () => {

@@ -5,10 +5,10 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import RouletteNumberCell from './RouletteNumberCell';
-import { BetType } from '../../../types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
 
 // Mock the constants
-jest.mock('../../../constants/roulette.constants', () => ({
+jest.mock('../../constants/roulette.constants', () => ({
   getNumberColor: (number: number) => {
     if (number === 0) return 'green';
     const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];

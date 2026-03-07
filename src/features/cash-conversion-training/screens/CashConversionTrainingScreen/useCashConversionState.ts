@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { SectorType, CashRequest, ValidationResult } from '../../types';
+import { SectorType, CashRequest, ValidationResult, DifficultyLevel } from '../../types';
 import { SECTOR_POSITIONS } from '../../constants/sectors';
 import {
   generateRandomCashAmount,
@@ -10,7 +10,7 @@ import {
 } from '../../utils/calculations';
 
 interface UseCashConversionStateProps {
-  difficulty: string;
+  difficulty: DifficultyLevel;
   sector: SectorType;
 }
 
