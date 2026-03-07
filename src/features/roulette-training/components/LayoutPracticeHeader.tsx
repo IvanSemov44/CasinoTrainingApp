@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { StatTile } from '@components/shared/StatTile';
 import type { RouletteNumber } from '@app-types/roulette.types';
 
 export interface LayoutPracticeHeaderProps {
@@ -26,18 +27,27 @@ export function LayoutPracticeHeader({
       <Text style={styles.title}>Roulette Layout Practice</Text>
       <Text style={styles.subtitle}>Learn the table layout and number positions</Text>
       <View style={styles.statsRow}>
-        <View style={styles.statBox}>
-          <Text style={styles.statLabel}>Total Bets</Text>
-          <Text style={styles.statValue}>{totalBets}</Text>
-        </View>
-        <View style={styles.statBox}>
-          <Text style={styles.statLabel}>Total Amount</Text>
-          <Text style={styles.statValue}>${totalAmount}</Text>
-        </View>
-        <View style={styles.statBox}>
-          <Text style={styles.statLabel}>Selected</Text>
-          <Text style={styles.statValue}>{selectedNumber ?? '-'}</Text>
-        </View>
+        <StatTile
+          label="Total Bets"
+          value={totalBets}
+          containerStyle={styles.statBox}
+          labelStyle={styles.statLabel}
+          valueStyle={styles.statValue}
+        />
+        <StatTile
+          label="Total Amount"
+          value={`$${totalAmount}`}
+          containerStyle={styles.statBox}
+          labelStyle={styles.statLabel}
+          valueStyle={styles.statValue}
+        />
+        <StatTile
+          label="Selected"
+          value={selectedNumber ?? '-'}
+          containerStyle={styles.statBox}
+          labelStyle={styles.statLabel}
+          valueStyle={styles.statValue}
+        />
       </View>
     </View>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { StatTile } from '@components/shared/StatTile';
 
 export interface PLOScoreHeaderProps {
   sessionPoints: number;
@@ -30,18 +31,27 @@ export function PLOScoreHeader({
   return (
     <>
       <View style={styles.scoreSection}>
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Score</Text>
-          <Text style={styles.scoreValue}>{sessionPoints}</Text>
-        </View>
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Accuracy</Text>
-          <Text style={[styles.scoreValue, { color: colors.text.gold }]}>{accuracyValue}%</Text>
-        </View>
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Streak</Text>
-          <Text style={[styles.scoreValue, { color: colors.status.streak }]}>×{streak}</Text>
-        </View>
+        <StatTile
+          label="Score"
+          value={sessionPoints}
+          containerStyle={styles.scoreItem}
+          labelStyle={styles.scoreLabel}
+          valueStyle={styles.scoreValue}
+        />
+        <StatTile
+          label="Accuracy"
+          value={`${accuracyValue}%`}
+          containerStyle={styles.scoreItem}
+          labelStyle={styles.scoreLabel}
+          valueStyle={[styles.scoreValue, { color: colors.text.gold }]}
+        />
+        <StatTile
+          label="Streak"
+          value={`×${streak}`}
+          containerStyle={styles.scoreItem}
+          labelStyle={styles.scoreLabel}
+          valueStyle={[styles.scoreValue, { color: colors.status.streak }]}
+        />
       </View>
 
       <View style={styles.progressSection}>

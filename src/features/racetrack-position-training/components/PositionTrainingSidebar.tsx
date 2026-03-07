@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { StatTile } from '@components/shared/StatTile';
 import type { PositionValidationResult, TrainingStats } from '../types';
 
 export interface PositionTrainingSidebarProps {
@@ -40,16 +41,20 @@ export function PositionTrainingSidebar({
       >
         {/* Stats row */}
         <View style={styles.statsRow}>
-          <View style={styles.statPill}>
-            <Text style={styles.statValue}>
-              {stats.correct}/{stats.total}
-            </Text>
-            <Text style={styles.statLabel}>score</Text>
-          </View>
-          <View style={styles.statPill}>
-            <Text style={[styles.statValue, { color: accuracyColor }]}>{percentage}%</Text>
-            <Text style={styles.statLabel}>accuracy</Text>
-          </View>
+          <StatTile
+            label="score"
+            value={`${stats.correct}/${stats.total}`}
+            containerStyle={styles.statPill}
+            labelStyle={styles.statLabel}
+            valueStyle={styles.statValue}
+          />
+          <StatTile
+            label="accuracy"
+            value={`${percentage}%`}
+            containerStyle={styles.statPill}
+            labelStyle={styles.statLabel}
+            valueStyle={[styles.statValue, { color: accuracyColor }]}
+          />
         </View>
 
         {/* Target number */}
