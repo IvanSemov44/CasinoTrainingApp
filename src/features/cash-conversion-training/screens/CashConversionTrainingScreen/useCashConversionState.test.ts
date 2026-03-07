@@ -4,7 +4,9 @@ import { useCashConversionState } from './useCashConversionState';
 describe('useCashConversionState', () => {
   describe('initialization', () => {
     it('should initialize with default values', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       expect(result.current.currentRequest).not.toBeNull();
       expect(result.current.totalBet).toBe('');
@@ -16,14 +18,18 @@ describe('useCashConversionState', () => {
     });
 
     it('should generate initial challenge on mount', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       expect(result.current.currentRequest).not.toBeNull();
       expect(result.current.currentRequest?.cashAmount).toBeGreaterThan(0);
     });
 
     it('should set default active input based on request type', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       const activeInput = result.current.activeInput;
       expect(['totalBet', 'betPerPosition', 'change']).toContain(activeInput);
@@ -32,7 +38,9 @@ describe('useCashConversionState', () => {
 
   describe('form state management', () => {
     it('should update totalBet state', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');
@@ -42,7 +50,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should update betPerPosition state', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setBetPerPosition('10');
@@ -52,7 +62,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should update change state', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setChange('20');
@@ -62,7 +74,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should update activeInput state', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setActiveInput('betPerPosition');
@@ -74,13 +88,17 @@ describe('useCashConversionState', () => {
 
   describe('isFormComplete', () => {
     it('should be false when form is empty', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       expect(result.current.isFormComplete).toBe(false);
     });
 
     it('should be true when all required fields are filled', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');
@@ -96,7 +114,9 @@ describe('useCashConversionState', () => {
 
   describe('generateNewChallenge', () => {
     it('should clear form inputs', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');
@@ -119,7 +139,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should generate new request', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       const firstRequest = result.current.currentRequest;
 
@@ -135,7 +157,9 @@ describe('useCashConversionState', () => {
 
   describe('handleCheck', () => {
     it('should set result when checking answer', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');
@@ -148,7 +172,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should increment stats when checking', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       expect(result.current.stats.total).toBe(0);
 
@@ -162,7 +188,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should track correct answers', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');
@@ -178,7 +206,9 @@ describe('useCashConversionState', () => {
 
   describe('handleNext', () => {
     it('should generate new challenge', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       const firstRequest = result.current.currentRequest;
 
@@ -195,7 +225,9 @@ describe('useCashConversionState', () => {
     });
 
     it('should preserve stats when moving to next challenge', () => {
-      const { result } = renderHook(() => useCashConversionState({ difficulty: 'easy', sector: 'voisins' }));
+      const { result } = renderHook(() =>
+        useCashConversionState({ difficulty: 'easy', sector: 'voisins' })
+      );
 
       act(() => {
         result.current.setTotalBet('100');

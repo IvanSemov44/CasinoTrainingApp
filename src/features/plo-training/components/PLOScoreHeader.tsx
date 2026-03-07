@@ -1,13 +1,12 @@
- 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 
 export interface PLOScoreHeaderProps {
   sessionPoints: number;
-   accuracy: number | null;
+  accuracy: number | null;
   streak: number;
-   handBlindLevel: number;
+  handBlindLevel: number;
   momentIndex: number;
   totalMoments: number;
 }
@@ -36,15 +35,11 @@ export function PLOScoreHeader({
         </View>
         <View style={styles.scoreItem}>
           <Text style={styles.scoreLabel}>Accuracy</Text>
-          <Text style={[styles.scoreValue, { color: colors.text.gold }]}>
-            {accuracy}%
-          </Text>
+          <Text style={[styles.scoreValue, { color: colors.text.gold }]}>{accuracy}%</Text>
         </View>
         <View style={styles.scoreItem}>
           <Text style={styles.scoreLabel}>Streak</Text>
-          <Text style={[styles.scoreValue, { color: colors.status.streak }]}>
-            ×{streak}
-          </Text>
+          <Text style={[styles.scoreValue, { color: colors.status.streak }]}>×{streak}</Text>
         </View>
       </View>
 

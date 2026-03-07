@@ -16,7 +16,9 @@ export interface UsePositionTrainingSessionReturn {
   handleNext: () => void;
 }
 
-export function usePositionTrainingSession({ mode }: UsePositionTrainingSessionOptions): UsePositionTrainingSessionReturn {
+export function usePositionTrainingSession({
+  mode,
+}: UsePositionTrainingSessionOptions): UsePositionTrainingSessionReturn {
   const [currentWinningNumber, setCurrentWinningNumber] = useState<number>(0);
   const [result, setResult] = useState<PositionValidationResult | null>(null);
   const [stats, setStats] = useState<TrainingStats>({ correct: 0, total: 0 });
@@ -38,7 +40,7 @@ export function usePositionTrainingSession({ mode }: UsePositionTrainingSessionO
       const validationResult = validatePositionSelection(currentWinningNumber, tappedNumber);
       setResult(validationResult);
 
-      setStats((prev) => ({
+      setStats(prev => ({
         correct: prev.correct + (validationResult.isCorrect ? 1 : 0),
         total: prev.total + 1,
       }));

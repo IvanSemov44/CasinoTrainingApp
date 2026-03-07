@@ -16,7 +16,10 @@ function normalizeBet(bet: PlacedBet | { type: string; numbers: number[] }) {
 /**
  * Check if two bets are equal
  */
-function betsAreEqual(bet1: { type: string; numbers: number[] }, bet2: { type: string; numbers: number[] }): boolean {
+function betsAreEqual(
+  bet1: { type: string; numbers: number[] },
+  bet2: { type: string; numbers: number[] }
+): boolean {
   if (bet1.type !== bet2.type) return false;
   if (bet1.numbers.length !== bet2.numbers.length) return false;
   return bet1.numbers.every((num, idx) => num === bet2.numbers[idx]);
@@ -30,7 +33,7 @@ export function validateCallBet(
   userBets: PlacedBet[]
 ): ValidationResult {
   const betDefinition = ANNOUNCED_BETS[mode];
-  
+
   if (!betDefinition) {
     return {
       isCorrect: false,

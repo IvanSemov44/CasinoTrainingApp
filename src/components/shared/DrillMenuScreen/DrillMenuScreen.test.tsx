@@ -42,11 +42,7 @@ describe('DrillMenuScreen', () => {
   it('renders with title and drills', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Blackjack Training"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Blackjack Training" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -57,11 +53,7 @@ describe('DrillMenuScreen', () => {
   it('displays all drill items', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Training Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Training Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -73,11 +65,7 @@ describe('DrillMenuScreen', () => {
   it('displays drill descriptions', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Training Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Training Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -89,11 +77,7 @@ describe('DrillMenuScreen', () => {
   it('displays difficulty badges', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Training Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Training Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -105,11 +89,7 @@ describe('DrillMenuScreen', () => {
   it('calls onPress with correct drillType when drill is tapped', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Training Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Training Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -122,11 +102,7 @@ describe('DrillMenuScreen', () => {
   it('handles multiple drill presses', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Training Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Training Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -141,11 +117,7 @@ describe('DrillMenuScreen', () => {
   it('renders with empty drills array', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Empty Menu"
-          drills={[]}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Empty Menu" drills={[]} onPress={mockOnPress} />
       </Wrapper>
     );
 
@@ -156,11 +128,7 @@ describe('DrillMenuScreen', () => {
   it('renders subtitle', () => {
     render(
       <Wrapper>
-        <DrillMenuScreen
-          title="Test Menu"
-          drills={mockDrills}
-          onPress={mockOnPress}
-        />
+        <DrillMenuScreen title="Test Menu" drills={mockDrills} onPress={mockOnPress} />
       </Wrapper>
     );
 

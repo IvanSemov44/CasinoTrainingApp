@@ -105,7 +105,7 @@ describe('RouletteColumnBets', () => {
 
   describe('chip display', () => {
     it('should pass correct chip size based on cellSize', () => {
-      const getBetAmount = jest.fn((numbers) => numbers.length * 5);
+      const getBetAmount = jest.fn(numbers => numbers.length * 5);
       const { UNSAFE_root } = render(
         <RouletteColumnBets {...defaultProps} cellSize={50} getBetAmount={getBetAmount} />
       );
@@ -116,9 +116,7 @@ describe('RouletteColumnBets', () => {
 
     it('should display bet amounts from getBetAmount', () => {
       const getBetAmount = jest.fn(() => 25);
-      render(
-        <RouletteColumnBets {...defaultProps} getBetAmount={getBetAmount} />
-      );
+      render(<RouletteColumnBets {...defaultProps} getBetAmount={getBetAmount} />);
 
       // getBetAmount is called for each column
       expect(getBetAmount).toHaveBeenCalledTimes(3);
@@ -128,7 +126,7 @@ describe('RouletteColumnBets', () => {
   describe('accessibility', () => {
     it('should have accessibility labels on column bet buttons', () => {
       const { getByLabelText } = render(<RouletteColumnBets {...defaultProps} />);
-      
+
       // Each column button should have an accessibility label
       expect(getByLabelText('Column 1 bet, 2 to 1')).toBeTruthy();
       expect(getByLabelText('Column 2 bet, 2 to 1')).toBeTruthy();
@@ -137,14 +135,14 @@ describe('RouletteColumnBets', () => {
 
     it('should have button accessibility role on column buttons', () => {
       const { getByLabelText } = render(<RouletteColumnBets {...defaultProps} />);
-      
+
       const column1 = getByLabelText('Column 1 bet, 2 to 1');
       expect(column1.props.accessibilityRole).toBe('button');
     });
 
     it('should indicate when a column has a bet', () => {
-      const getBetAmount = jest.fn((numbers) => 
-        numbers.includes(3) ? 50 : 0 // First column has bet
+      const getBetAmount = jest.fn(
+        numbers => (numbers.includes(3) ? 50 : 0) // First column has bet
       );
       const { getByLabelText } = render(
         <RouletteColumnBets {...defaultProps} getBetAmount={getBetAmount} />

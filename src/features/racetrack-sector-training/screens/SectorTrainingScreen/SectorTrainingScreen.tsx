@@ -37,7 +37,10 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
 
   const playSoundEffect = useCallback((type: 'success' | 'error') => {
     try {
-      const windowWithAudio = window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
+      const windowWithAudio = window as unknown as {
+        AudioContext?: typeof AudioContext;
+        webkitAudioContext?: typeof AudioContext;
+      };
       const AudioContextClass = windowWithAudio.AudioContext || windowWithAudio.webkitAudioContext;
       if (!AudioContextClass) return;
       const ctx = new AudioContextClass();
@@ -58,12 +61,20 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
         osc.start(now);
         osc.stop(now + 0.3);
       }
-    } catch { /* Web Audio API not available */ }
+    } catch {
+      /* Web Audio API not available */
+    }
   }, []);
 
   useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => { /* not available */ });
-    return () => { ScreenOrientation.unlockAsync().catch(() => { /* not available */ }); };
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => {
+      /* not available */
+    });
+    return () => {
+      ScreenOrientation.unlockAsync().catch(() => {
+        /* not available */
+      });
+    };
   }, []);
 
   const onCorrect = useCallback(async () => {
@@ -88,21 +99,19 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
     if (soundEnabled) playSoundEffect('error');
   }, [hapticEnabled, soundEnabled, playSoundEffect]);
 
-  const {
-    currentWinningNumber,
-    stats,
-    handleSectorPress,
-    percentage,
-  } = useSectorTrainingSession({
+  const { currentWinningNumber, stats, handleSectorPress, percentage } = useSectorTrainingSession({
     mode: selectedMode,
     onCorrect,
     onIncorrect,
   });
   const accuracyColor =
-    stats.total === 0 ? colors.text.muted
-    : percentage >= 80 ? colors.status.success
-    : percentage >= 60 ? colors.text.gold
-    :                     colors.status.error;
+    stats.total === 0
+      ? colors.text.muted
+      : percentage >= 80
+        ? colors.status.success
+        : percentage >= 60
+          ? colors.text.gold
+          : colors.status.error;
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>

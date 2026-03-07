@@ -126,7 +126,7 @@ describe('CallBetsMenuScreen', () => {
         getByLabelText('Start Zero training'),
         getByLabelText('Start Random Mode training'),
       ];
-      buttons.forEach((button) => {
+      buttons.forEach(button => {
         expect(button).toBeTruthy();
       });
     });

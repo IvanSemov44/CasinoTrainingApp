@@ -3,7 +3,12 @@ import DrillMenuScreen from '@components/shared/DrillMenuScreen';
 import type { BJDrillType } from '../../types';
 import type { BJMenuScreenProps } from './BJMenuScreen.types';
 
-const DRILLS: { drillType: BJDrillType; label: string; description: string; difficulty: 'easy' | 'medium' | 'advanced' }[] = [
+const DRILLS: {
+  drillType: BJDrillType;
+  label: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'advanced';
+}[] = [
   {
     drillType: 'soft-hand-recognition',
     label: 'Soft Hand Announcement',
@@ -37,7 +42,8 @@ const DRILLS: { drillType: BJDrillType; label: string; description: string; diff
   {
     drillType: 'insurance-timing',
     label: 'Insurance & Ace Bet Timing',
-    description: 'Ace → offer Insurance (2:1). 10/J/Q/K → player may request Ace Bet (11:1). 2–9 → no action.',
+    description:
+      'Ace → offer Insurance (2:1). 10/J/Q/K → player may request Ace Bet (11:1). 2–9 → no action.',
     difficulty: 'medium',
   },
   {
@@ -55,7 +61,8 @@ const DRILLS: { drillType: BJDrillType; label: string; description: string; diff
   {
     drillType: 'super-seven',
     label: 'Super Seven',
-    description: '1 Seven=3:1 · 2 Diff Suit=30:1 · 2 Same Suit=100:1 · 3 Mixed=500:1 · 3 Same=5000:1',
+    description:
+      '1 Seven=3:1 · 2 Diff Suit=30:1 · 2 Same Suit=100:1 · 3 Mixed=500:1 · 3 Same=5000:1',
     difficulty: 'advanced',
   },
   {
@@ -71,7 +78,7 @@ export default function BJMenuScreen({ navigation }: BJMenuScreenProps) {
     <DrillMenuScreen
       title="Blackjack"
       drills={DRILLS}
-      onPress={(drillType) => navigation.navigate('BJDrill', { drillType })}
+      onPress={drillType => navigation.navigate('BJDrill', { drillType })}
     />
   );
 }

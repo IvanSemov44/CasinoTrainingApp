@@ -4,7 +4,10 @@ import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '@components/NumberPad';
 import type { PotCalculationInputProps } from './PotCalculationInput.types';
 
-export default function PotCalculationInput({ onSubmit, disabled = false }: PotCalculationInputProps) {
+export default function PotCalculationInput({
+  onSubmit,
+  disabled = false,
+}: PotCalculationInputProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -44,9 +47,7 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
       <View style={styles.displayContainer}>
         <Text style={styles.displayLabel}>Pot:</Text>
         <View style={styles.displayField}>
-          <Text style={styles.displayText}>
-            ${inputValue || '0'}
-          </Text>
+          <Text style={styles.displayText}>${inputValue || '0'}</Text>
         </View>
       </View>
 
@@ -61,7 +62,6 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       width: '100%',
@@ -99,5 +99,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-   
 }

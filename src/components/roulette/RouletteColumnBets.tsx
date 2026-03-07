@@ -27,10 +27,10 @@ const RouletteColumnBets: React.FC<RouletteColumnBetsProps> = ({
 
   return (
     <View style={styles.columnBetsContainer}>
-      {[0, 1, 2].map((columnIndex) => {
+      {[0, 1, 2].map(columnIndex => {
         const betAmount = getBetAmount(LAYOUT_GRID[columnIndex]);
         return (
-          <TouchableOpacity 
+          <TouchableOpacity
             key={columnIndex}
             style={styles.columnBet}
             accessibilityLabel={`${COLUMN_LABELS[columnIndex]} bet, 2 to 1`}

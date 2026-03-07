@@ -23,9 +23,24 @@ const TRAINING_TYPES: DropdownItem[] = [
   { key: 'STREET', label: 'Street', icon: '📏', extraInfo: 'Payout: 11:1' },
   { key: 'CORNER', label: 'Corner', icon: '⬜', extraInfo: 'Payout: 8:1' },
   { key: 'SIX_LINE', label: 'Six Line', icon: '🔷', extraInfo: 'Payout: 5:1' },
-  { key: 'MIXED_CALCULATION', label: 'Mixed (Straight + Split)', icon: '🔀', extraInfo: 'Payout: Varies' },
-  { key: 'TRIPLE_MIXED_CALCULATION', label: 'Triple Mixed', icon: '🎰', extraInfo: 'Payout: Varies' },
-  { key: 'ALL_POSITIONS_CALCULATION', label: 'All Positions', icon: '🏆', extraInfo: 'Payout: Varies' },
+  {
+    key: 'MIXED_CALCULATION',
+    label: 'Mixed (Straight + Split)',
+    icon: '🔀',
+    extraInfo: 'Payout: Varies',
+  },
+  {
+    key: 'TRIPLE_MIXED_CALCULATION',
+    label: 'Triple Mixed',
+    icon: '🎰',
+    extraInfo: 'Payout: Varies',
+  },
+  {
+    key: 'ALL_POSITIONS_CALCULATION',
+    label: 'All Positions',
+    icon: '🏆',
+    extraInfo: 'Payout: Varies',
+  },
 ];
 
 // Chip denominations
@@ -169,7 +184,15 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
     handleClose();
     const navigate = navigation.navigate as (...args: unknown[]) => void;
     navigate(screenName, Object.keys(params).length > 0 ? params : undefined);
-  }, [selectedTrainingType, selectedDenomination, chipCount, getScreenName, getBetConfigKey, navigation, handleClose]);
+  }, [
+    selectedTrainingType,
+    selectedDenomination,
+    chipCount,
+    getScreenName,
+    getBetConfigKey,
+    navigation,
+    handleClose,
+  ]);
 
   // Check if can start training
   const canStartTraining = useMemo(() => {
@@ -232,7 +255,14 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
       showDropdown: showChipCountDropdown,
       onToggleDropdown: toggleChipCountDropdown,
     };
-  }, [selectedTrainingType, selectedDenomination, chipCount, showChipCountDropdown, handleChipCountChange, toggleChipCountDropdown]);
+  }, [
+    selectedTrainingType,
+    selectedDenomination,
+    chipCount,
+    showChipCountDropdown,
+    handleChipCountChange,
+    toggleChipCountDropdown,
+  ]);
 
   // Build summary items
   const summaryItems: SummaryItem[] = useMemo(() => {

@@ -20,9 +20,12 @@ export default function CallBetsMenuScreen() {
     { key: 'random', label: 'Random Mode', description: 'Mix all call bet types' },
   ] as const;
 
-  const handleSelectMode = useCallback((mode: typeof modes[number]['key']) => {
-    navigation.navigate('CallBetsTraining', { mode });
-  }, [navigation]);
+  const handleSelectMode = useCallback(
+    (mode: (typeof modes)[number]['key']) => {
+      navigation.navigate('CallBetsTraining', { mode });
+    },
+    [navigation]
+  );
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -32,7 +35,7 @@ export default function CallBetsMenuScreen() {
       </View>
 
       <View style={styles.content}>
-        {modes.map((mode) => (
+        {modes.map(mode => (
           <TouchableOpacity
             key={mode.key}
             style={styles.modeButton}
@@ -50,7 +53,8 @@ export default function CallBetsMenuScreen() {
       <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>What Are Call Bets?</Text>
         <Text style={styles.infoDescription}>
-          Call bets (or announced bets) are roulette betting patterns based on wheel positions rather than the betting layout. They&apos;re common in European casinos.
+          Call bets (or announced bets) are roulette betting patterns based on wheel positions
+          rather than the betting layout. They&apos;re common in European casinos.
         </Text>
       </View>
 
@@ -67,7 +71,8 @@ export default function CallBetsMenuScreen() {
       <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>How To Train</Text>
         <Text style={styles.infoDescription}>
-          Select a call bet type above to start. You&apos;ll be shown the wheel positions you need to cover, and you&apos;ll place chips on the correct betting layout positions.
+          Select a call bet type above to start. You&apos;ll be shown the wheel positions you need
+          to cover, and you&apos;ll place chips on the correct betting layout positions.
         </Text>
       </View>
     </ScrollView>
@@ -75,7 +80,6 @@ export default function CallBetsMenuScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -164,5 +168,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginBottom: 8,
     },
   });
-   
 }

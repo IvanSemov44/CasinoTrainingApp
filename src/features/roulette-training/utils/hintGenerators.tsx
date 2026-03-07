@@ -35,19 +35,18 @@ function formatBetNumbers(bet: Bet): string {
 /**
  * Generate single bet hint (for focused practice)
  */
-export function generateSingleBetHint(
-  betConfig: BetConfig,
-  bet: Bet
-): React.ReactElement {
+export function generateSingleBetHint(betConfig: BetConfig, bet: Bet): React.ReactElement {
   if (!bet || !bet.numbers) {
     return <>No bet data available</>;
   }
-  
+
   return (
     <>
-      {betConfig.hintText}{'\n\n'}
-      {betConfig.name} <Text style={exerciseTextStyles.highlightNumber}>{betConfig.formatNumbers(bet.numbers)}</Text> has{' '}
-      <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>{' '}
+      {betConfig.hintText}
+      {'\n\n'}
+      {betConfig.name}{' '}
+      <Text style={exerciseTextStyles.highlightNumber}>{betConfig.formatNumbers(bet.numbers)}</Text>{' '}
+      has <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>{' '}
       {bet.chips === 1 ? 'chip' : 'chips'} on it.
     </>
   );
@@ -63,18 +62,19 @@ export function generatePayoutHint(
 ): React.ReactElement {
   return (
     <>
-      • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>{'\n'}
-      • Calculate total payout for all winning bets{'\n'}
-      {generatePayoutInfo(allowedBetTypes)}{'\n'}
-      • Add all payouts together{'\n\n'}
+      • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>
+      {'\n'}• Calculate total payout for all winning bets{'\n'}
+      {generatePayoutInfo(allowedBetTypes)}
+      {'\n'}• Add all payouts together{'\n\n'}
       <Text style={exerciseTextStyles.hintTitle}>Bets on winning number:{'\n'}</Text>
       {bets.map((bet, index) => (
         <Text key={`bet-payout-${bet.type}-${index}`} style={exerciseTextStyles.hintBet}>
           {index + 1}. {getBetTypeName(bet.type)}{' '}
           <Text style={exerciseTextStyles.highlightNumber}>{formatBetNumbers(bet)}</Text>
           {' with '}
-          <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>
-          {' '}{bet.chips === 1 ? 'chip' : 'chips'}{'\n'}
+          <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>{' '}
+          {bet.chips === 1 ? 'chip' : 'chips'}
+          {'\n'}
         </Text>
       ))}
     </>
@@ -91,28 +91,35 @@ export function generateCashHandlingHint(
   remainingChips: number,
   cashRequest: number
 ): React.ReactElement {
-  const totalChips = bets.filter(b => b && b.chips != null && b.payout != null).reduce((sum, b) => sum + (b.chips * b.payout), 0);
+  const totalChips = bets
+    .filter(b => b && b.chips != null && b.payout != null)
+    .reduce((sum, b) => sum + b.chips * b.payout, 0);
   const totalCash = totalChips * cashConfig.denomination;
 
   return (
     <>
-      • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>{'\n'}
+      • Winning number: <Text style={exerciseTextStyles.highlightNumber}>{winningNumber}</Text>
+      {'\n'}
       {bets.map((bet, index) => (
         <Text key={`bet-cash-${bet.type}-${index}`}>
           • {getBetTypeName(bet.type)}{' '}
           <Text style={exerciseTextStyles.highlightNumber}>{formatBetNumbers(bet)}</Text>
           {': '}
           <Text style={exerciseTextStyles.highlightChips}>{bet.chips}</Text>
-          {' × '}{bet.payout} = {bet.chips * bet.payout} chips{'\n'}
+          {' × '}
+          {bet.payout} = {bet.chips * bet.payout} chips{'\n'}
         </Text>
       ))}
-      • Total payout: <Text style={exerciseTextStyles.highlightNumber}>{totalChips} chips</Text>{'\n'}
-      • Total cash value: <Text style={exerciseTextStyles.highlightNumber}>${totalCash}</Text>{'\n'}
+      • Total payout: <Text style={exerciseTextStyles.highlightNumber}>{totalChips} chips</Text>
+      {'\n'}• Total cash value: <Text style={exerciseTextStyles.highlightNumber}>${totalCash}</Text>
       {'\n'}
-      <Text style={exerciseTextStyles.hintTitle}>Cash Handling:{'\n'}</Text>
-      • Total must equal: <Text style={exerciseTextStyles.highlightNumber}>${totalCash}</Text>{'\n'}
-      • Formula: (Chips × ${cashConfig.denomination}) + Cash = Total{'\n'}
-      • Therefore: {remainingChips} chips (${remainingChips * cashConfig.denomination}) + ${cashRequest} cash = ${totalCash}{'\n'}
+      {'\n'}
+      <Text style={exerciseTextStyles.hintTitle}>Cash Handling:{'\n'}</Text>• Total must equal:{' '}
+      <Text style={exerciseTextStyles.highlightNumber}>${totalCash}</Text>
+      {'\n'}• Formula: (Chips × ${cashConfig.denomination}) + Cash = Total{'\n'}• Therefore:{' '}
+      {remainingChips} chips (${remainingChips * cashConfig.denomination}) + ${cashRequest} cash = $
+      {totalCash}
+      {'\n'}
     </>
   );
 }
@@ -134,7 +141,9 @@ export function generateHintContent(
   // Add chip denomination info if cash config exists
   const cashDenominationInfo = cashConfig ? (
     <>
-      • Chip denomination: <Text style={exerciseTextStyles.highlightNumber}>${cashConfig.denomination}</Text>{'\n'}
+      • Chip denomination:{' '}
+      <Text style={exerciseTextStyles.highlightNumber}>${cashConfig.denomination}</Text>
+      {'\n'}
     </>
   ) : null;
 

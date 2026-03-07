@@ -38,7 +38,7 @@ export default function MenuListScreen({
 
   const renderSkeletonItems = () => (
     <>
-      {[1, 2, 3, 4].map((index) => (
+      {[1, 2, 3, 4].map(index => (
         <SkeletonMenuItem key={`skeleton-${index}`} />
       ))}
     </>
@@ -50,37 +50,53 @@ export default function MenuListScreen({
       {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        {isLoading ? renderSkeletonItems() : items.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={styles.exerciseCard}
-            onPress={item.onPress}
-            accessibilityLabel={`${item.title}, ${item.difficulty} difficulty`}
-            accessibilityHint="Double tap to start exercise"
-            accessibilityRole="button"
-          >
-            <View style={[styles.accentBar, { backgroundColor: colors.difficulty[item.difficulty] }]} />
-            <View style={styles.cardBody}>
-              <View style={styles.exerciseHeader}>
-                <Text style={styles.exerciseTitle}>{item.title}</Text>
-                <View style={[styles.difficultyBadge, { backgroundColor: colors.difficulty[item.difficulty] + '22' }]}>
-                  <Text style={[styles.difficultyText, { color: colors.difficulty[item.difficulty] }]}>
-                    {item.difficulty.toUpperCase()}
-                  </Text>
+        {isLoading
+          ? renderSkeletonItems()
+          : items.map(item => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.exerciseCard}
+                onPress={item.onPress}
+                accessibilityLabel={`${item.title}, ${item.difficulty} difficulty`}
+                accessibilityHint="Double tap to start exercise"
+                accessibilityRole="button"
+              >
+                <View
+                  style={[
+                    styles.accentBar,
+                    { backgroundColor: colors.difficulty[item.difficulty] },
+                  ]}
+                />
+                <View style={styles.cardBody}>
+                  <View style={styles.exerciseHeader}>
+                    <Text style={styles.exerciseTitle}>{item.title}</Text>
+                    <View
+                      style={[
+                        styles.difficultyBadge,
+                        { backgroundColor: colors.difficulty[item.difficulty] + '22' },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.difficultyText,
+                          { color: colors.difficulty[item.difficulty] },
+                        ]}
+                      >
+                        {item.difficulty.toUpperCase()}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={styles.exerciseDescription}>{item.description}</Text>
+                  {item.extraInfo && <Text style={styles.extraInfo}>{item.extraInfo}</Text>}
                 </View>
-              </View>
-              <Text style={styles.exerciseDescription}>{item.description}</Text>
-              {item.extraInfo && <Text style={styles.extraInfo}>{item.extraInfo}</Text>}
-            </View>
-          </TouchableOpacity>
-        ))}
+              </TouchableOpacity>
+            ))}
       </ScrollView>
     </View>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -155,5 +171,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontStyle: 'italic',
     },
   });
-   
 }

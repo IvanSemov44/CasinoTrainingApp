@@ -70,7 +70,6 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.mediumGray,
@@ -81,7 +80,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       backgroundColor: `${colors.text.primary}10`,
     },
   });
-   
 }
 
 export default SkeletonLoader;

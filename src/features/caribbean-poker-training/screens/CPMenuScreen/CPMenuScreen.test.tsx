@@ -19,16 +19,12 @@ describe('CPMenuScreen', () => {
 
   describe('Rendering', () => {
     it('renders the Caribbean Poker title', () => {
-      renderWithTheme(
-        <CPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<CPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Caribbean Poker')).toBeOnTheScreen();
     });
 
     it('renders all 9 drill items', () => {
-      renderWithTheme(
-        <CPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<CPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Hand Recognition')).toBeOnTheScreen();
       expect(screen.getByText('Swap Procedure')).toBeOnTheScreen();
     });
@@ -36,9 +32,7 @@ describe('CPMenuScreen', () => {
 
   describe('Navigation', () => {
     it('navigates to CPDrill with correct drill type', () => {
-      renderWithTheme(
-        <CPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<CPMenuScreen navigation={mockNavigation} route={mockRoute} />);
 
       const handRecognitionItem = screen.getByText('Hand Recognition');
       fireEvent.press(handRecognitionItem);
@@ -51,18 +45,12 @@ describe('CPMenuScreen', () => {
 
   describe('Drill Data', () => {
     it('displays correct descriptions', () => {
-      renderWithTheme(
-        <CPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
-      expect(
-        screen.getByText(/Does the dealer qualify?/)
-      ).toBeOnTheScreen();
+      renderWithTheme(<CPMenuScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(screen.getByText(/Does the dealer qualify?/)).toBeOnTheScreen();
     });
 
     it('shows all difficulty levels', () => {
-      renderWithTheme(
-        <CPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<CPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
       expect(screen.getAllByText('MEDIUM').length).toBeGreaterThan(0);
       expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);

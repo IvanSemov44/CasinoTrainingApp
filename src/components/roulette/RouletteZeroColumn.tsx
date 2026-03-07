@@ -3,7 +3,10 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { RouletteNumber, BetType } from '../../types/roulette.types';
 import RouletteChip from './RouletteChip';
 import { getZeroColumnStyles, getRouletteStyles } from './styles/roulette.styles';
-import { getCallBetsZeroColumnStyles, getCallBetsRouletteStyles } from './styles/callBetsRouletteStyles';
+import {
+  getCallBetsZeroColumnStyles,
+  getCallBetsRouletteStyles,
+} from './styles/callBetsRouletteStyles';
 
 interface RouletteZeroColumnProps {
   cellSize: number;

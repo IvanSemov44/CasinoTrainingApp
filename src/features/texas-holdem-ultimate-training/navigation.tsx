@@ -11,8 +11,14 @@ export type THUStackParamList = {
 };
 
 const Stack = createStackNavigator<THUStackParamList>();
-const THUMenuScreenWithBoundary = withErrorBoundary(THUMenuScreen, "Texas Hold'em Ultimate Training");
-const THUDrillScreenWithBoundary = withErrorBoundary(THUDrillScreen, "Texas Hold'em Ultimate Training");
+const THUMenuScreenWithBoundary = withErrorBoundary(
+  THUMenuScreen,
+  "Texas Hold'em Ultimate Training"
+);
+const THUDrillScreenWithBoundary = withErrorBoundary(
+  THUDrillScreen,
+  "Texas Hold'em Ultimate Training"
+);
 
 export const THURoutes = () => {
   return (

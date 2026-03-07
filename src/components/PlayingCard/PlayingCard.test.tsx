@@ -2,14 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import PlayingCard from './PlayingCard';
-import type { Card } from '@utils/cardUtils';
+import type { Card, Rank } from '@utils/cardUtils';
 
 describe('PlayingCard', () => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <ThemeProvider>{children}</ThemeProvider>
   );
 
-  const createCard = (rank: string, suit: 'hearts' | 'diamonds' | 'spades' | 'clubs'): Card => ({
+  const createCard = (rank: Rank, suit: 'hearts' | 'diamonds' | 'spades' | 'clubs'): Card => ({
     rank,
     suit,
   });
@@ -117,7 +117,7 @@ describe('PlayingCard', () => {
   });
 
   it('displays all face card ranks correctly', () => {
-    const faceCards: Array<[string, 'hearts' | 'diamonds' | 'spades' | 'clubs']> = [
+    const faceCards: Array<[Rank, 'hearts' | 'diamonds' | 'spades' | 'clubs']> = [
       ['J', 'hearts'],
       ['Q', 'diamonds'],
       ['K', 'spades'],

@@ -3,25 +3,14 @@
  * Tests bet configuration functions and data structures
  */
 
-import {
-  BET_CONFIGS,
-  getBetConfig,
-  BetConfigKey,
-  BetConfig,
-} from '../betConfigs';
+import { BET_CONFIGS, getBetConfig, BetConfigKey, BetConfig } from '../betConfigs';
 
 describe('betConfigs', () => {
   describe('BET_CONFIGS', () => {
     it('should contain all expected bet types', () => {
-      const expectedKeys: BetConfigKey[] = [
-        'STRAIGHT_UP',
-        'SPLIT',
-        'STREET',
-        'CORNER',
-        'SIX_LINE',
-      ];
-      
-      expectedKeys.forEach((key) => {
+      const expectedKeys: BetConfigKey[] = ['STRAIGHT_UP', 'SPLIT', 'STREET', 'CORNER', 'SIX_LINE'];
+
+      expectedKeys.forEach(key => {
         expect(BET_CONFIGS).toHaveProperty(key);
       });
     });
@@ -37,7 +26,7 @@ describe('betConfigs', () => {
         expect(config).toHaveProperty('exampleChips');
         expect(config).toHaveProperty('generatePossibleBets');
         expect(config).toHaveProperty('formatNumbers');
-        
+
         expect(typeof config.type).toBe('string');
         expect(typeof config.name).toBe('string');
         expect(typeof config.displayName).toBe('string');
@@ -61,7 +50,7 @@ describe('betConfigs', () => {
     it('should generate bets for numbers 0-12', () => {
       const bets = config.generatePossibleBets();
       expect(bets.length).toBe(13);
-      
+
       // Check that each bet is a single number
       bets.forEach((bet, index) => {
         expect(bet.length).toBe(1);
@@ -85,14 +74,14 @@ describe('betConfigs', () => {
 
     it('should generate split bets with exactly 2 numbers', () => {
       const bets = config.generatePossibleBets();
-      bets.forEach((bet) => {
+      bets.forEach(bet => {
         expect(bet.length).toBe(2);
       });
     });
 
     it('should include splits with zero', () => {
       const bets = config.generatePossibleBets();
-      const zeroSplits = bets.filter((bet) => bet.includes(0));
+      const zeroSplits = bets.filter(bet => bet.includes(0));
       expect(zeroSplits.length).toBeGreaterThan(0);
     });
 
@@ -111,7 +100,7 @@ describe('betConfigs', () => {
 
     it('should generate street bets with exactly 3 numbers', () => {
       const bets = config.generatePossibleBets();
-      bets.forEach((bet) => {
+      bets.forEach(bet => {
         expect(bet.length).toBe(3);
       });
     });
@@ -131,7 +120,7 @@ describe('betConfigs', () => {
 
     it('should generate corner bets with exactly 4 numbers', () => {
       const bets = config.generatePossibleBets();
-      bets.forEach((bet) => {
+      bets.forEach(bet => {
         expect(bet.length).toBe(4);
       });
     });
@@ -150,7 +139,7 @@ describe('betConfigs', () => {
 
     it('should generate six line bets with exactly 6 numbers', () => {
       const bets = config.generatePossibleBets();
-      bets.forEach((bet) => {
+      bets.forEach(bet => {
         expect(bet.length).toBe(6);
       });
     });
@@ -162,15 +151,9 @@ describe('betConfigs', () => {
 
   describe('getBetConfig', () => {
     it('should return correct config for each valid key', () => {
-      const keys: BetConfigKey[] = [
-        'STRAIGHT_UP',
-        'SPLIT',
-        'STREET',
-        'CORNER',
-        'SIX_LINE',
-      ];
+      const keys: BetConfigKey[] = ['STRAIGHT_UP', 'SPLIT', 'STREET', 'CORNER', 'SIX_LINE'];
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         const config = getBetConfig(key);
         expect(config).toBe(BET_CONFIGS[key]);
       });
@@ -178,7 +161,7 @@ describe('betConfigs', () => {
 
     it('should return BetConfig type with all required properties', () => {
       const config = getBetConfig('STRAIGHT_UP');
-      
+
       // Type guard to ensure config is BetConfig
       const isValidConfig = (c: BetConfig): boolean => {
         return (

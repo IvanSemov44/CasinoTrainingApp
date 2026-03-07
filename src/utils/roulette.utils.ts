@@ -19,7 +19,7 @@ export const calculateTotalPayout = (
 ): number => {
   let totalPayout = 0;
 
-  placedBets.forEach((bet) => {
+  placedBets.forEach(bet => {
     if (bet.numbers.includes(winningNumber)) {
       totalPayout += calculatePayout(bet.type, bet.amount);
     }
@@ -31,10 +31,7 @@ export const calculateTotalPayout = (
 /**
  * Validate if bet placement is correct
  */
-export const validateBetPlacement = (
-  betType: BetType,
-  numbers: RouletteNumber[]
-): boolean => {
+export const validateBetPlacement = (betType: BetType, numbers: RouletteNumber[]): boolean => {
   switch (betType) {
     case BetType.STRAIGHT:
       return numbers.length === 1;

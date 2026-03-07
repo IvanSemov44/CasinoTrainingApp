@@ -11,7 +11,7 @@ export default function RKDrillScreen({ route }: Props) {
     <DrillScreen
       scenarioGenerator={generateRKScenario}
       drillType={route.params.drillType}
-      dealerLabel={() => "Winning Number"}
+      dealerLabel={() => 'Winning Number'}
     />
   );
 }

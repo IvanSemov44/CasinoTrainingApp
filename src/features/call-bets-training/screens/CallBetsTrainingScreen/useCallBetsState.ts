@@ -5,7 +5,7 @@ interface UseCallBetsStateProps {
   mode: CallBetMode;
 }
 
-interface UseCallBetsStateReturn {
+export interface UseCallBetsStateReturn {
   stats: { correct: number; total: number };
   result: ValidationResult | null;
   totalBets: number;

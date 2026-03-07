@@ -11,8 +11,14 @@ export type RacetrackSectorStackParamList = {
 };
 
 const Stack = createStackNavigator<RacetrackSectorStackParamList>();
-const SectorMenuScreenWithBoundary = withErrorBoundary(SectorMenuScreen, 'Racetrack Sector Training');
-const SectorTrainingScreenWithBoundary = withErrorBoundary(SectorTrainingScreen, 'Racetrack Sector Training');
+const SectorMenuScreenWithBoundary = withErrorBoundary(
+  SectorMenuScreen,
+  'Racetrack Sector Training'
+);
+const SectorTrainingScreenWithBoundary = withErrorBoundary(
+  SectorTrainingScreen,
+  'Racetrack Sector Training'
+);
 
 export function RacetrackSectorRoutes() {
   return (

@@ -19,15 +19,15 @@ import {
  * Configuration for bet generation probabilities
  */
 const BET_PROBABILITIES = {
-  CORNER: 0.3,  // 70% chance to include corners
-  STREET: 0.4,  // 60% chance to include streets
+  CORNER: 0.3, // 70% chance to include corners
+  STREET: 0.4, // 60% chance to include streets
   LINE: 0.5, // 50% chance to include six lines
 } as const;
 
 /**
  * Distribute a target chip count across multiple positions randomly
  * Ensures the sum of all distributed chips equals exactly the target
- * 
+ *
  * @param targetChips - The total number of chips to distribute
  * @param positionCount - The number of positions to distribute chips across
  * @returns An array of chip counts that sum exactly to targetChips
@@ -36,14 +36,14 @@ export function distributeChipsRandomly(targetChips: number, positionCount: numb
   if (positionCount <= 0) return [];
   if (positionCount === 1) return [targetChips];
   if (targetChips <= 0) return Array(positionCount).fill(0);
-  
+
   // Each position must have at least 1 chip if we have enough chips
   const minChipsPerPosition = targetChips >= positionCount ? 1 : 0;
-  const remainingChips = targetChips - (minChipsPerPosition * positionCount);
-  
+  const remainingChips = targetChips - minChipsPerPosition * positionCount;
+
   // Generate random breakpoints to distribute remaining chips
   const distribution: number[] = Array(positionCount).fill(minChipsPerPosition);
-  
+
   if (remainingChips > 0) {
     // Create random breakpoints for distribution
     // We need (positionCount - 1) breakpoints to split remainingChips into positionCount parts
@@ -52,7 +52,7 @@ export function distributeChipsRandomly(targetChips: number, positionCount: numb
       breakpoints.push(getRandomInt(0, remainingChips));
     }
     breakpoints.sort((a, b) => a - b);
-    
+
     // Calculate the size of each segment
     let prevBreakpoint = 0;
     for (let i = 0; i < breakpoints.length; i++) {
@@ -60,17 +60,20 @@ export function distributeChipsRandomly(targetChips: number, positionCount: numb
       prevBreakpoint = breakpoints[i];
     }
     distribution[positionCount - 1] += remainingChips - prevBreakpoint;
-    
+
     // Shuffle the distribution to randomize which positions get more chips
     const shuffledDistribution = [...distribution];
     for (let i = shuffledDistribution.length - 1; i > 0; i--) {
       const j = getRandomInt(0, i);
-      [shuffledDistribution[i], shuffledDistribution[j]] = [shuffledDistribution[j], shuffledDistribution[i]];
+      [shuffledDistribution[i], shuffledDistribution[j]] = [
+        shuffledDistribution[j],
+        shuffledDistribution[i],
+      ];
     }
-    
+
     return shuffledDistribution;
   }
-  
+
   return distribution;
 }
 
@@ -102,7 +105,7 @@ export function generateBetsForNumber(
       // Randomly select 1-2 splits
       const numSplits = Math.min(getRandomInt(1, 2), possibleSplits.length);
       const shuffled = shuffleArray(possibleSplits);
-      
+
       for (let i = 0; i < numSplits; i++) {
         betPositions.push({
           type: 'SPLIT',
@@ -184,20 +187,18 @@ export function generateSingleBetFromConfig(
 ): { bet: Bet; number: RouletteNumber } {
   const randomBet = getRandomElement(possibleBets);
   const number = getRandomElement(randomBet);
-  
+
   // Apply dynamic variance to target chips for realistic training scenarios
   // For higher values (e.g., 20), results in range 15-20
   // For lower values (e.g., 5), results in range 3-5
-  const chips = targetChips !== undefined 
-    ? getDynamicChipCount(targetChips) 
-    : getRandomInt(1, 5);
-  
+  const chips = targetChips !== undefined ? getDynamicChipCount(targetChips) : getRandomInt(1, 5);
+
   const bet: Bet = {
     type: betType,
     numbers: randomBet,
     chips: chips,
     payout: getBetPayout(betType),
   };
-  
+
   return { bet, number };
 }

@@ -110,11 +110,11 @@ export const COLORS = {
 export function colorWithOpacity(color: string, opacity: number): string {
   // Remove # if present
   const hex = color.replace('#', '');
-  
+
   // Parse hex to RGB
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
-  
+
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }

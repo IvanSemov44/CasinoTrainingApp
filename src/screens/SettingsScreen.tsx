@@ -44,7 +44,8 @@ export default function SettingsScreen() {
       <View style={styles.infoSection}>
         <Text style={styles.infoTitle}>About</Text>
         <Text style={styles.infoText}>
-          This app helps you practice casino dealer skills with interactive training exercises across multiple games.
+          This app helps you practice casino dealer skills with interactive training exercises
+          across multiple games.
         </Text>
       </View>
     </ScrollView>
@@ -52,7 +53,6 @@ export default function SettingsScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -113,5 +113,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 19,
     },
   });
-   
 }

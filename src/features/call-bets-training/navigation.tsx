@@ -12,7 +12,10 @@ export type CallBetsStackParamList = {
 
 const Stack = createStackNavigator<CallBetsStackParamList>();
 const CallBetsMenuScreenWithBoundary = withErrorBoundary(CallBetsMenuScreen, 'Call Bets Training');
-const CallBetsTrainingScreenWithBoundary = withErrorBoundary(CallBetsTrainingScreen, 'Call Bets Training');
+const CallBetsTrainingScreenWithBoundary = withErrorBoundary(
+  CallBetsTrainingScreen,
+  'Call Bets Training'
+);
 
 export function CallBetsRoutes() {
   const { colors } = useTheme();

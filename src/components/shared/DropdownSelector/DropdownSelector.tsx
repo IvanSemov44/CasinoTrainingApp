@@ -50,9 +50,7 @@ export function DropdownSelector({
       >
         {selectedItem ? (
           <View style={styles.triggerContent}>
-            {selectedItem.icon && (
-              <Text style={styles.triggerIcon}>{selectedItem.icon}</Text>
-            )}
+            {selectedItem.icon && <Text style={styles.triggerIcon}>{selectedItem.icon}</Text>}
             <View style={styles.triggerTextContainer}>
               <Text style={styles.triggerText}>{selectedItem.label}</Text>
               {selectedItem.extraInfo && (
@@ -68,7 +66,7 @@ export function DropdownSelector({
 
       {showDropdown && (
         <View style={styles.dropdownList}>
-          {items.map((item) => (
+          {items.map(item => (
             <TouchableOpacity
               key={item.key}
               style={[styles.dropdownItem, selectedKey === item.key && styles.dropdownItemSelected]}
@@ -79,12 +77,15 @@ export function DropdownSelector({
             >
               {item.icon && <Text style={styles.dropdownItemIcon}>{item.icon}</Text>}
               <View style={styles.dropdownItemContent}>
-                <Text style={[styles.dropdownItemText, selectedKey === item.key && styles.dropdownItemTextSelected]}>
+                <Text
+                  style={[
+                    styles.dropdownItemText,
+                    selectedKey === item.key && styles.dropdownItemTextSelected,
+                  ]}
+                >
                   {item.label}
                 </Text>
-                {item.extraInfo && (
-                  <Text style={styles.dropdownItemExtra}>{item.extraInfo}</Text>
-                )}
+                {item.extraInfo && <Text style={styles.dropdownItemExtra}>{item.extraInfo}</Text>}
               </View>
               {selectedKey === item.key && <Text style={styles.checkmark}>✓</Text>}
             </TouchableOpacity>

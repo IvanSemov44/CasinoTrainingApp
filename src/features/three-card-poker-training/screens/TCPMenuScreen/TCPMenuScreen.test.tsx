@@ -19,16 +19,12 @@ describe('TCPMenuScreen', () => {
 
   describe('Rendering', () => {
     it('renders the Three Card Poker title', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Three Card Poker')).toBeOnTheScreen();
     });
 
     it('renders all 5 drill items', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Hand Recognition')).toBeOnTheScreen();
       expect(screen.getByText('Dealer Qualification')).toBeOnTheScreen();
       expect(screen.getByText('Full Outcome')).toBeOnTheScreen();
@@ -37,9 +33,7 @@ describe('TCPMenuScreen', () => {
 
   describe('Navigation', () => {
     it('navigates to TCPDrill with correct drill type', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
 
       const handRecognitionItem = screen.getByText('Hand Recognition');
       fireEvent.press(handRecognitionItem);
@@ -52,18 +46,12 @@ describe('TCPMenuScreen', () => {
 
   describe('Drill Data', () => {
     it('displays correct descriptions', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
-      expect(
-        screen.getByText(/Does the dealer qualify?/)
-      ).toBeOnTheScreen();
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(screen.getByText(/Does the dealer qualify?/)).toBeOnTheScreen();
     });
 
     it('shows difficulty levels', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
       expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);
     });
@@ -71,9 +59,7 @@ describe('TCPMenuScreen', () => {
 
   describe('Accessibility', () => {
     it('renders content for screen readers', () => {
-      renderWithTheme(
-        <TCPMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<TCPMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Three Card Poker')).toBeOnTheScreen();
     });
   });

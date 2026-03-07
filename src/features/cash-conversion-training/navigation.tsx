@@ -7,12 +7,22 @@ import { DifficultyLevel, SectorType } from './types';
 
 export type CashConversionStackParamList = {
   CashConversionDifficultySelection: undefined;
-  CashConversionTraining: { difficulty: DifficultyLevel; sector: SectorType; exerciseCount?: number };
+  CashConversionTraining: {
+    difficulty: DifficultyLevel;
+    sector: SectorType;
+    exerciseCount?: number;
+  };
 };
 
 const Stack = createStackNavigator<CashConversionStackParamList>();
-const CashConversionMenuScreenWithBoundary = withErrorBoundary(CashConversionMenuScreen, 'Cash Conversion Training');
-const CashConversionTrainingScreenWithBoundary = withErrorBoundary(CashConversionTrainingScreen, 'Cash Conversion Training');
+const CashConversionMenuScreenWithBoundary = withErrorBoundary(
+  CashConversionMenuScreen,
+  'Cash Conversion Training'
+);
+const CashConversionTrainingScreenWithBoundary = withErrorBoundary(
+  CashConversionTrainingScreen,
+  'Cash Conversion Training'
+);
 
 export const CashConversionRoutes = () => {
   return (

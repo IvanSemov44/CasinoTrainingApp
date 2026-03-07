@@ -4,12 +4,24 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { RouletteTrainingRoutes, type RouletteTrainingStackParamList } from '../features/roulette-training';
+import {
+  RouletteTrainingRoutes,
+  type RouletteTrainingStackParamList,
+} from '../features/roulette-training';
 import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
 import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
-import { RacetrackSectorRoutes, type RacetrackSectorStackParamList } from '../features/racetrack-sector-training';
-import { RacetrackPositionRoutes, type RacetrackPositionStackParamList } from '../features/racetrack-position-training';
-import { CashConversionRoutes, type CashConversionStackParamList } from '../features/cash-conversion-training';
+import {
+  RacetrackSectorRoutes,
+  type RacetrackSectorStackParamList,
+} from '../features/racetrack-sector-training';
+import {
+  RacetrackPositionRoutes,
+  type RacetrackPositionStackParamList,
+} from '../features/racetrack-position-training';
+import {
+  CashConversionRoutes,
+  type CashConversionStackParamList,
+} from '../features/cash-conversion-training';
 import { TCPRoutes, type TCPStackParamList } from '../features/three-card-poker-training';
 import { BJRoutes, type BJStackParamList } from '../features/blackjack-training';
 import { CPRoutes, type CPStackParamList } from '../features/caribbean-poker-training';
@@ -23,19 +35,19 @@ export type RootStackParamList = {
   Home: undefined;
   Progress: undefined;
   Settings: undefined;
-} & RouletteTrainingStackParamList
-  & RacetrackStackParamList
-  & RouletteGameStackParamList
-  & RacetrackSectorStackParamList
-  & RacetrackPositionStackParamList
-  & CashConversionStackParamList
-  & TCPStackParamList
-  & BJStackParamList
-  & CPStackParamList
-  & THUStackParamList
-  & RKStackParamList
-  & CallBetsStackParamList
-  & PLOStackParamList;
+} & RouletteTrainingStackParamList &
+  RacetrackStackParamList &
+  RouletteGameStackParamList &
+  RacetrackSectorStackParamList &
+  RacetrackPositionStackParamList &
+  CashConversionStackParamList &
+  TCPStackParamList &
+  BJStackParamList &
+  CPStackParamList &
+  THUStackParamList &
+  RKStackParamList &
+  CallBetsStackParamList &
+  PLOStackParamList;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -58,11 +70,7 @@ export default function AppNavigator() {
           headerShadowVisible: false,
         }}
       >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         {RouletteTrainingRoutes()}
         {RacetrackRoutes()}
         {RouletteGameRoutes()}
@@ -81,11 +89,7 @@ export default function AppNavigator() {
           component={ProgressScreen}
           options={{ title: 'My Progress' }}
         />
-        <Stack.Screen
-          name="Settings"
-          component={SettingsScreen}
-          options={{ title: 'Settings' }}
-        />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Settings' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

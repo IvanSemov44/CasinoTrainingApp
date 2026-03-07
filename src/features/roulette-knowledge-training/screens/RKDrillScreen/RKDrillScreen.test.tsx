@@ -8,10 +8,13 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('RKDrillScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof RKDrillScreen>['navigation'];
-  const makeRoute = (drillType: string) => ({
-    params: { drillType },
-  }) as unknown as React.ComponentProps<typeof RKDrillScreen>['route'];
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
+    typeof RKDrillScreen
+  >['navigation'];
+  const makeRoute = (drillType: string) =>
+    ({
+      params: { drillType },
+    }) as unknown as React.ComponentProps<typeof RKDrillScreen>['route'];
   const mockRoute = makeRoute('outside-bet-payout');
 
   beforeEach(() => {
@@ -20,7 +23,9 @@ describe('RKDrillScreen', () => {
 
   describe('Rendering', () => {
     it('renders without crashing', () => {
-      const { toJSON } = renderWithTheme(<RKDrillScreen navigation={mockNavigation} route={mockRoute} />);
+      const { toJSON } = renderWithTheme(
+        <RKDrillScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(toJSON()).toBeTruthy();
     });
   });
@@ -28,7 +33,9 @@ describe('RKDrillScreen', () => {
   describe('Props and Params', () => {
     it('uses route params correctly', () => {
       const customRoute = makeRoute('announced-inside-mixed');
-      const { toJSON } = renderWithTheme(<RKDrillScreen navigation={mockNavigation} route={customRoute} />);
+      const { toJSON } = renderWithTheme(
+        <RKDrillScreen navigation={mockNavigation} route={customRoute} />
+      );
       expect(toJSON()).toBeTruthy();
     });
   });
@@ -41,9 +48,11 @@ describe('RKDrillScreen', () => {
         'bet-limits',
         'announced-inside-mixed',
       ];
-      drillTypes.forEach((drillType) => {
+      drillTypes.forEach(drillType => {
         const route = makeRoute(drillType);
-        const { toJSON } = renderWithTheme(<RKDrillScreen navigation={mockNavigation} route={route} />);
+        const { toJSON } = renderWithTheme(
+          <RKDrillScreen navigation={mockNavigation} route={route} />
+        );
         expect(toJSON()).toBeTruthy();
       });
     });

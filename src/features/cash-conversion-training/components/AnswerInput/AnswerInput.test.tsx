@@ -40,73 +40,54 @@ describe('AnswerInput', () => {
 
   it('should render with "for-the-money" request type showing Play By field', () => {
     const { getByText } = renderWithTheme(
-      <AnswerInput
-        {...defaultProps}
-        requestType="for-the-money"
-      />
+      <AnswerInput {...defaultProps} requestType="for-the-money" />
     );
 
     expect(getByText('Tier Play By:')).toBeTruthy();
   });
 
   it('should always render Rest field', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     expect(getByText('Rest:')).toBeTruthy();
   });
 
   it('should display default values as 0', () => {
-    const { getAllByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getAllByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     const zeroElements = getAllByText('$0');
     expect(zeroElements.length).toBeGreaterThan(0);
   });
 
   it('should display current totalBet value', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} totalBet="100" />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} totalBet="100" />);
 
     expect(getByText('$100')).toBeTruthy();
   });
 
   it('should display current change value', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} change="50" />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} change="50" />);
 
     expect(getByText('$50')).toBeTruthy();
   });
 
   it('should display current betPerPosition value', () => {
     const { getByText } = renderWithTheme(
-      <AnswerInput
-        {...defaultProps}
-        requestType="for-the-money"
-        betPerPosition="25"
-      />
+      <AnswerInput {...defaultProps} requestType="for-the-money" betPerPosition="25" />
     );
 
     expect(getByText('$25')).toBeTruthy();
   });
 
   it('should highlight active input field', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} activeInput="totalBet" />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} activeInput="totalBet" />);
 
     // Component uses activeInput to apply displayActive style
     expect(getByText('Tier Total:')).toBeTruthy();
   });
 
   it('should call onInputFocus when totalBet field is pressed', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     const totalBetGroup = getByText('Tier Total:').parent;
     fireEvent.press(totalBetGroup);
@@ -115,9 +96,7 @@ describe('AnswerInput', () => {
   });
 
   it('should call onInputFocus when change field is pressed', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     const restGroup = getByText('Rest:').parent;
     fireEvent.press(restGroup);
@@ -126,36 +105,27 @@ describe('AnswerInput', () => {
   });
 
   it('should call onTotalBetChange when number is pressed and totalBet is active', () => {
-    renderWithTheme(
-      <AnswerInput {...defaultProps} activeInput="totalBet" />
-    );
+    renderWithTheme(<AnswerInput {...defaultProps} activeInput="totalBet" />);
 
     // NumberPad component handles number press
     expect(mockOnTotalBetChange).not.toHaveBeenCalled();
   });
 
   it('should render custom sector name', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} sectorName="Orphelins" />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} sectorName="Orphelins" />);
 
     expect(getByText('Orphelins Total:')).toBeTruthy();
   });
 
   it('should have correct title', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     expect(getByText('Your Response:')).toBeTruthy();
   });
 
   it('should not show Total field for "for-the-money" request', () => {
     const { queryByText } = renderWithTheme(
-      <AnswerInput
-        {...defaultProps}
-        requestType="for-the-money"
-      />
+      <AnswerInput {...defaultProps} requestType="for-the-money" />
     );
 
     expect(queryByText('Tier Total:')).toBeNull();
@@ -163,10 +133,7 @@ describe('AnswerInput', () => {
 
   it('should not show Play By field for "by-amount" request', () => {
     const { queryByText } = renderWithTheme(
-      <AnswerInput
-        {...defaultProps}
-        requestType="by-amount"
-      />
+      <AnswerInput {...defaultProps} requestType="by-amount" />
     );
 
     expect(queryByText('Tier Play By:')).toBeNull();
@@ -187,9 +154,7 @@ describe('AnswerInput', () => {
   });
 
   it('should render NumberPad component', () => {
-    const { getByText } = renderWithTheme(
-      <AnswerInput {...defaultProps} />
-    );
+    const { getByText } = renderWithTheme(<AnswerInput {...defaultProps} />);
 
     // NumberPad is rendered in the component
     expect(getByText('Your Response:')).toBeTruthy();

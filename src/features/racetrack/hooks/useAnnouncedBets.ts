@@ -13,12 +13,7 @@ interface UseAnnouncedBetsProps {
 /**
  * Create a bet object
  */
-function createBet(
-  prefix: string,
-  type: BetType,
-  numbers: number[],
-  amount: number
-): PlacedBet {
+function createBet(prefix: string, type: BetType, numbers: number[], amount: number): PlacedBet {
   return {
     id: `${prefix}-${numbers.join('-')}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
     type,
@@ -33,42 +28,47 @@ function createBet(
  * Hook for handling announced bets on the racetrack
  */
 export function useAnnouncedBets({ selectedChipValue, onBetsPlaced }: UseAnnouncedBetsProps) {
-  
   /**
    * Handle section press (Tier, Orphelins, Voisins, Zero)
    */
-  const handleSectionPress = useCallback((section: SectionType) => {
-    const betDefinition = ANNOUNCED_BETS[section];
-    if (!betDefinition) return;
+  const handleSectionPress = useCallback(
+    (section: SectionType) => {
+      const betDefinition = ANNOUNCED_BETS[section];
+      if (!betDefinition) return;
 
-    const newBets: PlacedBet[] = betDefinition.bets.map(bet => {
-      const multiplier = bet.multiplier || 1;
-      return createBet(
-        `${section}-${bet.type.toLowerCase()}`,
-        bet.type,
-        bet.numbers,
-        selectedChipValue * multiplier
-      );
-    });
+      const newBets: PlacedBet[] = betDefinition.bets.map(bet => {
+        const multiplier = bet.multiplier || 1;
+        return createBet(
+          `${section}-${bet.type.toLowerCase()}`,
+          bet.type,
+          bet.numbers,
+          selectedChipValue * multiplier
+        );
+      });
 
-    onBetsPlaced(newBets);
-  }, [selectedChipValue, onBetsPlaced]);
+      onBetsPlaced(newBets);
+    },
+    [selectedChipValue, onBetsPlaced]
+  );
 
   /**
    * Handle number press (Neighbors bet)
    */
-  const handleNumberPress = useCallback((numberStr: string) => {
-    const number = parseInt(numberStr, 10);
-    const neighbors = getNeighbors(number, 2);
-    
-    if (neighbors.length === 0) return;
+  const handleNumberPress = useCallback(
+    (numberStr: string) => {
+      const number = parseInt(numberStr, 10);
+      const neighbors = getNeighbors(number, 2);
 
-    const newBets: PlacedBet[] = neighbors.map(num => 
-      createBet('neighbors-straight', BetType.STRAIGHT, [num], selectedChipValue)
-    );
+      if (neighbors.length === 0) return;
 
-    onBetsPlaced(newBets);
-  }, [selectedChipValue, onBetsPlaced]);
+      const newBets: PlacedBet[] = neighbors.map(num =>
+        createBet('neighbors-straight', BetType.STRAIGHT, [num], selectedChipValue)
+      );
+
+      onBetsPlaced(newBets);
+    },
+    [selectedChipValue, onBetsPlaced]
+  );
 
   return {
     handleSectionPress,

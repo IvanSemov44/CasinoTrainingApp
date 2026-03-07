@@ -1,7 +1,7 @@
 /**
  * Unified sector constants for roulette-based games.
  * These constants define the actual roulette wheel sectors and their numbers.
- * 
+ *
  * Note: Cash conversion training uses a simplified "positions" concept that
  * differs from actual number counts. See cash-conversion-training/constants/sectors.ts
  * for training-specific position counts.

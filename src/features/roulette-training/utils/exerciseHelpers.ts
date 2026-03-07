@@ -56,8 +56,8 @@ export function generateBetExplanation(bets: Bet[]): string {
     const numbersStr = formatBetNumbers(bet);
     return `${numbersStr} (${bet.chips} × ${bet.payout} = ${bet.chips * bet.payout})`;
   });
-  
-  const total = bets.reduce((sum, bet) => sum + (bet.chips * bet.payout), 0);
+
+  const total = bets.reduce((sum, bet) => sum + bet.chips * bet.payout, 0);
   return parts.join(' + ') + ` = ${total}`;
 }
 

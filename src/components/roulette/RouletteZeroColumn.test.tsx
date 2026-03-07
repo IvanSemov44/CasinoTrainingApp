@@ -104,9 +104,7 @@ describe('RouletteZeroColumn', () => {
     });
 
     it('should calculate chip size based on cellSize', () => {
-      const { UNSAFE_root } = render(
-        <RouletteZeroColumn {...defaultProps} cellSize={50} />
-      );
+      const { UNSAFE_root } = render(<RouletteZeroColumn {...defaultProps} cellSize={50} />);
 
       // Component renders without errors
       expect(UNSAFE_root).toBeTruthy();
@@ -116,13 +114,13 @@ describe('RouletteZeroColumn', () => {
   describe('accessibility', () => {
     it('should have accessibility label on zero cell', () => {
       const { getByLabelText } = render(<RouletteZeroColumn {...defaultProps} />);
-      
+
       expect(getByLabelText('Zero, number 0')).toBeTruthy();
     });
 
     it('should have button accessibility role on zero cell', () => {
       const { getByLabelText } = render(<RouletteZeroColumn {...defaultProps} />);
-      
+
       const zeroCell = getByLabelText('Zero, number 0');
       expect(zeroCell.props.accessibilityRole).toBe('button');
     });

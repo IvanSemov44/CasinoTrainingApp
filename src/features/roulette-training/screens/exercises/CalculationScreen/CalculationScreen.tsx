@@ -7,10 +7,18 @@ import { useCalculationQuestion, type CalculationRouteParams } from './useCalcul
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 import type { PlacedBet } from '@app-types/roulette.types';
 
-type CalculationScreenName = 'Calculation' | 'MixedCalculation' | 'TripleMixedCalculation' | 'AllPositionsCalculation' | 'CashHandling';
+type CalculationScreenName =
+  | 'Calculation'
+  | 'MixedCalculation'
+  | 'TripleMixedCalculation'
+  | 'AllPositionsCalculation'
+  | 'CashHandling';
 
 type CalculationScreenRouteProp = RouteProp<RouletteTrainingStackParamList, CalculationScreenName>;
-type CalculationScreenNavigationProp = StackNavigationProp<RouletteTrainingStackParamList, CalculationScreenName>;
+type CalculationScreenNavigationProp = StackNavigationProp<
+  RouletteTrainingStackParamList,
+  CalculationScreenName
+>;
 
 interface CalculationScreenProps {
   route: CalculationScreenRouteProp;

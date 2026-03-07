@@ -3,13 +3,13 @@
  * This file provides backward compatibility for existing imports.
  */
 import { COLORS as CENTRALIZED_COLORS, colorWithOpacity } from '@styles/colors';
-import { 
-  SPACING as CENTRALIZED_SPACING, 
-  BORDER_RADIUS, 
-  FONT_SIZE, 
-  FONT_WEIGHT, 
-  LAYOUT, 
-  ANIMATION 
+import {
+  SPACING as CENTRALIZED_SPACING,
+  BORDER_RADIUS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+  LAYOUT,
+  ANIMATION,
 } from '@styles/spacing';
 
 // Re-export from centralized styles
@@ -48,6 +48,6 @@ export const BORDERS = {
 
 // Type for accessing theme values with autocomplete
 export type ColorPath = typeof COLORS;
-export type SpacingValue = typeof SPACING[keyof typeof SPACING];
-export type FontSize = typeof TYPOGRAPHY.fontSize[keyof typeof TYPOGRAPHY.fontSize];
-export type BorderRadius = typeof BORDERS.radius[keyof typeof BORDERS.radius];
+export type SpacingValue = (typeof SPACING)[keyof typeof SPACING];
+export type FontSize = (typeof TYPOGRAPHY.fontSize)[keyof typeof TYPOGRAPHY.fontSize];
+export type BorderRadius = (typeof BORDERS.radius)[keyof typeof BORDERS.radius];

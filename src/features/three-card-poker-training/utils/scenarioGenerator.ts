@@ -25,7 +25,12 @@ function randomBet(): number {
 // ── Hand-recognition ──────────────────────────────────────────────────────────
 
 const ALL_RANKS: ThreeCardRank[] = [
-  'straight-flush', 'three-of-a-kind', 'straight', 'flush', 'pair', 'high-card',
+  'straight-flush',
+  'three-of-a-kind',
+  'straight',
+  'flush',
+  'pair',
+  'high-card',
 ];
 
 /** Returns 3 wrong hand names ordered by proximity to the correct rank. */
@@ -60,12 +65,12 @@ function generateHandRecognition(): TCPScenario {
   const options = shuffleArray([correctName, ...nearbyWrongOptions(rank)]);
 
   const rankDescriptions: Record<ThreeCardRank, string> = {
-    'straight-flush':  'Three suited cards in sequence.',
+    'straight-flush': 'Three suited cards in sequence.',
     'three-of-a-kind': 'Three cards of the same rank. Beats a Straight in TCP.',
-    'straight':        'Three cards in sequence, mixed suits.',
-    'flush':           'Three cards of the same suit, not in sequence.',
-    'pair':            'Two cards of the same rank.',
-    'high-card':       'No matching ranks, not suited, not in sequence.',
+    straight: 'Three cards in sequence, mixed suits.',
+    flush: 'Three cards of the same suit, not in sequence.',
+    pair: 'Two cards of the same rank.',
+    'high-card': 'No matching ranks, not suited, not in sequence.',
   };
 
   return {
@@ -91,13 +96,15 @@ function generateDealerQualification(): TCPScenario {
   if (rank !== 'high-card') {
     explanation = `${handDescription(cards)} = ${threeCardHandName(rank)}. Any made hand always qualifies.`;
   } else {
-    const maxVal = Math.max(...cards.map(c => {
-      if (c.rank === 'A') return 14;
-      if (c.rank === 'K') return 13;
-      if (c.rank === 'Q') return 12;
-      if (c.rank === 'J') return 11;
-      return parseInt(c.rank, 10);
-    }));
+    const maxVal = Math.max(
+      ...cards.map(c => {
+        if (c.rank === 'A') return 14;
+        if (c.rank === 'K') return 13;
+        if (c.rank === 'Q') return 12;
+        if (c.rank === 'J') return 11;
+        return parseInt(c.rank, 10);
+      })
+    );
     const highCard = cards.find(c => {
       if (c.rank === 'A') return maxVal === 14;
       if (c.rank === 'K') return maxVal === 13;
@@ -141,9 +148,10 @@ function generatePairPlusPayout(): TCPScenario {
   const payout = pairPlusPayout(rank, betAmount);
   const mult = pairPlusMultiplier(rank);
 
-  const explanation = mult > 0
-    ? `${handDescription(cards)} = ${threeCardHandName(rank)}. Pair Plus pays ${mult}:1. €${betAmount} × ${mult} = €${payout}.`
-    : `${handDescription(cards)} = ${threeCardHandName(rank)}. High Card does not pay on Pair Plus. Payout: €0.`;
+  const explanation =
+    mult > 0
+      ? `${handDescription(cards)} = ${threeCardHandName(rank)}. Pair Plus pays ${mult}:1. €${betAmount} × ${mult} = €${payout}.`
+      : `${handDescription(cards)} = ${threeCardHandName(rank)}. High Card does not pay on Pair Plus. Payout: €0.`;
 
   return {
     drillType: 'pair-plus-payout',
@@ -177,10 +185,12 @@ function generateAnteBonusDrill(): TCPScenario {
   const bonus = anteBonusPayout(rank, anteAmount);
   const mult = anteBonusMultiplier(rank);
 
-  const payNote = 'Remember: Ante Bonus pays regardless of whether the player wins or loses the hand.';
-  const explanation = mult > 0
-    ? `${handDescription(cards)} = ${threeCardHandName(rank)}. Ante Bonus pays ${mult}:1. €${anteAmount} × ${mult} = €${bonus}. ${payNote}`
-    : `${handDescription(cards)} = ${threeCardHandName(rank)}. No Ante Bonus — only Straight Flush (4:1), Three of a Kind (3:1), and Straight (1:1) qualify. Payout: €0.`;
+  const payNote =
+    'Remember: Ante Bonus pays regardless of whether the player wins or loses the hand.';
+  const explanation =
+    mult > 0
+      ? `${handDescription(cards)} = ${threeCardHandName(rank)}. Ante Bonus pays ${mult}:1. €${anteAmount} × ${mult} = €${bonus}. ${payNote}`
+      : `${handDescription(cards)} = ${threeCardHandName(rank)}. No Ante Bonus — only Straight Flush (4:1), Three of a Kind (3:1), and Straight (1:1) qualify. Payout: €0.`;
 
   return {
     drillType: 'ante-bonus',
@@ -196,10 +206,10 @@ function generateAnteBonusDrill(): TCPScenario {
 // ── Full outcome ──────────────────────────────────────────────────────────────
 
 const OUTCOME_OPTIONS = [
-  "Dealer does not qualify — Ante pays 1:1, Play returned",
-  "Player wins — Ante and Play each pay 1:1",
-  "Dealer wins — Ante and Play collected",
-  "Tie — Ante and Play pushed",
+  'Dealer does not qualify — Ante pays 1:1, Play returned',
+  'Player wins — Ante and Play each pay 1:1',
+  'Dealer wins — Ante and Play collected',
+  'Tie — Ante and Play pushed',
 ];
 
 function generateFullOutcome(): TCPScenario {
@@ -229,7 +239,9 @@ function generateFullOutcome(): TCPScenario {
     `Outcome: ${outcome.label}`,
   ];
   if (anteBonusMult > 0) {
-    lines.push(`Ante Bonus: ${threeCardHandName(playerRank)} pays ${anteBonusMult}:1 → €${anteBonus} (pays regardless of outcome)`);
+    lines.push(
+      `Ante Bonus: ${threeCardHandName(playerRank)} pays ${anteBonusMult}:1 → €${anteBonus} (pays regardless of outcome)`
+    );
   }
 
   return {
@@ -249,10 +261,15 @@ function generateFullOutcome(): TCPScenario {
 
 export function generateScenario(drillType: TCPDrillType): TCPScenario {
   switch (drillType) {
-    case 'hand-recognition':     return generateHandRecognition();
-    case 'dealer-qualification': return generateDealerQualification();
-    case 'pair-plus-payout':     return generatePairPlusPayout();
-    case 'ante-bonus':           return generateAnteBonusDrill();
-    case 'full-outcome':         return generateFullOutcome();
+    case 'hand-recognition':
+      return generateHandRecognition();
+    case 'dealer-qualification':
+      return generateDealerQualification();
+    case 'pair-plus-payout':
+      return generatePairPlusPayout();
+    case 'ante-bonus':
+      return generateAnteBonusDrill();
+    case 'full-outcome':
+      return generateFullOutcome();
   }
 }

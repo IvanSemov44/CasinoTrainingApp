@@ -5,6 +5,7 @@ import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../
 import { SECTOR_NAMES } from '../../constants/sectors';
 import { useCashConversionState } from './useCashConversionState';
 import type { CashConversionTrainingScreenProps } from './CashConversionTrainingScreen.types';
+import type { SectorType } from '../../types';
 
 export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
   const { difficulty, sector } = route.params;
@@ -36,10 +37,12 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.header}>
         <Text style={styles.difficultyText}>
-          {difficulty.toUpperCase()} | {sector === 'random' ? 'Random' : SECTOR_NAMES[sector as Exclude<SectorType, 'random'>]}
+          {difficulty.toUpperCase()} |{' '}
+          {sector === 'random' ? 'Random' : SECTOR_NAMES[sector as Exclude<SectorType, 'random'>]}
         </Text>
         <Text style={styles.statsText}>
-          Score: {stats.correct}/{stats.total} ({stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
+          Score: {stats.correct}/{stats.total} (
+          {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
         </Text>
       </View>
 
@@ -72,19 +75,12 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
         </>
       )}
 
-      {result && (
-        <ResultFeedback
-          result={result}
-          onNext={handleNext}
-          sectorName={sectorName}
-        />
-      )}
+      {result && <ResultFeedback result={result} onNext={handleNext} sectorName={sectorName} />}
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -124,5 +120,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-   
 }

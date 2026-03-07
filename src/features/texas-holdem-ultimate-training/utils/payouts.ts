@@ -6,12 +6,12 @@ import type { FiveCardRank } from '@utils/fiveCardEvaluator';
 // <Straight win → Blind PUSHES (returned without extra payment).
 
 const BLIND_MULTIPLIERS: Partial<Record<FiveCardRank, number>> = {
-  'royal-flush':    500,
-  'straight-flush':  50,
-  'four-of-a-kind':  10,
-  'full-house':       3,
-  'flush':          1.5,  // 3:2
-  'straight':         1,
+  'royal-flush': 500,
+  'straight-flush': 50,
+  'four-of-a-kind': 10,
+  'full-house': 3,
+  flush: 1.5, // 3:2
+  straight: 1,
 };
 
 export function blindMultiplier(rank: FiveCardRank): number | null {
@@ -35,12 +35,12 @@ export function blindPushes(rank: FiveCardRank): boolean {
 // Fully independent of dealer qualification and hand comparison result.
 
 const TRIPS_PLUS_MULTIPLIERS: Partial<Record<FiveCardRank, number>> = {
-  'royal-flush':    50,
+  'royal-flush': 50,
   'straight-flush': 40,
   'four-of-a-kind': 30,
-  'full-house':      8,
-  'flush':           7,
-  'straight':        4,
+  'full-house': 8,
+  flush: 7,
+  straight: 4,
   'three-of-a-kind': 3,
 };
 

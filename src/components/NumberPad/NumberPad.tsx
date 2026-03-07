@@ -20,7 +20,12 @@ const BUTTON_LAYOUT: ButtonConfig[][] = [
   [{ value: '7' }, { value: '8' }, { value: '9' }],
 ];
 
-export default function NumberPad({ onNumberPress, onClear, onBackspace, disabled = false }: NumberPadProps) {
+export default function NumberPad({
+  onNumberPress,
+  onClear,
+  onBackspace,
+  disabled = false,
+}: NumberPadProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -41,7 +46,13 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
       onPress={() => handlePress(config.value, config.action)}
       disabled={disabled}
       activeOpacity={0.7}
-      accessibilityLabel={config.value === 'C' ? 'Clear' : config.value === '⌫' ? 'Backspace' : `Number ${config.value}`}
+      accessibilityLabel={
+        config.value === 'C'
+          ? 'Clear'
+          : config.value === '⌫'
+            ? 'Backspace'
+            : `Number ${config.value}`
+      }
       accessibilityRole="button"
       accessibilityState={{ disabled }}
     >
@@ -66,7 +77,6 @@ export default function NumberPad({ onNumberPress, onClear, onBackspace, disable
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     pad: { marginBottom: 12 },
     row: { flexDirection: 'row', gap: 8, marginBottom: 8 },
@@ -83,5 +93,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     buttonDisabled: { opacity: 0.4 },
     buttonText: { color: colors.text.gold, fontSize: 20, fontWeight: '700' },
   });
-   
 }

@@ -11,7 +11,10 @@ import { BetType } from '@app-types/roulette.types';
 import { useTheme } from '@contexts/ThemeContext';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
-type RouletteTrainingScreenRouteProp = RouteProp<RouletteTrainingStackParamList, 'RouletteTraining'>;
+type RouletteTrainingScreenRouteProp = RouteProp<
+  RouletteTrainingStackParamList,
+  'RouletteTraining'
+>;
 
 interface RouletteTrainingScreenProps {
   route: RouletteTrainingScreenRouteProp;
@@ -44,11 +47,7 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
 
     dispatch(placeBet(bet));
 
-    Alert.alert(
-      'Bet Placed',
-      `${selectedChipValue} on number ${number}`,
-      [{ text: 'OK' }]
-    );
+    Alert.alert('Bet Placed', `${selectedChipValue} on number ${number}`, [{ text: 'OK' }]);
   };
 
   const handleChipSelect = (value: number) => {
@@ -62,31 +61,20 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
         <Text style={styles.description}>{exercise.description}</Text>
       </View>
 
-      <ChipSelector
-        selectedValue={selectedChipValue}
-        onSelectChip={handleChipSelect}
-      />
+      <ChipSelector selectedValue={selectedChipValue} onSelectChip={handleChipSelect} />
 
-      <RouletteLayout
-        onNumberPress={handleNumberPress}
-      />
+      <RouletteLayout onNumberPress={handleNumberPress} />
 
-      <Racetrack
-        onNumberPress={handleNumberPress}
-        highlightedNumbers={highlightedNumbers}
-      />
+      <Racetrack onNumberPress={handleNumberPress} highlightedNumbers={highlightedNumbers} />
 
       <View style={styles.infoBox}>
-        <Text style={styles.infoText}>
-          Tap numbers on the layout or racetrack to place bets
-        </Text>
+        <Text style={styles.infoText}>Tap numbers on the layout or racetrack to place bets</Text>
       </View>
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -122,5 +110,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-   
 }

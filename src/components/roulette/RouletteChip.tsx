@@ -26,34 +26,36 @@ const baseChipTextStyle: TextStyle = {
 
 /**
  * RouletteChip component for displaying bet amounts on the roulette layout
- * 
+ *
  * @param amount - The chip amount to display (0 or negative renders nothing)
  * @param size - The diameter of the chip in pixels
  */
 const RouletteChip: React.FC<RouletteChipProps> = ({ amount, size }) => {
   // Memoize styles to prevent recreation on every render
-  const chipStyle = useMemo<ViewStyle>(() => ({
-    ...baseChipStyle,
-    width: size,
-    height: size,
-    marginLeft: -size / 2,
-    marginTop: -size / 2,
-  }), [size]);
+  const chipStyle = useMemo<ViewStyle>(
+    () => ({
+      ...baseChipStyle,
+      width: size,
+      height: size,
+      marginLeft: -size / 2,
+      marginTop: -size / 2,
+    }),
+    [size]
+  );
 
-  const textStyle = useMemo<TextStyle>(() => ({
-    ...baseChipTextStyle,
-    fontSize: size * 0.5,
-  }), [size]);
+  const textStyle = useMemo<TextStyle>(
+    () => ({
+      ...baseChipTextStyle,
+      fontSize: size * 0.5,
+    }),
+    [size]
+  );
 
   // Only render for positive amounts
   if (amount <= 0) return null;
-  
+
   return (
-    <View 
-      style={chipStyle}
-      accessibilityLabel={`$${amount} chip`}
-      accessibilityRole="image"
-    >
+    <View style={chipStyle} accessibilityLabel={`$${amount} chip`} accessibilityRole="image">
       <Text style={textStyle}>{amount}</Text>
     </View>
   );

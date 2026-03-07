@@ -9,10 +9,7 @@ import {
   VIEWBOX,
   SECTION_LABELS,
 } from '../../constants';
-import {
-  getTopNumberCenterX,
-  getBottomNumberCenterX,
-} from '../../utils';
+import { getTopNumberCenterX, getBottomNumberCenterX } from '../../utils';
 import { RacetrackTrackSvgProps } from './RacetrackTrackSvg.types';
 
 export default function RacetrackTrackSvg({ width, height }: RacetrackTrackSvgProps) {
@@ -100,7 +97,7 @@ export default function RacetrackTrackSvg({ width, height }: RacetrackTrackSvgPr
         </SvgText>
       ))}
 
-      {LEFT_NUMBERS.map((item) => (
+      {LEFT_NUMBERS.map(item => (
         <SvgText
           key={`left-${item.num}`}
           x={item.x}
@@ -114,7 +111,7 @@ export default function RacetrackTrackSvg({ width, height }: RacetrackTrackSvgPr
         </SvgText>
       ))}
 
-      {RIGHT_NUMBERS.map((item) => (
+      {RIGHT_NUMBERS.map(item => (
         <SvgText
           key={`right-${item.num}`}
           x={item.x}
@@ -128,7 +125,7 @@ export default function RacetrackTrackSvg({ width, height }: RacetrackTrackSvgPr
         </SvgText>
       ))}
 
-      {SECTION_LABELS.map((label) => (
+      {SECTION_LABELS.map(label => (
         <SvgText
           key={label.name}
           x={label.x}

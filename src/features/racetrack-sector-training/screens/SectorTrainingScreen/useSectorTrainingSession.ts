@@ -56,7 +56,7 @@ export function useSectorTrainingSession({
       setIsProcessing(true);
 
       const { isCorrect } = validateSectorSelection(currentWinningNumber, sector as SectorType);
-      setStats((prev) => ({
+      setStats(prev => ({
         correct: prev.correct + (isCorrect ? 1 : 0),
         total: prev.total + 1,
       }));

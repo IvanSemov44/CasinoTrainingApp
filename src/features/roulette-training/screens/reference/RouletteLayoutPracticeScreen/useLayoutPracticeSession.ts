@@ -26,13 +26,15 @@ export function useLayoutPracticeSession(
   options: UseLayoutPracticeSessionOptions = {}
 ): UseLayoutPracticeSessionReturn {
   const dispatch = useAppDispatch();
-  const selectedChipValue = useAppSelector((state) => state.roulette.selectedChipValue);
-  const placedBets = useAppSelector((state) => state.roulette.placedBets);
+  const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
+  const placedBets = useAppSelector(state => state.roulette.placedBets);
   const [selectedNumber, setSelectedNumber] = useState<RouletteNumber | null>(null);
 
-  const showAlert = options.showAlert ?? ((title: string, message: string) => {
-    Alert.alert(title, message, [{ text: 'OK' }]);
-  });
+  const showAlert =
+    options.showAlert ??
+    ((title: string, message: string) => {
+      Alert.alert(title, message, [{ text: 'OK' }]);
+    });
 
   const handleNumberPress = (number: RouletteNumber) => {
     setSelectedNumber(number);

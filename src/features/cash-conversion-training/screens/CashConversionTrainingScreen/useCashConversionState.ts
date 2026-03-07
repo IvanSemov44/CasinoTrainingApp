@@ -14,7 +14,7 @@ interface UseCashConversionStateProps {
   sector: SectorType;
 }
 
-interface UseCashConversionStateReturn {
+export interface UseCashConversionStateReturn {
   currentRequest: CashRequest | null;
   totalBet: string;
   betPerPosition: string;
@@ -44,12 +44,15 @@ export function useCashConversionState({
   const [totalBet, setTotalBet] = useState('');
   const [betPerPosition, setBetPerPosition] = useState('');
   const [change, setChange] = useState('');
-  const [activeInput, setActiveInput] = useState<'totalBet' | 'betPerPosition' | 'change'>('totalBet');
+  const [activeInput, setActiveInput] = useState<'totalBet' | 'betPerPosition' | 'change'>(
+    'totalBet'
+  );
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
   const generateNewChallenge = useCallback(() => {
-    const selectedSector = sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
+    const selectedSector =
+      sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
     const cashAmount = generateRandomCashAmount(difficulty, selectedSector);
     const request = generateRandomRequest(selectedSector, cashAmount, difficulty);
 
@@ -80,12 +83,14 @@ export function useCashConversionState({
     // For "for-the-money": user enters betPerPosition and change
     // For "by-amount": user enters totalBet and change
     const userAnswer = {
-      totalBet: currentRequest.requestType === 'for-the-money'
-        ? (parseInt(betPerPosition, 10) || 0) * (SECTOR_POSITIONS[currentRequest.sector] || 1)
-        : parseInt(totalBet, 10),
-      betPerPosition: currentRequest.requestType === 'for-the-money'
-        ? parseInt(betPerPosition, 10)
-        : (currentRequest.specifiedAmount || 0),
+      totalBet:
+        currentRequest.requestType === 'for-the-money'
+          ? (parseInt(betPerPosition, 10) || 0) * (SECTOR_POSITIONS[currentRequest.sector] || 1)
+          : parseInt(totalBet, 10),
+      betPerPosition:
+        currentRequest.requestType === 'for-the-money'
+          ? parseInt(betPerPosition, 10)
+          : currentRequest.specifiedAmount || 0,
       change: parseInt(change, 10),
     };
 

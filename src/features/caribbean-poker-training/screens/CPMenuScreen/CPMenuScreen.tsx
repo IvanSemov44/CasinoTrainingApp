@@ -3,17 +3,24 @@ import DrillMenuScreen from '@components/shared/DrillMenuScreen';
 import type { CPDrillType } from '../../types';
 import type { CPMenuScreenProps } from './CPMenuScreen.types';
 
-const DRILLS: { drillType: CPDrillType; label: string; description: string; difficulty: 'easy' | 'medium' | 'advanced' }[] = [
+const DRILLS: {
+  drillType: CPDrillType;
+  label: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'advanced';
+}[] = [
   {
     drillType: 'hand-recognition',
     label: 'Hand Recognition',
-    description: 'Identify the 5-card poker hand: Royal Flush, Straight Flush, Four of a Kind, etc.',
+    description:
+      'Identify the 5-card poker hand: Royal Flush, Straight Flush, Four of a Kind, etc.',
     difficulty: 'easy',
   },
   {
     drillType: 'dealer-qualification',
     label: 'Dealer Qualification',
-    description: 'Does the dealer qualify? Needs Ace-King or better (pair, or high-card with both A and K).',
+    description:
+      'Does the dealer qualify? Needs Ace-King or better (pair, or high-card with both A and K).',
     difficulty: 'easy',
   },
   {
@@ -25,7 +32,8 @@ const DRILLS: { drillType: CPDrillType; label: string; description: string; diff
   {
     drillType: 'call-bet-payout',
     label: 'Call Bet Payout',
-    description: 'Calculate the Call bet payout. Call = 2× Ante; multiplier applied to the Call bet amount.',
+    description:
+      'Calculate the Call bet payout. Call = 2× Ante; multiplier applied to the Call bet amount.',
     difficulty: 'medium',
   },
   {
@@ -43,19 +51,22 @@ const DRILLS: { drillType: CPDrillType; label: string; description: string; diff
   {
     drillType: 'no-qualify-outcome',
     label: 'No Qualify Outcome',
-    description: 'Dealer does not qualify → Ante 1:1, Call returned. Call does NOT pay the hand table.',
+    description:
+      'Dealer does not qualify → Ante 1:1, Call returned. Call does NOT pay the hand table.',
     difficulty: 'medium',
   },
   {
     drillType: 'bonus-on-fold',
     label: 'Bonus on Fold',
-    description: 'Key rule: Bonus pays even if the player folded their Ante. Test this common mistake.',
+    description:
+      'Key rule: Bonus pays even if the player folded their Ante. Test this common mistake.',
     difficulty: 'advanced',
   },
   {
     drillType: 'swap-procedure',
     label: 'Swap Procedure',
-    description: 'Two-phase swap mechanic: fee (1× Ante), Phase 2 order, Bonus independence after swap.',
+    description:
+      'Two-phase swap mechanic: fee (1× Ante), Phase 2 order, Bonus independence after swap.',
     difficulty: 'advanced',
   },
 ];
@@ -65,7 +76,7 @@ export default function CPMenuScreen({ navigation }: CPMenuScreenProps) {
     <DrillMenuScreen
       title="Caribbean Poker"
       drills={DRILLS}
-      onPress={(drillType) => navigation.navigate('CPDrill', { drillType })}
+      onPress={drillType => navigation.navigate('CPDrill', { drillType })}
     />
   );
 }

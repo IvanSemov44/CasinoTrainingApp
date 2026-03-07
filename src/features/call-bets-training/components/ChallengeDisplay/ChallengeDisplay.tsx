@@ -20,7 +20,6 @@ export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayPr
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -52,5 +51,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.secondary,
     },
   });
-   
 }

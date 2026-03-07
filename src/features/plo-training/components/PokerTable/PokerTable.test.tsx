@@ -64,13 +64,7 @@ describe('PokerTable', () => {
       { position: 2, name: 'SB', chipAmount: 900, betAmount: 25 },
       { position: 3, name: 'BB', chipAmount: 800, betAmount: 50, isFolded: false },
     ];
-    renderWithTheme(
-      <PokerTable
-        players={players}
-        potAmount={300}
-        communityCards={5}
-      />
-    );
+    renderWithTheme(<PokerTable players={players} potAmount={300} communityCards={5} />);
     expect(screen.getByText('Dealer')).toBeTruthy();
     expect(screen.getByText('SB')).toBeTruthy();
     expect(screen.getByText('BB')).toBeTruthy();
@@ -78,25 +72,19 @@ describe('PokerTable', () => {
   });
 
   it('renders player with action', () => {
-    const players = [
-      { position: 1, name: 'Player 1', chipAmount: 1000, action: 'fold' as const },
-    ];
+    const players = [{ position: 1, name: 'Player 1', chipAmount: 1000, action: 'fold' as const }];
     renderWithTheme(<PokerTable {...defaultProps} players={players} />);
     expect(screen.getByText('Player 1')).toBeTruthy();
   });
 
   it('renders player with isFolded flag', () => {
-    const players = [
-      { position: 1, name: 'Folded Player', chipAmount: 1000, isFolded: true },
-    ];
+    const players = [{ position: 1, name: 'Folded Player', chipAmount: 1000, isFolded: true }];
     renderWithTheme(<PokerTable {...defaultProps} players={players} />);
     expect(screen.getByText('FOLD')).toBeTruthy();
   });
 
   it('renders player requesting pot', () => {
-    const players = [
-      { position: 1, name: 'Requesting', chipAmount: 1000, isRequesting: true },
-    ];
+    const players = [{ position: 1, name: 'Requesting', chipAmount: 1000, isRequesting: true }];
     renderWithTheme(<PokerTable {...defaultProps} players={players} />);
     expect(screen.getByText('ASKS POT')).toBeTruthy();
   });

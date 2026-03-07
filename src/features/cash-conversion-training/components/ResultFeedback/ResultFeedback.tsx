@@ -9,10 +9,10 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, result.isCorrect ? styles.headerCorrect : styles.headerIncorrect]}>
-        <Text style={styles.headerText}>
-          {result.isCorrect ? '✓ Correct!' : '✗ Incorrect'}
-        </Text>
+      <View
+        style={[styles.header, result.isCorrect ? styles.headerCorrect : styles.headerIncorrect]}
+      >
+        <Text style={styles.headerText}>{result.isCorrect ? '✓ Correct!' : '✗ Incorrect'}</Text>
       </View>
 
       {!result.isCorrect && (
@@ -25,9 +25,7 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
             <Text style={styles.answerText}>
               {sectorName} Play By: ${result.userBetPerPosition}
             </Text>
-            <Text style={styles.answerText}>
-              Rest: ${result.userChange}
-            </Text>
+            <Text style={styles.answerText}>Rest: ${result.userChange}</Text>
           </View>
 
           <View style={styles.answerSection}>
@@ -53,7 +51,6 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -111,5 +108,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-   
 }

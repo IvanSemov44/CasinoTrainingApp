@@ -38,24 +38,44 @@ export const Text: React.FC<ComponentProps> = ({ children, style, ...props }) =>
   React.createElement('Text', { style, ...props }, children);
 
 // Mock TouchableOpacity component
-export const TouchableOpacity: React.FC<TouchableProps> = ({ children, onPress, style, testID, accessibilityLabel, accessibilityHint, accessibilityRole, ...props }) =>
-  React.createElement('TouchableOpacity', {
-    onPress,
-    style,
-    testID,
-    accessibilityLabel,
-    accessibilityHint,
-    accessibilityRole,
-    ...props
-  }, children);
+export const TouchableOpacity: React.FC<TouchableProps> = ({
+  children,
+  onPress,
+  style,
+  testID,
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole,
+  ...props
+}) =>
+  React.createElement(
+    'TouchableOpacity',
+    {
+      onPress,
+      style,
+      testID,
+      accessibilityLabel,
+      accessibilityHint,
+      accessibilityRole,
+      ...props,
+    },
+    children
+  );
 
 // Mock TouchableHighlight component
-export const TouchableHighlight: React.FC<TouchableProps> = ({ children, onPress, style, ...props }) =>
-  React.createElement('TouchableHighlight', { onPress, style, ...props }, children);
+export const TouchableHighlight: React.FC<TouchableProps> = ({
+  children,
+  onPress,
+  style,
+  ...props
+}) => React.createElement('TouchableHighlight', { onPress, style, ...props }, children);
 
 // Mock TouchableWithoutFeedback component
-export const TouchableWithoutFeedback: React.FC<TouchableProps> = ({ children, onPress, ...props }) =>
-  React.createElement('TouchableWithoutFeedback', { onPress, ...props }, children);
+export const TouchableWithoutFeedback: React.FC<TouchableProps> = ({
+  children,
+  onPress,
+  ...props
+}) => React.createElement('TouchableWithoutFeedback', { onPress, ...props }, children);
 
 // Mock ScrollView component
 export const ScrollView: React.FC<ComponentProps> = ({ children, style, ...props }) =>
@@ -70,12 +90,21 @@ export const ActivityIndicator: React.FC<ComponentProps> = ({ size, color, testI
   React.createElement('ActivityIndicator', { size, color, testID, ...props });
 
 // Mock TextInput component
-export const TextInput: React.FC<TextInputProps> = ({ value, onChangeText, style, testID, ...props }) =>
-  React.createElement('TextInput', { value, onChangeText, style, testID, ...props });
+export const TextInput: React.FC<TextInputProps> = ({
+  value,
+  onChangeText,
+  style,
+  testID,
+  ...props
+}) => React.createElement('TextInput', { value, onChangeText, style, testID, ...props });
 
 // Mock FlatList component
-export const FlatList: React.FC<FlatListProps<unknown>> = ({ data, renderItem, keyExtractor, ...props }) =>
-  React.createElement('FlatList', { data, renderItem, keyExtractor, ...props });
+export const FlatList: React.FC<FlatListProps<unknown>> = ({
+  data,
+  renderItem,
+  keyExtractor,
+  ...props
+}) => React.createElement('FlatList', { data, renderItem, keyExtractor, ...props });
 
 // Mock StyleSheet
 export const StyleSheet = {
@@ -107,7 +136,8 @@ export const Dimensions = {
 export const Platform = {
   OS: 'ios',
   Version: '14.0',
-  select: (obj: Record<string, unknown>) => (obj as Record<string, unknown>).ios || (obj as Record<string, unknown>).default,
+  select: (obj: Record<string, unknown>) =>
+    (obj as Record<string, unknown>).ios || (obj as Record<string, unknown>).default,
 };
 
 // Mock PixelRatio
@@ -151,23 +181,28 @@ export const Animated = {
     }
   },
   timing: () => ({
-    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) =>
+      callback && callback({ finished: true }),
     stop: () => {},
   }),
   spring: () => ({
-    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) =>
+      callback && callback({ finished: true }),
     stop: () => {},
   }),
   decay: () => ({
-    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) =>
+      callback && callback({ finished: true }),
     stop: () => {},
   }),
   parallel: () => ({
-    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) =>
+      callback && callback({ finished: true }),
     stop: () => {},
   }),
   sequence: () => ({
-    start: (callback?: (result: { finished: boolean }) => void) => callback && callback({ finished: true }),
+    start: (callback?: (result: { finished: boolean }) => void) =>
+      callback && callback({ finished: true }),
     stop: () => {},
   }),
   loop: () => ({

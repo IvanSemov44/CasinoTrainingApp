@@ -236,9 +236,7 @@ describe('exerciseHelpers', () => {
 
   describe('generateBetExplanation', () => {
     it('should generate explanation for single bet', () => {
-      const bets: Bet[] = [
-        { type: 'STRAIGHT', numbers: [5], chips: 2, payout: 35 },
-      ];
+      const bets: Bet[] = [{ type: 'STRAIGHT', numbers: [5], chips: 2, payout: 35 }];
       const explanation = generateBetExplanation(bets);
       expect(explanation).toBe('5 (2 × 35 = 70) = 70');
     });
@@ -270,11 +268,9 @@ describe('exerciseHelpers', () => {
 
   describe('createMockBets', () => {
     it('should create mock bets with correct structure', () => {
-      const bets: Bet[] = [
-        { type: 'STRAIGHT', numbers: [5], chips: 2, payout: 35 },
-      ];
+      const bets: Bet[] = [{ type: 'STRAIGHT', numbers: [5], chips: 2, payout: 35 }];
       const mockBets = createMockBets(bets);
-      
+
       expect(mockBets).toHaveLength(1);
       expect(mockBets[0]).toHaveProperty('id');
       expect(mockBets[0]).toHaveProperty('timestamp');
@@ -290,7 +286,7 @@ describe('exerciseHelpers', () => {
         { type: 'SPLIT', numbers: [5, 8], chips: 1, payout: 17 },
       ];
       const mockBets = createMockBets(bets);
-      
+
       expect(mockBets[0].id).not.toBe(mockBets[1].id);
     });
 
@@ -300,7 +296,7 @@ describe('exerciseHelpers', () => {
         { type: 'SPLIT', numbers: [5, 8], chips: 1, payout: 17 },
       ];
       const mockBets = createMockBets(bets);
-      
+
       expect(mockBets[1].timestamp).toBeGreaterThan(mockBets[0].timestamp);
     });
   });

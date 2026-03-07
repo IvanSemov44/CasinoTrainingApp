@@ -7,7 +7,9 @@ jest.mock('../../utils/validation', () => ({
   validateSectorSelection: jest.fn(),
 }));
 
-const { getRandomWinningNumber, getSectorForNumber, validateSectorSelection } = jest.requireMock('../../utils/validation') as {
+const { getRandomWinningNumber, getSectorForNumber, validateSectorSelection } = jest.requireMock(
+  '../../utils/validation'
+) as {
   getRandomWinningNumber: jest.Mock;
   getSectorForNumber: jest.Mock;
   validateSectorSelection: jest.Mock;
@@ -34,12 +36,8 @@ describe('useSectorTrainingSession', () => {
   });
 
   it('filters generated number for non-random mode', () => {
-    getRandomWinningNumber
-      .mockReturnValueOnce(12)
-      .mockReturnValueOnce(29);
-    getSectorForNumber
-      .mockReturnValueOnce('tier')
-      .mockReturnValueOnce('voisins');
+    getRandomWinningNumber.mockReturnValueOnce(12).mockReturnValueOnce(29);
+    getSectorForNumber.mockReturnValueOnce('tier').mockReturnValueOnce('voisins');
 
     const { result } = renderHook(() => useSectorTrainingSession({ mode: 'voisins' }));
 
@@ -52,9 +50,7 @@ describe('useSectorTrainingSession', () => {
     validateSectorSelection.mockReturnValue({ isCorrect: true });
     const onCorrect = jest.fn();
 
-    const { result } = renderHook(() =>
-      useSectorTrainingSession({ mode: 'random', onCorrect })
-    );
+    const { result } = renderHook(() => useSectorTrainingSession({ mode: 'random', onCorrect }));
 
     await act(async () => {
       await result.current.handleSectorPress('voisins');
@@ -76,9 +72,7 @@ describe('useSectorTrainingSession', () => {
     validateSectorSelection.mockReturnValue({ isCorrect: false });
     const onIncorrect = jest.fn();
 
-    const { result } = renderHook(() =>
-      useSectorTrainingSession({ mode: 'random', onIncorrect })
-    );
+    const { result } = renderHook(() => useSectorTrainingSession({ mode: 'random', onIncorrect }));
 
     await act(async () => {
       await result.current.handleSectorPress('tier');

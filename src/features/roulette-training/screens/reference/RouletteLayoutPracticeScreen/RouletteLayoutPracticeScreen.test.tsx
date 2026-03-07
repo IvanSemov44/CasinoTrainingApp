@@ -22,7 +22,9 @@ const renderWithTheme = (component: React.ReactElement) => {
 
 describe('RouletteLayoutPracticeScreen', () => {
   it('renders layout practice screen sections', () => {
-    const navigation = { goBack: jest.fn() } as unknown as React.ComponentProps<typeof RouletteLayoutPracticeScreen>['navigation'];
+    const navigation = { goBack: jest.fn() } as unknown as React.ComponentProps<
+      typeof RouletteLayoutPracticeScreen
+    >['navigation'];
 
     const { getByText } = renderWithTheme(<RouletteLayoutPracticeScreen navigation={navigation} />);
 

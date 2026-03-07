@@ -5,14 +5,18 @@ import type { RootStackParamList } from '../navigation/AppNavigator';
 /**
  * Navigation prop type for screens
  */
-export type NavigationProp<RouteName extends keyof RootStackParamList> = 
-  StackNavigationProp<RootStackParamList, RouteName>;
+export type NavigationProp<RouteName extends keyof RootStackParamList> = StackNavigationProp<
+  RootStackParamList,
+  RouteName
+>;
 
 /**
  * Route prop type for screens
  */
-export type RoutePropType<RouteName extends keyof RootStackParamList> = 
-  RouteProp<RootStackParamList, RouteName>;
+export type RoutePropType<RouteName extends keyof RootStackParamList> = RouteProp<
+  RootStackParamList,
+  RouteName
+>;
 
 /**
  * Screen props type for screens

@@ -8,16 +8,16 @@ jest.mock('../../../racetrack/constants/announcedBets.constants', () => ({
       bets: [
         { type: 'split', numbers: [5, 8] },
         { type: 'split', numbers: [10, 11] },
-      ]
+      ],
     },
     voisins: {
       name: 'Voisins',
       bets: [
         { type: 'street', numbers: [0, 2, 3] },
         { type: 'corner', numbers: [25, 26, 28, 29] },
-      ]
-    }
-  }
+      ],
+    },
+  },
 }));
 
 describe('Call Bets Validation Utils', () => {

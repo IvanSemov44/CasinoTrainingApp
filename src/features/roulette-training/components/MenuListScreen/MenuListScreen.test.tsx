@@ -5,11 +5,7 @@ import MenuListScreen from './MenuListScreen';
 import type { MenuItem } from './MenuListScreen.types';
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('MenuListScreen', () => {
@@ -42,12 +38,7 @@ describe('MenuListScreen', () => {
 
   describe('Header Display', () => {
     it('renders the title', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.getByText('Roulette Training')).toBeOnTheScreen();
     });
@@ -65,12 +56,7 @@ describe('MenuListScreen', () => {
     });
 
     it('does not render subtitle when not provided', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.queryByText(/subtitle/i)).not.toBeOnTheScreen();
     });
@@ -78,60 +64,35 @@ describe('MenuListScreen', () => {
 
   describe('Menu Items Display', () => {
     it('renders all menu items', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.getByText('Number Recognition')).toBeOnTheScreen();
       expect(screen.getByText('Sector Calculation')).toBeOnTheScreen();
     });
 
     it('displays item descriptions', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.getByText('Learn to identify roulette numbers quickly')).toBeOnTheScreen();
       expect(screen.getByText('Master sector betting strategies')).toBeOnTheScreen();
     });
 
     it('displays difficulty badges with uppercase text', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.getByText('EASY')).toBeOnTheScreen();
       expect(screen.getByText('HARD')).toBeOnTheScreen();
     });
 
     it('displays extra info when provided', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       expect(screen.getByText('5-10 min')).toBeOnTheScreen();
       expect(screen.getByText('15-20 min')).toBeOnTheScreen();
     });
 
     it('calls onPress when menu item is tapped', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       const firstItem = screen.getByText('Number Recognition');
       fireEvent.press(firstItem);
@@ -144,11 +105,7 @@ describe('MenuListScreen', () => {
   describe('Loading State', () => {
     it('renders skeleton loaders when isLoading is true', () => {
       renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-          isLoading={true}
-        />
+        <MenuListScreen title="Roulette Training" items={mockItems} isLoading={true} />
       );
 
       // SkeletonLoader should be rendered (4 skeleton items)
@@ -158,11 +115,7 @@ describe('MenuListScreen', () => {
 
     it('renders menu items when isLoading is false', () => {
       renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-          isLoading={false}
-        />
+        <MenuListScreen title="Roulette Training" items={mockItems} isLoading={false} />
       );
 
       expect(screen.getByText('Number Recognition')).toBeOnTheScreen();
@@ -171,12 +124,7 @@ describe('MenuListScreen', () => {
 
   describe('Empty State', () => {
     it('renders empty list when items is empty', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={[]}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={[]} />);
 
       expect(screen.getByText('Roulette Training')).toBeOnTheScreen();
       expect(screen.queryByText('Number Recognition')).not.toBeOnTheScreen();
@@ -185,12 +133,7 @@ describe('MenuListScreen', () => {
 
   describe('Accessibility', () => {
     it('renders menu items with correct content for screen readers', () => {
-      renderWithTheme(
-        <MenuListScreen
-          title="Roulette Training"
-          items={mockItems}
-        />
-      );
+      renderWithTheme(<MenuListScreen title="Roulette Training" items={mockItems} />);
 
       // Verify that the accessible content is present
       expect(screen.getByText('Number Recognition')).toBeOnTheScreen();

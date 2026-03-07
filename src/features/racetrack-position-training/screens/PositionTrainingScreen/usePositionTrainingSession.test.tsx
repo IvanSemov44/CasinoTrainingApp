@@ -6,7 +6,9 @@ jest.mock('../../utils/validation', () => ({
   validatePositionSelection: jest.fn(),
 }));
 
-const { getRandomWinningNumber, validatePositionSelection } = jest.requireMock('../../utils/validation') as {
+const { getRandomWinningNumber, validatePositionSelection } = jest.requireMock(
+  '../../utils/validation'
+) as {
   getRandomWinningNumber: jest.Mock;
   validatePositionSelection: jest.Mock;
 };

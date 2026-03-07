@@ -3,9 +3,12 @@ import { BetType } from '@app-types/roulette.types';
 import { useLayoutPracticeSession } from './useLayoutPracticeSession';
 
 const mockDispatch = jest.fn();
-const mockPlaceBet = jest.fn((payload) => ({ type: 'roulette/placeBet', payload }));
+const mockPlaceBet = jest.fn(payload => ({ type: 'roulette/placeBet', payload }));
 const mockClearBets = jest.fn(() => ({ type: 'roulette/clearBets' }));
-const mockSetSelectedChipValue = jest.fn((payload) => ({ type: 'roulette/setSelectedChipValue', payload }));
+const mockSetSelectedChipValue = jest.fn(payload => ({
+  type: 'roulette/setSelectedChipValue',
+  payload,
+}));
 
 let mockState = {
   roulette: {
@@ -84,10 +87,7 @@ describe('useLayoutPracticeSession', () => {
         type: 'roulette/placeBet',
       })
     );
-    expect(showAlert).toHaveBeenCalledWith(
-      'STRAIGHT Bet',
-      expect.stringContaining('Numbers: 7')
-    );
+    expect(showAlert).toHaveBeenCalledWith('STRAIGHT Bet', expect.stringContaining('Numbers: 7'));
 
     (Date.now as jest.MockedFunction<typeof Date.now>).mockRestore();
   });

@@ -55,7 +55,7 @@ describe('ErrorBoundary', () => {
           <TestContent text="Test content" />
         </ErrorBoundary>
       );
-      
+
       expect(getByText('Test content')).toBeTruthy();
     });
 
@@ -66,7 +66,7 @@ describe('ErrorBoundary', () => {
           <TestContent text="Child 2" />
         </ErrorBoundary>
       );
-      
+
       expect(getByText('Child 1')).toBeTruthy();
       expect(getByText('Child 2')).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       expect(getByText('Something went wrong')).toBeTruthy();
     });
 
@@ -89,7 +89,7 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       expect(getByText(/The app encountered an unexpected error/i)).toBeTruthy();
     });
 
@@ -99,7 +99,7 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       expect(getByText('Try Again')).toBeTruthy();
     });
   });
@@ -107,25 +107,25 @@ describe('ErrorBoundary', () => {
   describe('custom fallback', () => {
     it('should render custom fallback when provided', () => {
       const customFallback = <Text>Custom error UI</Text>;
-      
+
       const { getByText } = render(
         <ErrorBoundary fallback={customFallback}>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       expect(getByText('Custom error UI')).toBeTruthy();
     });
 
     it('should not render default UI when custom fallback is provided', () => {
       const customFallback = <Text>Custom error UI</Text>;
-      
+
       const { queryByText } = render(
         <ErrorBoundary fallback={customFallback}>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       expect(queryByText('Something went wrong')).toBeNull();
     });
   });
@@ -137,13 +137,13 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       const resetButton = getByText('Try Again');
       expect(resetButton).toBeTruthy();
-      
+
       // Press the reset button
       fireEvent.press(resetButton);
-      
+
       // After reset, the error boundary should try to render children again
       // Since ThrowError still throws, it will show error UI again
       expect(getByText('Something went wrong')).toBeTruthy();
@@ -157,7 +157,7 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       const errorMessage = getByText(/The app encountered an unexpected error/i);
       expect(errorMessage).toBeTruthy();
     });
@@ -168,7 +168,7 @@ describe('ErrorBoundary', () => {
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
       );
-      
+
       const resetButton = getByText('Try Again');
       expect(resetButton).toBeTruthy();
     });
@@ -176,34 +176,22 @@ describe('ErrorBoundary', () => {
 
   describe('edge cases', () => {
     it('should handle null children', () => {
-      const { queryByText } = render(
-        <ErrorBoundary>
-          {null}
-        </ErrorBoundary>
-      );
-      
+      const { queryByText } = render(<ErrorBoundary>{null}</ErrorBoundary>);
+
       // Should not crash
       expect(queryByText('Something went wrong')).toBeNull();
     });
 
     it('should handle undefined children', () => {
-      const { queryByText } = render(
-        <ErrorBoundary>
-          {undefined}
-        </ErrorBoundary>
-      );
-      
+      const { queryByText } = render(<ErrorBoundary>{undefined}</ErrorBoundary>);
+
       // Should not crash
       expect(queryByText('Something went wrong')).toBeNull();
     });
 
     it('should handle empty children array', () => {
-      const { queryByText } = render(
-        <ErrorBoundary>
-          {[]}
-        </ErrorBoundary>
-      );
-      
+      const { queryByText } = render(<ErrorBoundary>{[]}</ErrorBoundary>);
+
       // Should not crash
       expect(queryByText('Something went wrong')).toBeNull();
     });

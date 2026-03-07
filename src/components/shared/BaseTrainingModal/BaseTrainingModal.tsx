@@ -30,11 +30,14 @@ export function BaseTrainingModal({
   const { fadeAnim, scaleAnim } = useModalAnimation(visible);
   const AnimatedView = Animated.View ?? View;
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  }, [onClose]);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   useEffect(() => {
     if (Platform.OS === 'web' && visible) {
@@ -75,7 +78,7 @@ export function BaseTrainingModal({
             showsVerticalScrollIndicator
             keyboardShouldPersistTaps="handled"
           >
-            {steps.map((step) => (
+            {steps.map(step => (
               <View key={step.number} style={styles.stepContainer}>
                 <View style={styles.stepHeader}>
                   <View style={styles.stepNumber}>
@@ -113,9 +116,7 @@ export function BaseTrainingModal({
                     <Text style={styles.dropdownTriggerText}>
                       {numberInput.value} {numberInput.presetLabel}
                     </Text>
-                    <Text style={styles.dropdownArrow}>
-                      {numberInput.showDropdown ? '▲' : '▼'}
-                    </Text>
+                    <Text style={styles.dropdownArrow}>{numberInput.showDropdown ? '▲' : '▼'}</Text>
                   </TouchableOpacity>
                   <View style={styles.customInputContainer}>
                     <Text style={styles.customInputLabel}>Or enter custom:</Text>
@@ -132,7 +133,7 @@ export function BaseTrainingModal({
                 </View>
                 {numberInput.showDropdown && (
                   <View style={styles.dropdownList}>
-                    {numberInput.presets.map((preset) => (
+                    {numberInput.presets.map(preset => (
                       <TouchableOpacity
                         key={preset}
                         style={[
@@ -144,7 +145,8 @@ export function BaseTrainingModal({
                         <Text
                           style={[
                             styles.dropdownItemText,
-                            parseInt(numberInput.value, 10) === preset && styles.dropdownItemTextSelected,
+                            parseInt(numberInput.value, 10) === preset &&
+                              styles.dropdownItemTextSelected,
                           ]}
                         >
                           {preset} {numberInput.presetLabel}
@@ -162,7 +164,7 @@ export function BaseTrainingModal({
             {summaryItems.length > 0 && (
               <View style={styles.summaryContainer}>
                 <Text style={styles.summaryTitle}>Summary</Text>
-                {summaryItems.map((item) => (
+                {summaryItems.map(item => (
                   <View key={`${item.label}-${item.value}`} style={styles.summaryRow}>
                     <Text style={styles.summaryLabel}>{item.label}:</Text>
                     <Text style={styles.summaryValue}>{item.value}</Text>

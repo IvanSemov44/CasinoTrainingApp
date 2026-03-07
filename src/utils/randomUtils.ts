@@ -97,15 +97,15 @@ export function getDynamicChipCount(selectedChipCount: number): number {
   } else if (selectedChipCount >= 10) {
     // For 10-19: scale from 70% to 75%
     // 10 → 70% (7-10), 19 → ~75% (14-19)
-    lowerBoundPercentage = 0.70 + (selectedChipCount - 10) * 0.005;
+    lowerBoundPercentage = 0.7 + (selectedChipCount - 10) * 0.005;
   } else if (selectedChipCount >= 5) {
     // For 5-9: scale from 60% to 70%
     // 5 → 60% (3-5), 9 → ~70% (6-9)
-    lowerBoundPercentage = 0.60 + (selectedChipCount - 5) * 0.025;
+    lowerBoundPercentage = 0.6 + (selectedChipCount - 5) * 0.025;
   } else {
     // For 2-4: use 60% lower bound with minimum of 1
     // 2 → 1-2, 3 → 2-3, 4 → 2-4
-    lowerBoundPercentage = 0.60;
+    lowerBoundPercentage = 0.6;
   }
 
   // Calculate lower bound, ensuring it's at least 1

@@ -55,12 +55,12 @@ describe('betGenerators', () => {
 
     it('should produce varied distributions over multiple calls', () => {
       const distributions = new Set<string>();
-      
+
       for (let i = 0; i < 50; i++) {
         const distribution = distributeChipsRandomly(20, 4);
         distributions.add(JSON.stringify(distribution));
       }
-      
+
       // Should have some variety (not all identical)
       expect(distributions.size).toBeGreaterThan(1);
     });
@@ -70,7 +70,7 @@ describe('betGenerators', () => {
     describe('with STRAIGHT bet type only', () => {
       it('should generate a straight bet for the number', () => {
         const bets = generateBetsForNumber(5, ['STRAIGHT']);
-        
+
         expect(bets.length).toBeGreaterThanOrEqual(1);
         expect(bets.some(bet => bet.type === 'STRAIGHT')).toBe(true);
       });
@@ -78,14 +78,14 @@ describe('betGenerators', () => {
       it('should have correct payout for straight bet', () => {
         const bets = generateBetsForNumber(5, ['STRAIGHT']);
         const straightBet = bets.find(bet => bet.type === 'STRAIGHT');
-        
+
         expect(straightBet?.payout).toBe(35);
       });
 
       it('should contain the winning number in straight bet', () => {
         const bets = generateBetsForNumber(5, ['STRAIGHT']);
         const straightBet = bets.find(bet => bet.type === 'STRAIGHT');
-        
+
         expect(straightBet?.numbers).toContain(5);
       });
     });
@@ -93,7 +93,7 @@ describe('betGenerators', () => {
     describe('with SPLIT bet type', () => {
       it('should generate split bets containing the number', () => {
         const bets = generateBetsForNumber(5, ['SPLIT']);
-        
+
         bets.forEach(bet => {
           expect(bet.type).toBe('SPLIT');
           expect(bet.numbers).toContain(5);
@@ -103,7 +103,7 @@ describe('betGenerators', () => {
 
       it('should have correct payout for split bets', () => {
         const bets = generateBetsForNumber(5, ['SPLIT']);
-        
+
         bets.forEach(bet => {
           expect(bet.payout).toBe(17);
         });
@@ -114,7 +114,7 @@ describe('betGenerators', () => {
       it('should generate bets for all allowed types', () => {
         const allowedTypes: BetType[] = ['STRAIGHT', 'SPLIT', 'CORNER'];
         const bets = generateBetsForNumber(5, allowedTypes);
-        
+
         // Should have at least a straight bet
         expect(bets.some(bet => bet.type === 'STRAIGHT')).toBe(true);
       });
@@ -122,7 +122,7 @@ describe('betGenerators', () => {
       it('should only generate allowed bet types', () => {
         const allowedTypes: BetType[] = ['STRAIGHT', 'SPLIT'];
         const bets = generateBetsForNumber(5, allowedTypes);
-        
+
         bets.forEach(bet => {
           expect(allowedTypes).toContain(bet.type);
         });
@@ -133,7 +133,7 @@ describe('betGenerators', () => {
       it('should distribute chips to sum approximately to target', () => {
         const bets = generateBetsForNumber(5, ['STRAIGHT', 'SPLIT'], 10);
         const totalChips = bets.reduce((sum, bet) => sum + bet.chips, 0);
-        
+
         // Due to dynamic variance, total should be close to target
         expect(totalChips).toBeGreaterThan(0);
         expect(totalChips).toBeLessThanOrEqual(15); // Allow for variance
@@ -141,7 +141,7 @@ describe('betGenerators', () => {
 
       it('should assign positive chips to all bets', () => {
         const bets = generateBetsForNumber(5, ['STRAIGHT', 'SPLIT'], 10);
-        
+
         bets.forEach(bet => {
           expect(bet.chips).toBeGreaterThan(0);
         });
@@ -151,7 +151,7 @@ describe('betGenerators', () => {
     describe('for zero', () => {
       it('should generate valid bets for zero', () => {
         const bets = generateBetsForNumber(0, ['STRAIGHT', 'SPLIT']);
-        
+
         expect(bets.length).toBeGreaterThan(0);
         bets.forEach(bet => {
           expect(bet.numbers).toContain(0);
@@ -162,12 +162,17 @@ describe('betGenerators', () => {
 
   describe('generateSingleBetFromConfig', () => {
     const possibleBets: RouletteNumber[][] = [
-      [1, 2], [2, 3], [4, 5], [5, 6], [7, 8], [8, 9],
+      [1, 2],
+      [2, 3],
+      [4, 5],
+      [5, 6],
+      [7, 8],
+      [8, 9],
     ];
 
     it('should generate a bet from the possible bets', () => {
       const { bet } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
-      
+
       expect(bet.type).toBe('SPLIT');
       expect(bet.numbers).toHaveLength(2);
       expect(possibleBets).toContainEqual(expect.arrayContaining(bet.numbers));
@@ -175,19 +180,19 @@ describe('betGenerators', () => {
 
     it('should return a number from the selected bet', () => {
       const { bet, number } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
-      
+
       expect(bet.numbers).toContain(number);
     });
 
     it('should have correct payout for bet type', () => {
       const { bet } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
-      
+
       expect(bet.payout).toBe(17);
     });
 
     it('should use target chips with variance', () => {
       const { bet } = generateSingleBetFromConfig(possibleBets, 'SPLIT', 10);
-      
+
       // Chips should be positive and within reasonable range
       expect(bet.chips).toBeGreaterThan(0);
       expect(bet.chips).toBeLessThanOrEqual(12); // Allow for variance
@@ -195,12 +200,12 @@ describe('betGenerators', () => {
 
     it('should generate random chips when no target specified', () => {
       const chipsSet = new Set<number>();
-      
+
       for (let i = 0; i < 20; i++) {
         const { bet } = generateSingleBetFromConfig(possibleBets, 'SPLIT');
         chipsSet.add(bet.chips);
       }
-      
+
       // Should have some variety
       expect(chipsSet.size).toBeGreaterThan(1);
     });
@@ -214,7 +219,7 @@ describe('betGenerators', () => {
 
       it('should generate CORNER bet correctly', () => {
         const { bet } = generateSingleBetFromConfig(cornerBets, 'CORNER');
-        
+
         expect(bet.type).toBe('CORNER');
         expect(bet.numbers).toHaveLength(4);
         expect(bet.payout).toBe(8);
@@ -228,19 +233,17 @@ describe('betGenerators', () => {
 
       it('should generate STREET bet correctly', () => {
         const { bet } = generateSingleBetFromConfig(streetBets, 'STREET');
-        
+
         expect(bet.type).toBe('STREET');
         expect(bet.numbers).toHaveLength(3);
         expect(bet.payout).toBe(11);
       });
 
-      const straightBets: RouletteNumber[][] = [
-        [0], [1], [2], [3], [4], [5],
-      ];
+      const straightBets: RouletteNumber[][] = [[0], [1], [2], [3], [4], [5]];
 
       it('should generate STRAIGHT bet correctly', () => {
         const { bet } = generateSingleBetFromConfig(straightBets, 'STRAIGHT');
-        
+
         expect(bet.type).toBe('STRAIGHT');
         expect(bet.numbers).toHaveLength(1);
         expect(bet.payout).toBe(35);

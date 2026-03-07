@@ -2,8 +2,16 @@ import type { Card } from './cardUtils';
 import { evaluateFiveCardHand, type FiveCardRank } from './fiveCardEvaluator';
 
 const RANK_ORDER: FiveCardRank[] = [
-  'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
-  'flush', 'straight', 'three-of-a-kind', 'two-pair', 'one-pair', 'high-card',
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+  'straight',
+  'three-of-a-kind',
+  'two-pair',
+  'one-pair',
+  'high-card',
 ];
 
 /**

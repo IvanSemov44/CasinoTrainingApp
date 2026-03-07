@@ -8,7 +8,10 @@ import RouletteNumberGrid from './RouletteNumberGrid';
 import RouletteColumnBets from './RouletteColumnBets';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles, getZeroColumnStyles } from './styles/roulette.styles';
-import { getCallBetsRouletteStyles, getCallBetsZeroColumnStyles } from './styles/callBetsRouletteStyles';
+import {
+  getCallBetsRouletteStyles,
+  getCallBetsZeroColumnStyles,
+} from './styles/callBetsRouletteStyles';
 
 interface RouletteLayoutProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -46,7 +49,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
 
   // Zero column bet areas that need to overlay the number grid
   const zeroBetAreas: React.ReactElement[] = [];
-  
+
   // Split with 3 (top row, first number)
   zeroBetAreas.push(
     <TouchableOpacity
@@ -57,7 +60,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
       <RouletteChip amount={getBetAmount([0, 3])} size={chipSize} />
     </TouchableOpacity>
   );
-  
+
   // Split with 2 (middle row, first number)
   zeroBetAreas.push(
     <TouchableOpacity
@@ -68,7 +71,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
       <RouletteChip amount={getBetAmount([0, 2])} size={chipSize} />
     </TouchableOpacity>
   );
-  
+
   // Split with 1 (bottom row, first number)
   zeroBetAreas.push(
     <TouchableOpacity
@@ -79,7 +82,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
       <RouletteChip amount={getBetAmount([0, 1])} size={chipSize} />
     </TouchableOpacity>
   );
-  
+
   // First corner: 0, 1, 2, 3
   zeroBetAreas.push(
     <TouchableOpacity
@@ -90,7 +93,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
       <RouletteChip amount={getBetAmount([0, 1, 2, 3])} size={chipSize} />
     </TouchableOpacity>
   );
-  
+
   // Street bet for 0, 1, 2
   zeroBetAreas.push(
     <TouchableOpacity
@@ -101,7 +104,7 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
       <RouletteChip amount={getBetAmount([0, 1, 2])} size={chipSize} />
     </TouchableOpacity>
   );
-  
+
   // Street bet for 0, 2, 3
   zeroBetAreas.push(
     <TouchableOpacity
@@ -152,11 +155,9 @@ const RouletteLayout: React.FC<RouletteLayoutProps> = ({
             useCallBetsStyles={useCallBetsStyles}
           />
         )}
-        
+
         {/* Zero column bet areas overlay - rendered on top of everything */}
-        <View style={styles.betAreasLayer}>
-          {zeroBetAreas}
-        </View>
+        <View style={styles.betAreasLayer}>{zeroBetAreas}</View>
       </View>
     </View>
   );

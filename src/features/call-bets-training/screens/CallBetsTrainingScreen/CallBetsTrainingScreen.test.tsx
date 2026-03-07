@@ -18,10 +18,13 @@ jest.mock('../../components', () => ({
 }));
 
 describe('CallBetsTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof CallBetsTrainingScreen>['navigation'];
-  const makeRoute = (mode: 'tier' | 'orphelins' | 'voisins' | 'zero' | 'random') => ({
-    params: { mode },
-  }) as unknown as React.ComponentProps<typeof CallBetsTrainingScreen>['route'];
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
+    typeof CallBetsTrainingScreen
+  >['navigation'];
+  const makeRoute = (mode: 'tier' | 'orphelins' | 'voisins' | 'zero' | 'random') =>
+    ({
+      params: { mode },
+    }) as unknown as React.ComponentProps<typeof CallBetsTrainingScreen>['route'];
   const mockRoute = makeRoute('tier');
 
   beforeEach(() => {
@@ -57,7 +60,7 @@ describe('CallBetsTrainingScreen', () => {
         'zero',
         'random',
       ];
-      modes.forEach((mode) => {
+      modes.forEach(mode => {
         const modeRoute = makeRoute(mode);
         const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
         expect(toJSON()).toBeTruthy();
@@ -84,13 +87,19 @@ describe('CallBetsTrainingScreen', () => {
 
   describe('interactions', () => {
     it('should have accessible submit button', () => {
-      const { getByLabelText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByLabelText } = renderScreenWithTheme({
+        navigation: mockNavigation,
+        route: mockRoute,
+      });
       const submitButton = getByLabelText('Submit answer');
       expect(submitButton).toBeTruthy();
     });
 
     it('should submit answer when submit button is pressed', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText, getByLabelText } = renderScreenWithTheme({
+        navigation: mockNavigation,
+        route: mockRoute,
+      });
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
       expect(getByText(/Score:/)).toBeTruthy();
@@ -104,7 +113,10 @@ describe('CallBetsTrainingScreen', () => {
     });
 
     it('should update stats after submission', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText, getByLabelText } = renderScreenWithTheme({
+        navigation: mockNavigation,
+        route: mockRoute,
+      });
       expect(getByText(/Score: 0\/0/)).toBeTruthy();
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
@@ -119,7 +131,7 @@ describe('CallBetsTrainingScreen', () => {
         'zero',
         'random',
       ];
-      modes.forEach((mode) => {
+      modes.forEach(mode => {
         const modeRoute = makeRoute(mode);
         const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
         expect(toJSON()).toBeTruthy();
@@ -132,7 +144,10 @@ describe('CallBetsTrainingScreen', () => {
     });
 
     it('should reset result when generating new challenge', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText, getByLabelText } = renderScreenWithTheme({
+        navigation: mockNavigation,
+        route: mockRoute,
+      });
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
       expect(getByText(/Score:/)).toBeTruthy();
@@ -147,7 +162,10 @@ describe('CallBetsTrainingScreen', () => {
       ];
       testModes.forEach(({ mode, label }) => {
         const modeRoute = makeRoute(mode);
-        const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
+        const { getByText } = renderScreenWithTheme({
+          navigation: mockNavigation,
+          route: modeRoute,
+        });
         expect(getByText(label)).toBeTruthy();
       });
     });

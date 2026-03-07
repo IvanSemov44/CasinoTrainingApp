@@ -252,18 +252,18 @@ export const resetAllMocks = () => {
   mockNavigation.popToTop.mockClear();
   mockNavigation.setParams.mockClear();
   mockNavigation.dispatch.mockClear();
-  
+
   // AsyncStorage
   mockAsyncStorage.getItem.mockClear();
   mockAsyncStorage.setItem.mockClear();
   mockAsyncStorage.removeItem.mockClear();
   mockAsyncStorage.clear.mockClear();
-  
+
   // Sound
   mockSound.play.mockClear();
   mockSound.pause.mockClear();
   mockSound.stop.mockClear();
-  
+
   // Haptics
   mockHaptics.impactAsync.mockClear();
   mockHaptics.notificationAsync.mockClear();

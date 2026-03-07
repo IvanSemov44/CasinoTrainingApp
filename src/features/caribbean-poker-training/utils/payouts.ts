@@ -4,16 +4,16 @@ import type { FiveCardRank } from '@utils/fiveCardEvaluator';
 // Applies when dealer qualifies AND player wins. Multiplier applied to Call bet (= 2× Ante).
 
 const CALL_BET_MULTIPLIERS: Record<FiveCardRank, number> = {
-  'royal-flush':     100,
-  'straight-flush':   50,
-  'four-of-a-kind':   20,
-  'full-house':        7,
-  'flush':             5,
-  'straight':          4,
-  'three-of-a-kind':   3,
-  'two-pair':          2,
-  'one-pair':          1,
-  'high-card':         1,
+  'royal-flush': 100,
+  'straight-flush': 50,
+  'four-of-a-kind': 20,
+  'full-house': 7,
+  flush: 5,
+  straight: 4,
+  'three-of-a-kind': 3,
+  'two-pair': 2,
+  'one-pair': 1,
+  'high-card': 1,
 };
 
 export function callBetMultiplier(rank: FiveCardRank): number {
@@ -30,19 +30,19 @@ export function callBetPayout(rank: FiveCardRank, anteAmount: number): number {
 // Pays regardless of dealer result and regardless of whether player folded.
 
 const BONUS_STANDARD: Partial<Record<FiveCardRank, number>> = {
-  'royal-flush':    5000,
+  'royal-flush': 5000,
   'straight-flush': 1000,
-  'four-of-a-kind':  300,
-  'full-house':      150,
-  'flush':           100,
+  'four-of-a-kind': 300,
+  'full-house': 150,
+  flush: 100,
 };
 
 const BONUS_AFTER_SWAP: Partial<Record<FiveCardRank, number>> = {
-  'royal-flush':    2500,
-  'straight-flush':  500,
-  'four-of-a-kind':  150,
-  'full-house':       75,
-  'flush':            50,
+  'royal-flush': 2500,
+  'straight-flush': 500,
+  'four-of-a-kind': 150,
+  'full-house': 75,
+  flush: 50,
 };
 
 /** Returns the fixed Bonus payout (€). 0 if hand doesn't qualify for Bonus. */

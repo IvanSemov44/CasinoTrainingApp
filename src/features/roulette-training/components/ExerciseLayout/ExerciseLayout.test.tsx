@@ -6,11 +6,7 @@ import { BetType } from '@app-types/roulette.types';
 import type { PlacedBet } from '@app-types/roulette.types';
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('ExerciseLayout', () => {

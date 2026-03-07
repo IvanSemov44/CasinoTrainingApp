@@ -1,5 +1,10 @@
 import { CashRequest, CashAnswer, ValidationResult, DifficultyLevel, SectorType } from '../types';
-import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET, MIN_BET_PER_POSITION, BET_INCREMENT } from '../constants/sectors';
+import {
+  SECTOR_POSITIONS,
+  DIFFICULTY_MAX_BET,
+  MIN_BET_PER_POSITION,
+  BET_INCREMENT,
+} from '../constants/sectors';
 import { getRandomElement, getRandomInt } from '@utils/randomUtils';
 
 export function calculateCorrectAnswer(
@@ -14,13 +19,13 @@ export function calculateCorrectAnswer(
   if (request.requestType === 'for-the-money') {
     // Calculate maximum bet per position from available cash
     const rawBet = request.cashAmount / positions;
-    
+
     // Round down to nearest $5 increment
     betPerPosition = Math.floor(rawBet / BET_INCREMENT) * BET_INCREMENT;
-    
+
     // Apply difficulty cap
     betPerPosition = Math.min(betPerPosition, maxBetPerPosition);
-    
+
     // Ensure minimum bet
     betPerPosition = Math.max(betPerPosition, MIN_BET_PER_POSITION);
   } else {
@@ -63,12 +68,15 @@ const CASH_STEP = 25;
 
 // Minimum cash amounts by difficulty (as percentage of max)
 const MIN_CASH_PERCENTAGE: Record<DifficultyLevel, number> = {
-  easy: 0,     // Start from minimum viable amount
+  easy: 0, // Start from minimum viable amount
   medium: 0.4, // 40% of max cash
-  hard: 0.4,   // 40% of max cash
+  hard: 0.4, // 40% of max cash
 };
 
-export function generateRandomCashAmount(difficulty: DifficultyLevel, sector?: Exclude<SectorType, 'random'>): number {
+export function generateRandomCashAmount(
+  difficulty: DifficultyLevel,
+  sector?: Exclude<SectorType, 'random'>
+): number {
   const maxBet = DIFFICULTY_MAX_BET[difficulty];
   const minPercentage = MIN_CASH_PERCENTAGE[difficulty];
 
@@ -79,10 +87,10 @@ export function generateRandomCashAmount(difficulty: DifficultyLevel, sector?: E
 
   // Calculate absolute minimum: positions × $5, rounded up to nearest $25
   // This ensures the cash amount can always cover at least $5 per position
-  const absoluteMinCash = Math.ceil(positions * MIN_BET_PER_POSITION / CASH_STEP) * CASH_STEP;
+  const absoluteMinCash = Math.ceil((positions * MIN_BET_PER_POSITION) / CASH_STEP) * CASH_STEP;
 
   // Calculate minimum cash from percentage (for medium/hard difficulties)
-  const percentageMinCash = Math.ceil(maxCash * minPercentage / CASH_STEP) * CASH_STEP;
+  const percentageMinCash = Math.ceil((maxCash * minPercentage) / CASH_STEP) * CASH_STEP;
 
   // Use the higher of absolute minimum or percentage minimum
   const minCash = Math.max(absoluteMinCash, percentageMinCash);
@@ -97,7 +105,13 @@ export function generateRandomCashAmount(difficulty: DifficultyLevel, sector?: E
 }
 
 export function generateRandomSector(): Exclude<SectorType, 'random'> {
-  const sectors: Exclude<SectorType, 'random'>[] = ['tier', 'orphelins', 'voisins', 'zero', 'neighbors'];
+  const sectors: Exclude<SectorType, 'random'>[] = [
+    'tier',
+    'orphelins',
+    'voisins',
+    'zero',
+    'neighbors',
+  ];
   return getRandomElement(sectors);
 }
 
@@ -110,7 +124,7 @@ export function generateRandomRequest(
   const positions = SECTOR_POSITIONS[sector];
   const maxBet = DIFFICULTY_MAX_BET[difficulty];
   const maxChange = 100; // Maximum allowed change/rest
-  
+
   if (requestType === 'for-the-money') {
     // For "for-the-money", calculate what the actual bet would be
     const rawBet = cashAmount / positions;
@@ -119,7 +133,7 @@ export function generateRandomRequest(
     betPerPosition = Math.max(betPerPosition, MIN_BET_PER_POSITION);
     const totalBet = betPerPosition * positions;
     const change = cashAmount - totalBet;
-    
+
     // If change would be too high, adjust cash amount to be closer to a valid total
     if (change >= maxChange) {
       // Find a cash amount that results in change < maxChange
@@ -135,7 +149,7 @@ export function generateRandomRequest(
         requestType: 'for-the-money',
       };
     }
-    
+
     return {
       cashAmount,
       sector,
@@ -144,20 +158,22 @@ export function generateRandomRequest(
   } else {
     // Generate a valid "by-amount" request with change < maxChange
     const possibleBets: number[] = [];
-    
+
     for (let bet = MIN_BET_PER_POSITION; bet <= maxBet; bet += BET_INCREMENT) {
       const totalBet = bet * positions;
       const change = cashAmount - totalBet;
-      
+
       // Only include bets that result in valid change (0 <= change < maxChange)
       if (change >= 0 && change < maxChange) {
         possibleBets.push(bet);
       }
     }
-    
+
     // If no valid bets found, adjust cash amount to work with a random bet
     if (possibleBets.length === 0) {
-      const randomBet = getRandomInt(0, Math.floor(maxBet / BET_INCREMENT) - 1) * BET_INCREMENT + MIN_BET_PER_POSITION;
+      const randomBet =
+        getRandomInt(0, Math.floor(maxBet / BET_INCREMENT) - 1) * BET_INCREMENT +
+        MIN_BET_PER_POSITION;
       // Ensure adjustedCash is a multiple of CASH_STEP ($25)
       const maxChangeInSteps = Math.floor(maxChange / CASH_STEP);
       const changeInSteps = getRandomInt(0, maxChangeInSteps - 1);
@@ -169,9 +185,9 @@ export function generateRandomRequest(
         specifiedAmount: randomBet,
       };
     }
-    
+
     const specifiedAmount = getRandomElement(possibleBets);
-    
+
     return {
       cashAmount,
       sector,

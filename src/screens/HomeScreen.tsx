@@ -1,7 +1,12 @@
 import React, { useMemo } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, ScrollView,
-  useWindowDimensions, Pressable,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  useWindowDimensions,
+  Pressable,
 } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useInstallPrompt } from '@hooks/useInstallPrompt';
@@ -22,22 +27,52 @@ const CATEGORIES: { label: string; games: GameEntry[] }[] = [
   {
     label: 'ROULETTE',
     games: [
-      { route: 'RouletteExercises',                title: 'Roulette Training',       emoji: '🎰', tags: 'Payouts · Splits · Streets' },
-      { route: 'SectorTraining',                   title: 'Sector Training',         emoji: '🎯', tags: 'Number → Sector' },
-      { route: 'PositionTraining',                 title: 'Position Training',       emoji: '📍', tags: 'Number → Position' },
-      { route: 'CashConversionDifficultySelection',title: 'Cash Conversion',         emoji: '💰', tags: 'Chip exchange' },
-      { route: 'RKMenu',                           title: 'Roulette Knowledge',      emoji: '📚', tags: 'Rules · Limits · Announced' },
+      {
+        route: 'RouletteExercises',
+        title: 'Roulette Training',
+        emoji: '🎰',
+        tags: 'Payouts · Splits · Streets',
+      },
+      { route: 'SectorTraining', title: 'Sector Training', emoji: '🎯', tags: 'Number → Sector' },
+      {
+        route: 'PositionTraining',
+        title: 'Position Training',
+        emoji: '📍',
+        tags: 'Number → Position',
+      },
+      {
+        route: 'CashConversionDifficultySelection',
+        title: 'Cash Conversion',
+        emoji: '💰',
+        tags: 'Chip exchange',
+      },
+      {
+        route: 'RKMenu',
+        title: 'Roulette Knowledge',
+        emoji: '📚',
+        tags: 'Rules · Limits · Announced',
+      },
     ],
   },
   {
     label: 'POKER',
     games: [
-      { route: 'TCPMenu',       title: 'Three Card Poker',      emoji: '🃏', tags: 'Qualify · Payouts' },
-      { route: 'BJMenu',        title: 'Blackjack',             emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
-      { route: 'CPMenu',        title: 'Caribbean Poker',       emoji: '🌴', tags: 'Swap · Bonus · A-K' },
-      { route: 'THUMenu',       title: "Texas Hold'em Ultimate",emoji: '🤠', tags: 'Blind · Trips · Raise' },
-      { route: 'CallBetsMenu',  title: 'Call Bets',             emoji: '📣', tags: 'Voisins · Tiers · Orphelins' },
-      { route: 'PLOMenu',       title: 'Pot Limit Omaha',       emoji: '♠️', tags: 'Dealing · Pot calc' },
+      { route: 'TCPMenu', title: 'Three Card Poker', emoji: '🃏', tags: 'Qualify · Payouts' },
+      { route: 'BJMenu', title: 'Blackjack', emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
+      { route: 'CPMenu', title: 'Caribbean Poker', emoji: '🌴', tags: 'Swap · Bonus · A-K' },
+      {
+        route: 'THUMenu',
+        title: "Texas Hold'em Ultimate",
+        emoji: '🤠',
+        tags: 'Blind · Trips · Raise',
+      },
+      {
+        route: 'CallBetsMenu',
+        title: 'Call Bets',
+        emoji: '📣',
+        tags: 'Voisins · Tiers · Orphelins',
+      },
+      { route: 'PLOMenu', title: 'Pot Limit Omaha', emoji: '♠️', tags: 'Dealing · Pot calc' },
     ],
   },
 ];
@@ -68,11 +103,13 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Text style={styles.appSubtitle}>Training Academy</Text>
         </View>
         <View style={styles.headerButtons}>
-          <InstallButton isInstallable={isInstallable} isInstalled={isInstalled} onInstall={install} />
+          <InstallButton
+            isInstallable={isInstallable}
+            isInstalled={isInstalled}
+            onInstall={install}
+          />
           <Pressable style={styles.themeToggle} onPress={toggleTheme}>
-            <Text style={styles.themeToggleText}>
-              {themeId === 'midnight' ? '🟢' : '🌑'}
-            </Text>
+            <Text style={styles.themeToggleText}>{themeId === 'midnight' ? '🟢' : '🌑'}</Text>
             <Text style={styles.themeToggleLabel}>
               {themeId === 'midnight' ? 'Casino' : 'Midnight'}
             </Text>
@@ -113,14 +150,13 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         onPress={() => navigation.navigate('Progress')}
         activeOpacity={0.8}
       >
-        <Text style={styles.progressBtnText}>📊  My Progress</Text>
+        <Text style={styles.progressBtnText}>📊 My Progress</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -256,5 +292,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.gold,
     },
   });
-   
 }

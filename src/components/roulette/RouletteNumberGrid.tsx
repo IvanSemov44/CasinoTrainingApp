@@ -30,7 +30,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
 
   // Collect all bet areas for rendering in a separate layer
   const betAreas: React.ReactElement[] = [];
-  
+
   LAYOUT_GRID.forEach((row, rowIndex) => {
     row.slice(0, maxColumns).forEach((num, colIndex) => {
       // Street bet
@@ -38,9 +38,9 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
         const streetNumbers = [
           LAYOUT_GRID[0][colIndex],
           LAYOUT_GRID[1][colIndex],
-          LAYOUT_GRID[2][colIndex]
+          LAYOUT_GRID[2][colIndex],
         ] as RouletteNumber[];
-        
+
         betAreas.push(
           <TouchableOpacity
             key={`street-${colIndex}`}
@@ -50,7 +50,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
             <RouletteChip amount={getBetAmount(streetNumbers)} size={chipSize} />
           </TouchableOpacity>
         );
-        
+
         // Six line bet
         if (colIndex < row.length - 1) {
           const sixLineNumbers = [
@@ -59,9 +59,9 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
             LAYOUT_GRID[2][colIndex],
             LAYOUT_GRID[0][colIndex + 1],
             LAYOUT_GRID[1][colIndex + 1],
-            LAYOUT_GRID[2][colIndex + 1]
+            LAYOUT_GRID[2][colIndex + 1],
           ] as RouletteNumber[];
-          
+
           betAreas.push(
             <TouchableOpacity
               key={`sixline-${colIndex}`}
@@ -73,58 +73,69 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
           );
         }
       }
-      
+
       // Horizontal split
       if (colIndex < row.length - 1) {
         betAreas.push(
           <TouchableOpacity
             key={`hsplit-${rowIndex}-${colIndex}`}
-            style={[styles.horizontalSplit, { 
-              left: colIndex * cellSize,
-              top: rowIndex * cellSize 
-            }]}
+            style={[
+              styles.horizontalSplit,
+              {
+                left: colIndex * cellSize,
+                top: rowIndex * cellSize,
+              },
+            ]}
             onPress={() => onBetAreaPress?.(BetType.SPLIT, [num, row[colIndex + 1]])}
           >
             <RouletteChip amount={getBetAmount([num, row[colIndex + 1]])} size={chipSize} />
           </TouchableOpacity>
         );
       }
-      
+
       // Vertical split
       if (rowIndex < LAYOUT_GRID.length - 1) {
         const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
         betAreas.push(
           <TouchableOpacity
             key={`vsplit-${rowIndex}-${colIndex}`}
-            style={[styles.verticalSplit, { 
-              left: colIndex * cellSize,
-              top: rowIndex * cellSize 
-            }]}
+            style={[
+              styles.verticalSplit,
+              {
+                left: colIndex * cellSize,
+                top: rowIndex * cellSize,
+              },
+            ]}
             onPress={() => onBetAreaPress?.(BetType.SPLIT, [num, bottomNum])}
           >
             <RouletteChip amount={getBetAmount([num, bottomNum])} size={chipSize} />
           </TouchableOpacity>
         );
       }
-      
+
       // Corner bet
       if (rowIndex < LAYOUT_GRID.length - 1 && colIndex < row.length - 1) {
         const rightNum = row[colIndex + 1];
         const bottomNum = LAYOUT_GRID[rowIndex + 1][colIndex];
         const bottomRightNum = LAYOUT_GRID[rowIndex + 1][colIndex + 1];
-        
+
         betAreas.push(
           <TouchableOpacity
             key={`corner-${rowIndex}-${colIndex}`}
-            style={[styles.cornerBet, { 
-              left: colIndex * cellSize,
-              top: rowIndex * cellSize 
-            }]}
-            onPress={() => onBetAreaPress?.(BetType.CORNER, [num, rightNum, bottomNum, bottomRightNum])}
+            style={[
+              styles.cornerBet,
+              {
+                left: colIndex * cellSize,
+                top: rowIndex * cellSize,
+              },
+            ]}
+            onPress={() =>
+              onBetAreaPress?.(BetType.CORNER, [num, rightNum, bottomNum, bottomRightNum])
+            }
           >
-            <RouletteChip 
-              amount={getBetAmount([num, rightNum, bottomNum, bottomRightNum])} 
-              size={chipSize} 
+            <RouletteChip
+              amount={getBetAmount([num, rightNum, bottomNum, bottomRightNum])}
+              size={chipSize}
             />
           </TouchableOpacity>
         );
@@ -138,7 +149,7 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
       <View>
         {LAYOUT_GRID.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>
-            {row.slice(0, maxColumns).map((num) => (
+            {row.slice(0, maxColumns).map(num => (
               <RouletteNumberCell
                 key={num}
                 number={num}
@@ -151,11 +162,9 @@ const RouletteNumberGrid: React.FC<RouletteNumberGridProps> = ({
           </View>
         ))}
       </View>
-      
+
       {/* Bet areas layer - rendered on top */}
-      <View style={styles.betAreasLayer}>
-        {betAreas}
-      </View>
+      <View style={styles.betAreasLayer}>{betAreas}</View>
     </View>
   );
 };

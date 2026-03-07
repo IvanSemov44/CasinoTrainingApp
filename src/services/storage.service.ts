@@ -57,10 +57,7 @@ export const storageService = {
   // Clear all data (for testing or reset)
   async clearAllData(): Promise<void> {
     try {
-      await AsyncStorage.multiRemove([
-        STORAGE_KEYS.USER_PROGRESS,
-        STORAGE_KEYS.EXERCISE_RESULTS,
-      ]);
+      await AsyncStorage.multiRemove([STORAGE_KEYS.USER_PROGRESS, STORAGE_KEYS.EXERCISE_RESULTS]);
     } catch (error) {
       logger.error('Error clearing data', error);
       throw error;

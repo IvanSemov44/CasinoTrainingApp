@@ -1,7 +1,7 @@
 import type { BetConfigKey } from '@config/betConfigs';
 import type { CashConfigKey } from '@config/cashConfigs';
 
-export type PositionType = 
+export type PositionType =
   | 'STRAIGHT_UP'
   | 'SPLIT'
   | 'STREET'
@@ -14,7 +14,7 @@ export type PositionType =
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
 // Screen names that match the navigation param list
-export type ExerciseScreenName = 
+export type ExerciseScreenName =
   | 'Calculation'
   | 'MixedCalculation'
   | 'TripleMixedCalculation'
@@ -63,7 +63,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   STRAIGHT_UP: [
     {
       title: 'Payout Calculation',
-      description: 'Calculate payouts for straight-up bets (35:1). Practice with random numbers and chip amounts.',
+      description:
+        'Calculate payouts for straight-up bets (35:1). Practice with random numbers and chip amounts.',
       difficulty: 'easy',
       screen: 'Calculation',
       betConfigKey: 'STRAIGHT_UP',
@@ -78,7 +79,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   SPLIT: [
     {
       title: 'Payout Calculation',
-      description: 'Calculate payouts for split bets (17:1). Practice with random adjacent numbers and chip amounts.',
+      description:
+        'Calculate payouts for split bets (17:1). Practice with random adjacent numbers and chip amounts.',
       difficulty: 'easy',
       screen: 'Calculation',
       betConfigKey: 'SPLIT',
@@ -94,7 +96,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   STREET: [
     {
       title: 'Payout Calculation',
-      description: 'Calculate payouts for street bets (11:1). Practice with random 3-number rows and chip amounts.',
+      description:
+        'Calculate payouts for street bets (11:1). Practice with random 3-number rows and chip amounts.',
       difficulty: 'easy',
       screen: 'Calculation',
       betConfigKey: 'STREET',
@@ -110,7 +113,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   CORNER: [
     {
       title: 'Payout Calculation',
-      description: 'Calculate payouts for corner bets (8:1). Practice with random 4-number squares and chip amounts.',
+      description:
+        'Calculate payouts for corner bets (8:1). Practice with random 4-number squares and chip amounts.',
       difficulty: 'easy',
       screen: 'Calculation',
       betConfigKey: 'CORNER',
@@ -126,7 +130,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   SIX_LINE: [
     {
       title: 'Payout Calculation',
-      description: 'Calculate payouts for six line bets (5:1). Practice with random 6-number double streets and chip amounts.',
+      description:
+        'Calculate payouts for six line bets (5:1). Practice with random 6-number double streets and chip amounts.',
       difficulty: 'easy',
       screen: 'Calculation',
       betConfigKey: 'SIX_LINE',
@@ -162,7 +167,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
     },
     {
       title: 'Cash Handling - %CHIP%',
-      description: 'Triple mixed bets with %CHIP% chips. Calculate total payout with cash denomination.',
+      description:
+        'Triple mixed bets with %CHIP% chips. Calculate total payout with cash denomination.',
       difficulty: 'hard',
       screen: 'TripleMixedCalculation',
     },
@@ -170,7 +176,8 @@ export const POSITION_EXERCISES: Record<PositionType, ExerciseTemplate[]> = {
   ALL_POSITIONS_CALCULATION: [
     {
       title: 'Payout Calculation',
-      description: 'Master level! Combines all bet types: straight ups, splits, corners, streets, and six lines.',
+      description:
+        'Master level! Combines all bet types: straight ups, splits, corners, streets, and six lines.',
       difficulty: 'hard',
       screen: 'AllPositionsCalculation',
     },

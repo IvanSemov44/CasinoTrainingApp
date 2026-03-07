@@ -72,7 +72,7 @@ describe('SkeletonLoader', () => {
   it('handles different height values', () => {
     const heights = [20, 40, 100, 200];
 
-    heights.forEach((height) => {
+    heights.forEach(height => {
       const { unmount } = render(
         <Wrapper>
           <SkeletonLoader width={100} height={height} />

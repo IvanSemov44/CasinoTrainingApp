@@ -16,10 +16,10 @@ interface ErrorBoundaryState {
 
 /**
  * Error Boundary component for catching and handling React errors
- * 
+ *
  * Wraps the application to catch JavaScript errors anywhere in the component tree,
  * log those errors, and display a fallback UI instead of crashing the app.
- * 
+ *
  * @example
  * <ErrorBoundary>
  *   <App />
@@ -41,7 +41,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({ errorInfo });
-    
+
     // Log error to console in development
     logger.error('Error caught by ErrorBoundary', error);
     logger.error('Component stack', undefined, { componentStack: errorInfo.componentStack });

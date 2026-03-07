@@ -32,10 +32,7 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
             >
-              <Text style={[
-                styles.chipText,
-                chip.color === '#FFFFFF' && styles.darkText,
-              ]}>
+              <Text style={[styles.chipText, chip.color === '#FFFFFF' && styles.darkText]}>
                 {chip.value}
               </Text>
             </TouchableOpacity>
@@ -47,7 +44,6 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -91,7 +87,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.dark,
     },
   });
-   
 }
 
 export default ChipSelector;

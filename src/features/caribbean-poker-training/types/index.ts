@@ -1,15 +1,15 @@
 import type { Card } from '@utils/cardUtils';
 
 export type CPDrillType =
-  | 'hand-recognition'     // Easy — name the 5-card hand
+  | 'hand-recognition' // Easy — name the 5-card hand
   | 'dealer-qualification' // Easy — A-K or better?
-  | 'basic-outcome'        // Easy — qualify + compare, who wins?
-  | 'call-bet-payout'      // Medium — Call bet payout (numeric)
-  | 'bonus-payout'         // Medium — fixed Bonus payout (multiple-choice)
-  | 'bonus-after-swap'     // Medium — Bonus halved after swap (multiple-choice)
-  | 'no-qualify-outcome'   // Medium — dealer doesn't qualify scenario
-  | 'bonus-on-fold'        // Advanced — player folded, Bonus still pays
-  | 'swap-procedure';      // Advanced — knowledge quiz on 2-phase swap
+  | 'basic-outcome' // Easy — qualify + compare, who wins?
+  | 'call-bet-payout' // Medium — Call bet payout (numeric)
+  | 'bonus-payout' // Medium — fixed Bonus payout (multiple-choice)
+  | 'bonus-after-swap' // Medium — Bonus halved after swap (multiple-choice)
+  | 'no-qualify-outcome' // Medium — dealer doesn't qualify scenario
+  | 'bonus-on-fold' // Advanced — player folded, Bonus still pays
+  | 'swap-procedure'; // Advanced — knowledge quiz on 2-phase swap
 
 export interface CPScenario {
   drillType: CPDrillType;

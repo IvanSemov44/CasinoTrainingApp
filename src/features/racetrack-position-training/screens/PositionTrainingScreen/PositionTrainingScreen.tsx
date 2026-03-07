@@ -5,9 +5,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { useTheme } from '@contexts/ThemeContext';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { PositionMode } from '../../types';
-import {
-  getWheelPosition,
-} from '../../utils/validation';
+import { getWheelPosition } from '../../utils/validation';
 import { usePositionTrainingSession } from './usePositionTrainingSession';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 import { PositionTrainingSidebar } from '../../components/PositionTrainingSidebar';
@@ -18,14 +16,8 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const initialMode: PositionMode = route.params?.mode || 'random';
-  const {
-    currentWinningNumber,
-    result,
-    stats,
-    isProcessing,
-    handleNumberPress,
-    handleNext,
-  } = usePositionTrainingSession({ mode: initialMode });
+  const { currentWinningNumber, result, stats, isProcessing, handleNumberPress, handleNext } =
+    usePositionTrainingSession({ mode: initialMode });
 
   // useWindowDimensions updates reactively after the landscape lock fires.
   // Math.max/min ensures we always work in landscape terms regardless of
@@ -65,10 +57,10 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
     stats.total === 0
       ? colors.text.muted
       : percentage >= 80
-      ? colors.status.success
-      : percentage >= 60
-      ? colors.text.gold
-      : colors.status.error;
+        ? colors.status.success
+        : percentage >= 60
+          ? colors.text.gold
+          : colors.status.error;
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>
@@ -84,10 +76,7 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
       />
 
       <View style={styles.racetrackArea}>
-        <RacetrackLayout
-          width={racetrackSize}
-          onNumberPress={handleNumberPress}
-        />
+        <RacetrackLayout width={racetrackSize} onNumberPress={handleNumberPress} />
       </View>
     </View>
   );

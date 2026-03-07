@@ -18,31 +18,39 @@
  *     as contributing correctAnswer (they call the pot-raise).
  */
 
-import { getRandomElement, getWeightedRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
+import {
+  getRandomElement,
+  getWeightedRandomElement,
+  shuffleArray,
+  getRandomInt,
+} from '@utils/randomUtils';
 import type { PLODifficulty, HandPlayerState, AskMoment, GeneratedHand } from '../types';
 
 // ─── Table layout ────────────────────────────────────────────────────────────
 
 const POSITION_SLOT: Record<string, number> = {
-  CO: 1, MP: 2, UTG: 3, BB: 4, SB: 5, D: 6,
+  CO: 1,
+  MP: 2,
+  UTG: 3,
+  BB: 4,
+  SB: 5,
+  D: 6,
 };
 
 const ALL_POSITIONS = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'] as const;
-const PREFLOP_ORDER  = ['UTG', 'MP', 'CO', 'D', 'SB', 'BB'] as const;
+const PREFLOP_ORDER = ['UTG', 'MP', 'CO', 'D', 'SB', 'BB'] as const;
 const POSTFLOP_ORDER = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'] as const;
 
 const STARTING_STACKS: Record<number, number[]> = {
-  2:  [120, 150, 180, 200, 250, 300],
-  5:  [300, 375, 500, 625, 750, 900],
+  2: [120, 150, 180, 200, 250, 300],
+  5: [300, 375, 500, 625, 750, 900],
   10: [600, 750, 1000, 1250, 1500, 1800],
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function pickRaiseAmount(currentBet: number, phase: 'first' | 'reRaise'): number {
-  return currentBet * (phase === 'first'
-    ? getRandomElement([2, 3, 4])
-    : getRandomElement([2, 3]));
+  return currentBet * (phase === 'first' ? getRandomElement([2, 3, 4]) : getRandomElement([2, 3]));
 }
 
 function pickPostflopBet(centerPot: number, blindLevel: number): number {
@@ -56,7 +64,7 @@ function calcPot(
   centerPot: number,
   bets: Record<string, number>,
   requester: string,
-  lastAggressor: string,
+  lastAggressor: string
 ): number {
   let dead = centerPot;
   for (const [p, amt] of Object.entries(bets)) {
@@ -75,7 +83,7 @@ function computeNewCenterPot(
   centerPot: number,
   bets: Record<string, number>,
   remainingPlayers: string[],
-  correctAnswer: number,
+  correctAnswer: number
 ): number {
   let total = centerPot;
   for (const p of ALL_POSITIONS) {
@@ -95,14 +103,12 @@ function buildPostAskLines(
   requester: string,
   foldedSet: Set<string>,
   remainingPlayers: string[],
-  correctAnswer: number,
+  correctAnswer: number
 ): string[] {
   const lines: string[] = [`${requester} pots to $${correctAnswer}`];
   for (const p of ALL_POSITIONS) {
     if (p === requester || foldedSet.has(p)) continue;
-    lines.push(remainingPlayers.includes(p)
-      ? `${p} calls $${correctAnswer}`
-      : `${p} folds`);
+    lines.push(remainingPlayers.includes(p) ? `${p} calls $${correctAnswer}` : `${p} folds`);
   }
   return lines;
 }
@@ -114,7 +120,7 @@ function buildExplanation(
   bets: Record<string, number>,
   requester: string,
   lastAggressor: string,
-  street: string,
+  street: string
 ): string {
   const lastAction = bets[lastAggressor] ?? 0;
   const requesterBet = bets[requester] ?? 0;
@@ -142,7 +148,7 @@ function buildPlayers(
   bets: Record<string, number>,
   foldedSet: Set<string>,
   requester: string,
-  stacks: number[],
+  stacks: number[]
 ): HandPlayerState[] {
   return ALL_POSITIONS.map((name, i) => ({
     name,
@@ -159,9 +165,13 @@ function buildPlayers(
 
 function generatePreflopMoment(
   blindLevel: number,
-  stacks: number[],
-): { askMoment: AskMoment; remainingPlayers: string[]; newCenterPot: number; accumulatedLog: string[] } {
-
+  stacks: number[]
+): {
+  askMoment: AskMoment;
+  remainingPlayers: string[];
+  newCenterPot: number;
+  accumulatedLog: string[];
+} {
   const bets: Record<string, number> = { SB: blindLevel, BB: blindLevel };
   const foldedSet = new Set<string>();
   const log: string[] = [`SB posts $${blindLevel}`, `BB posts $${blindLevel}`];
@@ -170,7 +180,7 @@ function generatePreflopMoment(
   let currentBet = blindLevel;
 
   // Requester weights: UTG=5% MP=10% CO=20% D=25% SB=15% BB=25%
-  const requester = getWeightedRandomElement(PREFLOP_ORDER, [0.05, 0.10, 0.20, 0.25, 0.15, 0.25]);
+  const requester = getWeightedRandomElement(PREFLOP_ORDER, [0.05, 0.1, 0.2, 0.25, 0.15, 0.25]);
   const requesterIdx = PREFLOP_ORDER.indexOf(requester);
 
   for (let i = 0; i < requesterIdx; i++) {
@@ -187,19 +197,16 @@ function generatePreflopMoment(
       const r = getRandomInt(0, 99);
       action = r < 15 ? 'fold' : r < 35 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
-
     } else if (!raiseHappened && myBet === blindLevel) {
       // Blind with option, no raise yet: fold 25%, check 20%, raise 55%
       const r = getRandomInt(0, 99);
       action = r < 25 ? 'fold' : r < 45 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'first');
-
     } else if (toCall > 0) {
       // Facing a raise on their turn: fold 35%, call 40%, re-raise 25%
       const r = getRandomInt(0, 99);
       action = r < 35 ? 'fold' : r < 75 ? 'call' : 'raise';
       if (action === 'raise') raiseAmt = pickRaiseAmount(currentBet, 'reRaise');
-
     } else {
       // Already matched (BB option check)
       action = 'call';
@@ -208,13 +215,11 @@ function generatePreflopMoment(
     if (action === 'fold') {
       foldedSet.add(player);
       log.push(`${player} folds`);
-
     } else if (action === 'call') {
       if (toCall > 0) {
         bets[player] = currentBet;
         log.push(`${player} calls $${currentBet}`);
       }
-
     } else {
       bets[player] = raiseAmt;
       log.push(`${player} ${lastAggressor === 'BB' ? 'raises' : 're-raises'} to $${raiseAmt}`);
@@ -231,10 +236,10 @@ function generatePreflopMoment(
   const explanation = buildExplanation(0, bets, requester, lastAggressor, 'preflop');
 
   const active = (ALL_POSITIONS as readonly string[]).filter(
-    p => !foldedSet.has(p) && p !== requester && p !== lastAggressor,
+    p => !foldedSet.has(p) && p !== requester && p !== lastAggressor
   );
-  const extraSurvivor = active.length > 0 && getRandomInt(0, 99) < 40
-    ? [getRandomElement(active)] : [];
+  const extraSurvivor =
+    active.length > 0 && getRandomInt(0, 99) < 40 ? [getRandomElement(active)] : [];
   const remainingPlayers = [...new Set([requester, lastAggressor, ...extraSurvivor])];
 
   const players = buildPlayers(bets, foldedSet, requester, stacks);
@@ -245,7 +250,16 @@ function generatePreflopMoment(
   const accumulatedLog = [...actionLog, ...postAskLines];
 
   return {
-    askMoment: { street: 'preflop', communityCards: 0, centerPot: 0, players, actionLog, requesterName: requester, correctAnswer, explanation },
+    askMoment: {
+      street: 'preflop',
+      communityCards: 0,
+      centerPot: 0,
+      players,
+      actionLog,
+      requesterName: requester,
+      correctAnswer,
+      explanation,
+    },
     remainingPlayers,
     newCenterPot,
     accumulatedLog,
@@ -261,13 +275,17 @@ function generatePostflopMoment(
   centerPot: number,
   stacks: number[],
   blindLevel: number,
-  historicalLog: string[],
-): { askMoment: AskMoment; remainingPlayers: string[]; newCenterPot: number; accumulatedLog: string[] } | null {
-
+  historicalLog: string[]
+): {
+  askMoment: AskMoment;
+  remainingPlayers: string[];
+  newCenterPot: number;
+  accumulatedLog: string[];
+} | null {
   if (remainingPlayers.length < 2) return null;
 
   const foldedSet = new Set(
-    (ALL_POSITIONS as readonly string[]).filter(p => !remainingPlayers.includes(p)),
+    (ALL_POSITIONS as readonly string[]).filter(p => !remainingPlayers.includes(p))
   );
   const bets: Record<string, number> = {};
   const log: string[] = [];
@@ -275,13 +293,16 @@ function generatePostflopMoment(
   let lastAggressor: string | null = null;
   let currentBet = 0;
 
-  const orderedActors = (POSTFLOP_ORDER as readonly string[]).filter(
-    p => remainingPlayers.includes(p),
+  const orderedActors = (POSTFLOP_ORDER as readonly string[]).filter(p =>
+    remainingPlayers.includes(p)
   );
 
-  const requesterIdx = getRandomInt(0, 99) < 30
-    ? 0
-    : Math.floor(orderedActors.length * 0.5 + getRandomInt(0, orderedActors.length * 50 - 1) / 100);
+  const requesterIdx =
+    getRandomInt(0, 99) < 30
+      ? 0
+      : Math.floor(
+          orderedActors.length * 0.5 + getRandomInt(0, orderedActors.length * 50 - 1) / 100
+        );
   const requester = orderedActors[Math.min(requesterIdx, orderedActors.length - 1)];
   const priorActors = orderedActors.slice(0, orderedActors.indexOf(requester));
 
@@ -305,21 +326,17 @@ function generatePostflopMoment(
 
     if (action === 'check') {
       // no log
-
     } else if (action === 'bet') {
       bets[player] = amount;
       log.push(`${player} bets $${amount}`);
       lastAggressor = player;
       currentBet = amount;
-
     } else if (action === 'fold') {
       foldedSet.add(player);
       log.push(`${player} folds`);
-
     } else if (action === 'call') {
       bets[player] = currentBet;
       log.push(`${player} calls $${currentBet}`);
-
     } else {
       // Re-raise: log it (any prior players with outstanding balance respond in post-ask)
       bets[player] = amount;
@@ -354,7 +371,16 @@ function generatePostflopMoment(
   const accumulatedLog = [...actionLog, ...postAskLines];
 
   return {
-    askMoment: { street, communityCards, centerPot, players, actionLog, requesterName: requester, correctAnswer, explanation },
+    askMoment: {
+      street,
+      communityCards,
+      centerPot,
+      players,
+      actionLog,
+      requesterName: requester,
+      correctAnswer,
+      explanation,
+    },
     remainingPlayers: nextRemaining,
     newCenterPot,
     accumulatedLog,
@@ -368,10 +394,7 @@ function generatePostflopMoment(
  * Medium   → preflop (1 ask) + flop (1 ask)
  * Advanced → preflop + flop + turn + river (1 ask each)
  */
-export function generateHand(
-  difficulty: PLODifficulty,
-  blindLevel: number,
-): GeneratedHand {
+export function generateHand(difficulty: PLODifficulty, blindLevel: number): GeneratedHand {
   const base = STARTING_STACKS[blindLevel] ?? STARTING_STACKS[2];
 
   if (difficulty === 'easy') {
@@ -392,24 +415,39 @@ export function generateHand(
 
   if (preflop.remainingPlayers.length >= 2) {
     const flop = generatePostflopMoment(
-      'flop', 3, preflop.remainingPlayers, preflop.newCenterPot,
-      stacks, blindLevel, preflop.accumulatedLog,
+      'flop',
+      3,
+      preflop.remainingPlayers,
+      preflop.newCenterPot,
+      stacks,
+      blindLevel,
+      preflop.accumulatedLog
     );
     if (flop) {
       askMoments.push(flop.askMoment);
 
       if (difficulty === 'advanced' && flop.remainingPlayers.length >= 2) {
         const turn = generatePostflopMoment(
-          'turn', 4, flop.remainingPlayers, flop.newCenterPot,
-          stacks, blindLevel, flop.accumulatedLog,
+          'turn',
+          4,
+          flop.remainingPlayers,
+          flop.newCenterPot,
+          stacks,
+          blindLevel,
+          flop.accumulatedLog
         );
         if (turn) {
           askMoments.push(turn.askMoment);
 
           if (turn.remainingPlayers.length >= 2) {
             const river = generatePostflopMoment(
-              'river', 5, turn.remainingPlayers, turn.newCenterPot,
-              stacks, blindLevel, turn.accumulatedLog,
+              'river',
+              5,
+              turn.remainingPlayers,
+              turn.newCenterPot,
+              stacks,
+              blindLevel,
+              turn.accumulatedLog
             );
             if (river) askMoments.push(river.askMoment);
           }

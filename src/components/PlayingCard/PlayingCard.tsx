@@ -12,17 +12,20 @@ interface PlayingCardProps {
   size?: Size;
 }
 
-const DIMENSIONS: Record<Size, { width: number; height: number; cornerFont: number; centerFont: number }> = {
-  sm: { width: 44,  height: 60,  cornerFont: 10, centerFont: 16 },
-  md: { width: 56,  height: 76,  cornerFont: 12, centerFont: 20 },
-  lg: { width: 72,  height: 96,  cornerFont: 15, centerFont: 26 },
+const DIMENSIONS: Record<
+  Size,
+  { width: number; height: number; cornerFont: number; centerFont: number }
+> = {
+  sm: { width: 44, height: 60, cornerFont: 10, centerFont: 16 },
+  md: { width: 56, height: 76, cornerFont: 12, centerFont: 20 },
+  lg: { width: 72, height: 96, cornerFont: 15, centerFont: 26 },
 };
 
 const SUIT_SYMBOL: Record<string, string> = {
-  spades:   '♠',
-  hearts:   '♥',
+  spades: '♠',
+  hearts: '♥',
   diamonds: '♦',
-  clubs:    '♣',
+  clubs: '♣',
 };
 
 export default function PlayingCard({ card, faceDown = false, size = 'md' }: PlayingCardProps) {
@@ -32,12 +35,14 @@ export default function PlayingCard({ card, faceDown = false, size = 'md' }: Pla
 
   if (faceDown) {
     return (
-      <View style={[dynamicStyles.card, { width: d.width, height: d.height }, dynamicStyles.faceDown]} />
+      <View
+        style={[dynamicStyles.card, { width: d.width, height: d.height }, dynamicStyles.faceDown]}
+      />
     );
   }
 
   const symbol = SUIT_SYMBOL[card.suit];
-  const color  = isRed(card.suit) ? colors.status.error : colors.text.primary;
+  const color = isRed(card.suit) ? colors.status.error : colors.text.primary;
 
   return (
     <View style={[dynamicStyles.card, { width: d.width, height: d.height }]}>
@@ -49,7 +54,6 @@ export default function PlayingCard({ card, faceDown = false, size = 'md' }: Pla
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     card: {
       backgroundColor: colors.text.primary,
@@ -82,5 +86,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '180deg' }],
     },
   });
-   
 }

@@ -1,8 +1,4 @@
-import {
-  calculatePotAmount,
-  validatePotAnswer,
-  generateRandomPotRequest,
-} from '../plo.utils';
+import { calculatePotAmount, validatePotAnswer, generateRandomPotRequest } from '../plo.utils';
 import { PotRequest } from '../../types';
 
 describe('plo.utils', () => {
@@ -10,9 +6,7 @@ describe('plo.utils', () => {
     it('should calculate pot correctly for simple bet scenario', () => {
       const request: PotRequest = {
         requestingPosition: 'BB',
-        previousActions: [
-          { position: 'UTG', action: 'bet', amount: 10 },
-        ],
+        previousActions: [{ position: 'UTG', action: 'bet', amount: 10 }],
         smallBlind: 1,
         bigBlind: 2,
       };
@@ -99,9 +93,7 @@ describe('plo.utils', () => {
     it('should return correct for right answer', () => {
       const request: PotRequest = {
         requestingPosition: 'BB',
-        previousActions: [
-          { position: 'UTG', action: 'bet', amount: 10 },
-        ],
+        previousActions: [{ position: 'UTG', action: 'bet', amount: 10 }],
         smallBlind: 1,
         bigBlind: 2,
       };
@@ -117,9 +109,7 @@ describe('plo.utils', () => {
     it('should return incorrect for wrong answer', () => {
       const request: PotRequest = {
         requestingPosition: 'BB',
-        previousActions: [
-          { position: 'UTG', action: 'bet', amount: 10 },
-        ],
+        previousActions: [{ position: 'UTG', action: 'bet', amount: 10 }],
         smallBlind: 1,
         bigBlind: 2,
       };
@@ -135,9 +125,7 @@ describe('plo.utils', () => {
     it('should include formula in explanation', () => {
       const request: PotRequest = {
         requestingPosition: 'BB',
-        previousActions: [
-          { position: 'UTG', action: 'bet', amount: 10 },
-        ],
+        previousActions: [{ position: 'UTG', action: 'bet', amount: 10 }],
         smallBlind: 1,
         bigBlind: 2,
       };
@@ -173,16 +161,14 @@ describe('plo.utils', () => {
       const request = generateRandomPotRequest();
 
       const hasBetOrRaise = request.previousActions.some(
-        (a) => a.action === 'bet' || a.action === 'raise'
+        a => a.action === 'bet' || a.action === 'raise'
       );
       expect(hasBetOrRaise).toBe(true);
     });
 
     it('should generate different scenarios on multiple calls', () => {
       const requests = Array.from({ length: 10 }, () => generateRandomPotRequest());
-      const uniqueScenarios = new Set(
-        requests.map((r) => JSON.stringify(r.previousActions))
-      );
+      const uniqueScenarios = new Set(requests.map(r => JSON.stringify(r.previousActions)));
 
       // Should have some variety (not all identical)
       expect(uniqueScenarios.size).toBeGreaterThan(1);

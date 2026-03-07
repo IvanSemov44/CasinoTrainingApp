@@ -3,7 +3,12 @@ import DrillMenuScreen from '@components/shared/DrillMenuScreen';
 import type { THUDrillType } from '../../types';
 import type { THUMenuScreenProps } from './THUMenuScreen.types';
 
-const DRILLS: { drillType: THUDrillType; label: string; description: string; difficulty: 'easy' | 'medium' | 'advanced' }[] = [
+const DRILLS: {
+  drillType: THUDrillType;
+  label: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'advanced';
+}[] = [
   {
     drillType: 'hand-recognition',
     label: 'Hand Recognition',
@@ -31,37 +36,43 @@ const DRILLS: { drillType: THUDrillType; label: string; description: string; dif
   {
     drillType: 'blind-payout',
     label: 'Blind Payout',
-    description: 'Blind pays when player wins ≥ Straight. RF=500:1, SF=50:1, FoaK=10:1, FH=3:1, Flush=3:2, Straight=1:1.',
+    description:
+      'Blind pays when player wins ≥ Straight. RF=500:1, SF=50:1, FoaK=10:1, FH=3:1, Flush=3:2, Straight=1:1.',
     difficulty: 'medium',
   },
   {
     drillType: 'trips-plus-payout',
     label: 'Trips Plus Payout',
-    description: 'Independent side bet. ToaK=3:1, Straight=4:1, Flush=7:1, FH=8:1, FoaK=30:1, SF=40:1, RF=50:1.',
+    description:
+      'Independent side bet. ToaK=3:1, Straight=4:1, Flush=7:1, FH=8:1, FoaK=30:1, SF=40:1, RF=50:1.',
     difficulty: 'medium',
   },
   {
     drillType: 'no-qualify-scenario',
     label: 'No-Qualify Scenario',
-    description: 'Ante is ALWAYS returned when dealer doesn\'t qualify — even if dealer wins comparison.',
+    description:
+      "Ante is ALWAYS returned when dealer doesn't qualify — even if dealer wins comparison.",
     difficulty: 'medium',
   },
   {
     drillType: 'blind-push',
     label: 'Blind Push Rule',
-    description: 'Player wins with less than Straight → Blind pushes (returned). Not collected, not paid.',
+    description:
+      'Player wins with less than Straight → Blind pushes (returned). Not collected, not paid.',
     difficulty: 'medium',
   },
   {
     drillType: 'blind-no-qualify',
     label: 'Blind + No Qualify',
-    description: 'Dealer doesn\'t qualify but player wins with Straight — Blind still pays 1:1. Dealer qualification never affects Blind.',
+    description:
+      "Dealer doesn't qualify but player wins with Straight — Blind still pays 1:1. Dealer qualification never affects Blind.",
     difficulty: 'advanced',
   },
   {
     drillType: 'full-outcome',
     label: 'Full Outcome',
-    description: 'Resolve all bets: Ante, Blind, Play, and Trips Plus simultaneously across complex scenarios.',
+    description:
+      'Resolve all bets: Ante, Blind, Play, and Trips Plus simultaneously across complex scenarios.',
     difficulty: 'advanced',
   },
 ];
@@ -71,7 +82,7 @@ export default function THUMenuScreen({ navigation }: THUMenuScreenProps) {
     <DrillMenuScreen
       title="Texas Hold'em Ultimate"
       drills={DRILLS}
-      onPress={(drillType) => navigation.navigate('THUDrill', { drillType })}
+      onPress={drillType => navigation.navigate('THUDrill', { drillType })}
     />
   );
 }

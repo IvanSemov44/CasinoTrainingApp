@@ -3,11 +3,11 @@ import type { ThreeCardRank } from '@utils/threeCardEvaluator';
 // ── Pair Plus ─────────────────────────────────────────────────────────────────
 
 const PAIR_PLUS_MULTIPLIERS: Partial<Record<ThreeCardRank, number>> = {
-  'straight-flush':  40,
+  'straight-flush': 40,
   'three-of-a-kind': 30,
-  'straight':         6,
-  'flush':            3,
-  'pair':             1,
+  straight: 6,
+  flush: 3,
+  pair: 1,
 };
 
 export function pairPlusMultiplier(rank: ThreeCardRank): number {
@@ -24,9 +24,9 @@ export function pairPlusPayout(rank: ThreeCardRank, betAmount: number): number {
 // Pays regardless of whether the player wins or loses the hand.
 
 const ANTE_BONUS_MULTIPLIERS: Partial<Record<ThreeCardRank, number>> = {
-  'straight-flush':  4,
+  'straight-flush': 4,
   'three-of-a-kind': 3,
-  'straight':        1,
+  straight: 1,
 };
 
 export function anteBonusMultiplier(rank: ThreeCardRank): number {
@@ -65,13 +65,13 @@ export function callOutcome(
   playerRank: ThreeCardRank,
   dealerRank: ThreeCardRank,
   qualifies: boolean,
-  anteAmount: number,
+  anteAmount: number
 ): OutcomeResult {
   if (!qualifies) {
     return {
       ante: anteAmount,
       play: 0,
-      label: "Dealer does not qualify — Ante pays 1:1, Play returned",
+      label: 'Dealer does not qualify — Ante pays 1:1, Play returned',
     };
   }
 
@@ -83,19 +83,19 @@ export function callOutcome(
     return {
       ante: anteAmount,
       play: anteAmount,
-      label: "Player wins — Ante and Play each pay 1:1",
+      label: 'Player wins — Ante and Play each pay 1:1',
     };
   }
   if (pi > di) {
     return {
       ante: -anteAmount,
       play: -anteAmount,
-      label: "Dealer wins — Ante and Play collected",
+      label: 'Dealer wins — Ante and Play collected',
     };
   }
   return {
     ante: 0,
     play: 0,
-    label: "Tie — Ante and Play pushed",
+    label: 'Tie — Ante and Play pushed',
   };
 }

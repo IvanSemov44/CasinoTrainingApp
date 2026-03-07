@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
@@ -11,7 +10,7 @@ export interface PLOFeedbackCardProps {
   upcomingMultiplier: number;
   sessionCorrect: number;
   sessionTotal: number;
-   accuracy: number | null;
+  accuracy: number | null;
   onContinue: () => void;
 }
 
@@ -37,14 +36,10 @@ export function PLOFeedbackCard({
     <>
       {/* Feedback Section */}
       <View style={styles.feedbackSection}>
-        <Text style={styles.feedbackTitle}>
-          {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
-        </Text>
+        <Text style={styles.feedbackTitle}>{isCorrect ? '✓ Correct!' : '✗ Incorrect'}</Text>
         <Text style={styles.feedbackAnswer}>Your answer: {userAnswer}</Text>
         <Text style={styles.feedbackAnswer}>Correct answer: {correctAnswer}</Text>
-        {!isCorrect &&  (
-          <Text style={styles.feedbackExplanation}>{explanation}</Text>
-        )}
+        {!isCorrect && <Text style={styles.feedbackExplanation}>{explanation}</Text>}
       </View>
 
       {/* Points Earned */}

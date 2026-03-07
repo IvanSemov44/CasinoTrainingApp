@@ -65,7 +65,6 @@ export default function RouletteLayoutViewScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -84,5 +83,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
-   
 }

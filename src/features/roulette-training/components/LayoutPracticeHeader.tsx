@@ -13,7 +13,11 @@ export interface LayoutPracticeHeaderProps {
  * Header bar for roulette layout practice screen
  * Displays title, subtitle, and current session stats
  */
-export function LayoutPracticeHeader({ totalBets, totalAmount, selectedNumber }: LayoutPracticeHeaderProps) {
+export function LayoutPracticeHeader({
+  totalBets,
+  totalAmount,
+  selectedNumber,
+}: LayoutPracticeHeaderProps) {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 

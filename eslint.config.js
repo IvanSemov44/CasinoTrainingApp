@@ -3,6 +3,8 @@ const tseslint = require('typescript-eslint');
 const reactPlugin = require('eslint-plugin-react');
 const reactHooksPlugin = require('eslint-plugin-react-hooks');
 const reactNativePlugin = require('eslint-plugin-react-native');
+const prettierPlugin = require('eslint-plugin-prettier');
+const prettierConfig = require('eslint-config-prettier');
 
 module.exports = [
   // Base JavaScript recommended rules
@@ -33,6 +35,7 @@ module.exports = [
       'react': reactPlugin,
       'react-hooks': reactHooksPlugin,
       'react-native': reactNativePlugin,
+      'prettier': prettierPlugin,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -95,6 +98,10 @@ module.exports = [
       'no-unused-vars': 'off', // Using TypeScript's version
       'prefer-const': 'warn',
       'no-var': 'error',
+
+      // Prettier
+      'prettier/prettier': 'warn',
+      ...prettierConfig.rules,
     },
   },
 ];

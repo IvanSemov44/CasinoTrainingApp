@@ -7,7 +7,17 @@ jest.mock('@components/shared', () => {
   const { View, Text, TouchableOpacity } = require('react-native');
 
   return {
-    BaseTrainingModal: ({ visible, onClose, onStart, title }: { visible: boolean; onClose: () => void; onStart: () => void; title: string }) => {
+    BaseTrainingModal: ({
+      visible,
+      onClose,
+      onStart,
+      title,
+    }: {
+      visible: boolean;
+      onClose: () => void;
+      onStart: () => void;
+      title: string;
+    }) => {
       if (!visible) return null;
       return (
         <View>
@@ -61,5 +71,4 @@ describe('CashConversionTrainingModal', () => {
     fireEvent.press(getByLabelText('close modal'));
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
-}
-);
+});

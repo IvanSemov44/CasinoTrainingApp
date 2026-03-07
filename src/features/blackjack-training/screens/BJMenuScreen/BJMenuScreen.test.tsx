@@ -19,25 +19,19 @@ describe('BJMenuScreen', () => {
 
   describe('Rendering', () => {
     it('renders the Blackjack title', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Blackjack')).toBeOnTheScreen();
     });
 
     it('renders all drill items', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Soft Hand Announcement')).toBeOnTheScreen();
       expect(screen.getByText('Dealer Action')).toBeOnTheScreen();
       expect(screen.getByText('Super Seven')).toBeOnTheScreen();
     });
 
     it('renders difficulty badges', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
       expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);
     });
@@ -45,9 +39,7 @@ describe('BJMenuScreen', () => {
 
   describe('Navigation', () => {
     it('navigates to BJDrill with correct drill type when item is pressed', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
 
       const softHandItem = screen.getByText('Soft Hand Announcement');
       fireEvent.press(softHandItem);
@@ -58,9 +50,7 @@ describe('BJMenuScreen', () => {
     });
 
     it('navigates with correct drill type for different drills', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
 
       const superSevenItem = screen.getByText('Super Seven');
       fireEvent.press(superSevenItem);
@@ -73,18 +63,14 @@ describe('BJMenuScreen', () => {
 
   describe('Drill Data', () => {
     it('displays correct descriptions for drills', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(
         screen.getByText('Hit or stand? Dealer stands on ALL 17s, including soft 17 (A+6).')
       ).toBeOnTheScreen();
     });
 
     it('shows correct difficulty levels for drills', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       // Check for both easy and advanced difficulty badges
       const easyBadges = screen.getAllByText('EASY');
       const advancedBadges = screen.getAllByText('ADVANCED');
@@ -95,9 +81,7 @@ describe('BJMenuScreen', () => {
 
   describe('Accessibility', () => {
     it('renders content accessible for screen readers', () => {
-      renderWithTheme(
-        <BJMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<BJMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Blackjack')).toBeOnTheScreen();
       expect(screen.getByText('Soft Hand Announcement')).toBeOnTheScreen();
     });

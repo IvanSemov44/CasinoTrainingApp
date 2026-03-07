@@ -24,7 +24,6 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -49,5 +48,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontStyle: 'italic',
     },
   });
-   
 }

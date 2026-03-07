@@ -12,7 +12,7 @@ export const sharedStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background.primary,
   },
-  
+
   card: {
     backgroundColor: COLORS.background.secondary,
     borderRadius: BORDER_RADIUS.lg,
@@ -301,22 +301,22 @@ export const stylePresets = {
     justifyContent: 'center' as const,
     alignItems: 'center' as const,
   },
-  
+
   row: {
     flexDirection: 'row' as const,
     alignItems: 'center' as const,
   },
-  
+
   spaceBetween: {
     flexDirection: 'row' as const,
     justifyContent: 'space-between' as const,
     alignItems: 'center' as const,
   },
-  
+
   flex1: {
     flex: 1,
   },
-  
+
   absoluteFill: {
     ...StyleSheet.absoluteFillObject,
   },

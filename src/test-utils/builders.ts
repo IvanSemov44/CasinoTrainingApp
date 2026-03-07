@@ -4,7 +4,12 @@
  */
 
 import { CashRequest, CashAnswer } from '../features/cash-conversion-training/types';
-import { PotRequest, Position, PlayerAction, PlayerActionType } from '../features/plo-training/types';
+import {
+  PotRequest,
+  Position,
+  PlayerAction,
+  PlayerActionType,
+} from '../features/plo-training/types';
 import { BetType, RouletteNumber, Bet, PlacedBet } from '../types/roulette.types';
 import { getRandomElement, getRandomInt } from '../utils/randomUtils';
 
@@ -158,38 +163,23 @@ export class BetBuilder {
   }
 
   asStraight(number: RouletteNumber, amount: number = 10): this {
-    return this.withType(BetType.STRAIGHT)
-      .withNumbers([number])
-      .withAmount(amount)
-      .withPayout(35);
+    return this.withType(BetType.STRAIGHT).withNumbers([number]).withAmount(amount).withPayout(35);
   }
 
   asSplit(numbers: [RouletteNumber, RouletteNumber], amount: number = 10): this {
-    return this.withType(BetType.SPLIT)
-      .withNumbers(numbers)
-      .withAmount(amount)
-      .withPayout(17);
+    return this.withType(BetType.SPLIT).withNumbers(numbers).withAmount(amount).withPayout(17);
   }
 
   asStreet(numbers: [RouletteNumber, RouletteNumber, RouletteNumber], amount: number = 10): this {
-    return this.withType(BetType.STREET)
-      .withNumbers(numbers)
-      .withAmount(amount)
-      .withPayout(11);
+    return this.withType(BetType.STREET).withNumbers(numbers).withAmount(amount).withPayout(11);
   }
 
   asCorner(numbers: RouletteNumber[], amount: number = 10): this {
-    return this.withType(BetType.CORNER)
-      .withNumbers(numbers)
-      .withAmount(amount)
-      .withPayout(8);
+    return this.withType(BetType.CORNER).withNumbers(numbers).withAmount(amount).withPayout(8);
   }
 
   asLine(numbers: RouletteNumber[], amount: number = 10): this {
-    return this.withType(BetType.LINE)
-      .withNumbers(numbers)
-      .withAmount(amount)
-      .withPayout(5);
+    return this.withType(BetType.LINE).withNumbers(numbers).withAmount(amount).withPayout(5);
   }
 
   build(): Bet {
@@ -239,7 +229,9 @@ export const createBets = (count: number, overrides?: Partial<Bet>): Bet[] => {
     if (overrides) {
       Object.entries(overrides).forEach(([key, value]) => {
         const methodName = `with${key.charAt(0).toUpperCase() + key.slice(1)}`;
-        const method = (builder as unknown as Record<string, (val: unknown) => BetBuilder>)[methodName];
+        const method = (builder as unknown as Record<string, (val: unknown) => BetBuilder>)[
+          methodName
+        ];
         method?.(value);
       });
     }

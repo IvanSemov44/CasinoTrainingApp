@@ -25,19 +25,19 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
 
   // Map positions to player numbers (1-6) - matching black labels in image
   const positionToPlayerNumber: Record<Position, number> = {
-    'CO': 1,  // Bottom center
-    'MP': 2,  // Bottom right
-    'UTG': 3, // Top right
-    'BB': 4,  // Top center
-    'SB': 5,  // Top left
-    'D': 6,   // Bottom left (with dealer button)
+    CO: 1, // Bottom center
+    MP: 2, // Bottom right
+    UTG: 3, // Top right
+    BB: 4, // Top center
+    SB: 5, // Top left
+    D: 6, // Bottom left (with dealer button)
   };
 
   // Build player data from actions
   const playerMap = new Map<Position, TablePlayer>();
 
   // Initialize all positions
-  POSITIONS.forEach((pos) => {
+  POSITIONS.forEach(pos => {
     const playerNumber = positionToPlayerNumber[pos];
     playerMap.set(pos, {
       position: playerNumber,
@@ -58,7 +58,7 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
   }
 
   // Update with actions
-  previousActions.forEach((action) => {
+  previousActions.forEach(action => {
     const player = playerMap.get(action.position);
     if (player) {
       player.action = action.action;
@@ -93,7 +93,6 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       marginBottom: 20,
@@ -121,5 +120,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: '500',
     },
   });
-   
 }

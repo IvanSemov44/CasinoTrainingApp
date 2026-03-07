@@ -17,21 +17,24 @@ export function useExerciseState() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
-  const checkAnswer = useCallback((correctAnswer: number, onCorrect?: () => void) => {
-    const userNum = parseInt(userAnswer);
-    const correct = userNum === correctAnswer;
+  const checkAnswer = useCallback(
+    (correctAnswer: number, onCorrect?: () => void) => {
+      const userNum = parseInt(userAnswer);
+      const correct = userNum === correctAnswer;
 
-    setIsCorrect(correct);
-    setShowFeedback(true);
-    setAttempts(prev => prev + 1);
+      setIsCorrect(correct);
+      setShowFeedback(true);
+      setAttempts(prev => prev + 1);
 
-    if (correct) {
-      setScore(prev => prev + 1);
-      onCorrect?.();
-    }
+      if (correct) {
+        setScore(prev => prev + 1);
+        onCorrect?.();
+      }
 
-    return correct;
-  }, [userAnswer]);
+      return correct;
+    },
+    [userAnswer]
+  );
 
   const resetAnswer = useCallback(() => {
     setUserAnswer('');

@@ -30,31 +30,35 @@ export function calculatePotAmount(request: PotRequest): number {
       // Don't count requesting player's own money
       continue;
     }
-    if ((action.action === 'bet' || action.action === 'raise' || action.action === 'call') && action.amount) {
+    if (
+      (action.action === 'bet' || action.action === 'raise' || action.action === 'call') &&
+      action.amount
+    ) {
       deadMoney += action.amount;
     }
   }
 
   // Dealer's formula: Dead Money + 3 × Last Action
-  return deadMoney + (3 * lastActionAmount);
+  return deadMoney + 3 * lastActionAmount;
 }
 
 /**
  * Validate user's answer against correct pot calculation
  */
-export function validatePotAnswer(
-  request: PotRequest,
-  userAnswer: number
-): PotValidationResult {
+export function validatePotAnswer(request: PotRequest, userAnswer: number): PotValidationResult {
   const correctAnswer = calculatePotAmount(request);
   const isCorrect = userAnswer === correctAnswer;
 
   // Build explanation
   const lastAction = request.previousActions
-    .filter(a => a.position !== request.requestingPosition && (a.action === 'bet' || a.action === 'raise'))
+    .filter(
+      a => a.position !== request.requestingPosition && (a.action === 'bet' || a.action === 'raise')
+    )
     .pop();
 
-  const deadMoney = request.smallBlind + request.bigBlind + 
+  const deadMoney =
+    request.smallBlind +
+    request.bigBlind +
     request.previousActions
       .filter(a => a.position !== request.requestingPosition && a.amount)
       .reduce((sum, a) => sum + (a.amount || 0), 0);
@@ -79,17 +83,19 @@ export function validatePotAnswer(
 export function generateRandomPotRequest(): PotRequest {
   // Random blind level
   const blindLevel = getRandomElement(BLIND_LEVELS);
-  
+
   // Random number of actions before pot request (2-4)
   const numActions = getRandomInt(TRAINING_CONFIG.minActions, TRAINING_CONFIG.maxActions);
-  
+
   // Select random positions for actions
   const availablePositions = [...POSITIONS];
   const actions: PlayerAction[] = [];
-  
+
   // First action is always a bet
   const firstPlayer = availablePositions[getRandomInt(2, 5)]; // UTG, MP, CO, or D
-  const firstBetAmount = blindLevel.bb * getRandomInt(TRAINING_CONFIG.minBetMultiplier, TRAINING_CONFIG.maxBetMultiplier);
+  const firstBetAmount =
+    blindLevel.bb *
+    getRandomInt(TRAINING_CONFIG.minBetMultiplier, TRAINING_CONFIG.maxBetMultiplier);
   actions.push({
     position: firstPlayer,
     action: 'bet',
@@ -99,17 +105,17 @@ export function generateRandomPotRequest(): PotRequest {
   // Add subsequent actions
   let lastBetAmount = firstBetAmount;
   const actedPositions = [firstPlayer];
-  
+
   for (let i = 1; i < numActions; i++) {
     const remainingPositions = availablePositions.filter(p => !actedPositions.includes(p));
     if (remainingPositions.length === 0) break;
-    
+
     const position = getRandomElement(remainingPositions);
     actedPositions.push(position);
 
     // Random action: fold or raise
     const actionType = getRandomInt(0, 99) > 30 ? 'raise' : 'fold';
-    
+
     if (actionType === 'fold') {
       actions.push({
         position,
@@ -128,8 +134,8 @@ export function generateRandomPotRequest(): PotRequest {
   }
 
   // Select a random player to request pot (must have acted or be SB/BB)
-  const potentialRequesters = availablePositions.filter(p => 
-    !actedPositions.includes(p) || p === 'SB' || p === 'BB'
+  const potentialRequesters = availablePositions.filter(
+    p => !actedPositions.includes(p) || p === 'SB' || p === 'BB'
   );
   const requestingPosition = getRandomElement(potentialRequesters);
 

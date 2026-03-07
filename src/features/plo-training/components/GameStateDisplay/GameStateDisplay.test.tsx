@@ -101,7 +101,7 @@ describe('GameStateDisplay', () => {
 
   it('handles all 6 positions requesting pot', () => {
     const positions = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'] as const;
-    positions.forEach((pos) => {
+    positions.forEach(pos => {
       const request: PotRequest = {
         requestingPosition: pos,
         previousActions: [],

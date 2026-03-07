@@ -31,7 +31,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
       </View>
 
       <View style={styles.modesContainer}>
-        {modes.map((mode) => {
+        {modes.map(mode => {
           const diffColor = getDifficultyColor(mode.difficulty);
           return (
             <TouchableOpacity
@@ -48,12 +48,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
             >
               <View style={styles.modeHeader}>
                 <Text style={styles.modeName}>{mode.label}</Text>
-                <View
-                  style={[
-                    styles.modeBadge,
-                    { backgroundColor: diffColor + '22' },
-                  ]}
-                >
+                <View style={[styles.modeBadge, { backgroundColor: diffColor + '22' }]}>
                   <Text style={[styles.modeBadgeText, { color: diffColor }]}>
                     {mode.difficulty.toUpperCase()}
                   </Text>
@@ -69,10 +64,8 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
       <View style={styles.instructionsBox}>
         <Text style={styles.instructionsTitle}>How it works:</Text>
         <Text style={styles.instructionsText}>
-          • Watch the action unfold at the table{'\n'}
-          • Calculate the pot when asked{'\n'}
-          • Earn points for correct answers{'\n'}
-          • Build your pot calculation streak
+          • Watch the action unfold at the table{'\n'}• Calculate the pot when asked{'\n'}• Earn
+          points for correct answers{'\n'}• Build your pot calculation streak
         </Text>
       </View>
     </ScrollView>
@@ -80,7 +73,6 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -166,5 +158,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 20,
     },
   });
-   
 }

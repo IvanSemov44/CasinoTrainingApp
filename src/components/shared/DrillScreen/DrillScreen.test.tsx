@@ -88,10 +88,7 @@ describe('DrillScreen', () => {
   it('renders the drill screen with phase asking', () => {
     render(
       <Wrapper>
-        <DrillScreen
-          scenarioGenerator={() => mockScenario}
-          drillType="blackjack"
-        />
+        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
       </Wrapper>
     );
 
@@ -101,10 +98,7 @@ describe('DrillScreen', () => {
   it('displays stats', () => {
     render(
       <Wrapper>
-        <DrillScreen
-          scenarioGenerator={() => mockScenario}
-          drillType="blackjack"
-        />
+        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
       </Wrapper>
     );
 
@@ -115,10 +109,7 @@ describe('DrillScreen', () => {
   it('calls handleSubmit when button is pressed', () => {
     render(
       <Wrapper>
-        <DrillScreen
-          scenarioGenerator={() => mockScenario}
-          drillType="blackjack"
-        />
+        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
       </Wrapper>
     );
 
@@ -136,10 +127,7 @@ describe('DrillScreen', () => {
 
     render(
       <Wrapper>
-        <DrillScreen
-          scenarioGenerator={() => mockScenario}
-          drillType="blackjack"
-        />
+        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
       </Wrapper>
     );
 

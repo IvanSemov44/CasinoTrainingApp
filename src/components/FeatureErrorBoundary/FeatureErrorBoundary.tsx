@@ -16,11 +16,11 @@ interface FeatureErrorBoundaryState {
 
 /**
  * Feature-level Error Boundary component.
- * 
+ *
  * Wraps individual feature modules to catch errors and prevent
  * the entire app from crashing. Shows a feature-specific error message
  * with a retry button.
- * 
+ *
  * @example
  * <FeatureErrorBoundary featureName="Cash Conversion">
  *   <CashConversionTrainingScreen />
@@ -50,7 +50,7 @@ class FeatureErrorBoundary extends Component<FeatureErrorBoundaryProps, FeatureE
       hasError: false,
       error: null,
     });
-    
+
     // Call custom reset handler if provided
     this.props.onReset?.();
   };
@@ -74,8 +74,8 @@ class FeatureErrorBoundary extends Component<FeatureErrorBoundaryProps, FeatureE
             </View>
           )}
 
-          <TouchableOpacity 
-            style={styles.resetButton} 
+          <TouchableOpacity
+            style={styles.resetButton}
             onPress={this.handleReset}
             accessibilityLabel="Try again"
             accessibilityRole="button"

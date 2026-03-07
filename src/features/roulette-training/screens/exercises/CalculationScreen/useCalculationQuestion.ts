@@ -4,10 +4,7 @@ import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import { useExerciseState } from './useExerciseState';
 import type { Bet, BetType } from '../../../types/exercise.types';
-import {
-  generateBetExplanation,
-  createMockBets,
-} from '../../../utils/exerciseHelpers';
+import { generateBetExplanation, createMockBets } from '../../../utils/exerciseHelpers';
 import { generateBetsForNumber, generateSingleBetFromConfig } from '../../../utils/betGenerators';
 import { getRandomInt, getRandomElement } from '@utils/randomUtils';
 import { generateHintContent } from '../../../utils/hintGenerators';
@@ -24,16 +21,16 @@ export interface CalculationRouteParams {
 export function useCalculationQuestion(params: CalculationRouteParams) {
   const cashConfig = useMemo(
     () => (params.cashConfigKey ? getCashConfig(params.cashConfigKey) : undefined),
-    [params.cashConfigKey],
+    [params.cashConfigKey]
   );
   const betConfig = useMemo(
     () => (params.betConfigKey ? getBetConfig(params.betConfigKey) : undefined),
-    [params.betConfigKey],
+    [params.betConfigKey]
   );
 
   const allowedBetTypes: BetType[] = useMemo(
     () => (betConfig ? [betConfig.type as BetType] : (params.betTypes ?? ['STRAIGHT', 'SPLIT'])),
-    [betConfig, params.betTypes],
+    [betConfig, params.betTypes]
   );
 
   const isSingleBet = allowedBetTypes.length === 1;
@@ -58,62 +55,65 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
     toggleHint,
   } = useExerciseState();
 
-  const generateNewQuestion = useCallback((retryCount = 0) => {
-    setIsLoading(true);
-    const MAX_RETRIES = 10;
+  const generateNewQuestion = useCallback(
+    (retryCount = 0) => {
+      setIsLoading(true);
+      const MAX_RETRIES = 10;
 
-    let newBets: Bet[];
-    let number: RouletteNumber;
+      let newBets: Bet[];
+      let number: RouletteNumber;
 
-    if (isSingleBet && betConfig) {
-      const possibleBets = betConfig.generatePossibleBets();
-      const { bet, number: winning } = generateSingleBetFromConfig(
-        possibleBets,
-        allowedBetTypes[0],
-        params.chipCount,
-      );
-      newBets = [bet];
-      number = winning;
-    } else {
-      number = getRandomInt(0, 12) as RouletteNumber;
-      newBets = generateBetsForNumber(number, allowedBetTypes, params.chipCount);
-    }
-
-    setWinningNumber(number);
-    setBets(newBets);
-
-    if (cashConfig) {
-      const totalPayout = newBets
-        .filter((bet) => bet && bet.chips != null && bet.payout != null)
-        .reduce((total, bet) => total + (bet.chips * bet.payout), 0);
-      const totalCash = totalPayout * cashConfig.denomination;
-      const validCashOptions = cashConfig.getCashOptions(totalCash);
-
-      if (validCashOptions.length === 0) {
-        if (retryCount < MAX_RETRIES) {
-          generateNewQuestion(retryCount + 1);
-        } else {
-          setCashRequest(50);
-          setRemainingChips(totalPayout - 50 / cashConfig.denomination);
-          setQuestionType('ASK_CHIPS');
-          resetAnswer();
-          setIsLoading(false);
-        }
-        return;
+      if (isSingleBet && betConfig) {
+        const possibleBets = betConfig.generatePossibleBets();
+        const { bet, number: winning } = generateSingleBetFromConfig(
+          possibleBets,
+          allowedBetTypes[0],
+          params.chipCount
+        );
+        newBets = [bet];
+        number = winning;
+      } else {
+        number = getRandomInt(0, 12) as RouletteNumber;
+        newBets = generateBetsForNumber(number, allowedBetTypes, params.chipCount);
       }
 
-      const selectedCash = getRandomElement(validCashOptions);
-      setCashRequest(selectedCash);
-      const calculatedChips = (totalCash - selectedCash) / cashConfig.denomination;
-      setRemainingChips(calculatedChips);
-      setQuestionType((prev) => (prev === 'ASK_CHIPS' ? 'ASK_CASH' : 'ASK_CHIPS'));
-    } else {
-      setQuestionType('ASK_PAYOUT');
-    }
+      setWinningNumber(number);
+      setBets(newBets);
 
-    resetAnswer();
-    setIsLoading(false);
-  }, [isSingleBet, betConfig, allowedBetTypes, params.chipCount, cashConfig, resetAnswer]);
+      if (cashConfig) {
+        const totalPayout = newBets
+          .filter(bet => bet && bet.chips != null && bet.payout != null)
+          .reduce((total, bet) => total + bet.chips * bet.payout, 0);
+        const totalCash = totalPayout * cashConfig.denomination;
+        const validCashOptions = cashConfig.getCashOptions(totalCash);
+
+        if (validCashOptions.length === 0) {
+          if (retryCount < MAX_RETRIES) {
+            generateNewQuestion(retryCount + 1);
+          } else {
+            setCashRequest(50);
+            setRemainingChips(totalPayout - 50 / cashConfig.denomination);
+            setQuestionType('ASK_CHIPS');
+            resetAnswer();
+            setIsLoading(false);
+          }
+          return;
+        }
+
+        const selectedCash = getRandomElement(validCashOptions);
+        setCashRequest(selectedCash);
+        const calculatedChips = (totalCash - selectedCash) / cashConfig.denomination;
+        setRemainingChips(calculatedChips);
+        setQuestionType(prev => (prev === 'ASK_CHIPS' ? 'ASK_CASH' : 'ASK_CHIPS'));
+      } else {
+        setQuestionType('ASK_PAYOUT');
+      }
+
+      resetAnswer();
+      setIsLoading(false);
+    },
+    [isSingleBet, betConfig, allowedBetTypes, params.chipCount, cashConfig, resetAnswer]
+  );
 
   useEffect(() => {
     generateNewQuestion();
@@ -121,8 +121,8 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
 
   const correctAnswer = useMemo(() => {
     const totalPayout = bets
-      .filter((bet) => bet && bet.chips != null && bet.payout != null)
-      .reduce((total, bet) => total + (bet.chips * bet.payout), 0);
+      .filter(bet => bet && bet.chips != null && bet.payout != null)
+      .reduce((total, bet) => total + bet.chips * bet.payout, 0);
 
     if (questionType === 'ASK_PAYOUT') {
       return totalPayout;
@@ -152,7 +152,19 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
   }, [cashConfig, questionType, cashRequest, remainingChips]);
 
   const hintContent = useMemo(
-    () => generateHintContent(
+    () =>
+      generateHintContent(
+        questionType,
+        isSingleBet,
+        bets,
+        winningNumber,
+        allowedBetTypes,
+        cashConfig,
+        betConfig,
+        remainingChips,
+        cashRequest
+      ),
+    [
       questionType,
       isSingleBet,
       bets,
@@ -162,14 +174,13 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
       betConfig,
       remainingChips,
       cashRequest,
-    ),
-    [questionType, isSingleBet, bets, winningNumber, allowedBetTypes, cashConfig, betConfig, remainingChips, cashRequest],
+    ]
   );
 
   const explanation = useMemo(() => {
     const totalPayout = bets
-      .filter((b) => b && b.chips != null && b.payout != null)
-      .reduce((sum, b) => sum + (b.chips * b.payout), 0);
+      .filter(b => b && b.chips != null && b.payout != null)
+      .reduce((sum, b) => sum + b.chips * b.payout, 0);
 
     if (questionType === 'ASK_PAYOUT') {
       if (isSingleBet && bets[0] && bets[0].payout != null) {

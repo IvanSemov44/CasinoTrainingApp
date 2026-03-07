@@ -34,21 +34,30 @@ export default function ProgressScreen() {
 
       <ScrollView style={styles.resultsContainer} showsVerticalScrollIndicator={false}>
         {exerciseResults.length === 0 ? (
-          <Text style={styles.empty}>No exercises yet — start practicing to see your progress!</Text>
+          <Text style={styles.empty}>
+            No exercises yet — start practicing to see your progress!
+          </Text>
         ) : (
-          exerciseResults.slice().reverse().map(result => (
-            <View key={`${result.timestamp}-${result.exerciseType}`} style={styles.resultCard}>
-              <View style={styles.resultAccent} />
-              <View style={styles.resultBody}>
-                <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
-                <View style={styles.resultMeta}>
-                  <Text style={styles.resultScore}>{result.correctAnswers}/{result.totalQuestions}</Text>
-                  <Text style={styles.resultTime}>{result.timeSpent}s</Text>
-                  <Text style={styles.resultDate}>{new Date(result.timestamp).toLocaleDateString()}</Text>
+          exerciseResults
+            .slice()
+            .reverse()
+            .map(result => (
+              <View key={`${result.timestamp}-${result.exerciseType}`} style={styles.resultCard}>
+                <View style={styles.resultAccent} />
+                <View style={styles.resultBody}>
+                  <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
+                  <View style={styles.resultMeta}>
+                    <Text style={styles.resultScore}>
+                      {result.correctAnswers}/{result.totalQuestions}
+                    </Text>
+                    <Text style={styles.resultTime}>{result.timeSpent}s</Text>
+                    <Text style={styles.resultDate}>
+                      {new Date(result.timestamp).toLocaleDateString()}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))
+            ))
         )}
       </ScrollView>
     </View>
@@ -56,7 +65,6 @@ export default function ProgressScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary, padding: 20 },
     title: { fontSize: 26, fontWeight: '800', color: colors.text.gold, marginBottom: 24 },
@@ -72,12 +80,29 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       borderColor: colors.border.gold,
     },
     statValue: { fontSize: 22, fontWeight: '800', color: colors.text.gold, marginBottom: 4 },
-    statLabel: { fontSize: 11, color: colors.text.secondary, textAlign: 'center', fontWeight: '600' },
+    statLabel: {
+      fontSize: 11,
+      color: colors.text.secondary,
+      textAlign: 'center',
+      fontWeight: '600',
+    },
 
-    sectionTitle: { fontSize: 14, fontWeight: '700', color: colors.text.muted, letterSpacing: 1.2, marginBottom: 12 },
+    sectionTitle: {
+      fontSize: 14,
+      fontWeight: '700',
+      color: colors.text.muted,
+      letterSpacing: 1.2,
+      marginBottom: 12,
+    },
     resultsContainer: { flex: 1 },
 
-    empty: { color: colors.text.secondary, fontSize: 15, textAlign: 'center', marginTop: 48, lineHeight: 22 },
+    empty: {
+      color: colors.text.secondary,
+      fontSize: 15,
+      textAlign: 'center',
+      marginTop: 48,
+      lineHeight: 22,
+    },
 
     resultCard: {
       flexDirection: 'row',
@@ -88,11 +113,16 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     resultAccent: { width: 3, backgroundColor: colors.border.gold },
     resultBody: { flex: 1, padding: 14 },
-    resultType: { fontSize: 15, fontWeight: '700', color: colors.text.primary, marginBottom: 6, textTransform: 'capitalize' },
+    resultType: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.text.primary,
+      marginBottom: 6,
+      textTransform: 'capitalize',
+    },
     resultMeta: { flexDirection: 'row', gap: 12 },
     resultScore: { fontSize: 13, color: colors.text.gold, fontWeight: '600' },
     resultTime: { fontSize: 13, color: colors.text.secondary },
     resultDate: { fontSize: 13, color: colors.text.muted },
   });
-   
 }

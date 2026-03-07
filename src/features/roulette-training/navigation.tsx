@@ -18,18 +18,55 @@ export type RouletteTrainingStackParamList = {
   RouletteTraining: { exercise: { title: string; description: string } };
   RouletteLayoutPractice: undefined;
   RouletteLayoutView: undefined;
-  Calculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
-  MixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
-  TripleMixedCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
-  AllPositionsCalculation: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
-  CashHandling: { betConfigKey?: BetConfigKey; cashConfigKey?: CashConfigKey; betTypes?: BetType[]; chipCount?: number };
+  Calculation: {
+    betConfigKey?: BetConfigKey;
+    cashConfigKey?: CashConfigKey;
+    betTypes?: BetType[];
+    chipCount?: number;
+  };
+  MixedCalculation: {
+    betConfigKey?: BetConfigKey;
+    cashConfigKey?: CashConfigKey;
+    betTypes?: BetType[];
+    chipCount?: number;
+  };
+  TripleMixedCalculation: {
+    betConfigKey?: BetConfigKey;
+    cashConfigKey?: CashConfigKey;
+    betTypes?: BetType[];
+    chipCount?: number;
+  };
+  AllPositionsCalculation: {
+    betConfigKey?: BetConfigKey;
+    cashConfigKey?: CashConfigKey;
+    betTypes?: BetType[];
+    chipCount?: number;
+  };
+  CashHandling: {
+    betConfigKey?: BetConfigKey;
+    cashConfigKey?: CashConfigKey;
+    betTypes?: BetType[];
+    chipCount?: number;
+  };
 };
 
 const Stack = createStackNavigator<RouletteTrainingStackParamList>();
-const RouletteExercisesScreenWithBoundary = withErrorBoundary(RouletteExercisesScreen, 'Roulette Training') as React.ComponentType<unknown>;
-const RouletteTrainingScreenWithBoundary = withErrorBoundary(RouletteTrainingScreen, 'Roulette Training') as React.ComponentType<unknown>;
-const RouletteLayoutPracticeScreenWithBoundary = withErrorBoundary(RouletteLayoutPracticeScreen, 'Roulette Training') as React.ComponentType<unknown>;
-const RouletteLayoutViewScreenWithBoundary = withErrorBoundary(RouletteLayoutViewScreen, 'Roulette Training') as React.ComponentType<unknown>;
+const RouletteExercisesScreenWithBoundary = withErrorBoundary(
+  RouletteExercisesScreen,
+  'Roulette Training'
+) as React.ComponentType<unknown>;
+const RouletteTrainingScreenWithBoundary = withErrorBoundary(
+  RouletteTrainingScreen,
+  'Roulette Training'
+) as React.ComponentType<unknown>;
+const RouletteLayoutPracticeScreenWithBoundary = withErrorBoundary(
+  RouletteLayoutPracticeScreen,
+  'Roulette Training'
+) as React.ComponentType<unknown>;
+const RouletteLayoutViewScreenWithBoundary = withErrorBoundary(
+  RouletteLayoutViewScreen,
+  'Roulette Training'
+) as React.ComponentType<unknown>;
 
 // Helper to get screen title based on params
 const getScreenTitle = (
@@ -99,14 +136,14 @@ export const RouletteTrainingRoutes = () => {
         name="Calculation"
         component={CalculationScreenComponent}
         options={({ route }) => ({
-          title: getScreenTitle('Calculation', route.params)
+          title: getScreenTitle('Calculation', route.params),
         })}
       />
       <Stack.Screen
         name="MixedCalculation"
         component={CalculationScreenComponent}
         options={({ route }) => ({
-          title: getScreenTitle('MixedCalculation', route.params)
+          title: getScreenTitle('MixedCalculation', route.params),
         })}
       />
       <Stack.Screen
@@ -114,7 +151,7 @@ export const RouletteTrainingRoutes = () => {
         component={CalculationScreenComponent}
         initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER'] as const }}
         options={({ route }) => ({
-          title: getScreenTitle('TripleMixedCalculation', route.params)
+          title: getScreenTitle('TripleMixedCalculation', route.params),
         })}
       />
       <Stack.Screen
@@ -122,14 +159,14 @@ export const RouletteTrainingRoutes = () => {
         component={CalculationScreenComponent}
         initialParams={{ betTypes: ['STRAIGHT', 'SPLIT', 'CORNER', 'STREET', 'LINE'] as const }}
         options={({ route }) => ({
-          title: getScreenTitle('AllPositionsCalculation', route.params)
+          title: getScreenTitle('AllPositionsCalculation', route.params),
         })}
       />
       <Stack.Screen
         name="CashHandling"
         component={CalculationScreenComponent}
         options={({ route }) => ({
-          title: getScreenTitle('CashHandling', route.params)
+          title: getScreenTitle('CashHandling', route.params),
         })}
       />
     </>

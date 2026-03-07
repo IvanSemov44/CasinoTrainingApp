@@ -110,12 +110,12 @@ describe('randomUtils', () => {
     it('should produce different orders on multiple calls (statistical test)', () => {
       const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       const results = new Set<string>();
-      
+
       for (let i = 0; i < 100; i++) {
         const shuffled = shuffleArray([...arr]);
         results.add(shuffled.join(','));
       }
-      
+
       // With 100 shuffles of 10 elements, we should see multiple different orders
       expect(results.size).toBeGreaterThan(10);
     });

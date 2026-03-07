@@ -33,11 +33,18 @@ export default function DrillMenuScreen<T extends DrillMenuItem = DrillMenuItem>
           onPress={() => onPress(drill.drillType)}
           activeOpacity={0.75}
         >
-          <View style={[styles.accentBar, { backgroundColor: difficultyColors[drill.difficulty] }]} />
+          <View
+            style={[styles.accentBar, { backgroundColor: difficultyColors[drill.difficulty] }]}
+          />
           <View style={styles.cardBody}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>{drill.label}</Text>
-              <View style={[styles.badge, { backgroundColor: colorWithOpacity(difficultyColors[drill.difficulty], 0.13) }]}>
+              <View
+                style={[
+                  styles.badge,
+                  { backgroundColor: colorWithOpacity(difficultyColors[drill.difficulty], 0.13) },
+                ]}
+              >
                 <Text style={[styles.badgeText, { color: difficultyColors[drill.difficulty] }]}>
                   {drill.difficulty.toUpperCase()}
                 </Text>

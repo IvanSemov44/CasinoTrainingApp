@@ -53,33 +53,39 @@ export default function CashConversionMenuScreen() {
           <Text style={styles.infoTitle}>Available Sectors</Text>
           <View style={styles.sectorList}>
             <Text style={styles.sectorItem}>🎯 Tier - {SECTOR_POSITIONS.tier} positions</Text>
-            <Text style={styles.sectorItem}>🎪 Orphelins - {SECTOR_POSITIONS.orphelins} positions</Text>
+            <Text style={styles.sectorItem}>
+              🎪 Orphelins - {SECTOR_POSITIONS.orphelins} positions
+            </Text>
             <Text style={styles.sectorItem}>🎭 Voisins - {SECTOR_POSITIONS.voisins} positions</Text>
             <Text style={styles.sectorItem}>⭕ Zero - {SECTOR_POSITIONS.zero} positions</Text>
-            <Text style={styles.sectorItem}>👥 Neighbors - {SECTOR_POSITIONS.neighbors} positions</Text>
+            <Text style={styles.sectorItem}>
+              👥 Neighbors - {SECTOR_POSITIONS.neighbors} positions
+            </Text>
           </View>
         </View>
 
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>Difficulty Levels</Text>
           <View style={styles.difficultyList}>
-            <Text style={styles.difficultyItem}>🟢 Easy - Max ${DIFFICULTY_MAX_BET.easy} per position</Text>
-            <Text style={styles.difficultyItem}>🟡 Medium - Max ${DIFFICULTY_MAX_BET.medium} per position</Text>
-            <Text style={styles.difficultyItem}>🔴 Hard - Max ${DIFFICULTY_MAX_BET.hard} per position</Text>
+            <Text style={styles.difficultyItem}>
+              🟢 Easy - Max ${DIFFICULTY_MAX_BET.easy} per position
+            </Text>
+            <Text style={styles.difficultyItem}>
+              🟡 Medium - Max ${DIFFICULTY_MAX_BET.medium} per position
+            </Text>
+            <Text style={styles.difficultyItem}>
+              🔴 Hard - Max ${DIFFICULTY_MAX_BET.hard} per position
+            </Text>
           </View>
         </View>
       </View>
 
-      <CashConversionTrainingModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-      />
+      <CashConversionTrainingModal visible={isModalVisible} onClose={handleCloseModal} />
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -180,5 +186,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginBottom: 8,
     },
   });
-   
 }

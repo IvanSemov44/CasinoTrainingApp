@@ -8,7 +8,9 @@ import { LayoutPracticeGuides } from '../../../components/LayoutPracticeGuides';
 import { useLayoutPracticeSession } from './useLayoutPracticeSession';
 import type { RouletteLayoutPracticeScreenProps } from './RouletteLayoutPracticeScreen.types';
 
-export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLayoutPracticeScreenProps) {
+export default function RouletteLayoutPracticeScreen({
+  navigation,
+}: RouletteLayoutPracticeScreenProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const {
@@ -33,10 +35,7 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
       />
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        <ChipSelector
-          selectedValue={selectedChipValue}
-          onSelectChip={handleChipSelect}
-        />
+        <ChipSelector selectedValue={selectedChipValue} onSelectChip={handleChipSelect} />
 
         <View style={styles.layoutContainer}>
           <RouletteLayout
@@ -50,10 +49,7 @@ export default function RouletteLayoutPracticeScreen({ navigation }: RouletteLay
         <LayoutPracticeGuides />
 
         <View style={styles.actionButtons}>
-          <TouchableOpacity
-            style={[styles.button, styles.clearButton]}
-            onPress={handleClearBets}
-          >
+          <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={handleClearBets}>
             <Text style={styles.buttonText}>🗑️ Clear All Bets</Text>
           </TouchableOpacity>
 

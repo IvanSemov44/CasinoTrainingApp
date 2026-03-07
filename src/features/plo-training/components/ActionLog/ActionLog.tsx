@@ -37,10 +37,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
         }
 
         return (
-          <Text
-            key={`line-${i}`}
-            style={[styles.line, !isCurrent && styles.historicalLine]}
-          >
+          <Text key={`line-${i}`} style={[styles.line, !isCurrent && styles.historicalLine]}>
             {line}
           </Text>
         );
@@ -54,7 +51,6 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.darkGray,
@@ -107,5 +103,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontStyle: 'italic',
     },
   });
-   
 }

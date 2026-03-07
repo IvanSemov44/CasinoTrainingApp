@@ -16,7 +16,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // Tier has 6 positions, $300 / 6 = $50 per position
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(300);
@@ -30,7 +30,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $310 / 6 = $51.67, rounds down to $50
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(300);
@@ -44,7 +44,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $600 / 6 = $100, but capped at $50 for easy
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(300);
@@ -58,7 +58,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'medium');
-      
+
       // $900 / 6 = $150, but capped at $100 for medium
       expect(answer.betPerPosition).toBe(100);
       expect(answer.totalBet).toBe(600);
@@ -72,7 +72,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'hard');
-      
+
       // $1500 / 6 = $250, but capped at $200 for hard
       expect(answer.betPerPosition).toBe(200);
       expect(answer.totalBet).toBe(1200);
@@ -86,7 +86,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $25 / 6 = $4.17, but minimum is $5
       expect(answer.betPerPosition).toBe(5);
       expect(answer.totalBet).toBe(30);
@@ -100,7 +100,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $450 / 9 = $50 per position
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(450);
@@ -114,7 +114,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $250 / 5 = $50 per position
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(250);
@@ -128,7 +128,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $200 / 4 = $50 per position
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(200);
@@ -142,7 +142,7 @@ describe('calculateCorrectAnswer', () => {
         requestType: 'for-the-money',
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       // $250 / 5 = $50 per position
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(250);
@@ -159,7 +159,7 @@ describe('calculateCorrectAnswer', () => {
         specifiedAmount: 50,
       };
       const answer = calculateCorrectAnswer(request, 'easy');
-      
+
       expect(answer.betPerPosition).toBe(50);
       expect(answer.totalBet).toBe(300);
       expect(answer.change).toBe(50);
@@ -173,7 +173,7 @@ describe('calculateCorrectAnswer', () => {
         specifiedAmount: 75,
       };
       const answer = calculateCorrectAnswer(request, 'medium');
-      
+
       // 6 positions × $75 = $450 total, $500 - $450 = $50 change
       expect(answer.betPerPosition).toBe(75);
       expect(answer.totalBet).toBe(450);
@@ -194,9 +194,9 @@ describe('validateAnswer', () => {
       betPerPosition: 50,
       change: 0,
     };
-    
+
     const result = validateAnswer(userAnswer, correctAnswer);
-    
+
     expect(result.isCorrect).toBe(true);
     expect(result.correctTotalBet).toBe(300);
     expect(result.userTotalBet).toBe(300);
@@ -213,9 +213,9 @@ describe('validateAnswer', () => {
       betPerPosition: 50,
       change: 0,
     };
-    
+
     const result = validateAnswer(userAnswer, correctAnswer);
-    
+
     expect(result.isCorrect).toBe(false);
     expect(result.correctTotalBet).toBe(300);
     expect(result.userTotalBet).toBe(250);
@@ -232,9 +232,9 @@ describe('validateAnswer', () => {
       betPerPosition: 50,
       change: 0,
     };
-    
+
     const result = validateAnswer(userAnswer, correctAnswer);
-    
+
     expect(result.isCorrect).toBe(false);
     expect(result.correctBetPerPosition).toBe(50);
     expect(result.userBetPerPosition).toBe(45);
@@ -251,9 +251,9 @@ describe('validateAnswer', () => {
       betPerPosition: 50,
       change: 0,
     };
-    
+
     const result = validateAnswer(userAnswer, correctAnswer);
-    
+
     expect(result.isCorrect).toBe(false);
     expect(result.correctChange).toBe(0);
     expect(result.userChange).toBe(10);
@@ -270,9 +270,9 @@ describe('validateAnswer', () => {
       betPerPosition: 50,
       change: 0,
     };
-    
+
     const result = validateAnswer(userAnswer, correctAnswer);
-    
+
     expect(result).toEqual({
       isCorrect: false,
       correctTotalBet: 300,
@@ -335,7 +335,7 @@ describe('generateRandomCashAmount', () => {
 describe('generateRandomSector', () => {
   it('should return a valid sector', () => {
     const validSectors = ['tier', 'orphelins', 'voisins', 'zero', 'neighbors'];
-    
+
     for (let i = 0; i < 100; i++) {
       const sector = generateRandomSector();
       expect(validSectors).toContain(sector);
@@ -344,12 +344,12 @@ describe('generateRandomSector', () => {
 
   it('should eventually return all sector types', () => {
     const sectors = new Set<string>();
-    
+
     // Run enough times to likely get all sectors
     for (let i = 0; i < 100; i++) {
       sectors.add(generateRandomSector());
     }
-    
+
     expect(sectors.has('tier')).toBe(true);
     expect(sectors.has('orphelins')).toBe(true);
     expect(sectors.has('voisins')).toBe(true);
@@ -363,7 +363,7 @@ describe('generateRandomRequest', () => {
     it('should generate a valid for-the-money request', () => {
       const cashAmount = 300;
       const request = generateRandomRequest('tier', cashAmount, 'easy');
-      
+
       expect(request.sector).toBe('tier');
       expect(request.cashAmount).toBeGreaterThanOrEqual(0);
       expect(['for-the-money', 'by-amount']).toContain(request.requestType);
@@ -374,7 +374,7 @@ describe('generateRandomRequest', () => {
       for (let i = 0; i < 50; i++) {
         const cashAmount = 300;
         const request = generateRandomRequest('tier', cashAmount, 'easy');
-        
+
         if (request.requestType === 'for-the-money') {
           // For tier (6 positions), calculate expected change
           const answer = calculateCorrectAnswer(request, 'easy');
@@ -388,7 +388,7 @@ describe('generateRandomRequest', () => {
       // For tier with $50 max bet: 6 * $50 = $300 max total
       // So $500 would give $200 change, which is > maxChange (100)
       const request = generateRandomRequest('tier', 500, 'easy');
-      
+
       // The function should adjust the cash amount to result in change < 100
       if (request.requestType === 'for-the-money') {
         const answer = calculateCorrectAnswer(request, 'easy');
@@ -403,7 +403,7 @@ describe('generateRandomRequest', () => {
       for (let i = 0; i < 50; i++) {
         const cashAmount = 350;
         const request = generateRandomRequest('tier', cashAmount, 'easy');
-        
+
         if (request.requestType === 'by-amount') {
           expect(request.specifiedAmount).toBeDefined();
           expect(request.specifiedAmount).toBeGreaterThanOrEqual(5);
@@ -416,7 +416,7 @@ describe('generateRandomRequest', () => {
       for (let i = 0; i < 50; i++) {
         const cashAmount = 400;
         const request = generateRandomRequest('tier', cashAmount, 'medium');
-        
+
         if (request.requestType === 'by-amount') {
           const answer = calculateCorrectAnswer(request, 'medium');
           expect(answer.change).toBeGreaterThanOrEqual(0);
@@ -428,7 +428,7 @@ describe('generateRandomRequest', () => {
     it('should adjust cash amount when no valid bets found for by-amount', () => {
       // Use a very high cash amount that might not have valid bets
       const request = generateRandomRequest('tier', 1000, 'easy');
-      
+
       if (request.requestType === 'by-amount') {
         // Should have a valid specified amount
         expect(request.specifiedAmount).toBeDefined();
@@ -439,9 +439,14 @@ describe('generateRandomRequest', () => {
 
   describe('all sectors', () => {
     it('should work with all sector types', () => {
-      const sectors: Array<'tier' | 'orphelins' | 'voisins' | 'zero' | 'neighbors'> = 
-        ['tier', 'orphelins', 'voisins', 'zero', 'neighbors'];
-      
+      const sectors: Array<'tier' | 'orphelins' | 'voisins' | 'zero' | 'neighbors'> = [
+        'tier',
+        'orphelins',
+        'voisins',
+        'zero',
+        'neighbors',
+      ];
+
       for (const sector of sectors) {
         const request = generateRandomRequest(sector, 300, 'easy');
         expect(request.sector).toBe(sector);
@@ -450,7 +455,7 @@ describe('generateRandomRequest', () => {
 
     it('should work with all difficulty levels', () => {
       const difficulties: Array<'easy' | 'medium' | 'hard'> = ['easy', 'medium', 'hard'];
-      
+
       for (const difficulty of difficulties) {
         const request = generateRandomRequest('tier', 500, difficulty);
         expect(request).toBeDefined();
@@ -468,12 +473,12 @@ describe('generateRandomRequest', () => {
 
     it('should generate varied request types over multiple calls', () => {
       const requestTypes = new Set<string>();
-      
+
       for (let i = 0; i < 100; i++) {
         const request = generateRandomRequest('tier', 300, 'easy');
         requestTypes.add(request.requestType);
       }
-      
+
       // Should eventually generate both types
       expect(requestTypes.size).toBeGreaterThan(0);
     });

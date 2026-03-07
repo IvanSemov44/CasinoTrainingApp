@@ -1,8 +1,8 @@
-import { 
-  calculatePayout, 
-  calculateTotalPayout, 
-  validateBetPlacement, 
-  formatTime, 
+import {
+  calculatePayout,
+  calculateTotalPayout,
+  validateBetPlacement,
+  formatTime,
   calculateScorePercentage,
   generateRandomNumber,
 } from '../roulette.utils';
@@ -12,17 +12,17 @@ import { BetType, RouletteNumber } from '../../types/roulette.types';
 // Note: We use string keys because jest.mock is hoisted and can't reference imported variables
 jest.mock('../../constants/roulette.constants', () => ({
   PAYOUT_RATIOS: {
-    'STRAIGHT': 35,
-    'SPLIT': 17,
-    'STREET': 11,
-    'CORNER': 8,
-    'LINE': 5,
-    'DOZEN': 2,
-    'COLUMN': 2,
-    'RED_BLACK': 1,
-    'EVEN_ODD': 1,
-    'HIGH_LOW': 1,
-  }
+    STRAIGHT: 35,
+    SPLIT: 17,
+    STREET: 11,
+    CORNER: 8,
+    LINE: 5,
+    DOZEN: 2,
+    COLUMN: 2,
+    RED_BLACK: 1,
+    EVEN_ODD: 1,
+    HIGH_LOW: 1,
+  },
 }));
 
 describe('Roulette Utils', () => {

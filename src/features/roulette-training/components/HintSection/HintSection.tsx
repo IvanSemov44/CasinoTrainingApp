@@ -7,11 +7,7 @@ import type { HintSectionProps } from './HintSection.types';
  * HintSection component for collapsible hint display
  * Shows a toggle button that expands/collapses hint content
  */
-const HintSection: React.FC<HintSectionProps> = React.memo(({
-  isOpen,
-  onToggle,
-  children,
-}) => {
+const HintSection: React.FC<HintSectionProps> = React.memo(({ isOpen, onToggle, children }) => {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -24,16 +20,12 @@ const HintSection: React.FC<HintSectionProps> = React.memo(({
         accessibilityRole="button"
         accessibilityState={{ expanded: isOpen }}
       >
-        <Text style={styles.hintButtonText}>
-          {isOpen ? '▼' : '▶'} Hint
-        </Text>
+        <Text style={styles.hintButtonText}>{isOpen ? '▼' : '▶'} Hint</Text>
       </TouchableOpacity>
 
       {isOpen && (
         <View style={styles.hintCard} accessibilityLiveRegion="polite">
-          <Text style={styles.hintText}>
-            {children}
-          </Text>
+          <Text style={styles.hintText}>{children}</Text>
         </View>
       )}
     </>

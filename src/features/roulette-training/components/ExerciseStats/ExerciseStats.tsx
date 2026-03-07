@@ -7,10 +7,7 @@ import type { ExerciseStatsProps } from './ExerciseStats.types';
  * ExerciseStats component for displaying score and accuracy metrics
  * Shows score/attempts ratio and calculated accuracy percentage
  */
-const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({
-  score,
-  attempts,
-}) => {
+const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({ score, attempts }) => {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -19,7 +16,9 @@ const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({
   return (
     <View style={styles.header}>
       <View style={styles.statsRow}>
-        <Text style={styles.statsText}>Score: {score}/{attempts}</Text>
+        <Text style={styles.statsText}>
+          Score: {score}/{attempts}
+        </Text>
         <Text style={styles.statsText}>Accuracy: {accuracy}%</Text>
       </View>
     </View>

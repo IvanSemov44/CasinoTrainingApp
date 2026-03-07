@@ -117,7 +117,9 @@ describe('RouletteOutsideBets', () => {
 
       fireEvent.press(getByText('EVEN'));
       expect(onBetAreaPress).toHaveBeenCalledWith(BetType.EVEN_ODD, EVEN_NUMBERS);
-      expect(EVEN_NUMBERS).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]);
+      expect(EVEN_NUMBERS).toEqual([
+        2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36,
+      ]);
     });
 
     it('should call onBetAreaPress with RED_BLACK and correct red numbers when red diamond pressed', () => {
@@ -128,7 +130,9 @@ describe('RouletteOutsideBets', () => {
 
       fireEvent.press(getByLabelText('Red numbers'));
       expect(onBetAreaPress).toHaveBeenCalledWith(BetType.RED_BLACK, RED_NUMBERS);
-      expect(RED_NUMBERS).toEqual([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+      expect(RED_NUMBERS).toEqual([
+        1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
+      ]);
     });
 
     it('should call onBetAreaPress with RED_BLACK and correct black numbers when black diamond pressed', () => {
@@ -139,7 +143,9 @@ describe('RouletteOutsideBets', () => {
 
       fireEvent.press(getByLabelText('Black numbers'));
       expect(onBetAreaPress).toHaveBeenCalledWith(BetType.RED_BLACK, BLACK_NUMBERS);
-      expect(BLACK_NUMBERS).toEqual([2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]);
+      expect(BLACK_NUMBERS).toEqual([
+        2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35,
+      ]);
     });
 
     it('should call onBetAreaPress with EVEN_ODD and correct odd numbers when ODD pressed', () => {
@@ -150,7 +156,9 @@ describe('RouletteOutsideBets', () => {
 
       fireEvent.press(getByText('ODD'));
       expect(onBetAreaPress).toHaveBeenCalledWith(BetType.EVEN_ODD, ODD_NUMBERS);
-      expect(ODD_NUMBERS).toEqual([1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35]);
+      expect(ODD_NUMBERS).toEqual([
+        1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35,
+      ]);
     });
 
     it('should call onBetAreaPress with HIGH_LOW and correct high numbers when 19-36 pressed', () => {
@@ -161,7 +169,9 @@ describe('RouletteOutsideBets', () => {
 
       fireEvent.press(getByText('19-36'));
       expect(onBetAreaPress).toHaveBeenCalledWith(BetType.HIGH_LOW, HIGH_NUMBERS);
-      expect(HIGH_NUMBERS).toEqual([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]);
+      expect(HIGH_NUMBERS).toEqual([
+        19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+      ]);
     });
   });
 
@@ -221,7 +231,7 @@ describe('RouletteOutsideBets', () => {
   describe('accessibility', () => {
     it('should have accessibility labels on even money bets', () => {
       const { getByLabelText } = render(<RouletteOutsideBets {...defaultProps} />);
-      
+
       expect(getByLabelText('Low, 1 to 18')).toBeTruthy();
       expect(getByLabelText('Even numbers')).toBeTruthy();
       expect(getByLabelText('Red numbers')).toBeTruthy();
@@ -232,7 +242,7 @@ describe('RouletteOutsideBets', () => {
 
     it('should have accessibility labels on dozen bets', () => {
       const { getByLabelText } = render(<RouletteOutsideBets {...defaultProps} />);
-      
+
       expect(getByLabelText('First dozen, 1 to 12')).toBeTruthy();
       expect(getByLabelText('Second dozen, 13 to 24')).toBeTruthy();
       expect(getByLabelText('Third dozen, 25 to 36')).toBeTruthy();
@@ -240,15 +250,13 @@ describe('RouletteOutsideBets', () => {
 
     it('should have button accessibility role on all bet buttons', () => {
       const { getByLabelText } = render(<RouletteOutsideBets {...defaultProps} />);
-      
+
       const lowBet = getByLabelText('Low, 1 to 18');
       expect(lowBet.props.accessibilityRole).toBe('button');
     });
 
     it('should indicate selected state when bet has amount', () => {
-      const getBetAmount = jest.fn((numbers) => 
-        numbers === LOW_NUMBERS ? 50 : 0
-      );
+      const getBetAmount = jest.fn(numbers => (numbers === LOW_NUMBERS ? 50 : 0));
       const { getByLabelText } = render(
         <RouletteOutsideBets {...defaultProps} getBetAmount={getBetAmount} />
       );

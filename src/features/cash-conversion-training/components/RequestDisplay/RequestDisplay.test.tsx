@@ -23,41 +23,31 @@ describe('RequestDisplay', () => {
   };
 
   it('should render label "Customer says:"', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestForTheMoney} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestForTheMoney} />);
 
     expect(getByText('Customer says:')).toBeTruthy();
   });
 
   it('should render for-the-money request format', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestForTheMoney} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestForTheMoney} />);
 
     expect(getByText(/for the money/i)).toBeTruthy();
   });
 
   it('should render by-amount request format', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestByAmount} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestByAmount} />);
 
     expect(getByText(/by \$100/i)).toBeTruthy();
   });
 
   it('should display sector name in for-the-money request', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestForTheMoney} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestForTheMoney} />);
 
     expect(getByText(/Tier/i)).toBeTruthy();
   });
 
   it('should display sector name in by-amount request', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestByAmount} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestByAmount} />);
 
     expect(getByText(/Voisins/i)).toBeTruthy();
   });
@@ -69,9 +59,7 @@ describe('RequestDisplay', () => {
       requestType: 'for-the-money',
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/Orphelins/i)).toBeTruthy();
   });
@@ -83,9 +71,7 @@ describe('RequestDisplay', () => {
       requestType: 'for-the-money',
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/Zero/i)).toBeTruthy();
   });
@@ -97,9 +83,7 @@ describe('RequestDisplay', () => {
       requestType: 'for-the-money',
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/Neighbors/i)).toBeTruthy();
   });
@@ -112,9 +96,7 @@ describe('RequestDisplay', () => {
       specifiedAmount: 50,
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/\$50/i)).toBeTruthy();
   });
@@ -127,9 +109,7 @@ describe('RequestDisplay', () => {
       specifiedAmount: 200,
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/\$200/i)).toBeTruthy();
   });
@@ -168,9 +148,7 @@ describe('RequestDisplay', () => {
   });
 
   it('should render with quotes around request text', () => {
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={mockRequestForTheMoney} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={mockRequestForTheMoney} />);
 
     const requestElement = getByText(/for the money/i);
     expect(requestElement).toBeTruthy();
@@ -184,9 +162,7 @@ describe('RequestDisplay', () => {
       specifiedAmount: 5000,
     };
 
-    const { getByText } = renderWithTheme(
-      <RequestDisplay request={request} />
-    );
+    const { getByText } = renderWithTheme(<RequestDisplay request={request} />);
 
     expect(getByText(/\$5000/i)).toBeTruthy();
   });

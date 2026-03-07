@@ -7,12 +7,7 @@ import {
   type FiveCardRank,
 } from '@utils/fiveCardEvaluator';
 import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
-import {
-  callBetMultiplier,
-  callBetPayout,
-  bonusFixedPayout,
-  bonusQualifies,
-} from './payouts';
+import { callBetMultiplier, callBetPayout, bonusFixedPayout, bonusQualifies } from './payouts';
 import type { CPScenario, CPDrillType } from '../types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -26,21 +21,35 @@ function suitLabel(suit: string): string {
   return s[suit] ?? suit;
 }
 
-function cardLabel(c: Card): string { return `${c.rank}${suitLabel(c.suit)}`; }
-function handLabel(cards: Card[]): string { return cards.map(cardLabel).join(' '); }
+function cardLabel(c: Card): string {
+  return `${c.rank}${suitLabel(c.suit)}`;
+}
+function handLabel(cards: Card[]): string {
+  return cards.map(cardLabel).join(' ');
+}
 
 // ── hand-recognition ──────────────────────────────────────────────────────────
 
 const ALL_FIVE_RANKS: FiveCardRank[] = [
-  'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
-  'flush', 'straight', 'three-of-a-kind', 'two-pair', 'one-pair', 'high-card',
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+  'straight',
+  'three-of-a-kind',
+  'two-pair',
+  'one-pair',
+  'high-card',
 ];
 
 function nearbyFiveWrong(correct: FiveCardRank): string[] {
   const idx = ALL_FIVE_RANKS.indexOf(correct);
-  return ALL_FIVE_RANKS
-    .filter(r => r !== correct)
-    .sort((a, b) => Math.abs(ALL_FIVE_RANKS.indexOf(a) - idx) - Math.abs(ALL_FIVE_RANKS.indexOf(b) - idx))
+  return ALL_FIVE_RANKS.filter(r => r !== correct)
+    .sort(
+      (a, b) =>
+        Math.abs(ALL_FIVE_RANKS.indexOf(a) - idx) - Math.abs(ALL_FIVE_RANKS.indexOf(b) - idx)
+    )
     .slice(0, 3)
     .map(fiveCardHandName);
 }
@@ -199,7 +208,13 @@ function generateCallBetPayout(): CPScenario {
 
 // ── bonus-payout ──────────────────────────────────────────────────────────────
 
-const BONUS_RANKS: FiveCardRank[] = ['royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house', 'flush'];
+const BONUS_RANKS: FiveCardRank[] = [
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+];
 
 function bonusOption(rank: FiveCardRank, swapped: boolean): string {
   const amt = bonusFixedPayout(rank, swapped);
@@ -232,9 +247,10 @@ function generateBonusPayout(): CPScenario {
   const options = shuffleArray([correct, ...uniqueWrongs]);
 
   const payNote = 'Bonus pays regardless of dealer result and regardless of whether player folded.';
-  const explanation = payout > 0
-    ? `${handLabel(cards)} = ${fiveCardHandName(rank)}. Bonus payout: €${payout}. ${payNote}`
-    : `${handLabel(cards)} = ${fiveCardHandName(rank)}. Only Royal Flush, Straight Flush, Four of a Kind, Full House, and Flush trigger the Bonus. Payout: €0.`;
+  const explanation =
+    payout > 0
+      ? `${handLabel(cards)} = ${fiveCardHandName(rank)}. Bonus payout: €${payout}. ${payNote}`
+      : `${handLabel(cards)} = ${fiveCardHandName(rank)}. Only Royal Flush, Straight Flush, Four of a Kind, Full House, and Flush trigger the Bonus. Payout: €0.`;
 
   return {
     drillType: 'bonus-payout',
@@ -268,7 +284,9 @@ function generateBonusAfterSwap(): CPScenario {
     `€${normalPayout} (same as normal)`,
     `€0 — swap cancels Bonus`,
     `€${Math.round(normalPayout * 0.75)} (¾ of normal)`,
-  ].filter(o => o !== correct).slice(0, 3);
+  ]
+    .filter(o => o !== correct)
+    .slice(0, 3);
 
   const options = shuffleArray([correct, ...wrongOptions]);
 
@@ -355,14 +373,20 @@ function generateBonusOnFold(): CPScenario {
 
 // ── swap-procedure ────────────────────────────────────────────────────────────
 
-interface SwapQuestion { q: string; correct: string; options: string[]; explanation: string }
+interface SwapQuestion {
+  q: string;
+  correct: string;
+  options: string[];
+  explanation: string;
+}
 
 const SWAP_QUESTIONS: SwapQuestion[] = [
   {
     q: 'Player wants to swap one card. What is the swap fee?',
     correct: '1× Ante',
     options: ['1× Ante', '2× Ante', '€1 fixed', 'Free — no cost'],
-    explanation: 'Swap fee = exactly 1× Ante. The player pays the swap fee when handing over their card in Phase 2.',
+    explanation:
+      'Swap fee = exactly 1× Ante. The player pays the swap fee when handing over their card in Phase 2.',
   },
   {
     q: 'Player swapped a card and then decides to fold. Does the Bonus pay?',
@@ -373,7 +397,8 @@ const SWAP_QUESTIONS: SwapQuestion[] = [
       'Only if the hand qualified before the swap',
       'Half — because they both swapped and folded',
     ],
-    explanation: 'Bonus is completely independent. It pays based on the FINAL hand only, regardless of fold/play decision and regardless of whether the player swapped.',
+    explanation:
+      'Bonus is completely independent. It pays based on the FINAL hand only, regardless of fold/play decision and regardless of whether the player swapped.',
   },
   {
     q: 'Dealer is in Phase 2. All folds have been processed and all Call bets verified. What does the dealer do next?',
@@ -384,7 +409,8 @@ const SWAP_QUESTIONS: SwapQuestion[] = [
       'Ask swap players if they want to fold or play first',
       'Collect all antes from swap players',
     ],
-    explanation: 'Phase 2 order: (1) Collect folds, (2) Verify Call bets, (3) Process swaps — collect swapped card + fee, deal new card. THEN (4) swap players make their final Fold/Play decision.',
+    explanation:
+      'Phase 2 order: (1) Collect folds, (2) Verify Call bets, (3) Process swaps — collect swapped card + fee, deal new card. THEN (4) swap players make their final Fold/Play decision.',
   },
 ];
 
@@ -404,14 +430,23 @@ function generateSwapProcedure(): CPScenario {
 
 export function generateCPScenario(drillType: CPDrillType): CPScenario {
   switch (drillType) {
-    case 'hand-recognition':     return generateHandRecognition();
-    case 'dealer-qualification': return generateDealerQualification();
-    case 'basic-outcome':        return generateBasicOutcome();
-    case 'call-bet-payout':      return generateCallBetPayout();
-    case 'bonus-payout':         return generateBonusPayout();
-    case 'bonus-after-swap':     return generateBonusAfterSwap();
-    case 'no-qualify-outcome':   return generateNoQualifyOutcome();
-    case 'bonus-on-fold':        return generateBonusOnFold();
-    case 'swap-procedure':       return generateSwapProcedure();
+    case 'hand-recognition':
+      return generateHandRecognition();
+    case 'dealer-qualification':
+      return generateDealerQualification();
+    case 'basic-outcome':
+      return generateBasicOutcome();
+    case 'call-bet-payout':
+      return generateCallBetPayout();
+    case 'bonus-payout':
+      return generateBonusPayout();
+    case 'bonus-after-swap':
+      return generateBonusAfterSwap();
+    case 'no-qualify-outcome':
+      return generateNoQualifyOutcome();
+    case 'bonus-on-fold':
+      return generateBonusOnFold();
+    case 'swap-procedure':
+      return generateSwapProcedure();
   }
 }

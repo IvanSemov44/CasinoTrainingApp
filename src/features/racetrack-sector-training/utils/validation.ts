@@ -51,9 +51,10 @@ export function validateSectorSelection(
   const correctSector = getSectorForNumber(winningNumber);
 
   // Allow either 'zero' or 'voisins' for all zero sector numbers (0, 3, 12, 15, 26, 32, 35)
-  const isCorrect = correctSector === 'zero'
-    ? (selectedSector === 'zero' || selectedSector === 'voisins')
-    : selectedSector === correctSector;
+  const isCorrect =
+    correctSector === 'zero'
+      ? selectedSector === 'zero' || selectedSector === 'voisins'
+      : selectedSector === correctSector;
 
   return {
     isCorrect,

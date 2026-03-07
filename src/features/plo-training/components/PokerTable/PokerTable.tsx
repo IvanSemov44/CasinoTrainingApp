@@ -6,7 +6,11 @@ import type { PokerTableProps } from './PokerTable.types';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-export default function PokerTable({ players, potAmount = 0, communityCards = 0 }: PokerTableProps) {
+export default function PokerTable({
+  players,
+  potAmount = 0,
+  communityCards = 0,
+}: PokerTableProps) {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -41,7 +45,12 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
 
   return (
     <View style={styles.container}>
-      <View style={[styles.tableContainer, { width: tableWidth, height: tableHeight, marginTop: 80, marginBottom: 80 }]}>
+      <View
+        style={[
+          styles.tableContainer,
+          { width: tableWidth, height: tableHeight, marginTop: 80, marginBottom: 80 },
+        ]}
+      >
         {/* Poker Table */}
         <View style={[styles.table, { width: tableWidth, height: tableHeight }]}>
           <View style={styles.tableInner}>
@@ -65,7 +74,7 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
         </View>
 
         {/* Players positioned around table */}
-        {players.map((player) => {
+        {players.map(player => {
           const pos = getPlayerPosition(player.position);
           return (
             <View key={player.position} style={[styles.playerWrapper, pos]}>
@@ -89,7 +98,6 @@ export default function PokerTable({ players, potAmount = 0, communityCards = 0 
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       alignItems: 'center',
@@ -157,5 +165,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       position: 'absolute',
     },
   });
-   
 }

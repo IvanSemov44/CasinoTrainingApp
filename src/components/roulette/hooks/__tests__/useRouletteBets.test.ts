@@ -10,7 +10,7 @@ describe('useRouletteBets', () => {
   describe('getBetAmount', () => {
     it('should return 0 for empty placed bets', () => {
       const { result } = renderHook(() => useRouletteBets([]));
-      
+
       expect(result.current.getBetAmount([5])).toBe(0);
     });
 
@@ -25,9 +25,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5])).toBe(10);
     });
 
@@ -42,9 +42,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5, 8])).toBe(25);
     });
 
@@ -59,9 +59,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5, 8])).toBe(25);
     });
 
@@ -84,9 +84,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5])).toBe(25);
     });
 
@@ -101,9 +101,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5, 8])).toBe(0);
     });
 
@@ -118,9 +118,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([6])).toBe(0);
     });
 
@@ -135,9 +135,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([1, 2, 4, 5])).toBe(50);
       expect(result.current.getBetAmount([5, 4, 2, 1])).toBe(50); // Different order
     });
@@ -153,9 +153,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([4, 5, 6])).toBe(30);
     });
 
@@ -170,9 +170,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([1, 2, 3, 4, 5, 6])).toBe(20);
     });
 
@@ -190,9 +190,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ] as unknown as PlacedBet[];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5])).toBe(10);
     });
 
@@ -207,9 +207,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([5])).toBe(0);
     });
 
@@ -224,9 +224,9 @@ describe('useRouletteBets', () => {
           timestamp: Date.now(),
         },
       ];
-      
+
       const { result } = renderHook(() => useRouletteBets(placedBets));
-      
+
       expect(result.current.getBetAmount([])).toBe(0);
     });
   });

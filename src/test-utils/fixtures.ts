@@ -75,9 +75,7 @@ export const mockCashAnswers: Record<string, CashAnswer> = {
 export const mockPotRequests: Record<string, PotRequest> = {
   simpleBet: {
     requestingPosition: 'BB',
-    previousActions: [
-      { position: 'UTG', action: 'bet', amount: 10 },
-    ],
+    previousActions: [{ position: 'UTG', action: 'bet', amount: 10 }],
     smallBlind: 1,
     bigBlind: 2,
   },

@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View, Text, ScrollView, TouchableOpacity,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import NumberPad from '@components/NumberPad';
 import PlayingCard from '@components/PlayingCard';
@@ -66,7 +64,9 @@ export default function DrillScreen<
         <View style={styles.statPill}>
           <Text style={styles.statPillText}>{sessionPoints} pts</Text>
           {accuracy !== null && (
-            <Text style={styles.statPillSub}>{sessionCorrect}/{sessionTotal} · {accuracy}%</Text>
+            <Text style={styles.statPillSub}>
+              {sessionCorrect}/{sessionTotal} · {accuracy}%
+            </Text>
           )}
         </View>
         {streak >= 1 && (
@@ -118,7 +118,10 @@ export default function DrillScreen<
                   <TouchableOpacity
                     key={opt}
                     style={styles.twoOptionBtn}
-                    onPress={() => { setSelectedOption(opt); handleSubmit(opt); }}
+                    onPress={() => {
+                      setSelectedOption(opt);
+                      handleSubmit(opt);
+                    }}
                     activeOpacity={0.75}
                   >
                     <Text style={styles.twoOptionText}>{opt}</Text>
@@ -134,7 +137,12 @@ export default function DrillScreen<
                     onPress={() => setSelectedOption(opt)}
                     activeOpacity={0.75}
                   >
-                    <Text style={[styles.optionText, selectedOption === opt && styles.optionTextSelected]}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        selectedOption === opt && styles.optionTextSelected,
+                      ]}
+                    >
                       {opt}
                     </Text>
                   </TouchableOpacity>
@@ -168,12 +176,16 @@ export default function DrillScreen<
         </>
       ) : (
         <>
-          <View style={[styles.resultCard, isCorrect ? styles.resultCorrect : styles.resultIncorrect]}>
+          <View
+            style={[styles.resultCard, isCorrect ? styles.resultCorrect : styles.resultIncorrect]}
+          >
             <View style={styles.resultHeader}>
               <Text style={styles.resultIcon}>{isCorrect ? '✓' : '✗'}</Text>
               <Text style={styles.resultTitle}>{isCorrect ? 'Correct!' : 'Incorrect'}</Text>
               {isCorrect && (
-                <Text style={styles.pointsEarned}>+{lastEarned} pt{lastEarned !== 1 ? 's' : ''}</Text>
+                <Text style={styles.pointsEarned}>
+                  +{lastEarned} pt{lastEarned !== 1 ? 's' : ''}
+                </Text>
               )}
             </View>
 
@@ -181,7 +193,9 @@ export default function DrillScreen<
               !isCorrect && (
                 <View style={styles.answerRow}>
                   <Text style={styles.answerLabel}>Correct answer</Text>
-                  <Text style={[styles.answerValue, styles.correctHL]}>{scenario.correctOption}</Text>
+                  <Text style={[styles.answerValue, styles.correctHL]}>
+                    {scenario.correctOption}
+                  </Text>
                 </View>
               )
             ) : (
@@ -193,7 +207,9 @@ export default function DrillScreen<
                 {!isCorrect && (
                   <View style={styles.answerRow}>
                     <Text style={styles.answerLabel}>Correct answer</Text>
-                    <Text style={[styles.answerValue, styles.correctHL]}>€{scenario.correctAnswer}</Text>
+                    <Text style={[styles.answerValue, styles.correctHL]}>
+                      €{scenario.correctAnswer}
+                    </Text>
                   </View>
                 )}
               </>

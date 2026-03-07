@@ -5,7 +5,10 @@ import { TrainingSelectionModal } from '@components/roulette';
 import { useTheme } from '@contexts/ThemeContext';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
-type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
+type RouletteExercisesScreenProps = StackScreenProps<
+  RouletteTrainingStackParamList,
+  'RouletteExercises'
+>;
 
 export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -53,16 +56,12 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
         </View>
       </View>
 
-      <TrainingSelectionModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-      />
+      <TrainingSelectionModal visible={isModalVisible} onClose={handleCloseModal} />
     </View>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -138,5 +137,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 20,
     },
   });
-   
 }

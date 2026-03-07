@@ -15,9 +15,7 @@ export function PositionWheelOrderCard({ wheelOrder }: PositionWheelOrderCardPro
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Wheel Order Reference:</Text>
-      <Text style={styles.subtitle}>
-        Numbers appear in this order around the wheel
-      </Text>
+      <Text style={styles.subtitle}>Numbers appear in this order around the wheel</Text>
       <View style={styles.wheelOrderContainer}>
         {wheelOrder.map((num, index) => (
           <View key={num} style={styles.wheelNumberBadge}>

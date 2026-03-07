@@ -16,11 +16,11 @@ interface ModeOption {
 
 // Accent colors for racetrack sectors - visual hierarchy indicators
 const SECTOR_ACCENT_COLORS: Record<SectorMode, string> = {
-  voisins: '#3b82f6',    // Blue
-  tier: '#ef4444',       // Red
-  orphelins: '#f59e0b',  // Amber
-  zero: '#8b5cf6',       // Purple
-  random: '#10b981',     // Green
+  voisins: '#3b82f6', // Blue
+  tier: '#ef4444', // Red
+  orphelins: '#f59e0b', // Amber
+  zero: '#8b5cf6', // Purple
+  random: '#10b981', // Green
 };
 
 const MODE_OPTIONS: ModeOption[] = [
@@ -70,16 +70,14 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.header}>
         <Text style={styles.title}>Racetrack Sectors</Text>
-        <Text style={styles.subtitle}>
-          Learn which sector contains each winning number
-        </Text>
+        <Text style={styles.subtitle}>Learn which sector contains each winning number</Text>
       </View>
 
       <SectorReferenceCard sectorOptions={sectorOptions} sectorColors={SECTOR_ACCENT_COLORS} />
 
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
-        {MODE_OPTIONS.map((option) => (
+        {MODE_OPTIONS.map(option => (
           <TouchableOpacity
             key={option.mode}
             style={styles.modeCard}

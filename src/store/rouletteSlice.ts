@@ -18,7 +18,7 @@ const rouletteSlice = createSlice({
     removeBet: (state, action: PayloadAction<string>) => {
       state.placedBets = state.placedBets.filter(bet => bet.id !== action.payload);
     },
-    clearBets: (state) => {
+    clearBets: state => {
       state.placedBets = [];
     },
     setSelectedChipValue: (state, action: PayloadAction<number>) => {
@@ -31,7 +31,7 @@ const rouletteSlice = createSlice({
     addExerciseResult: (state, action: PayloadAction<ExerciseResult>) => {
       state.exerciseResults.push(action.payload);
     },
-    clearExerciseResults: (state) => {
+    clearExerciseResults: state => {
       state.exerciseResults = [];
     },
   },

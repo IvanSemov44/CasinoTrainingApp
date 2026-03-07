@@ -1,19 +1,8 @@
 import { dealCards } from '@utils/cardUtils';
-import {
-  fiveCardHandName,
-  type FiveCardRank,
-} from '@utils/fiveCardEvaluator';
+import { fiveCardHandName, type FiveCardRank } from '@utils/fiveCardEvaluator';
 import { getRandomElement, shuffleArray, getRandomInt } from '@utils/randomUtils';
-import {
-  bestFiveFromSeven,
-  thuDealerQualifies,
-} from '@utils/sevenCardBestHand';
-import {
-  blindPayout,
-  blindMultiplier,
-  tripsPayout,
-  tripsPlusMultiplier,
-} from './payouts';
+import { bestFiveFromSeven, thuDealerQualifies } from '@utils/sevenCardBestHand';
+import { blindPayout, blindMultiplier, tripsPayout, tripsPlusMultiplier } from './payouts';
 import type { THUScenario, THUDrillType } from '../types';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -23,8 +12,16 @@ function pick<T>(arr: readonly T[]): T {
 }
 
 const RANK_ORDER: FiveCardRank[] = [
-  'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
-  'flush', 'straight', 'three-of-a-kind', 'two-pair', 'one-pair', 'high-card',
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+  'straight',
+  'three-of-a-kind',
+  'two-pair',
+  'one-pair',
+  'high-card',
 ];
 
 function rankIndex(rank: FiveCardRank): number {
@@ -35,9 +32,11 @@ const ALL_FIVE_RANKS: FiveCardRank[] = RANK_ORDER;
 
 function nearbyFiveWrong(correct: FiveCardRank): string[] {
   const idx = ALL_FIVE_RANKS.indexOf(correct);
-  return ALL_FIVE_RANKS
-    .filter(r => r !== correct)
-    .sort((a, b) => Math.abs(ALL_FIVE_RANKS.indexOf(a) - idx) - Math.abs(ALL_FIVE_RANKS.indexOf(b) - idx))
+  return ALL_FIVE_RANKS.filter(r => r !== correct)
+    .sort(
+      (a, b) =>
+        Math.abs(ALL_FIVE_RANKS.indexOf(a) - idx) - Math.abs(ALL_FIVE_RANKS.indexOf(b) - idx)
+    )
     .slice(0, 3)
     .map(fiveCardHandName);
 }
@@ -47,7 +46,7 @@ function nearbyFiveWrong(correct: FiveCardRank): string[] {
 function generateHandRecognition(): THUScenario {
   const all7 = dealCards(7);
   const playerHole = all7.slice(0, 2);
-  const community  = all7.slice(2, 7);
+  const community = all7.slice(2, 7);
   const rank = bestFiveFromSeven(all7);
   const correct = fiveCardHandName(rank);
   const options = shuffleArray([correct, ...nearbyFiveWrong(rank)]);
@@ -104,14 +103,14 @@ function generateBasicOutcome(): THUScenario {
   const all9 = dealCards(9);
   const playerHole = all9.slice(0, 2);
   const dealerHole = all9.slice(2, 4);
-  const community  = all9.slice(4, 9);
+  const community = all9.slice(4, 9);
 
   const playerAll7 = [...playerHole, ...community];
   const dealerAll7 = [...dealerHole, ...community];
 
   const playerRank = bestFiveFromSeven(playerAll7);
   const dealerRank = bestFiveFromSeven(dealerAll7);
-  const qualifies  = thuDealerQualifies(dealerAll7);
+  const qualifies = thuDealerQualifies(dealerAll7);
 
   const pi = rankIndex(playerRank);
   const di = rankIndex(dealerRank);
@@ -121,9 +120,10 @@ function generateBasicOutcome(): THUScenario {
 
   if (!qualifies) {
     correctOption = BASIC_OUTCOMES[0];
-    const comparison = pi <= di
-      ? `Player wins comparison (${fiveCardHandName(playerRank)} beats ${fiveCardHandName(dealerRank)}): Blind pays, Play pays 1:1.`
-      : `Dealer wins comparison despite not qualifying: Blind and Play collected — but Ante still returned.`;
+    const comparison =
+      pi <= di
+        ? `Player wins comparison (${fiveCardHandName(playerRank)} beats ${fiveCardHandName(dealerRank)}): Blind pays, Play pays 1:1.`
+        : `Dealer wins comparison despite not qualifying: Blind and Play collected — but Ante still returned.`;
     explanation = `Dealer's best hand: ${fiveCardHandName(dealerRank)} — does not qualify.\nKey rule: Ante is ALWAYS returned when dealer doesn't qualify.\n${comparison}`;
   } else if (pi < di) {
     correctOption = BASIC_OUTCOMES[1];
@@ -201,15 +201,27 @@ function buildRaisePool(): RaiseQuestion[] {
       type: 'mc',
       q: 'Player checked pre-flop and flop. At the Turn+River, can they check again?',
       correct: 'No — must raise 1× Ante or Fold',
-      options: ['No — must raise 1× Ante or Fold', 'Yes — they can check one more time', 'Yes — they can check up to 3 times', 'No — must fold if checked twice'],
-      explanation: 'The Turn+River is the final decision point. Checking is not allowed here — player must raise 1× Ante or fold. Folding loses both Ante and Blind.',
+      options: [
+        'No — must raise 1× Ante or Fold',
+        'Yes — they can check one more time',
+        'Yes — they can check up to 3 times',
+        'No — must fold if checked twice',
+      ],
+      explanation:
+        'The Turn+River is the final decision point. Checking is not allowed here — player must raise 1× Ante or fold. Folding loses both Ante and Blind.',
     },
     {
       type: 'mc',
       q: 'Player raised 4× pre-flop. Can they raise again on the flop?',
       correct: 'No — once player raises, all later decision points are skipped',
-      options: ['No — once player raises, all later decision points are skipped', 'Yes — 2× Ante on the flop is still allowed', 'Yes — 1× Ante on the flop', 'No — they must check on the flop'],
-      explanation: 'Player gets exactly ONE chance to raise their Play bet across the whole hand. Once raised at any stage, all remaining decision points are skipped.',
+      options: [
+        'No — once player raises, all later decision points are skipped',
+        'Yes — 2× Ante on the flop is still allowed',
+        'Yes — 1× Ante on the flop',
+        'No — they must check on the flop',
+      ],
+      explanation:
+        'Player gets exactly ONE chance to raise their Play bet across the whole hand. Once raised at any stage, all remaining decision points are skipped.',
     },
   ];
 }
@@ -242,10 +254,15 @@ function generateRaiseSizing(): THUScenario {
 
 // Use even Blind amounts for Flush so 3:2 result is always an integer (10→15, 20→30, 30→45)
 const FLUSH_BLIND_AMOUNTS = [10, 20, 30] as const;
-const STD_BLIND_AMOUNTS   = [10, 15, 20, 25] as const;
+const STD_BLIND_AMOUNTS = [10, 15, 20, 25] as const;
 
 const BLIND_PAYING_RANKS: FiveCardRank[] = [
-  'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house', 'flush', 'straight',
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+  'straight',
 ];
 
 function generateBlindPayout(): THUScenario {
@@ -270,9 +287,10 @@ function generateBlindPayout(): THUScenario {
     question: `Player wins with ${fiveCardHandName(rank)}. Blind is €${blind}.\nWhat does the Blind pay? (Net payout, not including returning the bet)`,
     answerType: 'numeric',
     correctAnswer: payout,
-    explanation: rank === 'flush'
-      ? `Flush pays 3:2 on the Blind (= ×1.5).\n€${blind} × 1.5 = €${payout}.`
-      : `${fiveCardHandName(rank)} → Blind pays ${mult}:1.\n€${blind} × ${mult} = €${payout}.`,
+    explanation:
+      rank === 'flush'
+        ? `Flush pays 3:2 on the Blind (= ×1.5).\n€${blind} × 1.5 = €${payout}.`
+        : `${fiveCardHandName(rank)} → Blind pays ${mult}:1.\n€${blind} × ${mult} = €${payout}.`,
   };
 }
 
@@ -283,8 +301,13 @@ const TRIPS_AMOUNTS = [1, 5] as const;
 function generateTripsPlusPayout(): THUScenario {
   const giveTrips = getRandomInt(0, 99) < 70;
   const tripsRanks: FiveCardRank[] = [
-    'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
-    'flush', 'straight', 'three-of-a-kind',
+    'royal-flush',
+    'straight-flush',
+    'four-of-a-kind',
+    'full-house',
+    'flush',
+    'straight',
+    'three-of-a-kind',
   ];
 
   let all7 = dealCards(7);
@@ -300,7 +323,7 @@ function generateTripsPlusPayout(): THUScenario {
   }
 
   const trips = pick(TRIPS_AMOUNTS);
-  const mult  = tripsPlusMultiplier(rank);
+  const mult = tripsPlusMultiplier(rank);
   const payout = tripsPayout(rank, trips);
 
   return {
@@ -311,9 +334,10 @@ function generateTripsPlusPayout(): THUScenario {
     question: `Player's final best hand: ${fiveCardHandName(rank)}.\nTrips Plus bet: €${trips}.\nWhat is the Trips Plus payout?`,
     answerType: 'numeric',
     correctAnswer: payout,
-    explanation: mult > 0
-      ? `${fiveCardHandName(rank)} pays ${mult}:1 on Trips Plus.\n€${trips} × ${mult} = €${payout}.\nTrips Plus pays regardless of dealer qualification or hand comparison result.`
-      : `${fiveCardHandName(rank)} does not qualify for Trips Plus.\nMinimum: Three of a Kind (3:1). Payout: €0.`,
+    explanation:
+      mult > 0
+        ? `${fiveCardHandName(rank)} pays ${mult}:1 on Trips Plus.\n€${trips} × ${mult} = €${payout}.\nTrips Plus pays regardless of dealer qualification or hand comparison result.`
+        : `${fiveCardHandName(rank)} does not qualify for Trips Plus.\nMinimum: Three of a Kind (3:1). Payout: €0.`,
   };
 }
 
@@ -321,7 +345,12 @@ function generateTripsPlusPayout(): THUScenario {
 // Key rule: Ante is ALWAYS returned when dealer doesn't qualify —
 // even if dealer wins the hand comparison.
 
-interface NoQualifyQuestion { q: string; correct: string; options: string[]; explanation: string }
+interface NoQualifyQuestion {
+  q: string;
+  correct: string;
+  options: string[];
+  explanation: string;
+}
 
 const NO_QUALIFY_QUESTIONS: NoQualifyQuestion[] = [
   {
@@ -333,7 +362,8 @@ const NO_QUALIFY_QUESTIONS: NoQualifyQuestion[] = [
       'Ante pays 1:1 to player',
       'Ante stays in play for next round',
     ],
-    explanation: 'THU key rule: Ante is ALWAYS returned (pushed) when dealer does not qualify — regardless of who wins the hand comparison.\nBlind and Play are still resolved by normal hand comparison.',
+    explanation:
+      'THU key rule: Ante is ALWAYS returned (pushed) when dealer does not qualify — regardless of who wins the hand comparison.\nBlind and Play are still resolved by normal hand comparison.',
   },
   {
     q: 'Dealer does not qualify. Player wins the comparison. What happens to the Play bet?',
@@ -342,20 +372,22 @@ const NO_QUALIFY_QUESTIONS: NoQualifyQuestion[] = [
       'Play pays 1:1',
       'Play is returned (pushed)',
       'Play pays 2:1 as bonus for no-qualify',
-      'Play is collected — dealer doesn\'t qualify so nothing pays',
+      "Play is collected — dealer doesn't qualify so nothing pays",
     ],
-    explanation: 'When dealer doesn\'t qualify: Ante is returned (push), but Play is still resolved by hand comparison.\nPlayer wins comparison → Play pays 1:1 normally.',
+    explanation:
+      "When dealer doesn't qualify: Ante is returned (push), but Play is still resolved by hand comparison.\nPlayer wins comparison → Play pays 1:1 normally.",
   },
   {
     q: 'Dealer does not qualify. Dealer wins the hand comparison. What happens to the Blind?',
     correct: 'Blind is collected — player lost the comparison',
     options: [
       'Blind is collected — player lost the comparison',
-      'Blind is returned — dealer doesn\'t qualify so nothing is collected',
+      "Blind is returned — dealer doesn't qualify so nothing is collected",
       'Blind pays 1:1 (no-qualify bonus)',
-      'Blind pushes always when dealer doesn\'t qualify',
+      "Blind pushes always when dealer doesn't qualify",
     ],
-    explanation: 'Blind is resolved by hand comparison, NOT dealer qualification.\nDealer wins comparison → Blind is collected.\nOnly the Ante is automatically returned when dealer doesn\'t qualify.',
+    explanation:
+      "Blind is resolved by hand comparison, NOT dealer qualification.\nDealer wins comparison → Blind is collected.\nOnly the Ante is automatically returned when dealer doesn't qualify.",
   },
 ];
 
@@ -410,7 +442,13 @@ function generateBlindPush(): THUScenario {
 // Advanced: dealer doesn't qualify, player wins with Straight — Blind pays 1:1.
 // Tests the combo of no-qualify + Blind pay table.
 
-interface BlindNoQualifyQuestion { q: string; blind: number; correct: string; options: string[]; explanation: string }
+interface BlindNoQualifyQuestion {
+  q: string;
+  blind: number;
+  correct: string;
+  options: string[];
+  explanation: string;
+}
 
 function buildBlindNoQualifyPool(): BlindNoQualifyQuestion[] {
   const blind = pick(STD_BLIND_AMOUNTS);
@@ -421,7 +459,7 @@ function buildBlindNoQualifyPool(): BlindNoQualifyQuestion[] {
       correct: `€${blind} (1:1)`,
       options: [
         `€${blind} (1:1)`,
-        '€0 — Blind pushes when dealer doesn\'t qualify',
+        "€0 — Blind pushes when dealer doesn't qualify",
         `€${blind} returned (push)`,
         `€${blind * 3} (3:1) — Full House rate`,
       ],
@@ -459,7 +497,12 @@ function generateBlindNoQualify(): THUScenario {
 // ── full-outcome ──────────────────────────────────────────────────────────────
 // Advanced: multi-bet resolution scenarios testing the most commonly confused rules.
 
-interface FullOutcomeQuestion { q: string; correct: string; options: string[]; explanation: string }
+interface FullOutcomeQuestion {
+  q: string;
+  correct: string;
+  options: string[];
+  explanation: string;
+}
 
 const FULL_OUTCOME_QUESTIONS: FullOutcomeQuestion[] = [
   {
@@ -467,11 +510,12 @@ const FULL_OUTCOME_QUESTIONS: FullOutcomeQuestion[] = [
     correct: 'Ante returned, Blind collected, Play collected',
     options: [
       'Ante returned, Blind collected, Play collected',
-      'All bets returned — dealer doesn\'t qualify',
+      "All bets returned — dealer doesn't qualify",
       'Ante returned, Blind returned, Play collected',
       'All bets collected — dealer wins comparison',
     ],
-    explanation: 'Dealer does not qualify → Ante returned (push).\nDealer wins comparison → Blind collected, Play collected.\nKey: Only Ante is automatically returned. Blind and Play are still resolved by hand comparison.',
+    explanation:
+      'Dealer does not qualify → Ante returned (push).\nDealer wins comparison → Blind collected, Play collected.\nKey: Only Ante is automatically returned. Blind and Play are still resolved by hand comparison.',
   },
   {
     q: 'Ante €20, Blind €20, Play €80 (raised 4× pre-flop). Dealer does NOT qualify. Player wins with Full House.\nWhat is the Blind payout?',
@@ -482,7 +526,8 @@ const FULL_OUTCOME_QUESTIONS: FullOutcomeQuestion[] = [
       '€20 (1:1)',
       '€20 returned (push)',
     ],
-    explanation: 'Dealer does not qualify → Ante returned.\nPlayer wins → Blind pays by table. Full House = 3:1: €20 × 3 = €60.\nPlay pays 1:1: €80.\nBlind pays whenever player wins — dealer qualification does not affect the Blind.',
+    explanation:
+      'Dealer does not qualify → Ante returned.\nPlayer wins → Blind pays by table. Full House = 3:1: €20 × 3 = €60.\nPlay pays 1:1: €80.\nBlind pays whenever player wins — dealer qualification does not affect the Blind.',
   },
   {
     q: 'Ante €15, Blind €15, Play €45 (raised 3× pre-flop), Trips Plus €5. Dealer qualifies. Player wins with Three of a Kind.\nWhat is the Trips Plus payout?',
@@ -493,7 +538,8 @@ const FULL_OUTCOME_QUESTIONS: FullOutcomeQuestion[] = [
       '€0 — Trips Plus needs better than Three of a Kind',
       '€20 (4:1 — Straight rate)',
     ],
-    explanation: 'Three of a Kind pays 3:1 on Trips Plus.\n€5 × 3 = €15.\nTrips Plus is fully independent — pays based on player\'s final best 5-card hand, regardless of dealer qualification or hand comparison.',
+    explanation:
+      "Three of a Kind pays 3:1 on Trips Plus.\n€5 × 3 = €15.\nTrips Plus is fully independent — pays based on player's final best 5-card hand, regardless of dealer qualification or hand comparison.",
   },
 ];
 
@@ -513,15 +559,25 @@ function generateFullOutcome(): THUScenario {
 
 export function generateTHUScenario(drillType: THUDrillType): THUScenario {
   switch (drillType) {
-    case 'hand-recognition':     return generateHandRecognition();
-    case 'dealer-qualification': return generateDealerQualification();
-    case 'basic-outcome':        return generateBasicOutcome();
-    case 'raise-sizing':         return generateRaiseSizing();
-    case 'blind-payout':         return generateBlindPayout();
-    case 'trips-plus-payout':    return generateTripsPlusPayout();
-    case 'no-qualify-scenario':  return generateNoQualifyScenario();
-    case 'blind-push':           return generateBlindPush();
-    case 'blind-no-qualify':     return generateBlindNoQualify();
-    case 'full-outcome':         return generateFullOutcome();
+    case 'hand-recognition':
+      return generateHandRecognition();
+    case 'dealer-qualification':
+      return generateDealerQualification();
+    case 'basic-outcome':
+      return generateBasicOutcome();
+    case 'raise-sizing':
+      return generateRaiseSizing();
+    case 'blind-payout':
+      return generateBlindPayout();
+    case 'trips-plus-payout':
+      return generateTripsPlusPayout();
+    case 'no-qualify-scenario':
+      return generateNoQualifyScenario();
+    case 'blind-push':
+      return generateBlindPush();
+    case 'blind-no-qualify':
+      return generateBlindNoQualify();
+    case 'full-outcome':
+      return generateFullOutcome();
   }
 }

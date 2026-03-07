@@ -11,7 +11,7 @@ describe('Racetrack', () => {
   it('renders all wheel numbers', () => {
     const mockOnNumberPress = jest.fn();
     const { getByText } = render(<Racetrack onNumberPress={mockOnNumberPress} />);
-    
+
     // Check for a few key numbers
     expect(getByText('0')).toBeTruthy();
     expect(getByText('32')).toBeTruthy(); // First number in wheel order
@@ -20,7 +20,7 @@ describe('Racetrack', () => {
   it('renders the title', () => {
     const mockOnNumberPress = jest.fn();
     const { getByText } = render(<Racetrack onNumberPress={mockOnNumberPress} />);
-    
+
     expect(getByText('Racetrack - Neighbor Bets')).toBeTruthy();
   });
 });

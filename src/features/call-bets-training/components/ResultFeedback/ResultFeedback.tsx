@@ -11,13 +11,9 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
 
   return (
     <View style={[styles.container, isCorrect ? styles.correct : styles.incorrect]}>
-      <Text style={styles.title}>
-        {isCorrect ? '✅ Perfect!' : '❌ Not Quite'}
-      </Text>
+      <Text style={styles.title}>{isCorrect ? '✅ Perfect!' : '❌ Not Quite'}</Text>
 
-      <Text style={styles.score}>
-        Score: {result.score}%
-      </Text>
+      <Text style={styles.score}>Score: {result.score}%</Text>
 
       {result.missingBets.length > 0 && (
         <View style={styles.section}>
@@ -42,17 +38,11 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
       )}
 
       <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={[styles.button, styles.clearButton]}
-          onPress={onClear}
-        >
+        <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={onClear}>
           <Text style={styles.clearButtonText}>Clear &amp; Retry</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button, styles.nextButton]}
-          onPress={onNext}
-        >
+        <TouchableOpacity style={[styles.button, styles.nextButton]} onPress={onNext}>
           <Text style={styles.nextButtonText}>Next Challenge</Text>
         </TouchableOpacity>
       </View>
@@ -61,7 +51,6 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       padding: 16,
@@ -134,5 +123,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-   
 }

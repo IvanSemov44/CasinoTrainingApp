@@ -33,12 +33,17 @@ export function PositionTrainingSidebar({
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
-
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Stats row */}
         <View style={styles.statsRow}>
           <View style={styles.statPill}>
-            <Text style={styles.statValue}>{stats.correct}/{stats.total}</Text>
+            <Text style={styles.statValue}>
+              {stats.correct}/{stats.total}
+            </Text>
             <Text style={styles.statLabel}>score</Text>
           </View>
           <View style={styles.statPill}>
@@ -62,7 +67,9 @@ export function PositionTrainingSidebar({
 
         {/* Feedback card */}
         {result && (
-          <View style={[styles.feedbackCard, result.isCorrect ? styles.feedbackOk : styles.feedbackErr]}>
+          <View
+            style={[styles.feedbackCard, result.isCorrect ? styles.feedbackOk : styles.feedbackErr]}
+          >
             <Text style={styles.feedbackTitle}>
               {result.isCorrect ? '✓  Correct!' : '✗  Try again'}
             </Text>
@@ -78,24 +85,16 @@ export function PositionTrainingSidebar({
 
         {/* Skip button - only show when not processing */}
         {!isProcessing && (
-          <TouchableOpacity
-            style={styles.nextBtn}
-            onPress={onSkip}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.nextBtnText}>
-              Skip  ›
-            </Text>
+          <TouchableOpacity style={styles.nextBtn} onPress={onSkip} activeOpacity={0.8}>
+            <Text style={styles.nextBtnText}>Skip ›</Text>
           </TouchableOpacity>
         )}
-
       </ScrollView>
     </View>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       width: 172,
@@ -210,5 +209,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.secondary,
     },
   });
-   
 }

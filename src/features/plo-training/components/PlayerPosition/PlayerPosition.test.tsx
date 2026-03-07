@@ -87,9 +87,7 @@ describe('PlayerPosition', () => {
   });
 
   it('applies folded styles when isFolded is true', () => {
-    const { getByText } = renderWithTheme(
-      <PlayerPosition {...defaultProps} isFolded={true} />
-    );
+    const { getByText } = renderWithTheme(<PlayerPosition {...defaultProps} isFolded={true} />);
     const foldBadge = getByText('FOLD');
     expect(foldBadge).toBeTruthy();
   });

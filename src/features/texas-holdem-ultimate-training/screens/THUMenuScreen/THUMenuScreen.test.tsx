@@ -18,17 +18,13 @@ describe('THUMenuScreen', () => {
   });
 
   describe('Rendering', () => {
-    it('renders the Texas Hold\'em Ultimate title', () => {
-      renderWithTheme(
-        <THUMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+    it("renders the Texas Hold'em Ultimate title", () => {
+      renderWithTheme(<THUMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText("Texas Hold'em Ultimate")).toBeOnTheScreen();
     });
 
     it('renders all 10 drill items', () => {
-      renderWithTheme(
-        <THUMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<THUMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getByText('Hand Recognition')).toBeOnTheScreen();
       expect(screen.getByText('Full Outcome')).toBeOnTheScreen();
     });
@@ -36,9 +32,7 @@ describe('THUMenuScreen', () => {
 
   describe('Navigation', () => {
     it('navigates to THUDrill with correct drill type', () => {
-      renderWithTheme(
-        <THUMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<THUMenuScreen navigation={mockNavigation} route={mockRoute} />);
 
       const handRecognitionItem = screen.getByText('Hand Recognition');
       fireEvent.press(handRecognitionItem);
@@ -51,18 +45,12 @@ describe('THUMenuScreen', () => {
 
   describe('Drill Data', () => {
     it('displays correct descriptions', () => {
-      renderWithTheme(
-        <THUMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
-      expect(
-        screen.getByText(/Does the dealer qualify?/)
-      ).toBeOnTheScreen();
+      renderWithTheme(<THUMenuScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(screen.getByText(/Does the dealer qualify?/)).toBeOnTheScreen();
     });
 
     it('shows all difficulty levels', () => {
-      renderWithTheme(
-        <THUMenuScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      renderWithTheme(<THUMenuScreen navigation={mockNavigation} route={mockRoute} />);
       expect(screen.getAllByText('EASY').length).toBeGreaterThan(0);
       expect(screen.getAllByText('ADVANCED').length).toBeGreaterThan(0);
     });

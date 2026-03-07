@@ -11,9 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
  * Add any global providers here (Redux, Theme, etc.)
  */
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <NavigationContainer>
-    {children}
-  </NavigationContainer>
+  <NavigationContainer>{children}</NavigationContainer>
 );
 
 /**
@@ -21,10 +19,8 @@ const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => 
  * @param ui - React element to render
  * @param options - Render options
  */
-const customRender = (
-  ui: React.ReactElement,
-  options?: RenderOptions
-) => render(ui, { wrapper: AllProviders, ...options });
+const customRender = (ui: React.ReactElement, options?: RenderOptions) =>
+  render(ui, { wrapper: AllProviders, ...options });
 
 // Re-export everything from testing library
 export * from '@testing-library/react-native';
@@ -41,9 +37,5 @@ export const renderWithNavigation = (
   ui: React.ReactElement,
   _navigationProps?: { initialRoute?: string }
 ) => {
-  return render(
-    <NavigationContainer>
-      {ui}
-    </NavigationContainer>
-  );
+  return render(<NavigationContainer>{ui}</NavigationContainer>);
 };

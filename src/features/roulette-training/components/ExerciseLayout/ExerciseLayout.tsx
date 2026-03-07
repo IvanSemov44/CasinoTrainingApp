@@ -89,13 +89,15 @@ export default function ExerciseLayout({
           <View style={styles.skeletonNumberPad}>
             <SkeletonLoader width="100%" height={180} borderRadius={10} />
           </View>
-        ) : !showFeedback && (
-          <NumberPad
-            onNumberPress={(num) => onAnswerChange(userAnswer + num)}
-            onClear={() => onAnswerChange('')}
-            onBackspace={() => onAnswerChange(userAnswer.slice(0, -1))}
-            disabled={showFeedback}
-          />
+        ) : (
+          !showFeedback && (
+            <NumberPad
+              onNumberPress={num => onAnswerChange(userAnswer + num)}
+              onClear={() => onAnswerChange('')}
+              onBackspace={() => onAnswerChange(userAnswer.slice(0, -1))}
+              disabled={showFeedback}
+            />
+          )
         )}
 
         {isLoading ? (
@@ -122,7 +124,6 @@ export default function ExerciseLayout({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -188,5 +189,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: 'bold',
     },
   });
-   
 }

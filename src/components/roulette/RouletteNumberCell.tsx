@@ -17,54 +17,53 @@ interface RouletteNumberCellProps {
  * Individual number cell on the roulette layout
  * Memoized to prevent unnecessary re-renders when parent updates
  */
-const RouletteNumberCell: React.FC<RouletteNumberCellProps> = React.memo(({
-  number,
-  cellSize,
-  betAmount,
-  onNumberPress,
-  onBetAreaPress,
-}) => {
-  const color = getNumberColor(number);
-  const styles = getRouletteStyles(cellSize);
-  const chipSize = cellSize * 0.4;
+const RouletteNumberCell: React.FC<RouletteNumberCellProps> = React.memo(
+  ({ number, cellSize, betAmount, onNumberPress, onBetAreaPress }) => {
+    const color = getNumberColor(number);
+    const styles = getRouletteStyles(cellSize);
+    const chipSize = cellSize * 0.4;
 
-  // Memoize the press handler
-  const handlePress = useCallback(() => {
-    onNumberPress(number);
-    onBetAreaPress?.(BetType.STRAIGHT, [number]);
-  }, [number, onNumberPress, onBetAreaPress]);
+    // Memoize the press handler
+    const handlePress = useCallback(() => {
+      onNumberPress(number);
+      onBetAreaPress?.(BetType.STRAIGHT, [number]);
+    }, [number, onNumberPress, onBetAreaPress]);
 
-  // Memoize style arrays
-  const cellStyle = useMemo(() => [
-    styles.numberCell,
-    color === 'green' && styles.greenCell,
-  ], [styles.numberCell, styles.greenCell, color]);
+    // Memoize style arrays
+    const cellStyle = useMemo(
+      () => [styles.numberCell, color === 'green' && styles.greenCell],
+      [styles.numberCell, styles.greenCell, color]
+    );
 
-  const textStyle = useMemo(() => [
-    styles.numberText,
-    color === 'red' && styles.redText,
-    color === 'green' && styles.whiteText,
-  ], [styles.numberText, styles.redText, styles.whiteText, color]);
+    const textStyle = useMemo(
+      () => [
+        styles.numberText,
+        color === 'red' && styles.redText,
+        color === 'green' && styles.whiteText,
+      ],
+      [styles.numberText, styles.redText, styles.whiteText, color]
+    );
 
-  const accessibilityLabel = useMemo(() => {
-    const colorName = color === 'red' ? 'red' : color === 'black' ? 'black' : 'green';
-    const betInfo = betAmount > 0 ? `, $${betAmount} bet placed` : '';
-    return `Number ${number}, ${colorName}${betInfo}`;
-  }, [number, color, betAmount]);
+    const accessibilityLabel = useMemo(() => {
+      const colorName = color === 'red' ? 'red' : color === 'black' ? 'black' : 'green';
+      const betInfo = betAmount > 0 ? `, $${betAmount} bet placed` : '';
+      return `Number ${number}, ${colorName}${betInfo}`;
+    }, [number, color, betAmount]);
 
-  return (
-    <TouchableOpacity 
-      style={cellStyle} 
-      onPress={handlePress}
-      accessibilityLabel={accessibilityLabel}
-      accessibilityHint="Double tap to place a bet on this number"
-      accessibilityRole="button"
-    >
-      <Text style={textStyle}>{number}</Text>
-      <RouletteChip amount={betAmount} size={chipSize} />
-    </TouchableOpacity>
-  );
-});
+    return (
+      <TouchableOpacity
+        style={cellStyle}
+        onPress={handlePress}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint="Double tap to place a bet on this number"
+        accessibilityRole="button"
+      >
+        <Text style={textStyle}>{number}</Text>
+        <RouletteChip amount={betAmount} size={chipSize} />
+      </TouchableOpacity>
+    );
+  }
+);
 
 RouletteNumberCell.displayName = 'RouletteNumberCell';
 

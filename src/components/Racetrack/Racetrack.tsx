@@ -12,14 +12,11 @@ interface RacetrackProps {
 
 // Roulette ball colors - standard casino game colors
 const ROULETTE_COLORS = {
-  green: '#2D8659',  // Roulette wheel green (0)
-  red: '#DC143C',    // Crimson red (red numbers)
+  green: '#2D8659', // Roulette wheel green (0)
+  red: '#DC143C', // Crimson red (red numbers)
 };
 
-const Racetrack: React.FC<RacetrackProps> = ({
-  onNumberPress,
-  highlightedNumbers = []
-}) => {
+const Racetrack: React.FC<RacetrackProps> = ({ onNumberPress, highlightedNumbers = [] }) => {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -41,7 +38,12 @@ const Racetrack: React.FC<RacetrackProps> = ({
         {WHEEL_ORDER.map((num: RouletteNumber) => {
           const isHighlighted = highlightedNumbers.includes(num);
           const backgroundColor = getNumberColor(num);
-          const colorName = num === 0 ? 'green' : [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num) ? 'red' : 'black';
+          const colorName =
+            num === 0
+              ? 'green'
+              : [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num)
+                ? 'red'
+                : 'black';
 
           return (
             <TouchableOpacity
@@ -117,7 +119,6 @@ const Racetrack: React.FC<RacetrackProps> = ({
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -177,7 +178,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: 'bold',
     },
   });
-   
 }
 
 export default Racetrack;

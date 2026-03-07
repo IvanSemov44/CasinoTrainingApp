@@ -30,11 +30,13 @@ export default function PlayerPosition({
       )}
 
       {/* Player card */}
-      <View style={[
-        styles.playerCard,
-        isFolded     && styles.foldedCard,
-        isRequesting && styles.requestingCard,
-      ]}>
+      <View
+        style={[
+          styles.playerCard,
+          isFolded && styles.foldedCard,
+          isRequesting && styles.requestingCard,
+        ]}
+      >
         {isFolded && (
           <View style={styles.foldBadge}>
             <Text style={styles.foldBadgeText}>FOLD</Text>
@@ -85,7 +87,6 @@ export default function PlayerPosition({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     playerContainer: {
       alignItems: 'center',
@@ -244,5 +245,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-   
 }

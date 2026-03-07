@@ -79,7 +79,9 @@ export default function AnswerInput({
             activeOpacity={0.7}
           >
             <Text style={styles.label}>{sectorName} Play By:</Text>
-            <View style={[styles.display, activeInput === 'betPerPosition' && styles.displayActive]}>
+            <View
+              style={[styles.display, activeInput === 'betPerPosition' && styles.displayActive]}
+            >
               <Text style={styles.displayText}>${betPerPosition || '0'}</Text>
             </View>
           </TouchableOpacity>
@@ -107,7 +109,6 @@ export default function AnswerInput({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -155,5 +156,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-   
 }

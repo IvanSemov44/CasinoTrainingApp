@@ -27,19 +27,13 @@ describe('ResultFeedback', () => {
 
   const incorrectResult: ValidationResult = {
     isCorrect: false,
-    correctBets: [
-      { type: 'split', numbers: [5, 8] },
-    ],
+    correctBets: [{ type: 'split', numbers: [5, 8] }],
     userBets: [
       { type: 'split', numbers: [5, 8] },
       { type: 'split', numbers: [1, 2] },
     ],
-    missingBets: [
-      { type: 'split', numbers: [10, 13] },
-    ],
-    extraBets: [
-      { type: 'split', numbers: [1, 2] },
-    ],
+    missingBets: [{ type: 'split', numbers: [10, 13] }],
+    extraBets: [{ type: 'split', numbers: [1, 2] }],
     score: 50,
   };
 

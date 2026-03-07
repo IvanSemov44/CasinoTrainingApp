@@ -4,11 +4,7 @@ import { ThemeProvider } from '@contexts/ThemeContext';
 import FeedbackCard from './FeedbackCard';
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('FeedbackCard', () => {
@@ -21,11 +17,7 @@ describe('FeedbackCard', () => {
   describe('Correct Answer Display', () => {
     it('renders success state when isCorrect is true', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={true}
-          correctAnswer={42}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={true} correctAnswer={42} onNextQuestion={mockOnNextQuestion} />
       );
 
       expect(screen.getByText('Correct!')).toBeOnTheScreen();
@@ -34,11 +26,7 @@ describe('FeedbackCard', () => {
 
     it('displays the correct answer number', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={true}
-          correctAnswer={42}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={true} correctAnswer={42} onNextQuestion={mockOnNextQuestion} />
       );
 
       expect(screen.getByText('Correct answer: 42')).toBeOnTheScreen();
@@ -48,11 +36,7 @@ describe('FeedbackCard', () => {
   describe('Incorrect Answer Display', () => {
     it('renders error state when isCorrect is false', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={false}
-          correctAnswer={42}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={false} correctAnswer={42} onNextQuestion={mockOnNextQuestion} />
       );
 
       expect(screen.getByText('Incorrect')).toBeOnTheScreen();
@@ -93,11 +77,7 @@ describe('FeedbackCard', () => {
   describe('Next Question Button', () => {
     it('renders the next question button', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={true}
-          correctAnswer={42}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={true} correctAnswer={42} onNextQuestion={mockOnNextQuestion} />
       );
 
       expect(screen.getByText('Next Question →')).toBeOnTheScreen();
@@ -105,11 +85,7 @@ describe('FeedbackCard', () => {
 
     it('calls onNextQuestion when button is pressed', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={true}
-          correctAnswer={42}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={true} correctAnswer={42} onNextQuestion={mockOnNextQuestion} />
       );
 
       const button = screen.getByText('Next Question →');
@@ -135,11 +111,7 @@ describe('FeedbackCard', () => {
 
     it('displays answer 0 correctly', () => {
       renderWithTheme(
-        <FeedbackCard
-          isCorrect={true}
-          correctAnswer={0}
-          onNextQuestion={mockOnNextQuestion}
-        />
+        <FeedbackCard isCorrect={true} correctAnswer={0} onNextQuestion={mockOnNextQuestion} />
       );
 
       expect(screen.getByText('Correct answer: 0')).toBeOnTheScreen();

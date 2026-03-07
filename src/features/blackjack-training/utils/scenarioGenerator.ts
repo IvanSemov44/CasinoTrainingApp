@@ -107,7 +107,7 @@ function generateDealerAction(): BJScenario {
 
 function compareHands(
   playerCards: Card[],
-  dealerCards: Card[],
+  dealerCards: Card[]
 ): { outcome: string; explanation: string } {
   const playerBJ = isNaturalBlackjack(playerCards);
   const dealerBJ = isNaturalBlackjack(dealerCards);
@@ -142,8 +142,10 @@ function compareHands(
   if (pBust) return { outcome: 'Dealer wins', explanation: `Player busts (${ph}). Dealer wins.` };
   if (dBust) return { outcome: 'Player wins', explanation: `Dealer busts (${dh}). Player wins.` };
 
-  if (pTotal > dTotal) return { outcome: 'Player wins', explanation: `Player ${pTotal} beats dealer ${dTotal}.` };
-  if (dTotal > pTotal) return { outcome: 'Dealer wins', explanation: `Dealer ${dTotal} beats player ${pTotal}.` };
+  if (pTotal > dTotal)
+    return { outcome: 'Player wins', explanation: `Player ${pTotal} beats dealer ${dTotal}.` };
+  if (dTotal > pTotal)
+    return { outcome: 'Dealer wins', explanation: `Dealer ${dTotal} beats player ${pTotal}.` };
   return { outcome: 'Push', explanation: `Both have ${pTotal} — Push.` };
 }
 
@@ -157,11 +159,7 @@ function generateHandComparison(): BJScenario {
     playerCards = all.slice(0, 3);
     dealerCards = all.slice(3, 6);
     attempts++;
-  } while (
-    attempts < 10 &&
-    handTotal(playerCards).hard > 21 &&
-    handTotal(dealerCards).hard > 21
-  );
+  } while (attempts < 10 && handTotal(playerCards).hard > 21 && handTotal(dealerCards).hard > 21);
 
   const { outcome, explanation } = compareHands(playerCards, dealerCards);
 
@@ -254,8 +252,14 @@ function generateSideBetPayout(): BJScenario {
   if (roll < 80) {
     // Pair side bet — two cards same rank
     const rank = pick(RANKS);
-    const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [typeof SUITS[number], typeof SUITS[number]];
-    const cards: Card[] = [{ rank, suit: s1 }, { rank, suit: s2 }];
+    const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [
+      (typeof SUITS)[number],
+      (typeof SUITS)[number],
+    ];
+    const cards: Card[] = [
+      { rank, suit: s1 },
+      { rank, suit: s2 },
+    ];
     const bet = pick([5, 10, 15, 20, 25] as const);
     const payout = pairSideBetPayout(bet);
 
@@ -307,7 +311,8 @@ function generateInsuranceTiming(): BJScenario {
     // Dealer Ace
     upcard = { rank: 'A', suit: pick(SUITS) };
     correctOption = INSURANCE_OPTIONS[0];
-    explanation = 'Dealer shows Ace → dealer actively offers Insurance to all players (pays 2:1). Max = half of player main bet.';
+    explanation =
+      'Dealer shows Ace → dealer actively offers Insurance to all players (pays 2:1). Max = half of player main bet.';
   } else if (roll < 66) {
     // 10-value card
     const tenRanks: Card['rank'][] = ['10', 'J', 'Q', 'K'];
@@ -367,8 +372,14 @@ function generateSplitScenario(): BJScenario {
   if (roll < 40) {
     // Same rank — can split
     const rank = pick(RANKS);
-    const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [typeof SUITS[number], typeof SUITS[number]];
-    cards = [{ rank, suit: s1 }, { rank, suit: s2 }];
+    const [s1, s2] = shuffleArray([...SUITS]).slice(0, 2) as [
+      (typeof SUITS)[number],
+      (typeof SUITS)[number],
+    ];
+    cards = [
+      { rank, suit: s1 },
+      { rank, suit: s2 },
+    ];
     canSplitResult = true;
     if (rank === 'A') {
       explanation = `${handLabel(cards)} — same rank (Ace). Can split. Rule: one card each, no re-split, no double. Ace + 10-value after split = 21 (pays 1:1, not 3:2).`;
@@ -395,7 +406,10 @@ function generateSplitScenario(): BJScenario {
       r1 = pick(RANKS);
       r2 = pick(RANKS);
     } while (r1 === r2);
-    cards = [{ rank: r1, suit: pick(SUITS) }, { rank: r2, suit: pick(SUITS) }];
+    cards = [
+      { rank: r1, suit: pick(SUITS) },
+      { rank: r2, suit: pick(SUITS) },
+    ];
     canSplitResult = false;
     explanation = `${handLabel(cards)} — different ranks. Cannot split.`;
   }
@@ -438,15 +452,30 @@ function generateSuperSeven(): BJScenario {
     const sameSuit = getRandomInt(0, 99) < 50;
     const suit1 = pick(SUITS);
     const suit2 = sameSuit ? suit1 : pick(SUITS.filter(s => s !== suit1));
-    sevens = [{ rank: '7', suit: suit1 }, { rank: '7', suit: suit2 }];
+    sevens = [
+      { rank: '7', suit: suit1 },
+      { rank: '7', suit: suit2 },
+    ];
   } else {
     const allSame = getRandomInt(0, 99) < 30;
     if (allSame) {
       const s = pick(SUITS);
-      sevens = [{ rank: '7', suit: s }, { rank: '7', suit: s }, { rank: '7', suit: s }];
+      sevens = [
+        { rank: '7', suit: s },
+        { rank: '7', suit: s },
+        { rank: '7', suit: s },
+      ];
     } else {
-      const [s1, s2, s3] = shuffleArray([...SUITS]).slice(0, 3) as [typeof SUITS[number], typeof SUITS[number], typeof SUITS[number]];
-      sevens = [{ rank: '7', suit: s1 }, { rank: '7', suit: s2 }, { rank: '7', suit: s3 }];
+      const [s1, s2, s3] = shuffleArray([...SUITS]).slice(0, 3) as [
+        (typeof SUITS)[number],
+        (typeof SUITS)[number],
+        (typeof SUITS)[number],
+      ];
+      sevens = [
+        { rank: '7', suit: s1 },
+        { rank: '7', suit: s2 },
+        { rank: '7', suit: s3 },
+      ];
     }
   }
 
@@ -455,14 +484,21 @@ function generateSuperSeven(): BJScenario {
   const correctOption = `${info.tier} — €${payout} (${info.multiplier}:1)`;
 
   // Build 3 wrong options from other tiers
-  const wrongTiers = ALL_SS_TIERS
-    .filter(t => t.tier !== info.tier)
-    .map(t => `${t.tier} — €${t.multiplier * bet} (${t.multiplier}:1)`);
+  const wrongTiers = ALL_SS_TIERS.filter(t => t.tier !== info.tier).map(
+    t => `${t.tier} — €${t.multiplier * bet} (${t.multiplier}:1)`
+  );
   const options = shuffleArray([correctOption, ...shuffleArray(wrongTiers).slice(0, 3)]);
 
-  const suitNote = count === 1 ? '' : count === 2
-    ? (sevens[0].suit === sevens[1].suit ? ' (same suit)' : ' (different suits)')
-    : (sevens[0].suit === sevens[1].suit && sevens[1].suit === sevens[2].suit ? ' (same suit)' : ' (mixed suits)');
+  const suitNote =
+    count === 1
+      ? ''
+      : count === 2
+        ? sevens[0].suit === sevens[1].suit
+          ? ' (same suit)'
+          : ' (different suits)'
+        : sevens[0].suit === sevens[1].suit && sevens[1].suit === sevens[2].suit
+          ? ' (same suit)'
+          : ' (mixed suits)';
 
   return {
     drillType: 'super-seven',
@@ -480,15 +516,25 @@ function generateSuperSeven(): BJScenario {
 
 export function generateBJScenario(drillType: BJDrillType): BJScenario {
   switch (drillType) {
-    case 'soft-hand-recognition': return generateSoftHandRecognition();
-    case 'dealer-action':         return generateDealerAction();
-    case 'hand-comparison':       return generateHandComparison();
-    case 'bj-payout':             return generateBJPayout();
-    case 'odd-bj-payout':         return generateOddBJPayout();
-    case 'side-bet-payout':       return generateSideBetPayout();
-    case 'insurance-timing':      return generateInsuranceTiming();
-    case 'surrender':             return generateSurrender();
-    case 'split-scenario':        return generateSplitScenario();
-    case 'super-seven':           return generateSuperSeven();
+    case 'soft-hand-recognition':
+      return generateSoftHandRecognition();
+    case 'dealer-action':
+      return generateDealerAction();
+    case 'hand-comparison':
+      return generateHandComparison();
+    case 'bj-payout':
+      return generateBJPayout();
+    case 'odd-bj-payout':
+      return generateOddBJPayout();
+    case 'side-bet-payout':
+      return generateSideBetPayout();
+    case 'insurance-timing':
+      return generateInsuranceTiming();
+    case 'surrender':
+      return generateSurrender();
+    case 'split-scenario':
+      return generateSplitScenario();
+    case 'super-seven':
+      return generateSuperSeven();
   }
 }

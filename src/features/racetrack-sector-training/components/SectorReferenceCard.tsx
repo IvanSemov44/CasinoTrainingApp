@@ -16,14 +16,14 @@ export function SectorReferenceCard({ sectorOptions, sectorColors }: SectorRefer
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sector Reference:</Text>
-      {sectorOptions.map((option) => (
+      {sectorOptions.map(option => (
         <View key={option.sector} style={styles.row}>
-          <Text style={[styles.name, { color: sectorColors[option.sector] || colors.text.primary }]}>
+          <Text
+            style={[styles.name, { color: sectorColors[option.sector] || colors.text.primary }]}
+          >
             {option.name}:
           </Text>
-          <Text style={styles.numbers}>
-            {option.numbers.join(', ')}
-          </Text>
+          <Text style={styles.numbers}>{option.numbers.join(', ')}</Text>
         </View>
       ))}
     </View>

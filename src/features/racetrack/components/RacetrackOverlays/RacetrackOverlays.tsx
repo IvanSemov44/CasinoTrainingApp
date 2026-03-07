@@ -8,10 +8,7 @@ import {
   VIEWBOX,
   SECTORS,
 } from '../../constants';
-import {
-  getTopNumberCenterX,
-  getBottomNumberCenterX,
-} from '../../utils';
+import { getTopNumberCenterX, getBottomNumberCenterX } from '../../utils';
 import { RacetrackOverlaysProps, SectorButtonConfig } from './RacetrackOverlays.types';
 
 const SECTOR_BUTTONS: SectorButtonConfig[] = [
@@ -50,8 +47,14 @@ export default function RacetrackOverlays({
                   top: toComponentY(SECTORS.ovalTop),
                   width: toComponentWidth(endX - startX),
                   height: toComponentHeight(SECTORS.ovalBottom - SECTORS.ovalTop),
-                  ...(radiusLeft && { borderTopLeftRadius: radiusLeft, borderBottomLeftRadius: radiusLeft }),
-                  ...(radiusRight && { borderTopRightRadius: radiusRight, borderBottomRightRadius: radiusRight }),
+                  ...(radiusLeft && {
+                    borderTopLeftRadius: radiusLeft,
+                    borderBottomLeftRadius: radiusLeft,
+                  }),
+                  ...(radiusRight && {
+                    borderTopRightRadius: radiusRight,
+                    borderBottomRightRadius: radiusRight,
+                  }),
                 },
               ]}
               activeOpacity={0.7}
@@ -103,7 +106,7 @@ export default function RacetrackOverlays({
             );
           })}
 
-          {LEFT_NUMBERS.map((item) => (
+          {LEFT_NUMBERS.map(item => (
             <TouchableOpacity
               key={`left-btn-${item.num}`}
               style={[
@@ -120,7 +123,7 @@ export default function RacetrackOverlays({
             />
           ))}
 
-          {RIGHT_NUMBERS.map((item) => (
+          {RIGHT_NUMBERS.map(item => (
             <TouchableOpacity
               key={`right-btn-${item.num}`}
               style={[

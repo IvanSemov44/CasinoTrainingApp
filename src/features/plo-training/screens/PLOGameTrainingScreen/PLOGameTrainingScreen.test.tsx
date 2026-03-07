@@ -48,10 +48,13 @@ jest.mock('../../components', () => ({
 }));
 
 describe('PLOGameTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<typeof PLOGameTrainingScreen>['navigation'];
-  const makeRoute = (difficulty: 'easy' | 'medium' | 'advanced') => ({
-    params: { difficulty },
-  }) as unknown as React.ComponentProps<typeof PLOGameTrainingScreen>['route'];
+  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
+    typeof PLOGameTrainingScreen
+  >['navigation'];
+  const makeRoute = (difficulty: 'easy' | 'medium' | 'advanced') =>
+    ({
+      params: { difficulty },
+    }) as unknown as React.ComponentProps<typeof PLOGameTrainingScreen>['route'];
   const mockRoute = makeRoute('easy');
 
   beforeEach(() => {
@@ -60,35 +63,47 @@ describe('PLOGameTrainingScreen', () => {
 
   describe('rendering', () => {
     it('should render without crashing', () => {
-      const { toJSON } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { toJSON } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(toJSON()).toBeTruthy();
     });
 
     it('should display score section', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByText('Score')).toBeTruthy();
       expect(getByText('Accuracy')).toBeTruthy();
       expect(getByText('Streak')).toBeTruthy();
     });
 
     it('should display progress information', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByText(/Hand 5:/)).toBeTruthy();
       expect(getByText(/Question 1 of 1/)).toBeTruthy();
     });
 
     it('should display input label during asking phase', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByText('What is the pot?')).toBeTruthy();
     });
 
     it('should display check answer button during asking phase', () => {
-      const { getByLabelText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByLabelText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByLabelText('Check answer')).toBeTruthy();
     });
 
     it('should not display feedback stats section during asking phase', () => {
-      const { queryByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { queryByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(queryByText('Session Stats')).toBeNull();
     });
   });
@@ -96,20 +111,26 @@ describe('PLOGameTrainingScreen', () => {
   describe('state management', () => {
     it('should render with different difficulty levels', () => {
       const difficulties: Array<'easy' | 'medium' | 'advanced'> = ['easy', 'medium', 'advanced'];
-      difficulties.forEach((diff) => {
+      difficulties.forEach(diff => {
         const route = makeRoute(diff);
-        const { toJSON } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={route} />);
+        const { toJSON } = renderWithTheme(
+          <PLOGameTrainingScreen navigation={mockNavigation} route={route} />
+        );
         expect(toJSON()).toBeTruthy();
       });
     });
 
     it('should display accuracy percentage', () => {
-      const { getAllByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getAllByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getAllByText(/0%/).length).toBeGreaterThan(0);
     });
 
     it('should not display feedback statistics during asking phase', () => {
-      const { queryByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { queryByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(queryByText('Session Stats')).toBeNull();
       expect(queryByText(/0 \/ 0 correct/)).toBeNull();
     });
@@ -148,7 +169,9 @@ describe('PLOGameTrainingScreen', () => {
         upcomingMultiplier: 2,
       });
 
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByText('✓ Correct!')).toBeTruthy();
       expect(getByText('Session Stats')).toBeTruthy();
       expect(getByText(/1 \/ 1 correct/)).toBeTruthy();
@@ -186,7 +209,9 @@ describe('PLOGameTrainingScreen', () => {
         upcomingMultiplier: 1,
       });
 
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { getByText } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(getByText('✗ Incorrect')).toBeTruthy();
       expect(getByText('Your answer: 8')).toBeTruthy();
       expect(getByText('Correct answer: 10')).toBeTruthy();
@@ -195,12 +220,16 @@ describe('PLOGameTrainingScreen', () => {
 
   describe('styling and theme', () => {
     it('should render with proper theme colors', () => {
-      const { toJSON } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { toJSON } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       expect(toJSON()).toBeTruthy();
     });
 
     it('should have scrollable container', () => {
-      const { toJSON } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      const { toJSON } = renderWithTheme(
+        <PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />
+      );
       const tree = toJSON();
       expect(tree).toBeTruthy();
     });

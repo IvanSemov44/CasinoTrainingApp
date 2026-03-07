@@ -55,17 +55,13 @@ describe('RacetrackLayout', () => {
   describe('event handlers', () => {
     it('should accept onNumberPress handler', () => {
       const mockHandler = jest.fn();
-      const { root } = render(
-        <RacetrackLayout width={350} onNumberPress={mockHandler} />
-      );
+      const { root } = render(<RacetrackLayout width={350} onNumberPress={mockHandler} />);
       expect(root).toBeDefined();
     });
 
     it('should accept onSectionPress handler', () => {
       const mockHandler = jest.fn();
-      const { root } = render(
-        <RacetrackLayout width={350} onSectionPress={mockHandler} />
-      );
+      const { root } = render(<RacetrackLayout width={350} onSectionPress={mockHandler} />);
       expect(root).toBeDefined();
     });
 

@@ -10,7 +10,7 @@ interface WithErrorBoundaryState {
 
 /**
  * Higher-Order Component that wraps a component with an error boundary.
- * 
+ *
  * @example
  * export default withErrorBoundary(MyComponent, 'My Feature');
  */
@@ -61,8 +61,8 @@ function withErrorBoundary<P extends object>(
               </View>
             )}
 
-            <TouchableOpacity 
-              style={styles.resetButton} 
+            <TouchableOpacity
+              style={styles.resetButton}
               onPress={this.handleReset}
               accessibilityLabel="Try again"
               accessibilityRole="button"

@@ -1,6 +1,4 @@
-import React, {
-  createContext, useCallback, useContext, useEffect, useMemo, useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { type AppColors, type ThemeId, THEMES } from '@styles/themes';
 
@@ -13,8 +11,8 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  themeId:     'midnight',
-  colors:      THEMES['midnight'],
+  themeId: 'midnight',
+  colors: THEMES['midnight'],
   toggleTheme: () => {},
 });
 
@@ -42,7 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<ThemeContextValue>(
     () => ({ themeId, colors: THEMES[themeId], toggleTheme }),
-    [themeId, toggleTheme],
+    [themeId, toggleTheme]
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

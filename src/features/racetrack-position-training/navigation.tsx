@@ -11,8 +11,14 @@ export type RacetrackPositionStackParamList = {
 };
 
 const Stack = createStackNavigator<RacetrackPositionStackParamList>();
-const PositionMenuScreenWithBoundary = withErrorBoundary(PositionMenuScreen, 'Racetrack Position Training');
-const PositionTrainingScreenWithBoundary = withErrorBoundary(PositionTrainingScreen, 'Racetrack Position Training');
+const PositionMenuScreenWithBoundary = withErrorBoundary(
+  PositionMenuScreen,
+  'Racetrack Position Training'
+);
+const PositionTrainingScreenWithBoundary = withErrorBoundary(
+  PositionTrainingScreen,
+  'Racetrack Position Training'
+);
 
 export function RacetrackPositionRoutes() {
   return (

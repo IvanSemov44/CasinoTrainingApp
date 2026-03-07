@@ -3,12 +3,7 @@ import { BetType as RouletteBetType, type RouletteNumber } from '@app-types/roul
 // Exercise bet types are a subset of all roulette bet types
 // Used for calculation exercises (straight, split, corner, street, line/six-line)
 // These are string literal types matching the enum values for type-safe string usage
-export type ExerciseBetType =
-  | 'STRAIGHT'
-  | 'SPLIT'
-  | 'CORNER'
-  | 'STREET'
-  | 'LINE';
+export type ExerciseBetType = 'STRAIGHT' | 'SPLIT' | 'CORNER' | 'STREET' | 'LINE';
 
 // Legacy type alias for backwards compatibility
 export type BetType = ExerciseBetType;

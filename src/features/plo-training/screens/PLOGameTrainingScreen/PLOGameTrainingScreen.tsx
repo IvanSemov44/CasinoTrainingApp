@@ -53,10 +53,7 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
 
       {phase === 'asking' ? (
         <>
-          <ActionLog
-            lines={currentMoment.actionLog}
-            requesterName={currentMoment.requesterName}
-          />
+          <ActionLog lines={currentMoment.actionLog} requesterName={currentMoment.requesterName} />
 
           <View style={styles.inputSection}>
             <Text style={styles.inputLabel}>What is the pot?</Text>

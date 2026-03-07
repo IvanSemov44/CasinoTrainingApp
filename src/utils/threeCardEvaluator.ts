@@ -60,9 +60,9 @@ export function threeCardHandName(rank: ThreeCardRank): string {
   const names: Record<ThreeCardRank, string> = {
     'straight-flush': 'Straight Flush',
     'three-of-a-kind': 'Three of a Kind',
-    'straight': 'Straight',
-    'flush': 'Flush',
-    'pair': 'Pair',
+    straight: 'Straight',
+    flush: 'Flush',
+    pair: 'Pair',
     'high-card': 'High Card',
   };
   return names[rank];

@@ -20,7 +20,8 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
           {mode === 'random' ? 'Random Mode' : mode.toUpperCase()}
         </Text>
         <Text style={styles.statsText}>
-          Score: {stats.correct}/{stats.total} ({stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
+          Score: {stats.correct}/{stats.total} (
+          {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%)
         </Text>
       </View>
 
@@ -40,18 +41,13 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
       )}
 
       {result && (
-        <ResultFeedback
-          result={result}
-          onNext={generateNewChallenge}
-          onClear={handleClear}
-        />
+        <ResultFeedback result={result} onNext={generateNewChallenge} onClear={handleClear} />
       )}
     </ScrollView>
   );
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -88,5 +84,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-   
 }

@@ -16,8 +16,8 @@ interface ModeOption {
 
 // Accent colors for position training modes - visual hierarchy indicators
 const POSITION_ACCENT_COLORS: Record<PositionMode, string> = {
-  single: '#3b82f6',   // Blue
-  random: '#10b981',   // Green
+  single: '#3b82f6', // Blue
+  random: '#10b981', // Green
 };
 
 const MODE_OPTIONS: ModeOption[] = [
@@ -49,16 +49,14 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.header}>
         <Text style={styles.title}>Number → Position</Text>
-        <Text style={styles.subtitle}>
-          Find the winning number on the racetrack
-        </Text>
+        <Text style={styles.subtitle}>Find the winning number on the racetrack</Text>
       </View>
 
       <PositionWheelOrderCard wheelOrder={wheelOrder} />
 
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
-        {MODE_OPTIONS.map((option) => (
+        {MODE_OPTIONS.map(option => (
           <TouchableOpacity
             key={option.mode}
             style={styles.modeCard}

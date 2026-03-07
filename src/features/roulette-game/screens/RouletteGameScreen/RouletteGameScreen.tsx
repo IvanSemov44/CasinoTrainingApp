@@ -70,7 +70,6 @@ export default function RouletteGameScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -94,5 +93,4 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       alignItems: 'center',
     },
   });
-   
 }

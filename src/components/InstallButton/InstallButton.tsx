@@ -19,7 +19,12 @@ function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
 
   const handlePress = async () => {
     console.log('[InstallButton] Clicked');
-    const windowWithDeferred = window as unknown as { deferredPrompt?: { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> } };
+    const windowWithDeferred = window as unknown as {
+      deferredPrompt?: {
+        prompt: () => Promise<void>;
+        userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+      };
+    };
     console.log('[InstallButton] window.deferredPrompt:', !!windowWithDeferred.deferredPrompt);
     setIsLoading(true);
     try {

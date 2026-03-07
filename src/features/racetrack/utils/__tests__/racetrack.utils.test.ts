@@ -5,7 +5,12 @@ import {
   svgToComponent,
   svgDimensionToComponent,
 } from '../racetrack.utils';
-import { WHEEL_ORDER, TOP_NUMBERS, BOTTOM_NUMBERS, VIEWBOX } from '../../constants/racetrack.constants';
+import {
+  WHEEL_ORDER,
+  TOP_NUMBERS,
+  BOTTOM_NUMBERS,
+  VIEWBOX,
+} from '../../constants/racetrack.constants';
 
 describe('racetrack.utils', () => {
   describe('getNeighbors', () => {
@@ -32,7 +37,7 @@ describe('racetrack.utils', () => {
       const lastIndex = WHEEL_ORDER.length - 1;
       const lastNumber = WHEEL_ORDER[lastIndex];
       const neighbors = getNeighbors(lastNumber, 2);
-      
+
       expect(neighbors).toHaveLength(5);
       expect(neighbors).toContain(lastNumber);
     });
@@ -86,7 +91,7 @@ describe('racetrack.utils', () => {
     it('should convert SVG coordinates to component coordinates', () => {
       const componentWidth = 300;
       const componentHeight = 150;
-      
+
       // Convert top-left corner
       const result = svgToComponent(VIEWBOX.x, VIEWBOX.y, componentWidth, componentHeight);
       expect(result.x).toBe(0);
@@ -96,7 +101,7 @@ describe('racetrack.utils', () => {
     it('should convert bottom-right corner correctly', () => {
       const componentWidth = 300;
       const componentHeight = 150;
-      
+
       const result = svgToComponent(
         VIEWBOX.x + VIEWBOX.width,
         VIEWBOX.y + VIEWBOX.height,
@@ -110,10 +115,10 @@ describe('racetrack.utils', () => {
     it('should convert center point correctly', () => {
       const componentWidth = 300;
       const componentHeight = 150;
-      
+
       const centerX = VIEWBOX.x + VIEWBOX.width / 2;
       const centerY = VIEWBOX.y + VIEWBOX.height / 2;
-      
+
       const result = svgToComponent(centerX, centerY, componentWidth, componentHeight);
       expect(result.x).toBeCloseTo(componentWidth / 2, 1);
       expect(result.y).toBeCloseTo(componentHeight / 2, 1);
@@ -124,7 +129,7 @@ describe('racetrack.utils', () => {
     it('should convert width dimension correctly', () => {
       const componentWidth = 300;
       const svgWidth = VIEWBOX.width / 2; // Half of SVG width
-      
+
       const result = svgDimensionToComponent(svgWidth, componentWidth, true);
       expect(result).toBeCloseTo(componentWidth / 2, 1);
     });
@@ -132,21 +137,21 @@ describe('racetrack.utils', () => {
     it('should convert height dimension correctly', () => {
       const componentHeight = 150;
       const svgHeight = VIEWBOX.height / 2; // Half of SVG height
-      
+
       const result = svgDimensionToComponent(svgHeight, componentHeight, false);
       expect(result).toBeCloseTo(componentHeight / 2, 1);
     });
 
     it('should convert full width correctly', () => {
       const componentWidth = 300;
-      
+
       const result = svgDimensionToComponent(VIEWBOX.width, componentWidth, true);
       expect(result).toBeCloseTo(componentWidth, 1);
     });
 
     it('should convert full height correctly', () => {
       const componentHeight = 150;
-      
+
       const result = svgDimensionToComponent(VIEWBOX.height, componentHeight, false);
       expect(result).toBeCloseTo(componentHeight, 1);
     });

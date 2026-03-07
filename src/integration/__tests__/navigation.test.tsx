@@ -33,14 +33,14 @@ const TestHomeScreen: React.FC<TestScreenProps> = ({ navigation }) => (
   <View style={styles.container}>
     <Text style={styles.title}>Casino Dealer Training</Text>
     <Text style={styles.subtitle}>Master your skills</Text>
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.button}
       onPress={() => navigation.navigate('Progress')}
       testID="progress-button"
     >
       <Text style={styles.buttonText}>My Progress</Text>
     </TouchableOpacity>
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.button}
       onPress={() => navigation.navigate('CashConversionMenu')}
       testID="cash-conversion-button"
@@ -53,7 +53,7 @@ const TestHomeScreen: React.FC<TestScreenProps> = ({ navigation }) => (
 const TestProgressScreen: React.FC<TestScreenProps> = ({ navigation }) => (
   <View style={styles.container}>
     <Text style={styles.title}>My Progress</Text>
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.button}
       onPress={() => navigation.goBack()}
       testID="back-button"
@@ -102,9 +102,9 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       expect(getByText('Casino Dealer Training')).toBeTruthy();
     });
 
@@ -113,9 +113,9 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       expect(getByText('My Progress')).toBeTruthy();
       expect(getByText('Cash Conversion')).toBeTruthy();
     });
@@ -125,11 +125,11 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       fireEvent.press(getByText('My Progress'));
-      
+
       expect(mockNavigation.navigate).toHaveBeenCalledWith('Progress');
     });
 
@@ -138,11 +138,11 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       fireEvent.press(getByText('Cash Conversion'));
-      
+
       expect(mockNavigation.navigate).toHaveBeenCalledWith('CashConversionMenu');
     });
   });
@@ -153,9 +153,9 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestProgressScreen navigation={mockNavigation} />);
-      
+
       expect(getByText('My Progress')).toBeTruthy();
     });
 
@@ -164,11 +164,11 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestProgressScreen navigation={mockNavigation} />);
-      
+
       fireEvent.press(getByText('Go Back'));
-      
+
       expect(mockNavigation.goBack).toHaveBeenCalled();
     });
   });
@@ -179,17 +179,19 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       // Start at home
       const { getByText: getByTextHome } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       // Navigate to progress
       fireEvent.press(getByTextHome('My Progress'));
       expect(mockNavigation.navigate).toHaveBeenCalledWith('Progress');
-      
+
       // Simulate being on progress screen (separate render)
-      const { getByText: getByTextProgress } = render(<TestProgressScreen navigation={mockNavigation} />);
-      
+      const { getByText: getByTextProgress } = render(
+        <TestProgressScreen navigation={mockNavigation} />
+      );
+
       // Go back
       fireEvent.press(getByTextProgress('Go Back'));
       expect(mockNavigation.goBack).toHaveBeenCalled();
@@ -200,13 +202,13 @@ describe('Navigation Integration', () => {
         navigate: jest.fn(),
         goBack: jest.fn(),
       };
-      
+
       const { getByText } = render(<TestHomeScreen navigation={mockNavigation} />);
-      
+
       // Navigate multiple times
       fireEvent.press(getByText('My Progress'));
       fireEvent.press(getByText('Cash Conversion'));
-      
+
       expect(mockNavigation.navigate).toHaveBeenCalledTimes(2);
       expect(mockNavigation.navigate).toHaveBeenNthCalledWith(1, 'Progress');
       expect(mockNavigation.navigate).toHaveBeenNthCalledWith(2, 'CashConversionMenu');

@@ -79,9 +79,7 @@ export function usePLOGameState(difficulty: PLODifficulty) {
   }, [momentIndex, hand.askMoments.length]);
 
   const isLastMoment = momentIndex + 1 >= hand.askMoments.length;
-  const accuracy = sessionTotal > 0
-    ? Math.round((sessionCorrect / sessionTotal) * 100)
-    : null;
+  const accuracy = sessionTotal > 0 ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
   const lastEarned = isCorrect ? streakMultiplier(streak) : 0;
   const upcomingMultiplier = Math.pow(2, streak);
 

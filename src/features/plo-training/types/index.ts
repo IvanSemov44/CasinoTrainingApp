@@ -41,24 +41,24 @@ export interface PLOGameState {
 /** State of one player at an ask moment */
 export interface HandPlayerState {
   name: string;
-  position: number;      // 1–6 table slot (matches PokerTable layout)
+  position: number; // 1–6 table slot (matches PokerTable layout)
   isDealer: boolean;
   isFolded: boolean;
   isRequesting: boolean;
-  betAmount?: number;    // chips in front on the current street
-  chipAmount: number;    // stack size
+  betAmount?: number; // chips in front on the current street
+  chipAmount: number; // stack size
 }
 
 /** One "ask pot" moment the trainee must answer */
 export interface AskMoment {
   street: 'preflop' | 'flop' | 'turn' | 'river';
-  communityCards: number;   // 0, 3, 4, or 5
-  centerPot: number;        // chips collected in center from previous streets
+  communityCards: number; // 0, 3, 4, or 5
+  centerPot: number; // chips collected in center from previous streets
   players: HandPlayerState[];
-  actionLog: string[];      // narrative lines shown above the table
+  actionLog: string[]; // narrative lines shown above the table
   requesterName: string;
   correctAnswer: number;
-  explanation: string;      // step-by-step breakdown shown after answering
+  explanation: string; // step-by-step breakdown shown after answering
 }
 
 /** A full generated hand with 1–3 embedded ask moments */

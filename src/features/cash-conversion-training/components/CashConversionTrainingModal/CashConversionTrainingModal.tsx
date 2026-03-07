@@ -15,25 +15,58 @@ import type { CashConversionTrainingModalProps } from './CashConversionTrainingM
 
 // Difficulty options
 const DIFFICULTY_OPTIONS: DropdownItem[] = [
-  { key: 'easy', label: 'Easy', icon: '🟢', extraInfo: `Max $${DIFFICULTY_MAX_BET.easy} per position` },
-  { key: 'medium', label: 'Medium', icon: '🟡', extraInfo: `Max $${DIFFICULTY_MAX_BET.medium} per position` },
-  { key: 'hard', label: 'Hard', icon: '🔴', extraInfo: `Max $${DIFFICULTY_MAX_BET.hard} per position` },
+  {
+    key: 'easy',
+    label: 'Easy',
+    icon: '🟢',
+    extraInfo: `Max $${DIFFICULTY_MAX_BET.easy} per position`,
+  },
+  {
+    key: 'medium',
+    label: 'Medium',
+    icon: '🟡',
+    extraInfo: `Max $${DIFFICULTY_MAX_BET.medium} per position`,
+  },
+  {
+    key: 'hard',
+    label: 'Hard',
+    icon: '🔴',
+    extraInfo: `Max $${DIFFICULTY_MAX_BET.hard} per position`,
+  },
 ];
 
 // Sector options
 const SECTOR_OPTIONS: DropdownItem[] = [
   { key: 'tier', label: 'Tier', icon: '🎯', extraInfo: `${SECTOR_POSITIONS.tier} positions` },
-  { key: 'orphelins', label: 'Orphelins', icon: '🎪', extraInfo: `${SECTOR_POSITIONS.orphelins} positions` },
-  { key: 'voisins', label: 'Voisins', icon: '🎭', extraInfo: `${SECTOR_POSITIONS.voisins} positions` },
+  {
+    key: 'orphelins',
+    label: 'Orphelins',
+    icon: '🎪',
+    extraInfo: `${SECTOR_POSITIONS.orphelins} positions`,
+  },
+  {
+    key: 'voisins',
+    label: 'Voisins',
+    icon: '🎭',
+    extraInfo: `${SECTOR_POSITIONS.voisins} positions`,
+  },
   { key: 'zero', label: 'Zero', icon: '⭕', extraInfo: `${SECTOR_POSITIONS.zero} positions` },
-  { key: 'neighbors', label: 'Neighbors', icon: '👥', extraInfo: `${SECTOR_POSITIONS.neighbors} positions` },
+  {
+    key: 'neighbors',
+    label: 'Neighbors',
+    icon: '👥',
+    extraInfo: `${SECTOR_POSITIONS.neighbors} positions`,
+  },
   { key: 'random', label: 'Random', icon: '🎲', extraInfo: 'Random sector' },
 ];
 
 // Exercise count options
 const EXERCISE_COUNT_OPTIONS = [5, 10, 15, 20, 25, 30];
 
-export default function CashConversionTrainingModal({ visible, onClose }: CashConversionTrainingModalProps) {
+export default function CashConversionTrainingModal({
+  visible,
+  onClose,
+}: CashConversionTrainingModalProps) {
   const navigation = useNavigation<StackNavigationProp<CashConversionStackParamList>>();
 
   // State for cascading dropdowns
@@ -168,7 +201,13 @@ export default function CashConversionTrainingModal({ visible, onClose }: CashCo
       showDropdown: showCountDropdown,
       onToggleDropdown: toggleCountDropdown,
     };
-  }, [selectedSector, exerciseCount, showCountDropdown, handleExerciseCountChange, toggleCountDropdown]);
+  }, [
+    selectedSector,
+    exerciseCount,
+    showCountDropdown,
+    handleExerciseCountChange,
+    toggleCountDropdown,
+  ]);
 
   // Build summary items
   const summaryItems: SummaryItem[] = useMemo(() => {

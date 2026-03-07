@@ -7,47 +7,33 @@ import type { FeedbackCardProps } from './FeedbackCard.types';
  * Feedback card component for displaying exercise results
  * Shows correctness, correct answer, and optional explanation
  */
-const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(({
-  isCorrect,
-  correctAnswer,
-  explanation,
-  onNextQuestion,
-}) => {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
-  const cardStyle = useMemo(() => [
-    styles.feedbackCard,
-    isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect,
-  ], [styles, isCorrect]);
+const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(
+  ({ isCorrect, correctAnswer, explanation, onNextQuestion }) => {
+    const { colors } = useTheme();
+    const styles = useMemo(() => makeStyles(colors), [colors]);
+    const cardStyle = useMemo(
+      () => [styles.feedbackCard, isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect],
+      [styles, isCorrect]
+    );
 
-  return (
-    <View style={styles.feedbackContainer}>
-      <View style={cardStyle}>
-        <Text style={styles.feedbackIcon}>
-          {isCorrect ? '✓' : '✗'}
-        </Text>
-        <Text style={styles.feedbackText}>
-          {isCorrect ? 'Correct!' : 'Incorrect'}
-        </Text>
-        <Text style={styles.feedbackAnswer}>
-          Correct answer: {correctAnswer}
-        </Text>
-        {!isCorrect && explanation && (
-          <Text style={styles.feedbackExplanation}>
-            {explanation}
-          </Text>
-        )}
+    return (
+      <View style={styles.feedbackContainer}>
+        <View style={cardStyle}>
+          <Text style={styles.feedbackIcon}>{isCorrect ? '✓' : '✗'}</Text>
+          <Text style={styles.feedbackText}>{isCorrect ? 'Correct!' : 'Incorrect'}</Text>
+          <Text style={styles.feedbackAnswer}>Correct answer: {correctAnswer}</Text>
+          {!isCorrect && explanation && (
+            <Text style={styles.feedbackExplanation}>{explanation}</Text>
+          )}
+        </View>
+
+        <TouchableOpacity style={styles.nextButton} onPress={onNextQuestion}>
+          <Text style={styles.nextButtonText}>Next Question →</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.nextButton}
-        onPress={onNextQuestion}
-      >
-        <Text style={styles.nextButtonText}>Next Question →</Text>
-      </TouchableOpacity>
-    </View>
-  );
-});
+    );
+  }
+);
 
 FeedbackCard.displayName = 'FeedbackCard';
 

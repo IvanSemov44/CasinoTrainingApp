@@ -32,7 +32,8 @@ function isStraight5(cards: Card[]): boolean {
   // Normal consecutive (includes A-high: 10-J-Q-K-A)
   if (vals[4] - vals[0] === 4) return true;
   // Wheel: A-2-3-4-5 (Ace low)
-  if (vals[4] === 14 && vals[0] === 2 && vals[1] === 3 && vals[2] === 4 && vals[3] === 5) return true;
+  if (vals[4] === 14 && vals[0] === 2 && vals[1] === 3 && vals[2] === 4 && vals[3] === 5)
+    return true;
   return false;
 }
 
@@ -46,40 +47,46 @@ function rankCounts5(cards: Card[]): number[] {
 function isRoyalFlush(cards: Card[]): boolean {
   if (!isFlush5(cards)) return false;
   const vals = cards.map(c => rankValue(c.rank));
-  return vals.includes(14) && vals.includes(10) && vals.includes(11) && vals.includes(12) && vals.includes(13);
+  return (
+    vals.includes(14) &&
+    vals.includes(10) &&
+    vals.includes(11) &&
+    vals.includes(12) &&
+    vals.includes(13)
+  );
 }
 
 // ── Evaluation ────────────────────────────────────────────────────────────────
 
 export function evaluateFiveCardHand(cards: Card[]): FiveCardRank {
-  const flush   = isFlush5(cards);
+  const flush = isFlush5(cards);
   const straight = isStraight5(cards);
-  const counts  = rankCounts5(cards);
+  const counts = rankCounts5(cards);
 
-  if (isRoyalFlush(cards))               return 'royal-flush';
-  if (flush && straight)                 return 'straight-flush';
-  if (counts[0] === 4)                   return 'four-of-a-kind';
+  if (isRoyalFlush(cards)) return 'royal-flush';
+  if (flush && straight) return 'straight-flush';
+  if (counts[0] === 4) return 'four-of-a-kind';
   if (counts[0] === 3 && counts[1] === 2) return 'full-house';
-  if (flush)                             return 'flush';
-  if (straight)                          return 'straight';
-  if (counts[0] === 3)                   return 'three-of-a-kind';
+  if (flush) return 'flush';
+  if (straight) return 'straight';
+  if (counts[0] === 3) return 'three-of-a-kind';
   if (counts[0] === 2 && counts[1] === 2) return 'two-pair';
-  if (counts[0] === 2)                   return 'one-pair';
+  if (counts[0] === 2) return 'one-pair';
   return 'high-card';
 }
 
 export function fiveCardHandName(rank: FiveCardRank): string {
   const names: Record<FiveCardRank, string> = {
-    'royal-flush':     'Royal Flush',
-    'straight-flush':  'Straight Flush',
-    'four-of-a-kind':  'Four of a Kind',
-    'full-house':      'Full House',
-    'flush':           'Flush',
-    'straight':        'Straight',
+    'royal-flush': 'Royal Flush',
+    'straight-flush': 'Straight Flush',
+    'four-of-a-kind': 'Four of a Kind',
+    'full-house': 'Full House',
+    flush: 'Flush',
+    straight: 'Straight',
     'three-of-a-kind': 'Three of a Kind',
-    'two-pair':        'Two Pair',
-    'one-pair':        'One Pair',
-    'high-card':       'High Card',
+    'two-pair': 'Two Pair',
+    'one-pair': 'One Pair',
+    'high-card': 'High Card',
   };
   return names[rank];
 }
@@ -101,8 +108,16 @@ export function caribbeanDealerQualifies(cards: Card[]): boolean {
  * Simplified: compares only hand rank (not kicker). Sufficient for drill scenarios.
  */
 const RANK_ORDER: FiveCardRank[] = [
-  'royal-flush', 'straight-flush', 'four-of-a-kind', 'full-house',
-  'flush', 'straight', 'three-of-a-kind', 'two-pair', 'one-pair', 'high-card',
+  'royal-flush',
+  'straight-flush',
+  'four-of-a-kind',
+  'full-house',
+  'flush',
+  'straight',
+  'three-of-a-kind',
+  'two-pair',
+  'one-pair',
+  'high-card',
 ];
 
 export function compareFiveCardHands(a: Card[], b: Card[]): 1 | -1 | 0 {

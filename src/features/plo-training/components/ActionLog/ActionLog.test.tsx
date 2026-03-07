@@ -10,12 +10,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 
 describe('ActionLog', () => {
   const defaultProps: ActionLogProps = {
-    lines: [
-      'PREFLOP',
-      'UTG folds',
-      'MP calls 2',
-      'CO raises to 8',
-    ],
+    lines: ['PREFLOP', 'UTG folds', 'MP calls 2', 'CO raises to 8'],
     requesterName: 'BB',
   };
 
@@ -43,15 +38,7 @@ describe('ActionLog', () => {
   });
 
   it('handles multiple streets', () => {
-    const lines = [
-      'PREFLOP',
-      'SB folds',
-      'FLOP',
-      'BB checks',
-      'MP bets 10',
-      'TURN',
-      'BB calls',
-    ];
+    const lines = ['PREFLOP', 'SB folds', 'FLOP', 'BB checks', 'MP bets 10', 'TURN', 'BB calls'];
     renderWithTheme(<ActionLog lines={lines} requesterName="CO" />);
     expect(screen.getByText('PREFLOP')).toBeTruthy();
     expect(screen.getByText('FLOP')).toBeTruthy();
@@ -91,35 +78,22 @@ describe('ActionLog', () => {
 
   it('renders ask indicator with different requester names', () => {
     const names = ['SB', 'BB', 'UTG', 'MP', 'CO', 'D'];
-    names.forEach((name) => {
-      const { unmount } = renderWithTheme(
-        <ActionLog lines={['PREFLOP']} requesterName={name} />
-      );
+    names.forEach(name => {
+      const { unmount } = renderWithTheme(<ActionLog lines={['PREFLOP']} requesterName={name} />);
       expect(screen.getByText(new RegExp(`${name} asks`))).toBeTruthy();
       unmount();
     });
   });
 
   it('handles long action descriptions', () => {
-    const lines = [
-      'PREFLOP',
-      'UTG raises to 20 from 8',
-      'MP re-raises to 50 from 20',
-      'CO folds',
-    ];
+    const lines = ['PREFLOP', 'UTG raises to 20 from 8', 'MP re-raises to 50 from 20', 'CO folds'];
     renderWithTheme(<ActionLog lines={lines} requesterName="BB" />);
     expect(screen.getByText('UTG raises to 20 from 8')).toBeTruthy();
     expect(screen.getByText('MP re-raises to 50 from 20')).toBeTruthy();
   });
 
   it('distinguishes between current and historical streets', () => {
-    const lines = [
-      'PREFLOP',
-      'UTG folds',
-      'FLOP',
-      'SB checks',
-      'BB bets',
-    ];
+    const lines = ['PREFLOP', 'UTG folds', 'FLOP', 'SB checks', 'BB bets'];
     renderWithTheme(<ActionLog lines={lines} requesterName="Hero" />);
     // FLOP is the last header, so it's current
     // PREFLOP is historical

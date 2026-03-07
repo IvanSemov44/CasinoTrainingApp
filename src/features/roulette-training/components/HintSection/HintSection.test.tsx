@@ -4,11 +4,7 @@ import { ThemeProvider } from '@contexts/ThemeContext';
 import HintSection from './HintSection';
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('HintSection', () => {
