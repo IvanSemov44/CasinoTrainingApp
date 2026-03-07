@@ -102,6 +102,33 @@ module.exports = [
       // Prettier
       'prettier/prettier': 'warn',
       ...prettierConfig.rules,
+
+      // Complexity / refactoring indicators
+      'complexity': ['warn', { max: 15 }],
+      'max-depth': ['warn', { max: 4 }],
+      'max-params': ['warn', { max: 5 }],
+      'max-lines': ['warn', { max: 350, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['warn', { max: 80, skipBlankLines: true, skipComments: true, IIFEs: true }],
+    },
+  },
+
+  // Relaxed rules for test files, style files, and data/constant files
+  {
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/styles/**',
+      '**/*.styles.ts',
+      '**/constants/**',
+      '**/test-utils/**',
+      '**/__mocks__/**',
+      '**/__tests__/**',
+    ],
+    rules: {
+      'max-lines': 'off',
+      'max-lines-per-function': 'off',
+      'max-params': 'off',
+      'complexity': 'off',
     },
   },
 ];
