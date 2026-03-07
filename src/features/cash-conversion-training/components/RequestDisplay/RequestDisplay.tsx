@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { SECTOR_NAMES } from '../../constants/sectors';
 import type { RequestDisplayProps } from './RequestDisplay.types';
 
 export default function RequestDisplay({ request }: RequestDisplayProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const sectorName = SECTOR_NAMES[request.sector];
 
@@ -23,7 +23,7 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,

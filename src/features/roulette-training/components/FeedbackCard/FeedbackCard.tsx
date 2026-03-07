@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { FeedbackCardProps } from './FeedbackCard.types';
 
 /**
@@ -9,8 +10,7 @@ import type { FeedbackCardProps } from './FeedbackCard.types';
  */
 const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(
   ({ isCorrect, correctAnswer, explanation, onNextQuestion }) => {
-    const { colors } = useTheme();
-    const styles = useMemo(() => makeStyles(colors), [colors]);
+    const styles = useThemedStyles(makeStyles);
     const cardStyle = useMemo(
       () => [styles.feedbackCard, isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect],
       [styles, isCorrect]
@@ -37,7 +37,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = React.memo(
 
 FeedbackCard.displayName = 'FeedbackCard';
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     feedbackContainer: {
       gap: 16,

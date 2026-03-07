@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { PlayerPositionProps } from './PlayerPosition.types';
 
 export default function PlayerPosition({
@@ -13,8 +14,7 @@ export default function PlayerPosition({
   isFolded,
   isRequesting,
 }: PlayerPositionProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   // A folded player with chips in front = called then folded to a re-raise.
   // Their chips stay visible so the dealer can count them as dead money.
@@ -86,7 +86,7 @@ export default function PlayerPosition({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     playerContainer: {
       alignItems: 'center',

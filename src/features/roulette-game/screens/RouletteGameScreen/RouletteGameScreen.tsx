@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { RouletteLayout } from '../../../../components/roulette';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { useAnnouncedBets } from '../../../racetrack/hooks';
@@ -11,8 +12,7 @@ const { width: screenWidth } = Dimensions.get('window');
 export default function RouletteGameScreen() {
   const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
   const [selectedChipValue] = useState(5);
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const racetrackWidth = Math.min(screenWidth - 64, 600);
   const availableWidth = Math.min(screenWidth - 64, 450);
@@ -69,7 +69,7 @@ export default function RouletteGameScreen() {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,

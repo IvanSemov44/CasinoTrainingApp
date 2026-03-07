@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { getModeDisplayName } from '../../utils/validation';
 import type { ChallengeDisplayProps } from './ChallengeDisplay.types';
 
 export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.container}>
@@ -19,7 +19,7 @@ export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayPr
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,

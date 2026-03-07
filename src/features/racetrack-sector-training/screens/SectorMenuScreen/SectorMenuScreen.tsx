@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
 import { SectorReferenceCard } from '../../components/SectorReferenceCard';
@@ -58,7 +58,7 @@ const MODE_OPTIONS: ModeOption[] = [
 
 export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handleModeSelect = (mode: SectorMode) => {
     navigation.navigate('SectorTraining', { mode });

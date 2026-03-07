@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
@@ -6,7 +6,8 @@ import ExerciseStats from '../ExerciseStats';
 import HintSection from '../HintSection';
 import NumberPad from '@components/NumberPad';
 import FeedbackCard from '../FeedbackCard';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { ExerciseLayoutProps } from './ExerciseLayout.types';
 
 /**
@@ -33,8 +34,7 @@ export default function ExerciseLayout({
   maxColumns = 4,
   isLoading = false,
 }: ExerciseLayoutProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <ScrollView style={styles.container}>
@@ -123,7 +123,7 @@ export default function ExerciseLayout({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { CHIP_DENOMINATIONS } from '../../constants/denominations';
 import type { CashDisplayProps } from './CashDisplay.types';
 
 export default function CashDisplay({ amount }: CashDisplayProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   // Break down amount into chip denominations
   const getChips = (total: number) => {

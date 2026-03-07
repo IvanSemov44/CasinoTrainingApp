@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CHIP_VALUES } from '@constants/roulette.constants';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 interface ChipSelectorProps {
   selectedValue: number;
@@ -9,8 +10,7 @@ interface ChipSelectorProps {
 }
 
 const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip }) => {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ selectedValue, onSelectChip
   );
 };
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,

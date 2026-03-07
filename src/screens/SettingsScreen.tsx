@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useSettings } from '@contexts/SettingsContext';
 
 export default function SettingsScreen() {
   const { colors } = useTheme();
   const { soundEnabled, hapticEnabled, setSoundEnabled, setHapticEnabled } = useSettings();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>

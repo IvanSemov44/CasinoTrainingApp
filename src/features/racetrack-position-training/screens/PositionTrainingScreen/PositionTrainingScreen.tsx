@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { PositionMode } from '../../types';
 import { getWheelPosition } from '../../utils/validation';
@@ -13,7 +14,7 @@ import { PositionTrainingSidebar } from '../../components/PositionTrainingSideba
 export default function PositionTrainingScreen({ route }: PositionTrainingScreenProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const initialMode: PositionMode = route.params?.mode || 'random';
   const { currentWinningNumber, result, stats, isProcessing, handleNumberPress, handleNext } =

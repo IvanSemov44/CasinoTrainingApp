@@ -1,11 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@components/roulette/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 const { height } = Dimensions.get('window');
 
@@ -14,8 +15,7 @@ export default function RouletteLayoutViewScreen() {
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const placedBets = useAppSelector(state => state.roulette.placedBets);
   const [_highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const cellSize = (height - 80) / 15;
 
@@ -64,7 +64,7 @@ export default function RouletteLayoutViewScreen() {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

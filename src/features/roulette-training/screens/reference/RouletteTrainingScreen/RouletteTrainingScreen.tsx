@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -8,7 +8,8 @@ import Racetrack from '@components/Racetrack';
 import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
 type RouletteTrainingScreenRouteProp = RouteProp<
@@ -25,8 +26,7 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handleNumberPress = (number: RouletteNumber) => {
     setHighlightedNumbers(prev => {
@@ -74,7 +74,7 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,

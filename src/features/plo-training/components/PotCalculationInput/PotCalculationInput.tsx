@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import NumberPad from '@components/NumberPad';
 import type { PotCalculationInputProps } from './PotCalculationInput.types';
 
@@ -8,8 +9,7 @@ export default function PotCalculationInput({
   onSubmit,
   disabled = false,
 }: PotCalculationInputProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const [inputValue, setInputValue] = useState('');
 
@@ -61,7 +61,7 @@ export default function PotCalculationInput({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       width: '100%',

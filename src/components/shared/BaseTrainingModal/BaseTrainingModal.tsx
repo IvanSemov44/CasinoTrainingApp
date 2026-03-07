@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalAnimation } from '../useModalAnimation/useModalAnimation';
 import { DropdownSelector } from '../DropdownSelector/DropdownSelector';
 import type { BaseTrainingModalProps } from './BaseTrainingModal.types';
@@ -26,7 +27,7 @@ export function BaseTrainingModal({
   onStart,
 }: BaseTrainingModalProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
   const { fadeAnim, scaleAnim } = useModalAnimation(visible);
   const AnimatedView = Animated.View ?? View;
 

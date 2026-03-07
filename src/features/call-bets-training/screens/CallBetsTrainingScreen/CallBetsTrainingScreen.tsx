@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { ChallengeDisplay, ResultFeedback } from '../../components';
 import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';
 
 export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreenProps) {
   const { mode } = route.params;
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const { stats, result, totalBets, currentMode, generateNewChallenge, handleSubmit, handleClear } =
     useCallBetsState({ mode });
@@ -47,7 +47,7 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

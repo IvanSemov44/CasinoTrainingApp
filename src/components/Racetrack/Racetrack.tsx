@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { WHEEL_ORDER } from '@constants/roulette.constants';
 import type { RouletteNumber } from '@app-types/roulette.types';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 
 interface RacetrackProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -18,7 +19,7 @@ const ROULETTE_COLORS = {
 
 const Racetrack: React.FC<RacetrackProps> = ({ onNumberPress, highlightedNumbers = [] }) => {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const getNumberColor = (num: RouletteNumber): string => {
     if (num === 0) return ROULETTE_COLORS.green;

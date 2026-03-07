@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { colorWithOpacity } from '@styles';
 import type { DrillMenuScreenProps, DrillMenuItem } from './DrillMenuScreen.types';
 import { makeStyles } from './DrillMenuScreen.styles';
@@ -11,7 +12,7 @@ export default function DrillMenuScreen<T extends DrillMenuItem = DrillMenuItem>
   onPress,
 }: DrillMenuScreenProps<T>) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const difficultyColors: Record<'easy' | 'medium' | 'advanced', string> = {
     easy: colors.difficulty.easy,

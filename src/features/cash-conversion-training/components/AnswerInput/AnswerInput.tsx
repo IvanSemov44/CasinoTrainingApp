@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import NumberPad from '@components/NumberPad';
 import type { AnswerInputProps } from './AnswerInput.types';
 
@@ -16,8 +17,7 @@ export default function AnswerInput({
   onInputFocus,
   requestType,
 }: AnswerInputProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handleNumberPress = (num: string) => {
     if (activeInput === 'totalBet') {
@@ -108,7 +108,7 @@ export default function AnswerInput({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,

@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
-import NumberPad from '@components/NumberPad';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import PlayingCard from '@components/PlayingCard';
 import type { Card } from '@utils/cardUtils';
 import { useDrillState, BaseDrillScenario } from '@hooks/useDrillState';
 import type { DrillScreenProps } from './DrillScreen.types';
 import { makeStyles } from './DrillScreen.styles';
+import DrillAskingPhase from './DrillAskingPhase';
+import DrillResultPhase from './DrillResultPhase';
 
 type DrillCard = Card & { id?: string | number };
 type DrillScreenViewScenario = BaseDrillScenario & {
@@ -31,10 +32,8 @@ export default function DrillScreen<
   betChipLabel = () => 'BET',
   dealerLabel = () => 'DEALER',
 }: DrillScreenProps<TScenario, TDrillType>) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
-  const drillState = useDrillState(scenarioGenerator, drillType);
   const {
     scenario,
     phase,
@@ -53,7 +52,7 @@ export default function DrillScreen<
     autoSubmit,
     handleSubmit,
     handleNext,
-  } = drillState;
+  } = useDrillState(scenarioGenerator, drillType);
 
   const lastEarned = isCorrect ? Math.pow(2, streak - 1) : 0;
   const viewScenario = scenario as DrillScreenViewScenario;
@@ -110,126 +109,29 @@ export default function DrillScreen<
       </View>
 
       {phase === 'asking' ? (
-        <>
-          {scenario.answerType === 'multiple-choice' && scenario.options ? (
-            autoSubmit ? (
-              <View style={styles.twoOptionRow}>
-                {scenario.options.map(opt => (
-                  <TouchableOpacity
-                    key={opt}
-                    style={styles.twoOptionBtn}
-                    onPress={() => {
-                      setSelectedOption(opt);
-                      handleSubmit(opt);
-                    }}
-                    activeOpacity={0.75}
-                  >
-                    <Text style={styles.twoOptionText}>{opt}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            ) : (
-              <View style={styles.optionList}>
-                {scenario.options.map(opt => (
-                  <TouchableOpacity
-                    key={opt}
-                    style={[styles.optionBtn, selectedOption === opt && styles.optionBtnSelected]}
-                    onPress={() => setSelectedOption(opt)}
-                    activeOpacity={0.75}
-                  >
-                    <Text
-                      style={[
-                        styles.optionText,
-                        selectedOption === opt && styles.optionTextSelected,
-                      ]}
-                    >
-                      {opt}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )
-          ) : (
-            <View style={styles.numericBlock}>
-              <View style={styles.amountDisplay}>
-                <Text style={styles.amountLabel}>Your answer</Text>
-                <Text style={styles.amountValue}>€{userAmountStr || '0'}</Text>
-              </View>
-              <NumberPad
-                onNumberPress={num => setUserAmountStr(s => s + num)}
-                onClear={() => setUserAmountStr('')}
-                onBackspace={() => setUserAmountStr(s => s.slice(0, -1))}
-              />
-            </View>
-          )}
-
-          {!autoSubmit && (
-            <TouchableOpacity
-              style={[styles.submitBtn, !canSubmit && styles.submitBtnDisabled]}
-              onPress={() => handleSubmit()}
-              disabled={!canSubmit}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.submitBtnText}>Check Answer</Text>
-            </TouchableOpacity>
-          )}
-        </>
+        <DrillAskingPhase
+          scenario={scenario}
+          autoSubmit={autoSubmit}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          handleSubmit={handleSubmit}
+          userAmountStr={userAmountStr}
+          setUserAmountStr={setUserAmountStr}
+          canSubmit={canSubmit}
+          styles={styles}
+        />
       ) : (
-        <>
-          <View
-            style={[styles.resultCard, isCorrect ? styles.resultCorrect : styles.resultIncorrect]}
-          >
-            <View style={styles.resultHeader}>
-              <Text style={styles.resultIcon}>{isCorrect ? '✓' : '✗'}</Text>
-              <Text style={styles.resultTitle}>{isCorrect ? 'Correct!' : 'Incorrect'}</Text>
-              {isCorrect && (
-                <Text style={styles.pointsEarned}>
-                  +{lastEarned} pt{lastEarned !== 1 ? 's' : ''}
-                </Text>
-              )}
-            </View>
-
-            {scenario.answerType === 'multiple-choice' ? (
-              !isCorrect && (
-                <View style={styles.answerRow}>
-                  <Text style={styles.answerLabel}>Correct answer</Text>
-                  <Text style={[styles.answerValue, styles.correctHL]}>
-                    {scenario.correctOption}
-                  </Text>
-                </View>
-              )
-            ) : (
-              <>
-                <View style={styles.answerRow}>
-                  <Text style={styles.answerLabel}>Your answer</Text>
-                  <Text style={styles.answerValue}>€{userAmountStr || '0'}</Text>
-                </View>
-                {!isCorrect && (
-                  <View style={styles.answerRow}>
-                    <Text style={styles.answerLabel}>Correct answer</Text>
-                    <Text style={[styles.answerValue, styles.correctHL]}>
-                      €{scenario.correctAnswer}
-                    </Text>
-                  </View>
-                )}
-              </>
-            )}
-
-            <View style={styles.explanationBox}>
-              <Text style={styles.explanationText}>{viewScenario.explanation ?? ''}</Text>
-            </View>
-
-            {isCorrect && streak >= 2 && (
-              <Text style={styles.streakNote}>
-                🔥 {streak} in a row — next answer ×{upcomingMultiplier}
-              </Text>
-            )}
-          </View>
-
-          <TouchableOpacity style={styles.continueBtn} onPress={handleNext} activeOpacity={0.8}>
-            <Text style={styles.continueBtnText}>Next Question →</Text>
-          </TouchableOpacity>
-        </>
+        <DrillResultPhase
+          isCorrect={isCorrect}
+          lastEarned={lastEarned}
+          scenario={scenario}
+          viewScenario={viewScenario}
+          userAmountStr={userAmountStr}
+          streak={streak}
+          upcomingMultiplier={upcomingMultiplier}
+          handleNext={handleNext}
+          styles={styles}
+        />
       )}
     </ScrollView>
   );

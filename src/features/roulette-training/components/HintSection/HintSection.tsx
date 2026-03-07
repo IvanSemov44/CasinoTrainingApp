@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { HintSectionProps } from './HintSection.types';
 
 /**
@@ -8,8 +9,7 @@ import type { HintSectionProps } from './HintSection.types';
  * Shows a toggle button that expands/collapses hint content
  */
 const HintSection: React.FC<HintSectionProps> = React.memo(({ isOpen, onToggle, children }) => {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <>
@@ -34,7 +34,7 @@ const HintSection: React.FC<HintSectionProps> = React.memo(({ isOpen, onToggle, 
 
 HintSection.displayName = 'HintSection';
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     hintButton: {
       margin: 16,

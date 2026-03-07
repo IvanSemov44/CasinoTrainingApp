@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
 type RouletteExercisesScreenProps = StackScreenProps<
@@ -12,8 +13,7 @@ type RouletteExercisesScreenProps = StackScreenProps<
 
 export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handleOpenModal = useCallback(() => {
     setIsModalVisible(true);
@@ -61,7 +61,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

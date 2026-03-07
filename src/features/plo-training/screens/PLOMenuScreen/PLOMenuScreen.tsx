@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { PLODifficulty } from '../../types';
 import type { PLOMenuScreenProps } from './PLOMenuScreen.types';
 
 export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const modes: Array<{ difficulty: PLODifficulty; label: string; description: string }> = [
     { difficulty: 'easy', label: 'Easy', description: 'Preflop pot calculations' },

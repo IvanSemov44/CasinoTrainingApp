@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import SkeletonLoader from '@components/SkeletonLoader';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { MenuListScreenProps } from './MenuListScreen.types';
 
 /**
@@ -10,7 +11,7 @@ import type { MenuListScreenProps } from './MenuListScreen.types';
  */
 const SkeletonMenuItem: React.FC = () => {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.exerciseCard}>
@@ -34,7 +35,7 @@ export default function MenuListScreen({
   isLoading = false,
 }: MenuListScreenProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const renderSkeletonItems = () => (
     <>

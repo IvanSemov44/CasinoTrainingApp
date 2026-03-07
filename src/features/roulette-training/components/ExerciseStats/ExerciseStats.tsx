@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { ExerciseStatsProps } from './ExerciseStats.types';
 
 /**
@@ -8,8 +9,7 @@ import type { ExerciseStatsProps } from './ExerciseStats.types';
  * Shows score/attempts ratio and calculated accuracy percentage
  */
 const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({ score, attempts }) => {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
 
@@ -27,7 +27,7 @@ const ExerciseStats: React.FC<ExerciseStatsProps> = React.memo(({ score, attempt
 
 ExerciseStats.displayName = 'ExerciseStats';
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     header: {
       padding: 16,

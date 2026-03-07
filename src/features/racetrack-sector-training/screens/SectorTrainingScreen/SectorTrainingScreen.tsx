@@ -1,9 +1,10 @@
-import { useEffect, useCallback, useMemo } from 'react';
+import { useEffect, useCallback } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useSettings } from '@contexts/SettingsContext';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { SectorMode } from '../../types';
@@ -28,7 +29,7 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
   const { colors } = useTheme();
   const { soundEnabled, hapticEnabled } = useSettings();
   const insets = useSafeAreaInsets();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const selectedMode: SectorMode = route.params?.mode ?? 'random';
 

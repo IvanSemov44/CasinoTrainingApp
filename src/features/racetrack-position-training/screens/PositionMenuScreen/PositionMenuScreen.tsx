@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
@@ -37,7 +37,7 @@ const MODE_OPTIONS: ModeOption[] = [
 
 export default function PositionMenuScreen({ navigation }: PositionMenuScreenProps) {
   const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handleModeSelect = (mode: PositionMode) => {
     navigation.navigate('PositionTraining', { mode });

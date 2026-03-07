@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { ActionLogProps } from './ActionLog.types';
 
 const STREET_HEADERS = new Set(['PREFLOP', 'FLOP', 'TURN', 'RIVER']);
 
 export default function ActionLog({ lines, requesterName }: ActionLogProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   // The last street header in the log is the current street
   let lastHeaderIdx = -1;
@@ -50,7 +50,7 @@ export default function ActionLog({ lines, requesterName }: ActionLogProps) {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.darkGray,

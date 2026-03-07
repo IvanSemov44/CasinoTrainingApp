@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { DropdownSelectorProps } from './DropdownSelector.types';
 import { makeStyles } from './DropdownSelector.styles';
 
@@ -28,8 +28,7 @@ export function DropdownSelector({
   showDropdown,
   onToggleDropdown,
 }: DropdownSelectorProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const selectedItem = items.find(item => item.key === selectedKey);
 

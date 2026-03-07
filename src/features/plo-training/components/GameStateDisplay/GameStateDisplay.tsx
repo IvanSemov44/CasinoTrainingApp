@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { POSITIONS } from '../../constants/plo.constants';
 import PokerTable from '../PokerTable';
 import type { GameStateDisplayProps } from './GameStateDisplay.types';
@@ -18,8 +19,7 @@ interface TablePlayer {
 }
 
 export default function GameStateDisplay({ request }: GameStateDisplayProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const { smallBlind, bigBlind, previousActions, requestingPosition } = request;
 
@@ -92,7 +92,7 @@ export default function GameStateDisplay({ request }: GameStateDisplayProps) {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       marginBottom: 20,

@@ -1,15 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { CallBetsStackParamList } from '../../navigation';
 
 type CallBetsMenuNavigationProp = StackNavigationProp<CallBetsStackParamList, 'CallBetsMenu'>;
 
 export default function CallBetsMenuScreen() {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
   const navigation = useNavigation<CallBetsMenuNavigationProp>();
 
   const modes = [
@@ -79,7 +79,7 @@ export default function CallBetsMenuScreen() {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

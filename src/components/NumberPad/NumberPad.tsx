@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 interface NumberPadProps {
   onNumberPress: (num: string) => void;
@@ -26,8 +27,7 @@ export default function NumberPad({
   onBackspace,
   disabled = false,
 }: NumberPadProps) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   const handlePress = (value: string, callback?: () => void) => {
     if (!disabled) {
@@ -76,7 +76,7 @@ export default function NumberPad({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     pad: { marginBottom: 12 },
     row: { flexDirection: 'row', gap: 8, marginBottom: 8 },

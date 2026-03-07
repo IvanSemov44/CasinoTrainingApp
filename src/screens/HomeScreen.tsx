@@ -9,6 +9,8 @@ import {
   Pressable,
 } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import { useInstallPrompt } from '@hooks/useInstallPrompt';
 import { InstallButton } from '@components/InstallButton';
 import type { NavigationProp } from '../types/navigation.types';
@@ -88,7 +90,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     return Math.floor((width - gutter * 2 - gap) / 2);
   }, [width]);
 
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <ScrollView
@@ -156,7 +158,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flex: 1,

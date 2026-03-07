@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { Card } from '@utils/cardUtils';
 import { isRed } from '@utils/cardUtils';
 
@@ -30,7 +31,7 @@ const SUIT_SYMBOL: Record<string, string> = {
 
 export default function PlayingCard({ card, faceDown = false, size = 'md' }: PlayingCardProps) {
   const { colors } = useTheme();
-  const dynamicStyles = useMemo(() => makeStyles(colors), [colors]);
+  const dynamicStyles = useThemedStyles(makeStyles);
   const d = DIMENSIONS[size];
 
   if (faceDown) {
