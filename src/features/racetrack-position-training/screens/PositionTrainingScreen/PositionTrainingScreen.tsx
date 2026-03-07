@@ -7,6 +7,7 @@ import { useThemedStyles } from '@hooks/useThemedStyles';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { PositionMode } from '../../types';
 import { getWheelPosition } from '../../utils/validation';
+import { calculateAccuracy, getAccuracyColor } from '@utils/accuracy';
 import { usePositionTrainingSession } from './usePositionTrainingSession';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 import { PositionTrainingSidebar } from '../../components/PositionTrainingSidebar';
@@ -52,16 +53,18 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
     };
   }, []);
 
-  const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+  const percentage = calculateAccuracy(stats.correct, stats.total);
   const wheelPosition = getWheelPosition(currentWinningNumber);
   const accuracyColor =
     stats.total === 0
       ? colors.text.muted
-      : percentage >= 80
-        ? colors.status.success
-        : percentage >= 60
-          ? colors.text.gold
-          : colors.status.error;
+      : getAccuracyColor(percentage, {
+          status: {
+            success: colors.status.success,
+            warning: colors.text.gold,
+            error: colors.status.error,
+          },
+        });
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>

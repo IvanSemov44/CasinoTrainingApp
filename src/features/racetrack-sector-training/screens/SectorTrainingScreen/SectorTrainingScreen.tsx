@@ -9,6 +9,7 @@ import { useSettings } from '@contexts/SettingsContext';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { SectorMode } from '../../types';
 import { SectorTrainingHeader } from '../../components/SectorTrainingHeader';
+import { calculateAccuracy, getAccuracyColor } from '@utils/accuracy';
 import { useSectorTrainingSession } from './useSectorTrainingSession';
 import type { SectorTrainingScreenProps } from './SectorTrainingScreen.types';
 
@@ -108,11 +109,13 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
   const accuracyColor =
     stats.total === 0
       ? colors.text.muted
-      : percentage >= 80
-        ? colors.status.success
-        : percentage >= 60
-          ? colors.text.gold
-          : colors.status.error;
+      : getAccuracyColor(calculateAccuracy(stats.correct, stats.total), {
+          status: {
+            success: colors.status.success,
+            warning: colors.text.gold,
+            error: colors.status.error,
+          },
+        });
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, paddingRight: insets.right }]}>

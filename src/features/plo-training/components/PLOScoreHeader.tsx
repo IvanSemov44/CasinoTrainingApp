@@ -25,6 +25,7 @@ export function PLOScoreHeader({
 }: PLOScoreHeaderProps) {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+  const accuracyValue = accuracy ?? 0;
 
   return (
     <>
@@ -35,7 +36,7 @@ export function PLOScoreHeader({
         </View>
         <View style={styles.scoreItem}>
           <Text style={styles.scoreLabel}>Accuracy</Text>
-          <Text style={[styles.scoreValue, { color: colors.text.gold }]}>{accuracy}%</Text>
+          <Text style={[styles.scoreValue, { color: colors.text.gold }]}>{accuracyValue}%</Text>
         </View>
         <View style={styles.scoreItem}>
           <Text style={styles.scoreLabel}>Streak</Text>
