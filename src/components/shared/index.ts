@@ -30,3 +30,5 @@ export { InstructionBox } from './InstructionBox';
 export type { InstructionBoxProps } from './InstructionBox/InstructionBox';
 export { InfoSection } from './InfoSection';
 export type { InfoSectionProps } from './InfoSection';
+export { StartTrainingButton } from './StartTrainingButton';
+export type { StartTrainingButtonProps } from './StartTrainingButton';

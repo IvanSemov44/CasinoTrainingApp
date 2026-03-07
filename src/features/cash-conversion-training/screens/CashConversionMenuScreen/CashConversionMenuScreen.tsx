@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection } from '@components/shared';
+import { InfoSection, StartTrainingButton } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CashConversionTrainingModal } from '../../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
@@ -19,16 +19,12 @@ export default function CashConversionMenuScreen() {
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity
-          style={styles.startButton}
+        <StartTrainingButton
+          icon="💰"
+          hint="Configure and start your training"
           onPress={modal.open}
-          accessibilityLabel="Start Training"
-          accessibilityRole="button"
-        >
-          <Text style={styles.startButtonIcon}>💰</Text>
-          <Text style={styles.startButtonText}>Start Training</Text>
-          <Text style={styles.startButtonHint}>Configure and start your training</Text>
-        </TouchableOpacity>
+          style={{ marginBottom: 24 }}
+        />
 
         <InfoSection title="How It Works" style={{ width: '100%', maxWidth: 400 }}>
           <Text style={styles.infoDescription}>
@@ -103,32 +99,6 @@ function makeStyles(colors: AppColors) {
     content: {
       padding: 20,
       alignItems: 'center',
-    },
-    startButton: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 16,
-      padding: 30,
-      width: '100%',
-      maxWidth: 400,
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.border.gold,
-      marginTop: 20,
-      marginBottom: 24,
-    },
-    startButtonIcon: {
-      fontSize: 48,
-      marginBottom: 12,
-    },
-    startButtonText: {
-      fontSize: 22,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 8,
-    },
-    startButtonHint: {
-      fontSize: 14,
-      color: colors.text.muted,
     },
     infoDescription: {
       fontSize: 14,

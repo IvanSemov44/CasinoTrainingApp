@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection } from '@components/shared';
+import { InfoSection, StartTrainingButton } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
@@ -25,16 +25,11 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity
-          style={styles.startButton}
+        <StartTrainingButton
+          icon="🎯"
+          hint="Select from all available exercises"
           onPress={modal.open}
-          accessibilityLabel="Start Training"
-          accessibilityRole="button"
-        >
-          <Text style={styles.startButtonIcon}>🎯</Text>
-          <Text style={styles.startButtonText}>Start Training</Text>
-          <Text style={styles.startButtonHint}>Select from all available exercises</Text>
-        </TouchableOpacity>
+        />
 
         <InfoSection title="Available Training Types">
           <View style={styles.trainingTypesList}>
@@ -79,31 +74,6 @@ function makeStyles(colors: AppColors) {
       flex: 1,
       padding: 20,
       alignItems: 'center',
-    },
-    startButton: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 16,
-      padding: 30,
-      width: '100%',
-      maxWidth: 400,
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.border.gold,
-      marginTop: 20,
-    },
-    startButtonIcon: {
-      fontSize: 48,
-      marginBottom: 12,
-    },
-    startButtonText: {
-      fontSize: 24,
-      fontWeight: '700',
-      color: colors.text.primary,
-      marginBottom: 8,
-    },
-    startButtonHint: {
-      fontSize: 14,
-      color: colors.text.muted,
     },
     trainingTypesList: {
       gap: 6,
