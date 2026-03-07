@@ -32,3 +32,5 @@ export { InfoSection } from './InfoSection';
 export type { InfoSectionProps } from './InfoSection';
 export { StartTrainingButton } from './StartTrainingButton';
 export type { StartTrainingButtonProps } from './StartTrainingButton';
+export { AccentModeCard } from './AccentModeCard';
+export type { AccentModeCardProps } from './AccentModeCard';

@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { AccentModeCard } from '@components/shared';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
@@ -57,21 +58,13 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
         {MODE_OPTIONS.map(option => (
-          <TouchableOpacity
+          <AccentModeCard
             key={option.mode}
-            style={styles.modeCard}
+            title={option.title}
+            description={option.description}
+            accentColor={option.color}
             onPress={() => handleModeSelect(option.mode)}
-            activeOpacity={0.75}
-          >
-            <View style={[styles.accentBar, { backgroundColor: option.color }]} />
-            <View style={styles.cardBody}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.modeTitle}>{option.title}</Text>
-                <Text style={styles.arrow}>›</Text>
-              </View>
-              <Text style={styles.modeDescription}>{option.description}</Text>
-            </View>
-          </TouchableOpacity>
+          />
         ))}
       </View>
 
@@ -115,43 +108,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: '700',
       color: colors.text.primary,
       marginBottom: 8,
-    },
-    modeCard: {
-      flexDirection: 'row',
-      backgroundColor: colors.background.secondary,
-      borderRadius: 14,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      overflow: 'hidden',
-      marginBottom: 12,
-    },
-    accentBar: {
-      width: 4,
-    },
-    cardBody: {
-      flex: 1,
-      padding: 14,
-    },
-    cardHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 4,
-    },
-    modeTitle: {
-      fontSize: 16,
-      fontWeight: '700',
-      color: colors.text.primary,
-      flex: 1,
-    },
-    arrow: {
-      fontSize: 20,
-      color: colors.text.muted,
-    },
-    modeDescription: {
-      fontSize: 13,
-      color: colors.text.secondary,
-      lineHeight: 18,
     },
   });
 }
