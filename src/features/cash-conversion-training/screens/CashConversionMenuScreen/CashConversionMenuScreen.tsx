@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
+import { InfoSection } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CashConversionTrainingModal } from '../../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';
@@ -29,8 +30,7 @@ export default function CashConversionMenuScreen() {
           <Text style={styles.startButtonHint}>Configure and start your training</Text>
         </TouchableOpacity>
 
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>How It Works</Text>
+        <InfoSection title="How It Works" style={{ width: '100%', maxWidth: 400 }}>
           <Text style={styles.infoDescription}>
             Practice converting cash into sector bets. You&apos;ll learn to calculate:
           </Text>
@@ -39,10 +39,9 @@ export default function CashConversionMenuScreen() {
             <Text style={styles.trainingTypeItem}>• Bet per position</Text>
             <Text style={styles.trainingTypeItem}>• Change/rest to return</Text>
           </View>
-        </View>
+        </InfoSection>
 
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>Available Sectors</Text>
+        <InfoSection title="Available Sectors" style={{ width: '100%', maxWidth: 400 }}>
           <View style={styles.sectorList}>
             <Text style={styles.sectorItem}>🎯 Tier - {SECTOR_POSITIONS.tier} positions</Text>
             <Text style={styles.sectorItem}>
@@ -54,10 +53,9 @@ export default function CashConversionMenuScreen() {
               👥 Neighbors - {SECTOR_POSITIONS.neighbors} positions
             </Text>
           </View>
-        </View>
+        </InfoSection>
 
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>Difficulty Levels</Text>
+        <InfoSection title="Difficulty Levels" style={{ width: '100%', maxWidth: 400 }}>
           <View style={styles.difficultyList}>
             <Text style={styles.difficultyItem}>
               🟢 Easy - Max ${DIFFICULTY_MAX_BET.easy} per position
@@ -69,7 +67,7 @@ export default function CashConversionMenuScreen() {
               🔴 Hard - Max ${DIFFICULTY_MAX_BET.hard} per position
             </Text>
           </View>
-        </View>
+        </InfoSection>
       </View>
 
       <CashConversionTrainingModal visible={modal.isVisible} onClose={modal.close} />
@@ -131,22 +129,6 @@ function makeStyles(colors: AppColors) {
     startButtonHint: {
       fontSize: 14,
       color: colors.text.muted,
-    },
-    infoSection: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      width: '100%',
-      maxWidth: 400,
-      marginBottom: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    infoTitle: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: colors.text.gold,
-      marginBottom: 12,
     },
     infoDescription: {
       fontSize: 14,

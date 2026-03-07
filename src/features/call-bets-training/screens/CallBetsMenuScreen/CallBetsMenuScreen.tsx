@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { InfoSection } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CallBetsStackParamList } from '../../navigation';
 
@@ -50,31 +51,28 @@ export default function CallBetsMenuScreen() {
         ))}
       </View>
 
-      <View style={styles.infoSection}>
-        <Text style={styles.infoTitle}>What Are Call Bets?</Text>
+      <InfoSection title="What Are Call Bets?">
         <Text style={styles.infoDescription}>
           Call bets (or announced bets) are roulette betting patterns based on wheel positions
           rather than the betting layout. They&apos;re common in European casinos.
         </Text>
-      </View>
+      </InfoSection>
 
-      <View style={styles.infoSection}>
-        <Text style={styles.infoTitle}>Call Bet Types</Text>
+      <InfoSection title="Call Bet Types">
         <View style={styles.betTypesList}>
           <Text style={styles.betTypeItem}>🎯 Tier — covers 12 consecutive numbers</Text>
           <Text style={styles.betTypeItem}>🎪 Orphelins — covers 8 non-adjacent numbers</Text>
           <Text style={styles.betTypeItem}>👥 Voisins — covers 17 consecutive numbers</Text>
           <Text style={styles.betTypeItem}>⭕ Zero — covers 7 numbers around zero</Text>
         </View>
-      </View>
+      </InfoSection>
 
-      <View style={styles.infoSection}>
-        <Text style={styles.infoTitle}>How To Train</Text>
+      <InfoSection title="How To Train">
         <Text style={styles.infoDescription}>
           Select a call bet type above to start. You&apos;ll be shown the wheel positions you need
           to cover, and you&apos;ll place chips on the correct betting layout positions.
         </Text>
-      </View>
+      </InfoSection>
     </ScrollView>
   );
 }
@@ -138,21 +136,6 @@ function makeStyles(colors: AppColors) {
       fontSize: 24,
       color: colors.text.gold,
       marginLeft: 12,
-    },
-    infoSection: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      marginHorizontal: 20,
-      marginBottom: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    infoTitle: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: colors.text.gold,
-      marginBottom: 12,
     },
     infoDescription: {
       fontSize: 14,

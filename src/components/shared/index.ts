@@ -28,3 +28,5 @@ export { FeedbackActions } from './FeedbackActions';
 export type { FeedbackActionsProps, FeedbackActionButton } from './FeedbackActions';
 export { InstructionBox } from './InstructionBox';
 export type { InstructionBoxProps } from './InstructionBox/InstructionBox';
+export { InfoSection } from './InfoSection';
+export type { InfoSectionProps } from './InfoSection';

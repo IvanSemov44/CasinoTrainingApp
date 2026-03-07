@@ -4,6 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
+import { InfoSection } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 
@@ -35,8 +36,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
           <Text style={styles.startButtonHint}>Select from all available exercises</Text>
         </TouchableOpacity>
 
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>Available Training Types</Text>
+        <InfoSection title="Available Training Types">
           <View style={styles.trainingTypesList}>
             <Text style={styles.trainingTypeItem}>• Straight Up (35:1)</Text>
             <Text style={styles.trainingTypeItem}>• Split (17:1)</Text>
@@ -46,7 +46,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
             <Text style={styles.trainingTypeItem}>• Mixed Bets</Text>
             <Text style={styles.trainingTypeItem}>• Cash Handling</Text>
           </View>
-        </View>
+        </InfoSection>
       </View>
 
       <TrainingSelectionModal visible={modal.isVisible} onClose={modal.close} />
@@ -104,22 +104,6 @@ function makeStyles(colors: AppColors) {
     startButtonHint: {
       fontSize: 14,
       color: colors.text.muted,
-    },
-    infoSection: {
-      marginTop: 40,
-      padding: 20,
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      width: '100%',
-      maxWidth: 400,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
-    infoTitle: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: colors.text.gold,
-      marginBottom: 12,
     },
     trainingTypesList: {
       gap: 6,
