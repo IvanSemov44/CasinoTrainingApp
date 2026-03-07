@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { TrainingHeader } from '@components/shared/TrainingHeader';
+import { TrainingHeader, PrimaryButton } from '@components/shared';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../components';
 import { SECTOR_NAMES } from '../../constants/sectors';
 import { useCashConversionState } from './useCashConversionState';
@@ -60,13 +60,11 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
             requestType={currentRequest.requestType}
           />
 
-          <TouchableOpacity
-            style={[styles.checkButton, !isFormComplete && styles.checkButtonDisabled]}
+          <PrimaryButton
+            label="Check Answer"
             onPress={handleCheck}
             disabled={!isFormComplete}
-          >
-            <Text style={styles.checkButtonText}>Check Answer</Text>
-          </TouchableOpacity>
+          />
         </>
       )}
 
@@ -83,21 +81,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       padding: 24,
-    },
-    checkButton: {
-      backgroundColor: colors.text.gold,
-      paddingVertical: 16,
-      borderRadius: 12,
-      alignItems: 'center',
-      marginTop: 16,
-    },
-    checkButtonDisabled: {
-      backgroundColor: colors.background.tertiary,
-    },
-    checkButtonText: {
-      fontSize: 18,
-      fontWeight: '700',
-      color: colors.background.primary,
     },
   });
 }

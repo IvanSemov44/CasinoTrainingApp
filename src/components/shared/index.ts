@@ -36,3 +36,5 @@ export { AccentModeCard } from './AccentModeCard';
 export type { AccentModeCardProps } from './AccentModeCard';
 export { MenuScreenHeader } from './MenuScreenHeader';
 export type { MenuScreenHeaderProps } from './MenuScreenHeader';
+export { PrimaryButton } from './PrimaryButton';
+export type { PrimaryButtonProps } from './PrimaryButton';

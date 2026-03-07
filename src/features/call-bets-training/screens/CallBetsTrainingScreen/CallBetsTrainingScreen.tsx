@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { TrainingHeader } from '@components/shared/TrainingHeader';
+import { TrainingHeader, PrimaryButton } from '@components/shared';
 import { ChallengeDisplay, ResultFeedback } from '../../components';
 import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';
@@ -24,14 +24,12 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
         <>
           <ChallengeDisplay mode={currentMode} totalBets={totalBets} />
 
-          <TouchableOpacity
-            style={styles.submitButton}
+          <PrimaryButton
+            label="Submit Answer"
             onPress={handleSubmit}
             accessibilityLabel="Submit answer"
-            accessibilityRole="button"
-          >
-            <Text style={styles.submitButtonText}>Submit Answer</Text>
-          </TouchableOpacity>
+            style={{ marginTop: 24 }}
+          />
         </>
       )}
 
@@ -50,18 +48,6 @@ function makeStyles(colors: AppColors) {
     },
     contentContainer: {
       padding: 24,
-    },
-    submitButton: {
-      backgroundColor: colors.text.gold,
-      paddingVertical: 16,
-      borderRadius: 12,
-      alignItems: 'center',
-      marginTop: 24,
-    },
-    submitButtonText: {
-      fontSize: 18,
-      fontWeight: '700',
-      color: colors.background.primary,
     },
   });
 }

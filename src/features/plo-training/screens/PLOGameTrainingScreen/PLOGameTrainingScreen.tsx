@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { PrimaryButton } from '@components/shared';
 import { usePLOGameState } from './usePLOGameState';
 import { ActionLog, PotCalculationInput } from '../../components';
 import { PLOScoreHeader } from '../../components/PLOScoreHeader';
@@ -60,14 +61,11 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
             <PotCalculationInput onSubmit={handleCheck} />
           </View>
 
-          <TouchableOpacity
-            style={styles.submitButton}
+          <PrimaryButton
+            label="Check Answer"
             onPress={handleCheck}
             accessibilityLabel="Check answer"
-            accessibilityRole="button"
-          >
-            <Text style={styles.submitButtonText}>Check Answer</Text>
-          </TouchableOpacity>
+          />
         </>
       ) : (
         <PLOFeedbackCard
@@ -115,18 +113,6 @@ function makeStyles(colors: AppColors) {
       fontWeight: '600',
       color: colors.text.primary,
       marginBottom: 12,
-    },
-    submitButton: {
-      backgroundColor: colors.text.gold,
-      paddingVertical: 16,
-      borderRadius: 12,
-      alignItems: 'center',
-      marginTop: 16,
-    },
-    submitButtonText: {
-      fontSize: 16,
-      fontWeight: '700',
-      color: colors.background.primary,
     },
   });
 }
