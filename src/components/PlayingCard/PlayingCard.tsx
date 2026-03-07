@@ -49,7 +49,7 @@ export default function PlayingCard({ card, faceDown = false, size = 'md' }: Pla
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     card: {
       backgroundColor: colors.text.primary,
@@ -82,5 +82,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '180deg' }],
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

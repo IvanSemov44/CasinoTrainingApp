@@ -61,7 +61,7 @@ export default function PotCalculationInput({ onSubmit, disabled = false }: PotC
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       width: '100%',
@@ -99,5 +99,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

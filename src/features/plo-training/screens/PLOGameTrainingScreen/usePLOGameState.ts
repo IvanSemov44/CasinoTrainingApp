@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { generateHand } from '../utils/handGenerator';
-import type { GeneratedHand, PLODifficulty } from '../types';
+import { generateHand } from '../../utils/handGenerator';
+import type { GeneratedHand, PLODifficulty } from '../../types';
 import { getRandomElement } from '@utils/randomUtils';
 
 const BLIND_LEVELS = [2, 5, 10] as const;
@@ -12,23 +12,19 @@ function freshHand(difficulty: PLODifficulty): GeneratedHand {
   return generateHand(difficulty, getRandomElement([...BLIND_LEVELS]));
 }
 
-/** Points earned for the Nth correct answer in a row: 1, 2, 4, 8, … */
 function streakMultiplier(streakAfterAnswer: number): number {
   return Math.pow(2, streakAfterAnswer - 1);
 }
 
 export function usePLOGameState(difficulty: PLODifficulty) {
-  // Game hand state
   const [hand, setHand] = useState<GeneratedHand>(() => freshHand(difficulty));
   const [handKey, setHandKey] = useState(0);
   const [momentIndex, setMomentIndex] = useState(0);
 
-  // UI phase state
   const [phase, setPhase] = useState<Phase>('asking');
   const [userAnswer, setUserAnswer] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
 
-  // Session metrics
   const [sessionPoints, setSessionPoints] = useState(0);
   const [sessionCorrect, setSessionCorrect] = useState(0);
   const [sessionTotal, setSessionTotal] = useState(0);
@@ -36,7 +32,6 @@ export function usePLOGameState(difficulty: PLODifficulty) {
 
   const dealingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Auto-advance to next hand after dealing animation
   useEffect(() => {
     if (phase === 'dealing') {
       dealingTimer.current = setTimeout(() => {
@@ -83,7 +78,6 @@ export function usePLOGameState(difficulty: PLODifficulty) {
     }
   }, [momentIndex, hand.askMoments.length]);
 
-  // Computed values
   const isLastMoment = momentIndex + 1 >= hand.askMoments.length;
   const accuracy = sessionTotal > 0
     ? Math.round((sessionCorrect / sessionTotal) * 100)
@@ -92,7 +86,6 @@ export function usePLOGameState(difficulty: PLODifficulty) {
   const upcomingMultiplier = Math.pow(2, streak);
 
   return {
-    // Game state
     hand,
     handKey,
     momentIndex,
@@ -100,20 +93,14 @@ export function usePLOGameState(difficulty: PLODifficulty) {
     userAnswer,
     isCorrect,
     moment,
-
-    // Session metrics
     sessionPoints,
     sessionCorrect,
     sessionTotal,
     streak,
-
-    // Computed values
     isLastMoment,
     accuracy,
     lastEarned,
     upcomingMultiplier,
-
-    // Handlers
     handleCheck,
     handleContinue,
     setUserAnswer,

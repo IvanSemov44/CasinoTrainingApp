@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { RacetrackLayout } from '../components';
+import { RacetrackLayout } from '../../components';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -9,7 +9,6 @@ export default function RacetrackScreen() {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  // Use height for width since we're rotating 90 degrees
   const racetrackWidth = Math.min(screenHeight - 150, 800);
 
   return (
@@ -22,7 +21,7 @@ export default function RacetrackScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -34,5 +33,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

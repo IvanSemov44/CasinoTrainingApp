@@ -117,7 +117,7 @@ const Racetrack: React.FC<RacetrackProps> = ({
 };
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -177,7 +177,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       fontWeight: 'bold',
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }
 
 export default Racetrack;

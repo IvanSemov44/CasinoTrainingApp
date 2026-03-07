@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -6,13 +6,9 @@ import * as Haptics from 'expo-haptics';
 import { useTheme } from '@contexts/ThemeContext';
 import { useSettings } from '@contexts/SettingsContext';
 import { RacetrackLayout } from '../../../racetrack/components';
-import { SectorType, SectorMode, TrainingStats } from '../../types';
-import {
-  validateSectorSelection,
-  getRandomWinningNumber,
-  getSectorForNumber,
-} from '../../utils/validation';
+import { SectorMode } from '../../types';
 import { SectorTrainingHeader } from '../../components/SectorTrainingHeader';
+import { useSectorTrainingSession } from './useSectorTrainingSession';
 import type { SectorTrainingScreenProps } from './SectorTrainingScreen.types';
 
 function playTone(ctx: AudioContext, freq: number, startTime: number, duration: number) {
@@ -35,10 +31,6 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const selectedMode: SectorMode = route.params?.mode ?? 'random';
-  const [currentWinningNumber, setCurrentWinningNumber] = useState<number>(0);
-  const [stats, setStats] = useState<TrainingStats>({ correct: 0, total: 0 });
-  const [isProcessing, setIsProcessing] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { height: winH } = useWindowDimensions();
   const racetrackSize = winH - insets.top - insets.bottom - 56 - 40;
@@ -69,47 +61,43 @@ export default function SectorTrainingScreen({ route }: SectorTrainingScreenProp
     } catch { /* Web Audio API not available */ }
   }, []);
 
-  const generateNewNumber = useCallback(() => {
-    let n: number;
-    do { n = getRandomWinningNumber(); }
-    while (selectedMode !== 'random' && getSectorForNumber(n) !== selectedMode);
-    setCurrentWinningNumber(n);
-    setIsProcessing(false);
-  }, [selectedMode]);
-
-  useEffect(() => {
-    generateNewNumber();
-  }, [generateNewNumber]);
-
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => { /* not available */ });
     return () => { ScreenOrientation.unlockAsync().catch(() => { /* not available */ }); };
   }, []);
 
-  useEffect(() => {
-    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
-  }, []);
-
-  const handleSectorPress = useCallback(async (sector: string) => {
-    if (isProcessing) return;
-    setIsProcessing(true);
-
-    const { isCorrect } = validateSectorSelection(currentWinningNumber, sector as SectorType);
-    setStats(prev => ({ correct: prev.correct + (isCorrect ? 1 : 0), total: prev.total + 1 }));
-
-    if (isCorrect) {
-      if (hapticEnabled) { try { await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success); } catch { /* not available */ } }
-      if (soundEnabled) playSoundEffect('success');
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => generateNewNumber(), 1000);
-    } else {
-      if (hapticEnabled) { try { await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning); } catch { /* not available */ } }
-      if (soundEnabled) playSoundEffect('error');
-      setIsProcessing(false);
+  const onCorrect = useCallback(async () => {
+    if (hapticEnabled) {
+      try {
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch {
+        // not available
+      }
     }
-  }, [currentWinningNumber, isProcessing, hapticEnabled, soundEnabled, playSoundEffect, generateNewNumber]);
+    if (soundEnabled) playSoundEffect('success');
+  }, [hapticEnabled, soundEnabled, playSoundEffect]);
 
-  const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+  const onIncorrect = useCallback(async () => {
+    if (hapticEnabled) {
+      try {
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      } catch {
+        // not available
+      }
+    }
+    if (soundEnabled) playSoundEffect('error');
+  }, [hapticEnabled, soundEnabled, playSoundEffect]);
+
+  const {
+    currentWinningNumber,
+    stats,
+    handleSectorPress,
+    percentage,
+  } = useSectorTrainingSession({
+    mode: selectedMode,
+    onCorrect,
+    onIncorrect,
+  });
   const accuracyColor =
     stats.total === 0 ? colors.text.muted
     : percentage >= 80 ? colors.status.success

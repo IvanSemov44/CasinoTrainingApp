@@ -85,7 +85,7 @@ module.exports = [
       'react-hooks/exhaustive-deps': 'warn',
       
       // React Native rules
-      'react-native/no-unused-styles': 'warn',
+      'react-native/no-unused-styles': 'off', // False positives with dynamic StyleSheet.create()
       'react-native/split-platform-components': 'warn',
       'react-native/no-inline-styles': 'off', // Common in React Native
       'react-native/no-color-literals': 'off', // Too restrictive

@@ -3,14 +3,14 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import { useExerciseState } from './useExerciseState';
-import type { Bet, BetType } from '../types/exercise.types';
+import type { Bet, BetType } from '../../../types/exercise.types';
 import {
   generateBetExplanation,
   createMockBets,
-} from '../utils/exerciseHelpers';
-import { generateBetsForNumber, generateSingleBetFromConfig } from '../utils/betGenerators';
+} from '../../../utils/exerciseHelpers';
+import { generateBetsForNumber, generateSingleBetFromConfig } from '../../../utils/betGenerators';
 import { getRandomInt, getRandomElement } from '@utils/randomUtils';
-import { generateHintContent } from '../utils/hintGenerators';
+import { generateHintContent } from '../../../utils/hintGenerators';
 
 type QuestionType = 'ASK_PAYOUT' | 'ASK_CHIPS' | 'ASK_CASH';
 

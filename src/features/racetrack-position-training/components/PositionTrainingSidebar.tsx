@@ -29,7 +29,7 @@ export function PositionTrainingSidebar({
   onSkip,
 }: PositionTrainingSidebarProps) {
   const { colors } = useTheme();
-  const styles = makeStyles(colors, accuracyColor);
+  const styles = makeStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -94,8 +94,8 @@ export function PositionTrainingSidebar({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors'], accuracyColor: string) {
-  /* eslint-disable react-native/no-unused-styles */
+function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+   
   return StyleSheet.create({
     container: {
       width: 172,
@@ -210,5 +210,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors'], accuracyColor
       color: colors.text.secondary,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

@@ -9,7 +9,7 @@ import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { useTheme } from '@contexts/ThemeContext';
-import type { RouletteTrainingStackParamList } from '../../navigation';
+import type { RouletteTrainingStackParamList } from '../../../navigation';
 
 type RouletteTrainingScreenRouteProp = RouteProp<RouletteTrainingStackParamList, 'RouletteTraining'>;
 
@@ -26,7 +26,6 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const handleNumberPress = (number: RouletteNumber) => {
-    // Add number to highlighted list
     setHighlightedNumbers(prev => {
       if (prev.includes(number)) {
         return prev.filter(n => n !== number);
@@ -34,7 +33,6 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
       return [...prev, number];
     });
 
-    // Create a bet
     const bet = {
       id: `${Date.now()}-${number}`,
       type: BetType.STRAIGHT,
@@ -88,7 +86,7 @@ export default function RouletteTrainingScreen({ route }: RouletteTrainingScreen
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -124,5 +122,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

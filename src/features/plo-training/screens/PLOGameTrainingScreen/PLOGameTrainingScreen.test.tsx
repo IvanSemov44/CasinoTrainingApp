@@ -8,7 +8,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 // Mock hooks
-jest.mock('../../hooks', () => ({
+jest.mock('./usePLOGameState', () => ({
   usePLOGameState: jest.fn(() => ({
     hand: {
       blindLevel: 5,
@@ -87,9 +87,9 @@ describe('PLOGameTrainingScreen', () => {
       expect(getByLabelText('Check answer')).toBeTruthy();
     });
 
-    it('should display stats section', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
-      expect(getByText('Session Stats')).toBeTruthy();
+    it('should not display feedback stats section during asking phase', () => {
+      const { queryByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(queryByText('Session Stats')).toBeNull();
     });
   });
 
@@ -108,16 +108,16 @@ describe('PLOGameTrainingScreen', () => {
       expect(getAllByText(/0%/).length).toBeGreaterThan(0);
     });
 
-    it('should display session statistics', () => {
-      const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
-      expect(getByText('Session Stats')).toBeTruthy();
-      expect(getByText(/0 \/ 0 correct/)).toBeTruthy();
+    it('should not display feedback statistics during asking phase', () => {
+      const { queryByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
+      expect(queryByText('Session Stats')).toBeNull();
+      expect(queryByText(/0 \/ 0 correct/)).toBeNull();
     });
   });
 
   describe('feedback phase', () => {
     it('should show feedback when in feedback phase', () => {
-      const mockHookModule = require('../../hooks');
+      const mockHookModule = require('./usePLOGameState');
       mockHookModule.usePLOGameState.mockReturnValueOnce({
         hand: {
           blindLevel: 5,
@@ -150,10 +150,12 @@ describe('PLOGameTrainingScreen', () => {
 
       const { getByText } = renderWithTheme(<PLOGameTrainingScreen navigation={mockNavigation} route={mockRoute} />);
       expect(getByText('✓ Correct!')).toBeTruthy();
+      expect(getByText('Session Stats')).toBeTruthy();
+      expect(getByText(/1 \/ 1 correct/)).toBeTruthy();
     });
 
     it('should display correct answer in feedback', () => {
-      const mockHookModule = require('../../hooks');
+      const mockHookModule = require('./usePLOGameState');
       mockHookModule.usePLOGameState.mockReturnValueOnce({
         hand: {
           blindLevel: 5,

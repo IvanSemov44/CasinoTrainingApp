@@ -17,8 +17,6 @@ export default function RouletteLayoutViewScreen() {
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  // Calculate cell size to fill screen height when rotated (width becomes height after 90° rotation)
-  // Total layout width = 15 * cellSize (1.5 + 12 + 1.5 for zero + numbers + columns)
   const cellSize = (height - 80) / 15;
 
   const handleNumberPress = (number: RouletteNumber) => {
@@ -67,7 +65,7 @@ export default function RouletteLayoutViewScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -86,5 +84,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       transform: [{ rotate: '90deg' }],
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

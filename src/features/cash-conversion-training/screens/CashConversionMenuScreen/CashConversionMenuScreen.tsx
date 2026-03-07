@@ -79,7 +79,7 @@ export default function CashConversionMenuScreen() {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -180,5 +180,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginBottom: 8,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

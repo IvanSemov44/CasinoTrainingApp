@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { ChallengeDisplay, ResultFeedback } from '../../components';
-import type { CallBetMode, ValidationResult } from '../../types';
+import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';
 
 export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreenProps) {
@@ -10,49 +10,8 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  const [stats, setStats] = useState({ correct: 0, total: 0 });
-  const [result, setResult] = useState<ValidationResult | null>(null);
-  const [totalBets, setTotalBets] = useState(0);
-  const [currentMode, setCurrentMode] = useState<Exclude<CallBetMode, 'random'>>(
-    mode === 'random' ? 'tier' : mode
-  );
-
-  const generateNewChallenge = useCallback(() => {
-    // TODO: Implement challenge generation based on mode
-    if (mode === 'random') {
-      const modes: Array<Exclude<CallBetMode, 'random'>> = ['tier', 'orphelins', 'voisins', 'zero'];
-      setCurrentMode(modes[Math.floor(Math.random() * modes.length)]);
-    } else {
-      setCurrentMode(mode);
-    }
-    setTotalBets(Math.floor(Math.random() * 5) + 1); // 1-5 bets
-    setResult(null);
-  }, [mode]);
-
-  useEffect(() => {
-    generateNewChallenge();
-  }, [generateNewChallenge]);
-
-  const handleSubmit = useCallback(() => {
-    // TODO: Implement answer validation
-    const validationResult: ValidationResult = {
-      isCorrect: true, // placeholder
-      correctBets: [],
-      userBets: [],
-      missingBets: [],
-      extraBets: [],
-      score: 100,
-    };
-    setResult(validationResult);
-    setStats(prev => ({
-      correct: prev.correct + (validationResult.isCorrect ? 1 : 0),
-      total: prev.total + 1,
-    }));
-  }, []);
-
-  const handleClear = useCallback(() => {
-    setResult(null);
-  }, []);
+  const { stats, result, totalBets, currentMode, generateNewChallenge, handleSubmit, handleClear } =
+    useCallBetsState({ mode });
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -92,7 +51,7 @@ export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreen
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -129,5 +88,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

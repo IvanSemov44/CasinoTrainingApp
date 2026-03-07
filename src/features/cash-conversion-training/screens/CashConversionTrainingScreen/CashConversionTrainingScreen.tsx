@@ -1,16 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../components';
-import { SectorType, CashRequest, ValidationResult } from '../../types';
-import { SECTOR_NAMES, SECTOR_POSITIONS } from '../../constants/sectors';
-import {
-  generateRandomCashAmount,
-  generateRandomSector,
-  generateRandomRequest,
-  calculateCorrectAnswer,
-  validateAnswer,
-} from '../../utils/calculations';
+import { SECTOR_NAMES } from '../../constants/sectors';
+import { useCashConversionState } from './useCashConversionState';
 import type { CashConversionTrainingScreenProps } from './CashConversionTrainingScreen.types';
 
 export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
@@ -18,67 +11,22 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
   const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
-  const [currentRequest, setCurrentRequest] = useState<CashRequest | null>(null);
-  const [totalBet, setTotalBet] = useState('');
-  const [betPerPosition, setBetPerPosition] = useState('');
-  const [change, setChange] = useState('');
-  const [activeInput, setActiveInput] = useState<'totalBet' | 'betPerPosition' | 'change'>('totalBet');
-  const [result, setResult] = useState<ValidationResult | null>(null);
-  const [stats, setStats] = useState({ correct: 0, total: 0 });
-
-  const generateNewChallenge = useCallback(() => {
-    const selectedSector = sector === 'random' ? generateRandomSector() : (sector as Exclude<SectorType, 'random'>);
-    const cashAmount = generateRandomCashAmount(difficulty, selectedSector);
-    const request = generateRandomRequest(selectedSector, cashAmount, difficulty);
-
-    setCurrentRequest(request);
-    setTotalBet('');
-    setBetPerPosition('');
-    setChange('');
-    // Set default active input based on request type
-    setActiveInput(request.requestType === 'for-the-money' ? 'betPerPosition' : 'totalBet');
-    setResult(null);
-  }, [difficulty, sector]);
-
-  useEffect(() => {
-    generateNewChallenge();
-  }, [generateNewChallenge]);
-
-  // Check if form is complete based on request type
-  const isFormComplete = currentRequest
-    ? currentRequest.requestType === 'for-the-money'
-      ? !!betPerPosition && !!change
-      : !!totalBet && !!change
-    : false;
-
-  const handleCheck = () => {
-    if (!currentRequest) return;
-
-    // For "for-the-money": user enters betPerPosition and change
-    // For "by-amount": user enters totalBet and change
-    const userAnswer = {
-      totalBet: currentRequest.requestType === 'for-the-money'
-        ? (parseInt(betPerPosition, 10) || 0) * (SECTOR_POSITIONS[currentRequest.sector] || 1)
-        : parseInt(totalBet, 10),
-      betPerPosition: currentRequest.requestType === 'for-the-money'
-        ? parseInt(betPerPosition, 10)
-        : (currentRequest.specifiedAmount || 0),
-      change: parseInt(change, 10),
-    };
-
-    const correctAnswer = calculateCorrectAnswer(currentRequest, difficulty);
-    const validationResult = validateAnswer(userAnswer, correctAnswer);
-
-    setResult(validationResult);
-    setStats(prev => ({
-      correct: prev.correct + (validationResult.isCorrect ? 1 : 0),
-      total: prev.total + 1,
-    }));
-  };
-
-  const handleNext = () => {
-    generateNewChallenge();
-  };
+  const {
+    currentRequest,
+    totalBet,
+    betPerPosition,
+    change,
+    activeInput,
+    result,
+    stats,
+    isFormComplete,
+    setTotalBet,
+    setBetPerPosition,
+    setChange,
+    setActiveInput,
+    handleCheck,
+    handleNext,
+  } = useCashConversionState({ difficulty, sector });
 
   if (!currentRequest) return null;
 
@@ -136,7 +84,7 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -176,5 +124,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.background.primary,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

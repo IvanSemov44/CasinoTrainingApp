@@ -33,32 +33,57 @@ A React Native mobile application built with Expo for training casino dealers. F
 
 ## 📁 Project Structure
 
+The app uses a **feature-based architecture** with collocated screen modules:
+
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── RouletteLayout.tsx
-│   ├── Racetrack.tsx
-│   └── ChipSelector.tsx
-├── screens/            # App screens
-│   ├── HomeScreen.tsx
-│   ├── RouletteExercisesScreen.tsx
-│   ├── RouletteTrainingScreen.tsx
-│   └── ProgressScreen.tsx
-├── navigation/         # Navigation configuration
-│   └── AppNavigator.tsx
-├── store/             # Redux store and slices
-│   ├── index.ts
-│   ├── hooks.ts
-│   └── rouletteSlice.ts
-├── services/          # Business logic and services
-│   └── storage.service.ts
-├── types/             # TypeScript type definitions
-│   └── roulette.types.ts
-├── constants/         # App constants and configurations
-│   └── roulette.constants.ts
-└── utils/             # Helper functions
-    └── roulette.utils.ts
+├── components/              # Shared UI components
+│   ├── ErrorBoundary.tsx
+│   ├── LoadingSpinner.tsx
+│   └── PlayingCard.tsx
+├── features/                # Feature modules (main structure)
+│   ├── roulette-training/
+│   │   ├── screens/         # Screen components
+│   │   │   ├── exercises/
+│   │   │   │   └── CalculationScreen/
+│   │   │   │       ├── CalculationScreen.tsx
+│   │   │   │       ├── index.ts
+│   │   │   │       ├── useCalculationQuestion.ts
+│   │   │   │       └── useExerciseState.ts
+│   │   │   ├── menu/
+│   │   │   └── reference/
+│   │   ├── components/      # Feature-specific components
+│   │   ├── hooks/           # Feature-level hooks (shared across screens)
+│   │   ├── utils/           # Feature utilities
+│   │   ├── types/           # Feature types
+│   │   ├── constants/       # Feature constants
+│   │   ├── navigation.tsx   # Feature navigation
+│   │   └── index.ts         # Feature exports
+│   ├── plo-training/
+│   ├── racetrack/
+│   ├── roulette-game/
+│   └── [8+ other features]
+├── navigation/              # App-level navigation config
+├── store/                   # Redux store (if needed)
+├── styles/                  # Global styles
+├── types/                   # Global types
+└── utils/                   # Global utilities
 ```
+
+### Architecture Pattern
+
+**Feature-based with Screen Colocation:**
+- Each feature is self-contained with its own dependencies
+- Screens are organized in subfolders (e.g., `screens/exercises/CalculationScreen/`)
+- Hooks and styles are colocated with their screens when used by a single screen
+- Feature-level `index.ts` exports the public API
+- Shared cross-feature code stays at the app level
+
+This pattern maximizes:
+- **Encapsulation**: Feature changes don't leak into other features
+- **Discoverability**: Related code lives together
+- **Scalability**: Easy to add/remove features
+- **Testability**: Isolated feature-level testing
 
 ## 🛠️ Installation
 
@@ -117,9 +142,43 @@ npm run ios
 
 ## 📝 Development Guidelines
 
+### Architecture Principles
+- **Feature-First**: Organize code around features, not layers
+- **Colocation**: Keep related code together (component + hook + styles + tests in one folder)
+- **Module Exports**: Each feature exports a clean public API via `index.ts`
+- **Single Responsibility**: Hooks handle state, components handle UI
+- **Testing**: Tests live alongside the code they test
+
+### Code Organization
+```
+MyFeature/
+├── screens/
+│   └── MyScreen/
+│       ├── MyScreen.tsx          # Main component
+│       ├── MyScreen.test.tsx      # Component tests
+│       ├── useMyScreenLogic.ts    # Screen-specific hook
+│       ├── useMyScreenLogic.test.ts
+│       ├── MyScreen.styles.ts     # Styles (optional)
+│       └── index.ts               # Module export
+├── components/                   # Feature-level shared components
+├── hooks/                        # Feature-level shared hooks
+├── types/                        # Feature-specific types
+├── utils/                        # Feature utilities
+├── constants/                    # Feature constants
+├── navigation.tsx                # Navigation config
+└── index.ts                      # Feature public API
+```
+
+### Key Rules
+1. **Colocate single-use code**: If a hook is only used by one screen, put it in that screen's folder
+2. **Share at feature level**: Hooks used by multiple screens go in `features/YourFeature/hooks/`
+3. **Avoid cross-feature dependencies**: Features should be independent; use props drilling if needed
+4. **Type everything**: Add types for all props, state, and function parameters
+5. **Test utilities & hooks**: At minimum, hook behavior should be tested
+
 - **TypeScript**: Strongly typed code for better maintainability
 - **Component-Based**: Reusable, modular components
-- **State Management**: Redux Toolkit for predictable state
+- **State Management**: Redux Toolkit for predictable state (if needed)
 - **Offline-First**: Local storage with future cloud sync
 - **Clean Code**: Follow React Native and TypeScript best practices
 

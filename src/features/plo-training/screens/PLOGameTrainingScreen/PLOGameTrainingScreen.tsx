@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { usePLOGameState } from '../../hooks';
+import { usePLOGameState } from './usePLOGameState';
 import { ActionLog, PotCalculationInput } from '../../components';
 import { PLOScoreHeader } from '../../components/PLOScoreHeader';
 import { PLOFeedbackCard } from '../../components/PLOFeedbackCard';

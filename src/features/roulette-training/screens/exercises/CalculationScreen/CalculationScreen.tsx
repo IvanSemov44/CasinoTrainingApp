@@ -2,15 +2,13 @@ import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import LoadingSpinner from '@components/LoadingSpinner';
-import ExerciseLayout from '../../components/ExerciseLayout';
-import { useCalculationQuestion, type CalculationRouteParams } from '../../hooks/useCalculationQuestion';
-import type { RouletteTrainingStackParamList } from '../../navigation';
+import ExerciseLayout from '../../../components/ExerciseLayout';
+import { useCalculationQuestion, type CalculationRouteParams } from './useCalculationQuestion';
+import type { RouletteTrainingStackParamList } from '../../../navigation';
 import type { PlacedBet } from '@app-types/roulette.types';
 
-// Union type for all screens that use CalculationScreen
 type CalculationScreenName = 'Calculation' | 'MixedCalculation' | 'TripleMixedCalculation' | 'AllPositionsCalculation' | 'CashHandling';
 
-// Use separate RouteProp and NavigationProp to avoid union type issues
 type CalculationScreenRouteProp = RouteProp<RouletteTrainingStackParamList, CalculationScreenName>;
 type CalculationScreenNavigationProp = StackNavigationProp<RouletteTrainingStackParamList, CalculationScreenName>;
 
@@ -40,7 +38,6 @@ function CalculationScreen({ route }: CalculationScreenProps) {
     showInitialLoading,
   } = useCalculationQuestion(route.params as CalculationRouteParams);
 
-  // Show loading spinner during initial load
   if (showInitialLoading) {
     return <LoadingSpinner message="Generating question..." />;
   }

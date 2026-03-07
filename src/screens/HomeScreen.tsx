@@ -120,7 +120,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -256,5 +256,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       color: colors.text.gold,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@components/roulette';
 import { useTheme } from '@contexts/ThemeContext';
-import type { RouletteTrainingStackParamList } from '../../navigation';
+import type { RouletteTrainingStackParamList } from '../../../navigation';
 
 type RouletteExercisesScreenProps = StackScreenProps<RouletteTrainingStackParamList, 'RouletteExercises'>;
 
@@ -62,7 +62,7 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -138,5 +138,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       lineHeight: 20,
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }

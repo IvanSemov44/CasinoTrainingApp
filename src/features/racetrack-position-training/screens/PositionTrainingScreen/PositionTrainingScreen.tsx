@@ -1,15 +1,14 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useTheme } from '@contexts/ThemeContext';
 import { RacetrackLayout } from '../../../racetrack/components';
-import { PositionValidationResult, PositionMode, TrainingStats } from '../../types';
+import { PositionMode } from '../../types';
 import {
-  validatePositionSelection,
-  getRandomWinningNumber,
   getWheelPosition,
 } from '../../utils/validation';
+import { usePositionTrainingSession } from './usePositionTrainingSession';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 import { PositionTrainingSidebar } from '../../components/PositionTrainingSidebar';
 
@@ -19,14 +18,14 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const initialMode: PositionMode = route.params?.mode || 'random';
-  const [currentWinningNumber, setCurrentWinningNumber] = useState<number>(0);
-  const [, setSelectedNumber] = useState<number | null>(null);
-  const [result, setResult] = useState<PositionValidationResult | null>(null);
-  const [stats, setStats] = useState<TrainingStats>({ correct: 0, total: 0 });
-
-  const [, setShowCorrectFeedback] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const {
+    currentWinningNumber,
+    result,
+    stats,
+    isProcessing,
+    handleNumberPress,
+    handleNext,
+  } = usePositionTrainingSession({ mode: initialMode });
 
   // useWindowDimensions updates reactively after the landscape lock fires.
   // Math.max/min ensures we always work in landscape terms regardless of
@@ -37,21 +36,6 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
   // Use full available width after sidebar; height will be ~31% of that, always fits.
   const SIDEBAR_TOTAL = 208; // sidebar(172) + gap(12) + left+right padding(24)
   const racetrackSize = landscapeW - SIDEBAR_TOTAL - 8;
-
-  const generateNewNumber = useCallback(() => {
-    const newNumber = getRandomWinningNumber();
-    setCurrentWinningNumber(newNumber);
-    setSelectedNumber(null);
-    setResult(null);
-    setShowCorrectFeedback(false);
-    setIsProcessing(false);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     const lockOrientation = async () => {
@@ -74,42 +58,6 @@ export default function PositionTrainingScreen({ route }: PositionTrainingScreen
       unlockOrientation();
     };
   }, []);
-
-  useEffect(() => {
-    generateNewNumber();
-  }, [generateNewNumber, initialMode]);
-
-  const handleNumberPress = (numberStr: string) => {
-    if (isProcessing) return;
-
-    const tappedNumber = parseInt(numberStr, 10);
-    setSelectedNumber(tappedNumber);
-
-    const validationResult = validatePositionSelection(currentWinningNumber, tappedNumber);
-    setResult(validationResult);
-
-    setStats(prev => ({
-      correct: prev.correct + (validationResult.isCorrect ? 1 : 0),
-      total: prev.total + 1,
-    }));
-
-    if (validationResult.isCorrect) {
-      setShowCorrectFeedback(true);
-      setIsProcessing(true);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        generateNewNumber();
-      }, 1000);
-    }
-  };
-
-  const handleNext = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    generateNewNumber();
-  };
 
   const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const wheelPosition = getWheelPosition(currentWinningNumber);

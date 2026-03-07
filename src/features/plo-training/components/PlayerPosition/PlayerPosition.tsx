@@ -85,7 +85,7 @@ export default function PlayerPosition({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
-  /* eslint-disable react-native/no-unused-styles */
+   
   return StyleSheet.create({
     playerContainer: {
       alignItems: 'center',
@@ -244,5 +244,5 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       textAlign: 'center',
     },
   });
-  /* eslint-enable react-native/no-unused-styles */
+   
 }
