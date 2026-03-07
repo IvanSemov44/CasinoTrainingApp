@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { FeedbackShell } from '@components/shared/FeedbackShell';
+import { FeedbackSection } from '@components/shared/FeedbackSection';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, onClear }: ResultFeedbackProps) {
@@ -22,25 +23,31 @@ export default function ResultFeedback({ result, onNext, onClear }: ResultFeedba
       <Text style={styles.score}>Score: {result.score}%</Text>
 
       {result.missingBets.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Missing Positions:</Text>
+        <FeedbackSection
+          title="Missing Positions:"
+          containerStyle={styles.section}
+          titleStyle={styles.sectionTitle}
+        >
           {result.missingBets.map((bet, idx) => (
             <Text key={idx} style={styles.betText}>
               • {bet.type}: {bet.numbers.join(', ')}
             </Text>
           ))}
-        </View>
+        </FeedbackSection>
       )}
 
       {result.extraBets.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Extra/Wrong Positions:</Text>
+        <FeedbackSection
+          title="Extra/Wrong Positions:"
+          containerStyle={styles.section}
+          titleStyle={styles.sectionTitle}
+        >
           {result.extraBets.map((bet, idx) => (
             <Text key={idx} style={styles.betText}>
               • {bet.type}: {bet.numbers.join(', ')}
             </Text>
           ))}
-        </View>
+        </FeedbackSection>
       )}
 
       <View style={styles.buttonRow}>

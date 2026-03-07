@@ -22,3 +22,5 @@ export { StatTile } from './StatTile';
 export type { StatTileProps } from './StatTile';
 export { FeedbackShell } from './FeedbackShell';
 export type { FeedbackShellProps } from './FeedbackShell';
+export { FeedbackSection } from './FeedbackSection';
+export type { FeedbackSectionProps } from './FeedbackSection';

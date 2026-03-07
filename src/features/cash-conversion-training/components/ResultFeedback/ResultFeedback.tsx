@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { FeedbackShell } from '@components/shared/FeedbackShell';
+import { FeedbackSection } from '@components/shared/FeedbackSection';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {
@@ -18,8 +19,11 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
     >
       {!result.isCorrect && (
         <View style={styles.comparisonContainer}>
-          <View style={styles.answerSection}>
-            <Text style={styles.sectionTitle}>Your Answer:</Text>
+          <FeedbackSection
+            title="Your Answer:"
+            containerStyle={styles.answerSection}
+            titleStyle={styles.sectionTitle}
+          >
             <Text style={styles.answerText}>
               {sectorName} Total: ${result.userTotalBet}
             </Text>
@@ -27,10 +31,13 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
               {sectorName} Play By: ${result.userBetPerPosition}
             </Text>
             <Text style={styles.answerText}>Rest: ${result.userChange}</Text>
-          </View>
+          </FeedbackSection>
 
-          <View style={styles.answerSection}>
-            <Text style={styles.sectionTitle}>Correct Answer:</Text>
+          <FeedbackSection
+            title="Correct Answer:"
+            containerStyle={styles.answerSection}
+            titleStyle={styles.sectionTitle}
+          >
             <Text style={[styles.answerText, styles.correctText]}>
               {sectorName} Total: ${result.correctTotalBet}
             </Text>
@@ -40,7 +47,7 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
             <Text style={[styles.answerText, styles.correctText]}>
               Rest: ${result.correctChange}
             </Text>
-          </View>
+          </FeedbackSection>
         </View>
       )}
 
