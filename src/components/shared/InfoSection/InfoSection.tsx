@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { createTextStyles } from '@styles';
 
 export interface InfoSectionProps {
   title: string;
@@ -24,6 +25,8 @@ export function InfoSection({ title, children, style }: InfoSectionProps) {
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  const textStyles = createTextStyles(colors);
+  
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -33,11 +36,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       borderWidth: 1,
       borderColor: colors.border.primary,
     },
-    title: {
-      fontSize: 18,
-      fontWeight: '700',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
+    title: textStyles.goldTitle,
   });
 }

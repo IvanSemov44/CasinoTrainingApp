@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
 import type { AppColors } from '@styles/themes';
+import { createTextStyles } from '@styles';
 
 export function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
+  
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary },
     content: { padding: 20, paddingBottom: 40 },
@@ -18,7 +21,7 @@ export function makeStyles(colors: AppColors) {
       paddingHorizontal: 14,
       paddingVertical: 8,
     },
-    statPillText: { color: colors.text.gold, fontSize: 17, fontWeight: '700' },
+    statPillText: textStyles.statBadge,
     statPillSub: { color: colors.text.muted, fontSize: 11, marginTop: 2 },
     streakPill: {
       backgroundColor: colors.background.secondary,
@@ -32,10 +35,8 @@ export function makeStyles(colors: AppColors) {
 
     handBlock: { marginBottom: 16 },
     handLabel: {
+      ...textStyles.mutedLabel,
       fontSize: 11,
-      fontWeight: '700',
-      color: colors.text.muted,
-      letterSpacing: 1.5,
       marginBottom: 8,
     },
     cardRow: { flexDirection: 'row', gap: 8 },
