@@ -24,3 +24,7 @@ export { SPACING, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, LAYOUT, ANIMATION } fro
 
 // Shared style definitions
 export { sharedStyles, stylePresets } from './shared.styles';
+
+// Text style factories
+export { createTextStyles } from './textStyles';
+export type { TextStyles } from './textStyles';
