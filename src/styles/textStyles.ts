@@ -76,6 +76,17 @@ export const createTextStyles = (colors: AppColors) => ({
     fontSize: 15,
     color: colors.text.primary,
   } as TextStyle,
+
+  /**
+   * Section label - used for subsection titles, card labels
+   * Size: 16px, Weight: 600, Color: Primary, Margin bottom
+   */
+  sectionLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text.primary,
+    marginBottom: 4,
+  } as TextStyle,
 });
 
 export type TextStyles = ReturnType<typeof createTextStyles>;

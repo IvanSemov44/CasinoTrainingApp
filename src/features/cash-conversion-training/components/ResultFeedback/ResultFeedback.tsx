@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 import { FeedbackShell } from '@components/shared/FeedbackShell';
 import { FeedbackSection } from '@components/shared/FeedbackSection';
@@ -63,6 +64,8 @@ export default function ResultFeedback({ result, onNext, sectorName }: ResultFee
 }
 
 function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
+
   return StyleSheet.create({
     container: {
       marginTop: 0,
@@ -74,10 +77,8 @@ function makeStyles(colors: AppColors) {
       marginBottom: 16,
     },
     sectionTitle: {
-      fontSize: 16,
-      fontWeight: '600',
+      ...textStyles.sectionLabel,
       color: colors.text.secondary,
-      marginBottom: 4,
     },
     answerText: {
       fontSize: 18,

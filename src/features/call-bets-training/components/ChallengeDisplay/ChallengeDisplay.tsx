@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 import { getModeDisplayName } from '../../utils/validation';
 import type { ChallengeDisplayProps } from './ChallengeDisplay.types';
@@ -20,6 +21,8 @@ export default function ChallengeDisplay({ mode, totalBets }: ChallengeDisplayPr
 }
 
 function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
+
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,
@@ -31,8 +34,7 @@ function makeStyles(colors: AppColors) {
       alignItems: 'center',
     },
     title: {
-      fontSize: 16,
-      fontWeight: '600',
+      ...textStyles.sectionLabel,
       color: colors.text.secondary,
       marginBottom: 4,
     },
