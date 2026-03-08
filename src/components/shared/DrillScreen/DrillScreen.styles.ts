@@ -4,7 +4,7 @@ import { createTextStyles } from '@styles';
 
 export function makeStyles(colors: AppColors) {
   const textStyles = createTextStyles(colors);
-  
+
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary },
     content: { padding: 20, paddingBottom: 40 },
@@ -136,7 +136,7 @@ export function makeStyles(colors: AppColors) {
       borderBottomWidth: 1,
       borderBottomColor: colors.border.primaryDark,
     },
-    answerLabel: { fontSize: 14, color: colors.text.secondary },
+    answerLabel: textStyles.secondaryText,
     answerValue: { fontSize: 16, color: colors.text.primary, fontWeight: '700' },
     correctHL: { color: colors.status.success },
 
