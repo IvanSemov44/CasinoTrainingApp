@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { createTextStyles } from '@styles';
+import { createTextStyles, createContainerStyles } from '@styles';
 import { ScoreAccuracyText } from '@components/shared/ScoreAccuracyText';
 
 export interface TrainingHeaderProps {
@@ -28,15 +28,12 @@ export function TrainingHeader({ title, correct, total }: TrainingHeaderProps) {
 
 function makeStyles(colors: AppColors) {
   const textStyles = createTextStyles(colors);
-  
+  const containerStyles = createContainerStyles(colors);
+
   return StyleSheet.create({
     header: {
-      backgroundColor: colors.background.secondary,
-      padding: 16,
-      borderRadius: 12,
+      ...containerStyles.secondaryCard,
       marginBottom: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
     },
     difficultyText: textStyles.goldTitle,
     statsText: textStyles.secondaryText,

@@ -28,3 +28,7 @@ export { sharedStyles, stylePresets } from './shared.styles';
 // Text style factories
 export { createTextStyles } from './textStyles';
 export type { TextStyles } from './textStyles';
+
+// Container style factories
+export { createContainerStyles } from './containerStyles';
+export type { ContainerStyles } from './containerStyles';

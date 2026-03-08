@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { createTextStyles } from '@styles';
+import { createTextStyles, createContainerStyles } from '@styles';
 import type { ReactNode } from 'react';
 
 export interface ReferenceCardProps {
@@ -29,15 +29,12 @@ export function ReferenceCard({ title, subtitle, children }: ReferenceCardProps)
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
   const textStyles = createTextStyles(colors);
-  
+  const containerStyles = createContainerStyles(colors);
+
   return StyleSheet.create({
     container: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
+      ...containerStyles.secondaryCard,
       marginBottom: 24,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
     },
     title: {
       ...textStyles.goldTitle,

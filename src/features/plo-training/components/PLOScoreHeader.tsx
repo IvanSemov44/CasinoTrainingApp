@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
+import { createContainerStyles } from '@styles';
 import { StatTile } from '@components/shared/StatTile';
 
 export interface PLOScoreHeaderProps {
@@ -64,14 +65,15 @@ export function PLOScoreHeader({
 }
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+  const containerStyles = createContainerStyles(colors);
+
   return StyleSheet.create({
     scoreSection: {
+      ...containerStyles.secondaryCard,
       flexDirection: 'row',
       justifyContent: 'space-around',
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
       marginBottom: 16,
+      borderWidth: 0,
     },
     scoreItem: {
       alignItems: 'center',

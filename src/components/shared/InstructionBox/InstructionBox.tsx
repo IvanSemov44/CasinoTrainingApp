@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
-import { createTextStyles } from '@styles';
+import { createTextStyles, createContainerStyles } from '@styles';
 
 export interface InstructionBoxProps {
   title?: string;
@@ -28,15 +28,10 @@ export function InstructionBox({ title = 'How to Play:', instructions }: Instruc
 
 function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
   const textStyles = createTextStyles(colors);
-  
+  const containerStyles = createContainerStyles(colors);
+
   return StyleSheet.create({
-    container: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-    },
+    container: containerStyles.secondaryCard,
     title: textStyles.goldTitle,
     text: {
       fontSize: 14,
