@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard, MenuScreenHeader } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@components/shared';
 import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
 import { SectorReferenceCard } from '../../components/SectorReferenceCard';
-import { SectorInfoBox } from '../../components/SectorInfoBox';
 import type { SectorMenuScreenProps } from './SectorMenuScreen.types';
 
 interface ModeOption {
@@ -86,7 +85,14 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
         ))}
       </View>
 
-      <SectorInfoBox />
+      <InstructionBox
+        instructions={[
+          '1. A winning number is displayed at the top',
+          '2. Tap the correct sector on the racetrack',
+          '3. Get feedback and try the next number',
+          '4. Build your score with each correct answer',
+        ]}
+      />
     </ScrollView>
   );
 }

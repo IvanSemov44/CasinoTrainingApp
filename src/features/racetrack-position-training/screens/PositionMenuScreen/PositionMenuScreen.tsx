@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard, MenuScreenHeader } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@components/shared';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
-import { PositionInfoBox } from '../../components/PositionInfoBox';
 import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
 
 interface ModeOption {
@@ -65,7 +64,14 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
         ))}
       </View>
 
-      <PositionInfoBox />
+      <InstructionBox
+        instructions={[
+          '1. A winning number is displayed at the top',
+          '2. Tap the exact number location on the racetrack',
+          '3. Get feedback and try the next number',
+          '4. Build your score with each correct answer',
+        ]}
+      />
     </ScrollView>
   );
 }
