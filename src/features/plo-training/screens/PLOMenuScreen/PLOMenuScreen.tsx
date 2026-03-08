@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { MenuScreenHeader, AccentModeCard } from '@components/shared';
+import { MenuScreenHeader, AccentModeCard, InstructionBox } from '@components/shared';
 import type { PLODifficulty } from '../../types';
 import type { PLOMenuScreenProps } from './PLOMenuScreen.types';
 
@@ -46,13 +46,15 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
         ))}
       </View>
 
-      <View style={styles.instructionsBox}>
-        <Text style={styles.instructionsTitle}>How it works:</Text>
-        <Text style={styles.instructionsText}>
-          • Watch the action unfold at the table{'\n'}• Calculate the pot when asked{'\n'}• Earn
-          points for correct answers{'\n'}• Build your pot calculation streak
-        </Text>
-      </View>
+      <InstructionBox
+        title="How it works:"
+        instructions={[
+          '• Watch the action unfold at the table',
+          '• Calculate the pot when asked',
+          '• Earn points for correct answers',
+          '• Build your pot calculation streak',
+        ]}
+      />
     </ScrollView>
   );
 }
@@ -68,24 +70,6 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
     modesContainer: {
       marginBottom: 32,
-    },
-    instructionsBox: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      padding: 16,
-      borderLeftWidth: 4,
-      borderLeftColor: colors.text.gold,
-    },
-    instructionsTitle: {
-      fontSize: 14,
-      fontWeight: '600',
-      color: colors.text.gold,
-      marginBottom: 8,
-    },
-    instructionsText: {
-      fontSize: 13,
-      color: colors.text.secondary,
-      lineHeight: 20,
     },
   });
 }
