@@ -73,7 +73,7 @@ export function makeStyles(colors: AppColors) {
       paddingVertical: 22,
       alignItems: 'center',
     },
-    twoOptionText: { fontSize: 20, fontWeight: '700', color: colors.text.primary },
+    twoOptionText: textStyles.headlineText,
 
     optionList: { gap: 8, marginBottom: 12 },
     optionBtn: {
@@ -85,8 +85,7 @@ export function makeStyles(colors: AppColors) {
     },
     optionBtnSelected: { borderColor: colors.text.gold, backgroundColor: colors.background.hint },
     optionText: {
-      color: colors.text.primary,
-      fontSize: 15,
+      ...textStyles.bodyLarge,
       fontWeight: '500',
       textAlign: 'center',
     },
@@ -126,7 +125,7 @@ export function makeStyles(colors: AppColors) {
     },
     resultHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 },
     resultIcon: { fontSize: 22, fontWeight: '800', color: colors.text.primary },
-    resultTitle: { fontSize: 22, fontWeight: '700', color: colors.text.primary, flex: 1 },
+    resultTitle: { ...textStyles.titleMedium, flex: 1 },
     pointsEarned: { fontSize: 18, fontWeight: '800', color: colors.text.gold },
 
     answerRow: {

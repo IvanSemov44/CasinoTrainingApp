@@ -14,7 +14,7 @@ export const createTextStyles = (colors: AppColors) => ({
   goldTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color:colors.text.gold,
+    color: colors.text.gold,
     marginBottom: 8,
   } as TextStyle,
 
@@ -46,6 +46,35 @@ export const createTextStyles = (colors: AppColors) => ({
     color: colors.text.muted,
     textTransform: 'uppercase',
     letterSpacing: 1.5,
+  } as TextStyle,
+
+  /**
+   * Headline text - used for large interactive elements, prominent labels
+   * Size: 20px, Weight: 700, Color: Primary
+   */
+  headlineText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.text.primary,
+  } as TextStyle,
+
+  /**
+   * Title medium - used for result titles, major section headers
+   * Size: 22px, Weight: 700, Color: Primary
+   */
+  titleMedium: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: colors.text.primary,
+  } as TextStyle,
+
+  /**
+   * Body large - used for readable body content, option text
+   * Size: 15px, Color: Primary
+   */
+  bodyLarge: {
+    fontSize: 15,
+    color: colors.text.primary,
   } as TextStyle,
 });
 

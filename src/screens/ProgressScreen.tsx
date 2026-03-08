@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppSelector } from '../store/hooks';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 
 export default function ProgressScreen() {
@@ -65,6 +66,8 @@ export default function ProgressScreen() {
 }
 
 function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
+
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary, padding: 20 },
     title: { fontSize: 26, fontWeight: '800', color: colors.text.gold, marginBottom: 24 },
@@ -79,7 +82,12 @@ function makeStyles(colors: AppColors) {
       borderWidth: 1,
       borderColor: colors.border.gold,
     },
-    statValue: { fontSize: 22, fontWeight: '800', color: colors.text.gold, marginBottom: 4 },
+    statValue: {
+      ...textStyles.titleMedium,
+      fontWeight: '800',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
     statLabel: {
       fontSize: 11,
       color: colors.text.secondary,

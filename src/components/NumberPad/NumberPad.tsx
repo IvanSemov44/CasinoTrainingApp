@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 
 interface NumberPadProps {
@@ -77,6 +78,8 @@ export default function NumberPad({
 }
 
 function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
+
   return StyleSheet.create({
     pad: { marginBottom: 12 },
     row: { flexDirection: 'row', gap: 8, marginBottom: 8 },
@@ -91,6 +94,6 @@ function makeStyles(colors: AppColors) {
       justifyContent: 'center',
     },
     buttonDisabled: { opacity: 0.4 },
-    buttonText: { color: colors.text.gold, fontSize: 20, fontWeight: '700' },
+    buttonText: { ...textStyles.headlineText, color: colors.text.gold },
   });
 }

@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 
 export function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
   return StyleSheet.create({
     container: {
       marginBottom: 16,
@@ -34,8 +36,7 @@ export function makeStyles(colors: AppColors) {
       flex: 1,
     },
     triggerText: {
-      fontSize: 15,
-      color: colors.text.primary,
+      ...textStyles.bodyLarge,
       fontWeight: '500',
     },
     triggerSubtext: {
@@ -44,7 +45,7 @@ export function makeStyles(colors: AppColors) {
       marginTop: 2,
     },
     triggerPlaceholder: {
-      fontSize: 15,
+      ...textStyles.bodyLarge,
       color: colors.text.placeholder,
       flex: 1,
     },

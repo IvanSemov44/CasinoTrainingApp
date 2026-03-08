@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 
 export function makeStyles(colors: AppColors) {
+  const textStyles = createTextStyles(colors);
   return StyleSheet.create({
     overlay: {
       flex: 1,
@@ -96,8 +98,7 @@ export function makeStyles(colors: AppColors) {
       flex: 1,
     },
     dropdownTriggerText: {
-      fontSize: 15,
-      color: colors.text.primary,
+      ...textStyles.bodyLarge,
       fontWeight: '500',
     },
     dropdownArrow: {
