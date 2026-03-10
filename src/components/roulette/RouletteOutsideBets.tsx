@@ -15,6 +15,14 @@ interface RouletteOutsideBetsProps {
   useCallBetsStyles?: boolean;
 }
 
+interface OutsideBetConfig {
+  label: string;
+  numbers: RouletteNumber[];
+  betType: BetType;
+  accessibilityLabel: string;
+  styleType?: 'red' | 'black' | 'dozen' | 'even';
+}
+
 // Export number arrays for testing
 export const LOW_NUMBERS = Array.from({ length: 18 }, (_, i) => (i + 1) as RouletteNumber);
 export const EVEN_NUMBERS = Array.from({ length: 18 }, (_, i) => ((i + 1) * 2) as RouletteNumber);
@@ -30,6 +38,75 @@ export const FIRST_DOZEN = Array.from({ length: 12 }, (_, i) => (i + 1) as Roule
 export const SECOND_DOZEN = Array.from({ length: 12 }, (_, i) => (i + 13) as RouletteNumber);
 export const THIRD_DOZEN = Array.from({ length: 12 }, (_, i) => (i + 25) as RouletteNumber);
 
+const EVEN_MONEY_BETS: OutsideBetConfig[] = [
+  {
+    label: '1-18',
+    numbers: LOW_NUMBERS,
+    betType: BetType.HIGH_LOW,
+    accessibilityLabel: 'Low, 1 to 18',
+    styleType: 'even',
+  },
+  {
+    label: 'EVEN',
+    numbers: EVEN_NUMBERS,
+    betType: BetType.EVEN_ODD,
+    accessibilityLabel: 'Even numbers',
+    styleType: 'even',
+  },
+  {
+    label: '◆',
+    numbers: RED_NUMBERS,
+    betType: BetType.RED_BLACK,
+    accessibilityLabel: 'Red numbers',
+    styleType: 'red',
+  },
+  {
+    label: '◆',
+    numbers: BLACK_NUMBERS,
+    betType: BetType.RED_BLACK,
+    accessibilityLabel: 'Black numbers',
+    styleType: 'black',
+  },
+  {
+    label: 'ODD',
+    numbers: ODD_NUMBERS,
+    betType: BetType.EVEN_ODD,
+    accessibilityLabel: 'Odd numbers',
+    styleType: 'even',
+  },
+  {
+    label: '19-36',
+    numbers: HIGH_NUMBERS,
+    betType: BetType.HIGH_LOW,
+    accessibilityLabel: 'High, 19 to 36',
+    styleType: 'even',
+  },
+];
+
+const DOZEN_BETS: OutsideBetConfig[] = [
+  {
+    label: '1st 12',
+    numbers: FIRST_DOZEN,
+    betType: BetType.DOZEN,
+    accessibilityLabel: 'First dozen, 1 to 12',
+    styleType: 'dozen',
+  },
+  {
+    label: '2nd 12',
+    numbers: SECOND_DOZEN,
+    betType: BetType.DOZEN,
+    accessibilityLabel: 'Second dozen, 13 to 24',
+    styleType: 'dozen',
+  },
+  {
+    label: '3rd 12',
+    numbers: THIRD_DOZEN,
+    betType: BetType.DOZEN,
+    accessibilityLabel: 'Third dozen, 25 to 36',
+    styleType: 'dozen',
+  },
+];
+
 const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
   cellSize,
   getBetAmount,
@@ -41,103 +118,41 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
   const styles = { ...getOutsideFunc(cellSize), ...getRouletteFunc(cellSize) };
   const chipSize = cellSize * 0.4;
 
+  const getBetStyle = (styleType?: OutsideBetConfig['styleType']) => {
+    if (styleType === 'red') return [styles.evenMoneyBet, styles.redCell];
+    if (styleType === 'black') return [styles.evenMoneyBet, styles.blackCell];
+    if (styleType === 'dozen') return styles.dozenBet;
+    return styles.evenMoneyBet;
+  };
+
+  const renderOutsideBet = (config: OutsideBetConfig) => {
+    const amount = getBetAmount(config.numbers);
+    return (
+      <TouchableOpacity
+        key={config.accessibilityLabel}
+        style={getBetStyle(config.styleType)}
+        accessibilityLabel={config.accessibilityLabel}
+        accessibilityRole="button"
+        accessibilityState={amount > 0 ? { selected: true } : undefined}
+        onPress={() => {
+          if (onBetAreaPress) {
+            onBetAreaPress(config.betType, config.numbers);
+          }
+        }}
+      >
+        <Text style={styles.outsideBetText}>{config.label}</Text>
+        <RouletteChip amount={amount} size={chipSize} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
       {/* Even money bets row */}
       <View style={styles.outsideBetsRow}>
         <View style={styles.emptyCorner} />
 
-        <View style={styles.evenMoneyRow}>
-          <TouchableOpacity
-            style={styles.evenMoneyBet}
-            accessibilityLabel="Low, 1 to 18"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(LOW_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.HIGH_LOW, LOW_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>1-18</Text>
-            <RouletteChip amount={getBetAmount(LOW_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.evenMoneyBet}
-            accessibilityLabel="Even numbers"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(EVEN_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.EVEN_ODD, EVEN_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>EVEN</Text>
-            <RouletteChip amount={getBetAmount(EVEN_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.evenMoneyBet, styles.redCell]}
-            accessibilityLabel="Red numbers"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(RED_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.RED_BLACK, RED_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>◆</Text>
-            <RouletteChip amount={getBetAmount(RED_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.evenMoneyBet, styles.blackCell]}
-            accessibilityLabel="Black numbers"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(BLACK_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.RED_BLACK, BLACK_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>◆</Text>
-            <RouletteChip amount={getBetAmount(BLACK_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.evenMoneyBet}
-            accessibilityLabel="Odd numbers"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(ODD_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.EVEN_ODD, ODD_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>ODD</Text>
-            <RouletteChip amount={getBetAmount(ODD_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.evenMoneyBet}
-            accessibilityLabel="High, 19 to 36"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(HIGH_NUMBERS) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.HIGH_LOW, HIGH_NUMBERS);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>19-36</Text>
-            <RouletteChip amount={getBetAmount(HIGH_NUMBERS)} size={chipSize} />
-          </TouchableOpacity>
-        </View>
+        <View style={styles.evenMoneyRow}>{EVEN_MONEY_BETS.map(renderOutsideBet)}</View>
 
         <View style={styles.emptyCorner} />
       </View>
@@ -146,52 +161,7 @@ const RouletteOutsideBets: React.FC<RouletteOutsideBetsProps> = ({
       <View style={styles.outsideBetsRow}>
         <View style={styles.emptyCorner} />
 
-        <View style={styles.dozensRow}>
-          <TouchableOpacity
-            style={styles.dozenBet}
-            accessibilityLabel="First dozen, 1 to 12"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(FIRST_DOZEN) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.DOZEN, FIRST_DOZEN);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>1st 12</Text>
-            <RouletteChip amount={getBetAmount(FIRST_DOZEN)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.dozenBet}
-            accessibilityLabel="Second dozen, 13 to 24"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(SECOND_DOZEN) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.DOZEN, SECOND_DOZEN);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>2nd 12</Text>
-            <RouletteChip amount={getBetAmount(SECOND_DOZEN)} size={chipSize} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.dozenBet}
-            accessibilityLabel="Third dozen, 25 to 36"
-            accessibilityRole="button"
-            accessibilityState={getBetAmount(THIRD_DOZEN) > 0 ? { selected: true } : undefined}
-            onPress={() => {
-              if (onBetAreaPress) {
-                onBetAreaPress(BetType.DOZEN, THIRD_DOZEN);
-              }
-            }}
-          >
-            <Text style={styles.outsideBetText}>3rd 12</Text>
-            <RouletteChip amount={getBetAmount(THIRD_DOZEN)} size={chipSize} />
-          </TouchableOpacity>
-        </View>
+        <View style={styles.dozensRow}>{DOZEN_BETS.map(renderOutsideBet)}</View>
 
         <View style={styles.emptyCorner} />
       </View>

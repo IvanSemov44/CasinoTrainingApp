@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '@styles/colors';
 
 /**
  * Call Bets training-specific roulette styles with larger clickable hit areas
@@ -9,7 +10,7 @@ export const getCallBetsRouletteStyles = (cellSize: number) =>
   StyleSheet.create({
     // Container styles
     container: {
-      backgroundColor: '#1a472a',
+      backgroundColor: COLORS.background.secondary,
       padding: 0,
       borderRadius: 0,
       borderWidth: 0,
@@ -20,7 +21,7 @@ export const getCallBetsRouletteStyles = (cellSize: number) =>
     // Main layout
     mainLayout: {
       flexDirection: 'row',
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
       alignItems: 'flex-start',
       borderRadius: 0,
       padding: 8,
@@ -53,30 +54,30 @@ export const getCallBetsRouletteStyles = (cellSize: number) =>
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 1,
-      borderColor: '#FFD700',
-      backgroundColor: '#000000',
+      borderColor: COLORS.border.gold,
+      backgroundColor: COLORS.roulette.black,
       overflow: 'visible',
       position: 'relative',
     },
     redCell: {
-      backgroundColor: '#FF0000',
+      backgroundColor: COLORS.status.errorBorder,
     },
     blackCell: {
-      backgroundColor: '#000000',
+      backgroundColor: COLORS.roulette.black,
     },
     greenCell: {
-      backgroundColor: '#4EA72E',
+      backgroundColor: COLORS.roulette.green,
     },
     numberText: {
-      color: '#FFFFFF',
+      color: COLORS.text.primary,
       fontSize: cellSize * 0.45,
       fontWeight: 'bold',
     },
     redText: {
-      color: '#DC143C',
+      color: COLORS.roulette.red,
     },
     whiteText: {
-      color: '#FFFFFF',
+      color: COLORS.text.primary,
     },
 
     // Wrapper styles
@@ -169,7 +170,7 @@ export const getCallBetsZeroColumnStyles = (cellSize: number) =>
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 1,
-      borderColor: '#FFD700',
+      borderColor: COLORS.border.gold,
       marginLeft: 0,
       overflow: 'visible',
       position: 'relative',
@@ -237,12 +238,12 @@ export const getCallBetsOutsideBetsStyles = (cellSize: number) =>
   StyleSheet.create({
     outsideBetsRow: {
       flexDirection: 'row',
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
       overflow: 'visible',
     },
     emptyCorner: {
       width: cellSize * 1.5,
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
     },
     dozensRow: {
       flex: 1,
@@ -259,9 +260,9 @@ export const getCallBetsOutsideBetsStyles = (cellSize: number) =>
       height: 35,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
       borderWidth: 1,
-      borderColor: '#FFD700',
+      borderColor: COLORS.border.gold,
       overflow: 'visible',
       position: 'relative',
     },
@@ -270,14 +271,14 @@ export const getCallBetsOutsideBetsStyles = (cellSize: number) =>
       height: 35,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
       borderWidth: 1,
-      borderColor: '#FFD700',
+      borderColor: COLORS.border.gold,
       overflow: 'visible',
       position: 'relative',
     },
     outsideBetText: {
-      color: '#FFD700',
+      color: COLORS.text.gold,
       fontSize: 11,
       fontWeight: 'bold',
     },
@@ -294,14 +295,14 @@ export const getCallBetsColumnBetsStyles = (cellSize: number) =>
       height: cellSize,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#0d3320',
+      backgroundColor: COLORS.background.primary,
       borderWidth: 1,
-      borderColor: '#FFD700',
+      borderColor: COLORS.border.gold,
       overflow: 'visible',
       position: 'relative',
     },
     columnBetText: {
-      color: '#FFD700',
+      color: COLORS.text.gold,
       fontSize: cellSize * 0.45,
       fontWeight: 'bold',
     },

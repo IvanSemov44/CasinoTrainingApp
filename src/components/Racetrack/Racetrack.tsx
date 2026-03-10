@@ -4,6 +4,7 @@ import { WHEEL_ORDER } from '@constants/roulette.constants';
 import type { RouletteNumber } from '@app-types/roulette.types';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { COLORS } from '@styles/colors';
 
 interface RacetrackProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -13,8 +14,8 @@ interface RacetrackProps {
 
 // Roulette ball colors - standard casino game colors
 const ROULETTE_COLORS = {
-  green: '#2D8659', // Roulette wheel green (0)
-  red: '#DC143C', // Crimson red (red numbers)
+  green: COLORS.roulette.green,
+  red: COLORS.roulette.red,
 };
 
 const Racetrack: React.FC<RacetrackProps> = ({ onNumberPress, highlightedNumbers = [] }) => {
@@ -126,7 +127,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       padding: 8,
       borderRadius: 10,
       borderWidth: 3,
-      borderColor: '#8B4513',
+      borderColor: colors.border.primary,
       marginTop: 8,
     },
     title: {
@@ -151,7 +152,7 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
       marginHorizontal: 2,
     },
     highlightedCell: {
-      borderColor: '#FFFF00',
+      borderColor: colors.text.gold,
       borderWidth: 3,
     },
     numberText: {

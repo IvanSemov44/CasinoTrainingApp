@@ -18,7 +18,7 @@ export function InstructionBox({ title = 'How to Play:', instructions }: Instruc
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       {instructions.map((instruction, index) => (
-        <Text key={index} style={styles.text}>
+        <Text key={`${instruction}-${index}`} style={styles.text}>
           {instruction}
         </Text>
       ))}

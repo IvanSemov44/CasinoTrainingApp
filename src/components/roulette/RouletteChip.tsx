@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, TextStyle, ViewStyle } from 'react-native';
+import { COLORS } from '@styles/colors';
 
 interface RouletteChipProps {
   amount: number;
@@ -9,7 +10,7 @@ interface RouletteChipProps {
 // Base styles that don't change
 const baseChipStyle: ViewStyle = {
   position: 'absolute',
-  backgroundColor: '#FFD700',
+  backgroundColor: COLORS.chips.yellow,
   borderRadius: 100,
   justifyContent: 'center',
   alignItems: 'center',
@@ -20,7 +21,7 @@ const baseChipStyle: ViewStyle = {
 };
 
 const baseChipTextStyle: TextStyle = {
-  color: '#000000',
+  color: COLORS.background.dark,
   fontWeight: 'bold',
 };
 

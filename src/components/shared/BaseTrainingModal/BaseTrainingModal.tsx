@@ -1,20 +1,12 @@
 import React, { useEffect, useCallback } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Animated,
-  ScrollView,
-  Platform,
-  TextInput,
-} from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { View, Text, TouchableOpacity, Modal, Animated, ScrollView, Platform } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalAnimation } from '../useModalAnimation/useModalAnimation';
-import { DropdownSelector } from '../DropdownSelector/DropdownSelector';
 import type { BaseTrainingModalProps } from './BaseTrainingModal.types';
 import { makeStyles } from './BaseTrainingModal.styles';
+import BaseTrainingModalSteps from './BaseTrainingModalSteps';
+import BaseTrainingModalNumberInput from './BaseTrainingModalNumberInput';
+import BaseTrainingModalSummary from './BaseTrainingModalSummary';
 
 export function BaseTrainingModal({
   visible,
@@ -26,7 +18,6 @@ export function BaseTrainingModal({
   canStart,
   onStart,
 }: BaseTrainingModalProps) {
-  const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
   const { fadeAnim, scaleAnim } = useModalAnimation(visible);
   const AnimatedView = Animated.View ?? View;
@@ -79,108 +70,13 @@ export function BaseTrainingModal({
             showsVerticalScrollIndicator
             keyboardShouldPersistTaps="handled"
           >
-            {steps.map(step => (
-              <View key={step.number} style={styles.stepContainer}>
-                <View style={styles.stepHeader}>
-                  <View style={styles.stepNumber}>
-                    <Text style={styles.stepNumberText}>{step.number}</Text>
-                  </View>
-                  <Text style={styles.stepTitle}>
-                    {step.title}
-                    {step.optional && <Text style={styles.optionalText}> (Optional)</Text>}
-                  </Text>
-                </View>
-                <DropdownSelector
-                  placeholder={step.placeholder}
-                  items={step.items}
-                  selectedKey={step.selectedKey}
-                  onSelect={step.onSelect}
-                  showDropdown={step.showDropdown}
-                  onToggleDropdown={step.onToggleDropdown}
-                />
-              </View>
-            ))}
-
-            {numberInput && (
-              <View style={styles.stepContainer}>
-                <View style={styles.stepHeader}>
-                  <View style={styles.stepNumber}>
-                    <Text style={styles.stepNumberText}>{numberInput.number}</Text>
-                  </View>
-                  <Text style={styles.stepTitle}>{numberInput.title}</Text>
-                </View>
-                <View style={styles.numberInputContainer}>
-                  <TouchableOpacity
-                    style={[styles.dropdownTrigger, styles.numberInputTrigger]}
-                    onPress={numberInput.onToggleDropdown}
-                  >
-                    <Text style={styles.dropdownTriggerText}>
-                      {numberInput.value} {numberInput.presetLabel}
-                    </Text>
-                    <Text style={styles.dropdownArrow}>{numberInput.showDropdown ? '▲' : '▼'}</Text>
-                  </TouchableOpacity>
-                  <View style={styles.customInputContainer}>
-                    <Text style={styles.customInputLabel}>Or enter custom:</Text>
-                    <TextInput
-                      style={styles.customInput}
-                      value={numberInput.value}
-                      onChangeText={numberInput.onChange}
-                      keyboardType="numeric"
-                      placeholder={numberInput.presets[0].toString()}
-                      placeholderTextColor={colors.text.placeholder}
-                      maxLength={3}
-                    />
-                  </View>
-                </View>
-                {numberInput.showDropdown && (
-                  <View style={styles.dropdownList}>
-                    {numberInput.presets.map(preset => (
-                      <TouchableOpacity
-                        key={preset}
-                        style={[
-                          styles.dropdownItem,
-                          parseInt(numberInput.value, 10) === preset && styles.dropdownItemSelected,
-                        ]}
-                        onPress={() => numberInput.onChange(preset.toString())}
-                      >
-                        <Text
-                          style={[
-                            styles.dropdownItemText,
-                            parseInt(numberInput.value, 10) === preset &&
-                              styles.dropdownItemTextSelected,
-                          ]}
-                        >
-                          {preset} {numberInput.presetLabel}
-                        </Text>
-                        {parseInt(numberInput.value, 10) === preset && (
-                          <Text style={styles.checkmark}>✓</Text>
-                        )}
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )}
-              </View>
-            )}
-
-            {summaryItems.length > 0 && (
-              <View style={styles.summaryContainer}>
-                <Text style={styles.summaryTitle}>Summary</Text>
-                {summaryItems.map(item => (
-                  <View key={`${item.label}-${item.value}`} style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>{item.label}:</Text>
-                    <Text style={styles.summaryValue}>{item.value}</Text>
-                  </View>
-                ))}
-                <TouchableOpacity
-                  style={[styles.startButton, !canStart && styles.startButtonDisabled]}
-                  onPress={onStart}
-                  disabled={!canStart}
-                >
-                  <Text style={styles.startButtonIcon}>🚀</Text>
-                  <Text style={styles.startButtonText}>Start Training</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+            <BaseTrainingModalSteps steps={steps} />
+            {numberInput && <BaseTrainingModalNumberInput numberInput={numberInput} />}
+            <BaseTrainingModalSummary
+              summaryItems={summaryItems}
+              canStart={canStart}
+              onStart={onStart}
+            />
           </ScrollView>
         </AnimatedView>
       </AnimatedView>

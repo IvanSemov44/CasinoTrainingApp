@@ -83,8 +83,7 @@ export default function PokerTable({
                 name={player.name}
                 chipAmount={player.chipAmount}
                 isDealer={player.isDealer}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                action={player.action as any}
+                action={player.action}
                 betAmount={player.betAmount}
                 isFolded={player.isFolded}
                 isRequesting={player.isRequesting}

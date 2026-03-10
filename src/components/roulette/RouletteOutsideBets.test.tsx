@@ -222,9 +222,8 @@ describe('RouletteOutsideBets', () => {
     it('should call getBetAmount for each bet area', () => {
       render(<RouletteOutsideBets {...defaultProps} />);
       // 6 even money bets + 3 dozens = 9 bet areas
-      // Each bet area calls getBetAmount twice: once for accessibilityState, once for RouletteChip
-      // So total calls = 9 * 2 = 18
-      expect(defaultProps.getBetAmount).toHaveBeenCalledTimes(18);
+      // Each area resolves amount once and reuses it for accessibility + chip rendering
+      expect(defaultProps.getBetAmount).toHaveBeenCalledTimes(9);
     });
   });
 

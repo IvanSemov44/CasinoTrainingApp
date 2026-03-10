@@ -13,74 +13,12 @@ import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { useInstallPrompt } from '@hooks/useInstallPrompt';
 import { InstallButton } from '@components/InstallButton';
+import { GameCategorySection } from '@components/home';
 import type { NavigationProp } from '../types/navigation.types';
-import type { RootStackParamList } from '../navigation/AppNavigator';
-
-type Route = keyof Omit<RootStackParamList, 'Home' | 'Progress'>;
-
-interface GameEntry {
-  route: Route;
-  emoji: string;
-  title: string;
-  tags: string;
-}
-
-const CATEGORIES: { label: string; games: GameEntry[] }[] = [
-  {
-    label: 'ROULETTE',
-    games: [
-      {
-        route: 'RouletteExercises',
-        title: 'Roulette Training',
-        emoji: '🎰',
-        tags: 'Payouts · Splits · Streets',
-      },
-      { route: 'SectorTraining', title: 'Sector Training', emoji: '🎯', tags: 'Number → Sector' },
-      {
-        route: 'PositionTraining',
-        title: 'Position Training',
-        emoji: '📍',
-        tags: 'Number → Position',
-      },
-      {
-        route: 'CashConversionDifficultySelection',
-        title: 'Cash Conversion',
-        emoji: '💰',
-        tags: 'Chip exchange',
-      },
-      {
-        route: 'RKMenu',
-        title: 'Roulette Knowledge',
-        emoji: '📚',
-        tags: 'Rules · Limits · Announced',
-      },
-    ],
-  },
-  {
-    label: 'POKER',
-    games: [
-      { route: 'TCPMenu', title: 'Three Card Poker', emoji: '🃏', tags: 'Qualify · Payouts' },
-      { route: 'BJMenu', title: 'Blackjack', emoji: '🂡', tags: 'Payout · Insurance · 3:2' },
-      { route: 'CPMenu', title: 'Caribbean Poker', emoji: '🌴', tags: 'Swap · Bonus · A-K' },
-      {
-        route: 'THUMenu',
-        title: "Texas Hold'em Ultimate",
-        emoji: '🤠',
-        tags: 'Blind · Trips · Raise',
-      },
-      {
-        route: 'CallBetsMenu',
-        title: 'Call Bets',
-        emoji: '📣',
-        tags: 'Voisins · Tiers · Orphelins',
-      },
-      { route: 'PLOMenu', title: 'Pot Limit Omaha', emoji: '♠️', tags: 'Dealing · Pot calc' },
-    ],
-  },
-];
+import { CATEGORIES } from '@constants/navigation.constants';
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
-  const { colors, themeId, toggleTheme } = useTheme();
+  const { themeId, toggleTheme } = useTheme();
   const { width } = useWindowDimensions();
   const { isInstallable, isInstalled, install } = useInstallPrompt();
 
@@ -127,23 +65,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
       {/* ── Category sections ───────────────────────────────────────── */}
       {CATEGORIES.map(cat => (
-        <View key={cat.label} style={styles.section}>
-          <Text style={styles.sectionLabel}>{cat.label}</Text>
-          <View style={styles.grid}>
-            {cat.games.map(g => (
-              <TouchableOpacity
-                key={g.route}
-                style={[styles.card, { width: cardWidth }]}
-                onPress={() => navigation.navigate(g.route as never)}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.cardEmoji}>{g.emoji}</Text>
-                <Text style={styles.cardTitle}>{g.title}</Text>
-                <Text style={styles.cardTags}>{g.tags}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
+        <GameCategorySection
+          key={cat.label}
+          category={cat}
+          cardWidth={cardWidth}
+          onSelectGame={route => navigation.navigate(route as never)}
+        />
       ))}
 
       {/* ── Progress button ──────────────────────────────────────────── */}
@@ -232,50 +159,6 @@ function makeStyles(colors: AppColors) {
       height: 1,
       backgroundColor: colors.border.primary,
       marginBottom: 24,
-    },
-
-    // ── Sections
-    section: {
-      marginBottom: 28,
-    },
-    sectionLabel: {
-      fontSize: 11,
-      fontWeight: '700',
-      color: colors.text.muted,
-      letterSpacing: 1.8,
-      marginBottom: 12,
-    },
-    grid: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 10,
-    },
-
-    // ── Game card
-    card: {
-      backgroundColor: colors.background.secondary,
-      borderRadius: 14,
-      borderWidth: 1,
-      borderColor: colors.border.primary,
-      padding: 16,
-      minHeight: 110,
-      justifyContent: 'flex-end',
-    },
-    cardEmoji: {
-      fontSize: 28,
-      marginBottom: 8,
-    },
-    cardTitle: {
-      fontSize: 14,
-      fontWeight: '700',
-      color: colors.text.primary,
-      lineHeight: 18,
-      marginBottom: 4,
-    },
-    cardTags: {
-      fontSize: 11,
-      color: colors.text.muted,
-      lineHeight: 15,
     },
 
     // ── Progress button
