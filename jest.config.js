@@ -26,6 +26,7 @@ module.exports = {
     '^@screens/(.*)$': '<rootDir>/src/screens/$1',
     '^@navigation/(.*)$': '<rootDir>/src/navigation/$1',
     '^@store/(.*)$': '<rootDir>/src/store/$1',
+    '^@test-utils/(.*)$': '<rootDir>/src/test-utils/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testPathIgnorePatterns: [

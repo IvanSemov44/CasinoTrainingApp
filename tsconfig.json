@@ -20,7 +20,8 @@
       "@navigation/*": ["src/navigation/*"],
       "@styles/*": ["src/styles/*"],
       "@styles": ["src/styles"],
-      "@contexts/*": ["src/contexts/*"]
+      "@contexts/*": ["src/contexts/*"],
+      "@test-utils/*": ["src/test-utils/*"]
     }
   }
 }

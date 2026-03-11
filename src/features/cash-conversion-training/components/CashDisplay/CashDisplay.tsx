@@ -2,28 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { CHIP_DENOMINATIONS } from '../../constants/denominations';
+import { getChips } from '@utils/chipUtils';
 import type { CashDisplayProps } from './CashDisplay.types';
 
 export default function CashDisplay({ amount }: CashDisplayProps) {
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
-
-  // Break down amount into chip denominations
-  const getChips = (total: number) => {
-    const chips: { value: number; count: number; color: string }[] = [];
-    let remaining = total;
-
-    for (const denom of CHIP_DENOMINATIONS) {
-      if (remaining >= denom.value) {
-        const count = Math.floor(remaining / denom.value);
-        chips.push({ value: denom.value, count, color: denom.color });
-        remaining -= count * denom.value;
-      }
-    }
-
-    return chips;
-  };
 
   const chips = getChips(amount);
 

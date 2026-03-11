@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
 import { createTextStyles, createContainerStyles } from '@styles';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 import type { ReactNode } from 'react';
 
 export interface ReferenceCardProps {
@@ -14,10 +15,9 @@ export interface ReferenceCardProps {
  * Shared reference card component
  * Used for displaying reference information in a consistent styled container
  */
-export function ReferenceCard({ title, subtitle, children }: ReferenceCardProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
 
+export function ReferenceCard({ title, subtitle, children }: ReferenceCardProps) {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -27,7 +27,7 @@ export function ReferenceCard({ title, subtitle, children }: ReferenceCardProps)
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   const textStyles = createTextStyles(colors);
   const containerStyles = createContainerStyles(colors);
 

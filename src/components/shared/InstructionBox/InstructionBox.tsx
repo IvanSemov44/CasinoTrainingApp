@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
 import { createTextStyles, createContainerStyles } from '@styles';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 export interface InstructionBoxProps {
   title?: string;
@@ -11,8 +12,7 @@ export interface InstructionBoxProps {
  * Shared info box for displaying numbered instructions
  */
 export function InstructionBox({ title = 'How to Play:', instructions }: InstructionBoxProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.container}>
@@ -26,7 +26,7 @@ export function InstructionBox({ title = 'How to Play:', instructions }: Instruc
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   const textStyles = createTextStyles(colors);
   const containerStyles = createContainerStyles(colors);
 

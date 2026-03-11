@@ -14,3 +14,6 @@ export * from './builders';
 
 // Reusable mocks
 export * from './mocks';
+
+// New renderWithTheme utility
+export { renderWithTheme } from './renderWithTheme';
