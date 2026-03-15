@@ -121,3 +121,28 @@ jest.mock('react-native-safe-area-context', () => ({
 jest.mock('react-native-screens', () => ({
   enableScreens: jest.fn(),
 }));
+
+// Mock @sentry/react-native
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+  addBreadcrumb: jest.fn(),
+  setContext: jest.fn(),
+  setTag: jest.fn(),
+  setUser: jest.fn(),
+  withScope: jest.fn((cb) => cb()),
+  startSpan: jest.fn((options, cb) => cb()),
+  wrap: (component) => component,
+}));
+
+// Mock expo-constants
+jest.mock('expo-constants', () => ({
+  expoConfig: {
+    extra: {
+      sentryDsn: '',
+      apiBaseUrl: 'http://localhost:3000',
+      environment: 'development',
+    },
+  },
+}));

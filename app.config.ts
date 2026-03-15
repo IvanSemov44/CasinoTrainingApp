@@ -1,0 +1,65 @@
+export default {
+  expo: {
+    name: 'CasinoTrainingApp',
+    slug: 'CasinoTrainingApp',
+    version: '1.0.0',
+    orientation: 'default',
+    icon: './assets/icon.png',
+    userInterfaceStyle: 'light',
+    newArchEnabled: true,
+    splash: {
+      image: './assets/splash-icon.png',
+      resizeMode: 'contain',
+      backgroundColor: '#1a472a',
+    },
+    ios: {
+      supportsTablet: true,
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: './assets/adaptive-icon.png',
+        backgroundColor: '#1a472a',
+      },
+      edgeToEdgeEnabled: true,
+      predictiveBackGestureEnabled: false,
+    },
+    web: {
+      favicon: './assets/favicon.png',
+      bundler: 'metro',
+      output: 'single',
+      name: 'Casino Training App',
+      shortName: 'CasinoTrain',
+      description:
+        'A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises.',
+      themeColor: '#1a472a',
+      backgroundColor: '#1a472a',
+      display: 'standalone',
+      orientation: 'any',
+      startUrl: '/',
+      preferRelatedApplications: false,
+      icons: [
+        {
+          src: './assets/favicon.png',
+          sizes: '48x48',
+          type: 'image/png',
+        },
+        {
+          src: './assets/adaptive-icon.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: './assets/icon.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+      ],
+    },
+    extra: {
+      // Environment variables exposed to the app
+      sentryDsn: process.env.SENTRY_DSN ?? '',
+      apiBaseUrl: process.env.API_BASE_URL ?? 'https://api.example.com',
+      environment: process.env.APP_ENV ?? 'development',
+    },
+  },
+};

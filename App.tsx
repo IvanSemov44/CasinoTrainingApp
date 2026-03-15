@@ -1,43 +1,35 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Sentry from '@sentry/react-native';
 import { store, persistor } from './src/store';
 import AppNavigator from './src/navigation/AppNavigator';
 import ErrorBoundary from './src/components/ErrorBoundary';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { SettingsProvider } from './src/contexts/SettingsContext';
-import 'react-native-gesture-handler';
+import LoadingSpinner from './src/components/LoadingSpinner';
+import SpeedInsights from './src/components/SpeedInsights';
 
-// Fix for web scrolling - inject style to override Expo's overflow:hidden
-if (typeof document !== 'undefined') {
-  const style = document.createElement('style');
-  style.textContent = `
-    html, body { height: 100%; margin: 0; padding: 0; }
-    #root { min-height: 100%; height: auto; }
-    body { overflow: auto !important; }
-  `;
-  document.head.appendChild(style);
-}
-
-export default function App() {
+function AppContent() {
   return (
     <SafeAreaProvider>
       <ErrorBoundary>
-        <ThemeProvider>
-          <SettingsProvider>
-            <Provider store={store}>
-              <PersistGate loading={null} persistor={persistor}>
+        <Provider store={store}>
+          <PersistGate loading={<LoadingSpinner />} persistor={persistor}>
+            <ThemeProvider>
+              <SettingsProvider>
                 <AppNavigator />
                 <StatusBar style="light" />
                 <SpeedInsights />
-              </PersistGate>
-            </Provider>
-          </SettingsProvider>
-        </ThemeProvider>
+              </SettingsProvider>
+            </ThemeProvider>
+          </PersistGate>
+        </Provider>
       </ErrorBoundary>
     </SafeAreaProvider>
   );
 }
+
+export default Sentry.wrap(AppContent);

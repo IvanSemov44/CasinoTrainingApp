@@ -10,6 +10,9 @@ const ASSETS_TO_CACHE = [
   '/assets/icon.png'
 ];
 
+// Track if update is available
+let updateAvailable = false;
+
 // Install event - cache essential assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -37,7 +40,14 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Listen for update found
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Fetch event - serve from cache, fallback to network (NetworkFirst for JS/CSS)
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
@@ -45,10 +55,65 @@ self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // For JS and CSS files, use NetworkFirst strategy
+  if (event.request.url.includes('.js') || event.request.url.includes('.css')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Clone and cache the response
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          return response;
+        })
+        .catch(() => {
+          // If network fails, try cache
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // For images, use CacheFirst strategy
+  if (event.request.url.includes('/assets/')) {
+    event.respondWith(
+      caches.match(event.request)
+        .then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          
+          return fetch(event.request)
+            .then((response) => {
+              // Cache new images
+              const responseToCache = response.clone();
+              caches.open(CACHE_NAME)
+                .then((cache) => {
+                  cache.put(event.request, responseToCache);
+                });
+              return response;
+            });
+        })
+    );
+    return;
+  }
+
+  // For HTML, use NetworkFirst strategy
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
         if (cachedResponse) {
+          // Return cached response but also fetch update in background
+          fetch(event.request)
+            .then((response) => {
+              caches.open(CACHE_NAME)
+                .then((cache) => {
+                  cache.put(event.request, response);
+                });
+            })
+            .catch(() => {});
           return cachedResponse;
         }
         

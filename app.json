@@ -26,7 +26,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
-      "output": "single",
+      "output": "static",
       "name": "Casino Training App",
       "shortName": "CasinoTrain",
       "description": "A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises.",

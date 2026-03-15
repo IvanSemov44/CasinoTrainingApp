@@ -34,4 +34,12 @@ module.exports = {
     '/__tests__/helpers/',
     '/__tests__/fixtures/',
   ],
+  coverageThreshold: {
+    global: {
+      branches: 60,
+      functions: 60,
+      lines: 65,
+      statements: 65,
+    },
+  },
 };
