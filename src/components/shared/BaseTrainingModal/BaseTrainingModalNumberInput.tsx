@@ -6,7 +6,7 @@ import type { NumberInputConfig } from './BaseTrainingModal.types';
 import { makeStyles } from './BaseTrainingModal.styles';
 
 interface BaseTrainingModalNumberInputProps {
-  numberInput: NumberInputConfig;
+  numberInput?: NumberInputConfig;
 }
 
 export default function BaseTrainingModalNumberInput({
@@ -14,6 +14,11 @@ export default function BaseTrainingModalNumberInput({
 }: BaseTrainingModalNumberInputProps) {
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
+
+  if (!numberInput) {
+    return null;
+  }
+
   const selectedPreset = parseInt(numberInput.value, 10);
 
   return (

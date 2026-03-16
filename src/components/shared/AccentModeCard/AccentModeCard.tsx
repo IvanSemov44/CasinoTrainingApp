@@ -1,5 +1,6 @@
 import { TouchableOpacity, View, Text, StyleSheet, ViewStyle } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 interface AccentModeCardBadge {
   label: string;
@@ -12,7 +13,7 @@ export interface AccentModeCardProps {
   accentColor: string;
   onPress: () => void;
   badge?: AccentModeCardBadge;
-    accessibilityLabel?: string;
+  accessibilityLabel?: string;
   style?: ViewStyle;
 }
 
@@ -27,11 +28,10 @@ export function AccentModeCard({
   accentColor,
   onPress,
   badge,
-    accessibilityLabel,
+  accessibilityLabel,
   style,
 }: AccentModeCardProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <TouchableOpacity
@@ -58,7 +58,7 @@ export function AccentModeCard({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       flexDirection: 'row',

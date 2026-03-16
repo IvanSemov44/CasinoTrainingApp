@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { RouletteNumber, BetType } from '../../types/roulette.types';
-import { getNumberColor } from '../../constants/roulette.constants';
+import { RouletteNumber, BetType } from '@app-types/roulette.types';
+import { getNumberColor } from '@constants/roulette.constants';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles } from './styles/roulette.styles';
 

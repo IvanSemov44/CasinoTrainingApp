@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { RouletteNumber, BetType } from '../../types/roulette.types';
+import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import RouletteChip from './RouletteChip';
 import { getZeroColumnStyles, getRouletteStyles } from './styles/roulette.styles';
 import {

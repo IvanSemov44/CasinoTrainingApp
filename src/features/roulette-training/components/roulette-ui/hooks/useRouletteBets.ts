@@ -1,4 +1,4 @@
-import { RouletteNumber, PlacedBet } from '../../../types/roulette.types';
+import { RouletteNumber, PlacedBet } from '@app-types/roulette.types';
 
 export const useRouletteBets = (placedBets: PlacedBet[]) => {
   const getBetAmount = (numbers: RouletteNumber[]) => {

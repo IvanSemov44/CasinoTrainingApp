@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setSelectedChipValue, placeBet } from '@store/rouletteSlice';
-import RouletteLayout from '@components/roulette/RouletteLayout';
+import RouletteLayout from '@features/roulette-training/components/roulette-ui/RouletteLayout';
 import Racetrack from '@components/Racetrack';
 import ChipSelector from '@components/ChipSelector';
 import { RouletteNumber } from '@app-types/roulette.types';

@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 export interface MenuScreenHeaderProps {
   title: string;
@@ -11,8 +12,7 @@ export interface MenuScreenHeaderProps {
  * Used in training menu screens to display the screen heading
  */
 export function MenuScreenHeader({ title, subtitle }: MenuScreenHeaderProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.container}>
@@ -22,7 +22,7 @@ export function MenuScreenHeader({ title, subtitle }: MenuScreenHeaderProps) {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       padding: 20,

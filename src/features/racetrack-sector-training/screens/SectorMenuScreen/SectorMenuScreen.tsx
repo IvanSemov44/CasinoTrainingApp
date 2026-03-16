@@ -68,7 +68,10 @@ export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) 
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <MenuScreenHeader title="Racetrack Sectors" subtitle="Learn which sector contains each winning number" />
+      <MenuScreenHeader
+        title="Racetrack Sectors"
+        subtitle="Learn which sector contains each winning number"
+      />
 
       <SectorReferenceCard sectorOptions={sectorOptions} sectorColors={SECTOR_ACCENT_COLORS} />
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 /**
  * Information and guide sections for roulette layout practice
  * Shows practice tips and table layout reference
  */
 export function LayoutPracticeGuides() {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <>
@@ -44,7 +44,7 @@ export function LayoutPracticeGuides() {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     infoSection: {
       backgroundColor: colors.background.secondary,

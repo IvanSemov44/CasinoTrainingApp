@@ -5,6 +5,7 @@ import type { RouletteNumber } from '@app-types/roulette.types';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { COLORS } from '@styles/colors';
+import type { AppColors } from '@styles/themes';
 
 interface RacetrackProps {
   onNumberPress: (number: RouletteNumber) => void;
@@ -120,7 +121,9 @@ const Racetrack: React.FC<RacetrackProps> = ({ onNumberPress, highlightedNumbers
   );
 };
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+export default Racetrack;
+
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.primary,
@@ -181,5 +184,3 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
     },
   });
 }
-
-export default Racetrack;

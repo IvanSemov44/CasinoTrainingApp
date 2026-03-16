@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import RouletteLayout from '@components/roulette/RouletteLayout';
+import RouletteLayout from '@features/roulette-training/components/roulette-ui/RouletteLayout';
 import SkeletonLoader from '@components/SkeletonLoader';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';

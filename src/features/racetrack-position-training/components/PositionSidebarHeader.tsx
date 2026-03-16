@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { StatTile } from '@components/shared/StatTile';
 import type { TrainingStats } from '../types';
+import type { AppColors } from '@styles/themes';
 
 interface PositionSidebarHeaderProps {
   stats: TrainingStats;
@@ -17,8 +18,7 @@ export default function PositionSidebarHeader({
   accuracyColor,
   currentWinningNumber,
 }: PositionSidebarHeaderProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function PositionSidebarHeader({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     statsRow: {
       flexDirection: 'row',

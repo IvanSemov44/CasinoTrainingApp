@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Dimensions, TouchableOpacity } from 'react-native';
-import { RouletteNumber, PlacedBet, BetType } from '../../types/roulette.types';
+import { RouletteNumber, PlacedBet, BetType } from '@app-types/roulette.types';
 import { useRouletteBets } from './hooks/useRouletteBets';
 import RouletteOutsideBets from './RouletteOutsideBets';
 import RouletteZeroColumn from './RouletteZeroColumn';

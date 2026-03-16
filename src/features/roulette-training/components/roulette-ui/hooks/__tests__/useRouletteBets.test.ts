@@ -4,7 +4,7 @@
  */
 import { renderHook } from '@testing-library/react-native';
 import { useRouletteBets } from '../useRouletteBets';
-import { PlacedBet, BetType } from '../../../../types/roulette.types';
+import { PlacedBet, BetType } from '@app-types/roulette.types';
 
 describe('useRouletteBets', () => {
   describe('getBetAmount', () => {

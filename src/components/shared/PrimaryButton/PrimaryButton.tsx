@@ -1,5 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 export interface PrimaryButtonProps {
   label: string;
@@ -22,8 +23,7 @@ export function PrimaryButton({
   style,
   textStyle,
 }: PrimaryButtonProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <TouchableOpacity
@@ -38,7 +38,7 @@ export function PrimaryButton({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     button: {
       backgroundColor: colors.text.gold,

@@ -13,7 +13,10 @@ export default function CashConversionMenuScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <MenuScreenHeader title="Cash Conversion Training" subtitle="Master sector bet calculations" />
+      <MenuScreenHeader
+        title="Cash Conversion Training"
+        subtitle="Master sector bet calculations"
+      />
 
       <View style={styles.content}>
         <StartTrainingButton

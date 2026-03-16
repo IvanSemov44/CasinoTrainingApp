@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 interface InstallButtonProps {
   isInstallable: boolean;
@@ -9,8 +10,8 @@ interface InstallButtonProps {
 }
 
 function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
-  const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const styles = useThemedStyles(makeStyles);
 
   // Don't render if already installed
   if (isInstalled) {
@@ -64,32 +65,9 @@ function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
     }
   };
 
-  const styles = StyleSheet.create({
-    button: {
-      alignItems: 'center',
-      backgroundColor: colors.background.secondary,
-      borderRadius: 12,
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderWidth: 1,
-      borderColor: colors.border.gold,
-      gap: 2,
-      opacity: isLoading ? 0.6 : 1,
-    },
-    icon: {
-      fontSize: 18,
-    },
-    label: {
-      fontSize: 10,
-      fontWeight: '600',
-      color: colors.text.gold,
-      letterSpacing: 0.5,
-    },
-  });
-
   return (
     <Pressable
-      style={styles.button}
+      style={[styles.button, { opacity: isLoading ? 0.6 : 1 }]}
       onPress={handlePress}
       disabled={isLoading}
       android_ripple={{ color: 'rgba(255,215,0,0.2)' }}
@@ -102,3 +80,27 @@ function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
 
 export { InstallButton };
 export default InstallButton;
+
+function makeStyles(colors: AppColors) {
+  return StyleSheet.create({
+    button: {
+      alignItems: 'center',
+      backgroundColor: colors.background.secondary,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      gap: 2,
+    },
+    icon: {
+      fontSize: 18,
+    },
+    label: {
+      fontSize: 10,
+      fontWeight: '600',
+      color: colors.text.gold,
+      letterSpacing: 0.5,
+    },
+  });
+}

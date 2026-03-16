@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 export interface SectorTrainingHeaderProps {
   correct: number;
@@ -20,8 +21,7 @@ export function SectorTrainingHeader({
   accuracyColor,
   currentWinningNumber,
 }: SectorTrainingHeaderProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.topBar}>
@@ -50,7 +50,7 @@ export function SectorTrainingHeader({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     topBar: {
       flexDirection: 'column',

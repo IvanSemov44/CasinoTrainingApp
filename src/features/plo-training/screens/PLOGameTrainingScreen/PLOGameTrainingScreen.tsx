@@ -4,9 +4,10 @@ import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { PrimaryButton } from '@components/shared';
 import { usePLOGameState } from './usePLOGameState';
-import { ActionLog, PotCalculationInput } from '../../components';
-import { PLOScoreHeader } from '../../components/PLOScoreHeader';
-import { PLOFeedbackCard } from '../../components/PLOFeedbackCard';
+import ActionLog from '@features/plo-training/components/ActionLog';
+import PotCalculationInput from '@features/plo-training/components/PotCalculationInput';
+import PLOScoreHeader from '@features/plo-training/components/PLOScoreHeader';
+import PLOFeedbackCard from '@features/plo-training/components/PLOFeedbackCard';
 import type { PLOGameTrainingScreenProps } from './PLOGameTrainingScreen.types';
 
 export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {

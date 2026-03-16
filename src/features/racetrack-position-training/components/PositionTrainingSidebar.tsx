@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import PositionSidebarHeader from './PositionSidebarHeader';
 import PositionSidebarFeedback from './PositionSidebarFeedback';
 import type { PositionValidationResult, TrainingStats } from '../types';
+import type { AppColors } from '@styles/themes';
 
 export interface PositionTrainingSidebarProps {
   stats: TrainingStats;
@@ -30,8 +31,7 @@ export function PositionTrainingSidebar({
   percentage,
   onSkip,
 }: PositionTrainingSidebarProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.container}>
@@ -58,7 +58,7 @@ export function PositionTrainingSidebar({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       width: 172,

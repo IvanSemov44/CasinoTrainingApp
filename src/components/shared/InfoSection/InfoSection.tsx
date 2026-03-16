@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createTextStyles, createContainerStyles } from '@styles';
+import type { AppColors } from '@styles/themes';
 
 export interface InfoSectionProps {
   title: string;
@@ -13,8 +14,7 @@ export interface InfoSectionProps {
  * Used in menu screens to display training information blocks
  */
 export function InfoSection({ title, children, style }: InfoSectionProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={[styles.container, style]}>
@@ -24,7 +24,7 @@ export function InfoSection({ title, children, style }: InfoSectionProps) {
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   const textStyles = createTextStyles(colors);
   const containerStyles = createContainerStyles(colors);
 

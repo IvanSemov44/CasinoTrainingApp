@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { PositionValidationResult } from '../types';
+import type { AppColors } from '@styles/themes';
 
 interface PositionSidebarFeedbackProps {
   result: PositionValidationResult | null;
@@ -16,8 +17,7 @@ export default function PositionSidebarFeedback({
   isProcessing,
   onSkip,
 }: PositionSidebarFeedbackProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function PositionSidebarFeedback({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     feedbackCard: {
       borderRadius: 10,

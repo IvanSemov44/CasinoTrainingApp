@@ -60,11 +60,7 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
             requestType={currentRequest.requestType}
           />
 
-          <PrimaryButton
-            label="Check Answer"
-            onPress={handleCheck}
-            disabled={!isFormComplete}
-          />
+          <PrimaryButton label="Check Answer" onPress={handleCheck} disabled={!isFormComplete} />
         </>
       )}
 

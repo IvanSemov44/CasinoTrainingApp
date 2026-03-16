@@ -1,5 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
 
 export interface StartTrainingButtonProps {
   icon: string;
@@ -20,8 +21,7 @@ export function StartTrainingButton({
   onPress,
   style,
 }: StartTrainingButtonProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <TouchableOpacity
@@ -37,7 +37,7 @@ export function StartTrainingButton({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     container: {
       backgroundColor: colors.background.secondary,

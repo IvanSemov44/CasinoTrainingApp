@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';

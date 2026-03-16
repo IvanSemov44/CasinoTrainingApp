@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import type { AppColors } from '../styles/themes';
 import HomeScreen from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -51,25 +52,26 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+function buildScreenOptions(colors: AppColors) {
+  return {
+    headerStyle: {
+      backgroundColor: colors.background.secondary,
+    },
+    headerTintColor: colors.text.gold,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 17,
+    },
+    headerShadowVisible: false,
+  } as const;
+}
+
 export default function AppNavigator() {
   const { colors } = useTheme();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: colors.background.secondary,
-          },
-          headerTintColor: colors.text.gold,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 17,
-          },
-          headerShadowVisible: false,
-        }}
-      >
+      <Stack.Navigator initialRouteName="Home" screenOptions={buildScreenOptions(colors)}>
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         {RouletteTrainingRoutes()}
         {RacetrackRoutes()}

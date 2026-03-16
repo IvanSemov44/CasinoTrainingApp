@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createContainerStyles } from '@styles';
 import { StatTile } from '@components/shared/StatTile';
+import type { AppColors } from '@styles/themes';
 
 export interface PLOScoreHeaderProps {
   sessionPoints: number;
@@ -17,7 +18,7 @@ export interface PLOScoreHeaderProps {
  * Score header for PLO training screen
  * Displays session stats and hand progress
  */
-export function PLOScoreHeader({
+export default function PLOScoreHeader({
   sessionPoints,
   accuracy,
   streak,
@@ -25,8 +26,7 @@ export function PLOScoreHeader({
   momentIndex,
   totalMoments,
 }: PLOScoreHeaderProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
   const accuracyValue = accuracy ?? 0;
 
   return (
@@ -44,14 +44,14 @@ export function PLOScoreHeader({
           value={`${accuracyValue}%`}
           containerStyle={styles.scoreItem}
           labelStyle={styles.scoreLabel}
-          valueStyle={[styles.scoreValue, { color: colors.text.gold }]}
+          valueStyle={styles.scoreValue}
         />
         <StatTile
           label="Streak"
           value={`×${streak}`}
           containerStyle={styles.scoreItem}
           labelStyle={styles.scoreLabel}
-          valueStyle={[styles.scoreValue, { color: colors.status.streak }]}
+          valueStyle={styles.scoreValue}
         />
       </View>
 
@@ -64,7 +64,7 @@ export function PLOScoreHeader({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   const containerStyles = createContainerStyles(colors);
 
   return StyleSheet.create({

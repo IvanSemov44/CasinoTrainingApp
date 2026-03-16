@@ -17,7 +17,7 @@ jest.mock('../../../racetrack/components', () => ({
 }));
 
 // Mock RouletteLayout
-jest.mock('../../../../components/roulette', () => ({
+jest.mock('@features/roulette-training/components/roulette-ui', () => ({
   RouletteLayout: () => null,
 }));
 

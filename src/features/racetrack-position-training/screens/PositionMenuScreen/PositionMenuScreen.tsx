@@ -47,7 +47,10 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <MenuScreenHeader title="Number → Position" subtitle="Find the winning number on the racetrack" />
+      <MenuScreenHeader
+        title="Number → Position"
+        subtitle="Find the winning number on the racetrack"
+      />
 
       <PositionWheelOrderCard wheelOrder={wheelOrder} />
 

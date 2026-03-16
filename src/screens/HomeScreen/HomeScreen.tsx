@@ -12,10 +12,11 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { useInstallPrompt } from '@hooks/useInstallPrompt';
-import { InstallButton } from '@components/InstallButton';
-import { GameCategorySection } from '@components/home';
-import type { NavigationProp } from '../types/navigation.types';
-import { CATEGORIES } from '@constants/navigation.constants';
+import InstallButton from '@components/InstallButton';
+import GameCategorySection from './GameCategorySection';
+import GameCard from './GameCard';
+import type { NavigationProp } from '../../types/navigation.types';
+import { CATEGORIES, type Route } from '@constants/navigation.constants';
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
   const { themeId, toggleTheme } = useTheme();
@@ -69,7 +70,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           key={cat.label}
           category={cat}
           cardWidth={cardWidth}
-          onSelectGame={route => navigation.navigate(route as never)}
+          onSelectGame={(route: Route) => navigation.navigate(route as never)}
         />
       ))}
 

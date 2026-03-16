@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { StatTile } from '@components/shared/StatTile';
 import type { RouletteNumber } from '@app-types/roulette.types';
+import type { AppColors } from '@styles/themes';
 
 export interface LayoutPracticeHeaderProps {
   totalBets: number;
@@ -19,8 +20,7 @@ export function LayoutPracticeHeader({
   totalAmount,
   selectedNumber,
 }: LayoutPracticeHeaderProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <View style={styles.header}>
@@ -53,7 +53,7 @@ export function LayoutPracticeHeader({
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     header: {
       backgroundColor: colors.background.secondary,

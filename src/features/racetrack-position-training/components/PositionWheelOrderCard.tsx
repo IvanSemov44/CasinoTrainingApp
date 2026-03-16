@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemedStyles } from '@hooks/useThemedStyles';
 import { ReferenceCard } from '@components/shared/ReferenceCard';
+import type { AppColors } from '@styles/themes';
 
 export interface PositionWheelOrderCardProps {
   wheelOrder: number[];
@@ -10,8 +11,7 @@ export interface PositionWheelOrderCardProps {
  * Reference card showing the racetrack wheel order
  */
 export function PositionWheelOrderCard({ wheelOrder }: PositionWheelOrderCardProps) {
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
+  const styles = useThemedStyles(makeStyles);
 
   return (
     <ReferenceCard
@@ -30,7 +30,7 @@ export function PositionWheelOrderCard({ wheelOrder }: PositionWheelOrderCardPro
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     wheelOrderContainer: {
       flexDirection: 'row',

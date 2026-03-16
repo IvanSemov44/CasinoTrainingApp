@@ -27,7 +27,10 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <MenuScreenHeader title="Pot Limit Omaha Training" subtitle="Learn pot calculations at the table" />
+      <MenuScreenHeader
+        title="Pot Limit Omaha Training"
+        subtitle="Learn pot calculations at the table"
+      />
 
       <View style={styles.modesContainer}>
         {modes.map(mode => (
@@ -37,7 +40,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
             description={mode.description}
             accentColor={getDifficultyColor(mode.difficulty)}
             onPress={() => handleSelectDifficulty(mode.difficulty)}
-                        accessibilityLabel={`${mode.label} mode`}
+            accessibilityLabel={`${mode.label} mode`}
             badge={{
               label: mode.difficulty.toUpperCase(),
               color: getDifficultyColor(mode.difficulty),

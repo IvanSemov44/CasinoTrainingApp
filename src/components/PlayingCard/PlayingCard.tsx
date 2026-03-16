@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { useTheme } from '@contexts/ThemeContext';
 import type { Card } from '@utils/cardUtils';
 import { isRed } from '@utils/cardUtils';
+import type { AppColors } from '@styles/themes';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -54,7 +55,7 @@ export default function PlayingCard({ card, faceDown = false, size = 'md' }: Pla
   );
 }
 
-function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
+function makeStyles(colors: AppColors) {
   return StyleSheet.create({
     card: {
       backgroundColor: colors.text.primary,

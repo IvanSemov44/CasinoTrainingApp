@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { TrainingSelectionModal } from '@components/roulette';
+import { TrainingSelectionModal } from '@features/roulette-training/components/roulette-ui';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
 import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@components/shared';
@@ -19,7 +19,10 @@ export default function RouletteExercisesScreen(_props: RouletteExercisesScreenP
 
   return (
     <View style={styles.container}>
-      <MenuScreenHeader title="Roulette Training" subtitle="Master payout calculations for all bet types" />
+      <MenuScreenHeader
+        title="Roulette Training"
+        subtitle="Master payout calculations for all bet types"
+      />
 
       <View style={styles.content}>
         <StartTrainingButton

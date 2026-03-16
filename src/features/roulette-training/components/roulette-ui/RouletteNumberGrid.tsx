@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { RouletteNumber, BetType } from '../../types/roulette.types';
-import { LAYOUT_GRID } from '../../constants/roulette.constants';
+import { RouletteNumber, BetType } from '@app-types/roulette.types';
+import { LAYOUT_GRID } from '@constants/roulette.constants';
 import RouletteNumberCell from './RouletteNumberCell';
 import RouletteChip from './RouletteChip';
 import { getRouletteStyles } from './styles/roulette.styles';

@@ -65,7 +65,12 @@
       "Bash(sed -i \"s|from ''../RouletteOutsideBets''|from ''./RouletteOutsideBets''|g; s|from ''../RouletteChip''|from ''./RouletteChip''|g\" RouletteOutsideBets.test.tsx)",
       "Bash(sed -i \"s|from ''../RouletteZeroColumn''|from ''./RouletteZeroColumn''|g; s|from ''../RouletteChip''|from ''./RouletteChip''|g\" RouletteZeroColumn.test.tsx)",
       "Bash(grep \"from ''\\\\.\\\\.\" /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/roulette/Roulette*.test.tsx)",
-      "Bash(grep \"jest.mock\" /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/roulette/Roulette*.test.tsx)"
+      "Bash(grep \"jest.mock\" /c/Users/ivans/Desktop/Dev/CasinoTrainingApp/src/components/roulette/Roulette*.test.tsx)",
+      "Bash(git commit:*)",
+      "Bash(npx expo:*)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }

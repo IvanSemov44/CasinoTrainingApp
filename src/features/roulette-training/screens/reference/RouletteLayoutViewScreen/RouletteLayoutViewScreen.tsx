@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { placeBet } from '@store/rouletteSlice';
-import RouletteLayout from '@components/roulette/RouletteLayout';
+import RouletteLayout from '@features/roulette-training/components/roulette-ui/RouletteLayout';
 import { RouletteNumber, BetType } from '@app-types/roulette.types';
 import { getPayoutForBetType } from '@features/roulette-training/constants/payouts';
 import { useThemedStyles } from '@hooks/useThemedStyles';

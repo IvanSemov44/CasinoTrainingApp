@@ -3,3 +3,5 @@ export { default as PokerTable } from './PokerTable';
 export { default as ActionLog } from './ActionLog';
 export { default as GameStateDisplay } from './GameStateDisplay';
 export { default as PotCalculationInput } from './PotCalculationInput';
+export { default as PLOFeedbackCard } from './PLOFeedbackCard';
+export { default as PLOScoreHeader } from './PLOScoreHeader';
