@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import type { BaseDrillScenario } from '@hooks/useDrillState';
 import type { makeStyles } from './DrillScreen.styles';
 
-interface DrillScreenViewScenario extends BaseDrillScenario {
+interface DrillScreenViewScenario extends Omit<BaseDrillScenario, 'explanation'> {
   explanation?: string;
 }
 

@@ -5,7 +5,7 @@ import type { AppColors } from '@styles/themes';
 import { RouletteLayout } from '@features/roulette-training/components/roulette-ui';
 import { RacetrackLayout } from '../../../racetrack/components';
 import { useAnnouncedBets } from '../../../racetrack/hooks';
-import { PlacedBet } from '../../../../types/roulette.types';
+import { PlacedBet } from '@app-types/roulette.types';
 
 const { width: screenWidth } = Dimensions.get('window');
 

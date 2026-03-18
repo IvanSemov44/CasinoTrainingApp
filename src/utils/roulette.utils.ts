@@ -1,4 +1,4 @@
-import { BetType, RouletteNumber } from '../types/roulette.types';
+import { BetType, RouletteNumber } from '@app-types/roulette.types';
 import { PAYOUT_RATIOS } from '../constants/roulette.constants';
 import { getRandomInt } from './randomUtils';
 

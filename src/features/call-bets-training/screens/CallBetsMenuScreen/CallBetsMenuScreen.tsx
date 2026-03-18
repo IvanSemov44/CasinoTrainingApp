@@ -6,6 +6,7 @@ import { useThemedStyles } from '@hooks/useThemedStyles';
 import { InfoSection, MenuScreenHeader } from '@components/shared';
 import type { AppColors } from '@styles/themes';
 import { CallBetsStackParamList } from '../../navigation';
+import { CALL_BET_MODES, CallBetMode } from '../../constants';
 
 type CallBetsMenuNavigationProp = StackNavigationProp<CallBetsStackParamList, 'CallBetsMenu'>;
 
@@ -13,16 +14,8 @@ export default function CallBetsMenuScreen() {
   const styles = useThemedStyles(makeStyles);
   const navigation = useNavigation<CallBetsMenuNavigationProp>();
 
-  const modes = [
-    { key: 'tier', label: 'Tier', description: 'Learn the Tier bet (12 positions)' },
-    { key: 'orphelins', label: 'Orphelins', description: 'Learn the Orphelins bet (8 positions)' },
-    { key: 'voisins', label: 'Voisins', description: 'Learn the Voisins bet (17 positions)' },
-    { key: 'zero', label: 'Zero', description: 'Learn the Zero bet (7 positions)' },
-    { key: 'random', label: 'Random Mode', description: 'Mix all call bet types' },
-  ] as const;
-
   const handleSelectMode = useCallback(
-    (mode: (typeof modes)[number]['key']) => {
+    (mode: CallBetMode) => {
       navigation.navigate('CallBetsTraining', { mode });
     },
     [navigation]
@@ -33,7 +26,7 @@ export default function CallBetsMenuScreen() {
       <MenuScreenHeader title="Call Bets Training" subtitle="Master announced roulette bets" />
 
       <View style={styles.content}>
-        {modes.map(mode => (
+        {CALL_BET_MODES.map(mode => (
           <TouchableOpacity
             key={mode.key}
             style={styles.modeButton}

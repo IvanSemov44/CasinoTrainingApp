@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { generateHand } from '../../utils/handGenerator';
 import type { GeneratedHand, PLODifficulty } from '../../types';
 import { getRandomElement } from '@utils/randomUtils';
+import { useSessionTracking } from '@hooks/useSessionTracking';
 
 const BLIND_LEVELS = [2, 5, 10] as const;
 const DEALING_DURATION_MS = 1200;
@@ -25,10 +26,17 @@ export function usePLOGameState(difficulty: PLODifficulty) {
   const [userAnswer, setUserAnswer] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const [sessionPoints, setSessionPoints] = useState(0);
-  const [sessionCorrect, setSessionCorrect] = useState(0);
-  const [sessionTotal, setSessionTotal] = useState(0);
-  const [streak, setStreak] = useState(0);
+  // Use shared session tracking hook
+  const {
+    streak,
+    sessionPoints,
+    sessionCorrect,
+    sessionTotal,
+    accuracy,
+    upcomingMultiplier,
+    recordAnswer,
+    resetSession: resetSessionTracking,
+  } = useSessionTracking(streakMultiplier);
 
   const dealingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -52,20 +60,9 @@ export function usePLOGameState(difficulty: PLODifficulty) {
   const handleCheck = useCallback(() => {
     const correct = userAnswer === moment.correctAnswer;
     setIsCorrect(correct);
-    setSessionTotal(t => t + 1);
-
-    if (correct) {
-      const newStreak = streak + 1;
-      const earned = streakMultiplier(newStreak);
-      setStreak(newStreak);
-      setSessionCorrect(c => c + 1);
-      setSessionPoints(p => p + earned);
-    } else {
-      setStreak(0);
-    }
-
+    recordAnswer(correct);
     setPhase('feedback');
-  }, [userAnswer, moment.correctAnswer, streak]);
+  }, [userAnswer, moment.correctAnswer, recordAnswer]);
 
   const handleContinue = useCallback(() => {
     const hasNext = momentIndex + 1 < hand.askMoments.length;
@@ -78,10 +75,18 @@ export function usePLOGameState(difficulty: PLODifficulty) {
     }
   }, [momentIndex, hand.askMoments.length]);
 
+  const resetSession = useCallback(() => {
+    setHand(freshHand(difficulty));
+    setMomentIndex(0);
+    setHandKey(k => k + 1);
+    setUserAnswer(0);
+    setPhase('asking');
+    setIsCorrect(false);
+    resetSessionTracking();
+  }, [difficulty, resetSessionTracking]);
+
   const isLastMoment = momentIndex + 1 >= hand.askMoments.length;
-  const accuracy = sessionTotal > 0 ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
   const lastEarned = isCorrect ? streakMultiplier(streak) : 0;
-  const upcomingMultiplier = Math.pow(2, streak);
 
   return {
     hand,
@@ -102,5 +107,6 @@ export function usePLOGameState(difficulty: PLODifficulty) {
     handleCheck,
     handleContinue,
     setUserAnswer,
+    resetSession,
   };
 }

@@ -1,4 +1,4 @@
-import { BetType } from '../../../types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
 
 // Payout ratios for each bet type
 export const PAYOUTS: Record<BetType, number> = {

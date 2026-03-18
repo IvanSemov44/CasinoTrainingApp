@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -30,6 +30,14 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   }, [width]);
 
   const styles = useThemedStyles(makeStyles);
+
+  // Known React Navigation typing limitation with union route types
+  const handleNavigate = useCallback(
+    (route: Route) => {
+      navigation.navigate(route as never);
+    },
+    [navigation]
+  );
 
   return (
     <ScrollView
@@ -70,7 +78,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           key={cat.label}
           category={cat}
           cardWidth={cardWidth}
-          onSelectGame={(route: Route) => navigation.navigate(route as never)}
+          onSelectGame={handleNavigate}
         />
       ))}
 

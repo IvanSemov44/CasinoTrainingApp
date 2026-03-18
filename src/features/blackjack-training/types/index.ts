@@ -1,4 +1,8 @@
 import type { Card } from '@utils/cardUtils';
+import type { BaseDrillScenario } from '@hooks/useDrillState';
+
+export type { BaseDrillScenario } from '@hooks/useDrillState';
+export type AnswerType = 'multiple-choice' | 'numeric';
 
 export type BJDrillType =
   | 'soft-hand-recognition' // Easy — announce hand total ("6 or 16")
@@ -12,7 +16,7 @@ export type BJDrillType =
   | 'super-seven' // Advanced — identify tier + payout
   | 'odd-bj-payout'; // Advanced — 3:2 on odd bets like €15, €35
 
-export interface BJScenario {
+export interface BJScenario extends BaseDrillScenario {
   drillType: BJDrillType;
   /** Player's hand cards */
   playerCards?: Card[];
@@ -20,9 +24,5 @@ export interface BJScenario {
   dealerCards?: Card[];
   betAmount?: number;
   question: string;
-  answerType: 'multiple-choice' | 'numeric';
-  options?: string[];
-  correctOption?: string;
-  correctAnswer?: number;
   explanation: string;
 }

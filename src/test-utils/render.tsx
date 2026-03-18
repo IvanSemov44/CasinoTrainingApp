@@ -5,13 +5,16 @@
 import React from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '@contexts/ThemeContext';
 
 /**
  * All providers wrapper for tests
  * Add any global providers here (Redux, Theme, etc.)
  */
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <NavigationContainer>{children}</NavigationContainer>
+  <ThemeProvider>
+    <NavigationContainer>{children}</NavigationContainer>
+  </ThemeProvider>
 );
 
 /**

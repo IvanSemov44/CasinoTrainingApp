@@ -1,4 +1,5 @@
 import type { Card } from '@utils/cardUtils';
+import type { BaseDrillScenario } from '@hooks/useDrillState';
 
 export type TCPDrillType =
   | 'hand-recognition'
@@ -7,9 +8,7 @@ export type TCPDrillType =
   | 'ante-bonus'
   | 'full-outcome';
 
-export type AnswerType = 'multiple-choice' | 'numeric';
-
-export interface TCPScenario {
+export interface TCPScenario extends BaseDrillScenario {
   drillType: TCPDrillType;
   /** Cards for player's hand (shown when drill is about player's hand) */
   playerCards?: Card[];
@@ -17,13 +16,6 @@ export interface TCPScenario {
   dealerCards?: Card[];
   /** Ante or side-bet amount used in payout drills */
   betAmount?: number;
-  question: string;
-  answerType: AnswerType;
-  /** Options for multiple-choice drills */
-  options?: string[];
-  /** Correct option string (multiple-choice) */
-  correctOption?: string;
-  /** Correct numeric answer (numeric drills) */
+  /** Narrows base correctAnswer to number-only for numeric drill answers */
   correctAnswer?: number;
-  explanation: string;
 }

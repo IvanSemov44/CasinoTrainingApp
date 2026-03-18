@@ -6,16 +6,11 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
+import { useSessionTracking } from './useSessionTracking';
 
-/**
- * Base scenario interface that all drill scenarios must extend
- */
-export interface BaseDrillScenario {
-  answerType: 'multiple-choice' | 'numeric';
-  correctOption?: string;
-  correctAnswer?: number;
-  options?: string[];
-}
+// Re-export BaseDrillScenario from central location
+export type { BaseDrillScenario } from '@app-types/drill.types';
+import type { BaseDrillScenario } from '@app-types/drill.types';
 
 /**
  * Return type for the drill state hook
@@ -39,19 +34,17 @@ export interface DrillState<TScenario extends BaseDrillScenario> {
   isCorrect: boolean;
   setIsCorrect: (correct: boolean) => void;
 
-  // Session tracking state
+  // Session tracking state (from useSessionTracking)
   streak: number;
-  setStreak: (streak: number) => void;
   sessionPoints: number;
-  setSessionPoints: (points: number) => void;
   sessionCorrect: number;
-  setSessionCorrect: (correct: number) => void;
   sessionTotal: number;
-  setSessionTotal: (total: number) => void;
-
-  // Computed values
   accuracy: number | null;
   upcomingMultiplier: number;
+  recordAnswer: (isCorrect: boolean) => void;
+  resetSessionTracking: () => void;
+
+  // Computed values
   canSubmit: boolean;
   autoSubmit: boolean;
 
@@ -93,11 +86,17 @@ export function useDrillState<TScenario extends BaseDrillScenario, TDrillType = 
   // Result state
   const [isCorrect, setIsCorrect] = useState(false);
 
-  // Session tracking state
-  const [streak, setStreak] = useState(0);
-  const [sessionPoints, setSessionPoints] = useState(0);
-  const [sessionCorrect, setSessionCorrect] = useState(0);
-  const [sessionTotal, setSessionTotal] = useState(0);
+  // Use shared session tracking hook
+  const {
+    streak,
+    sessionPoints,
+    sessionCorrect,
+    sessionTotal,
+    accuracy,
+    upcomingMultiplier,
+    recordAnswer,
+    resetSession: resetSessionTracking,
+  } = useSessionTracking(streakMultiplierFn);
 
   // Clear inputs when scenario changes
   useEffect(() => {
@@ -121,20 +120,10 @@ export function useDrillState<TScenario extends BaseDrillScenario, TDrillType = 
       }
 
       setIsCorrect(correct);
-      setSessionTotal(t => t + 1);
-
-      if (correct) {
-        const newStreak = streak + 1;
-        setStreak(newStreak);
-        setSessionCorrect(c => c + 1);
-        setSessionPoints(p => p + streakMultiplierFn(newStreak));
-      } else {
-        setStreak(0);
-      }
-
+      recordAnswer(correct);
       setPhase('feedback');
     },
-    [scenario, selectedOption, userAmountStr, streak, streakMultiplierFn]
+    [scenario, selectedOption, userAmountStr, recordAnswer]
   );
 
   /**
@@ -154,16 +143,8 @@ export function useDrillState<TScenario extends BaseDrillScenario, TDrillType = 
     setSelectedOption(null);
     setUserAmountStr('');
     setIsCorrect(false);
-    setStreak(0);
-    setSessionPoints(0);
-    setSessionCorrect(0);
-    setSessionTotal(0);
-  }, [drillType, scenarioGenerator]);
-
-  // Computed values
-  const accuracy = sessionTotal > 0 ? Math.round((sessionCorrect / sessionTotal) * 100) : null;
-
-  const upcomingMultiplier = Math.pow(2, streak);
+    resetSessionTracking();
+  }, [drillType, scenarioGenerator, resetSessionTracking]);
 
   const canSubmit =
     scenario.answerType === 'multiple-choice' ? selectedOption !== null : userAmountStr.length > 0;
@@ -188,16 +169,14 @@ export function useDrillState<TScenario extends BaseDrillScenario, TDrillType = 
     setIsCorrect,
     // Session tracking
     streak,
-    setStreak,
     sessionPoints,
-    setSessionPoints,
     sessionCorrect,
-    setSessionCorrect,
     sessionTotal,
-    setSessionTotal,
-    // Computed
     accuracy,
     upcomingMultiplier,
+    recordAnswer,
+    resetSessionTracking,
+    // Computed
     canSubmit,
     autoSubmit,
     // Handlers

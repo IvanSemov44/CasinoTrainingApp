@@ -13,4 +13,8 @@ export { default as ActionLog } from '@features/plo-training/components/ActionLo
 export { default as PotCalculationInput } from '@features/plo-training/components/PotCalculationInput';
 
 // Re-export roulette components (moved to features/roulette-training/components/roulette-ui)
-// export * from './roulette';
+// Re-export for cross-feature access
+export { default as RouletteLayout } from '@features/roulette-training/components/roulette-ui/RouletteLayout';
+export { default as RouletteNumberCell } from '@features/roulette-training/components/roulette-ui/RouletteNumberCell';
+export { default as RouletteChip } from '@features/roulette-training/components/roulette-ui/RouletteChip';
+export { default as TrainingSelectionModal } from '@features/roulette-training/components/roulette-ui/TrainingSelectionModal';

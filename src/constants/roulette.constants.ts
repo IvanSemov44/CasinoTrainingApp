@@ -1,4 +1,4 @@
-import { RouletteNumber, ChipValue, BetType } from '../types/roulette.types';
+import { RouletteNumber, ChipValue, BetType } from '@app-types/roulette.types';
 
 // European Roulette wheel order
 export const WHEEL_ORDER: RouletteNumber[] = [

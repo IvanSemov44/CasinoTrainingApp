@@ -1,11 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import logger from '@services/logger.service';
-import { UserProgress, ExerciseResult } from '../types/roulette.types';
-
-const STORAGE_KEYS = {
-  USER_PROGRESS: '@casino_training_progress',
-  EXERCISE_RESULTS: '@casino_training_results',
-};
+import { UserProgress, ExerciseResult } from '@app-types/roulette.types';
+import { STORAGE_KEYS } from '@constants/storageKeys';
 
 export const storageService = {
   // Save user progress

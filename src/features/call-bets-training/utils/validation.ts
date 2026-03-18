@@ -1,5 +1,5 @@
 import { getRandomElement } from '@utils/randomUtils';
-import { PlacedBet } from '../../../types/roulette.types';
+import { PlacedBet } from '@app-types/roulette.types';
 import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
 import { ValidationResult, CallBetMode } from '../types';
 

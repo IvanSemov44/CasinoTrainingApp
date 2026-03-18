@@ -1,4 +1,5 @@
 import type { Card } from '@utils/cardUtils';
+import type { BaseDrillScenario } from '@hooks/useDrillState';
 
 export type CPDrillType =
   | 'hand-recognition' // Easy — name the 5-card hand
@@ -11,7 +12,7 @@ export type CPDrillType =
   | 'bonus-on-fold' // Advanced — player folded, Bonus still pays
   | 'swap-procedure'; // Advanced — knowledge quiz on 2-phase swap
 
-export interface CPScenario {
+export interface CPScenario extends BaseDrillScenario {
   drillType: CPDrillType;
   playerCards?: Card[];
   /** Dealer's full hand, or single visible upcard */
@@ -20,10 +21,6 @@ export interface CPScenario {
   betAmount?: number;
   /** True when player used the swap option (affects Bonus payout) */
   swapped?: boolean;
-  question: string;
-  answerType: 'multiple-choice' | 'numeric';
-  options?: string[];
-  correctOption?: string;
+  /** Narrows base correctAnswer to number-only for numeric drill answers */
   correctAnswer?: number;
-  explanation: string;
 }

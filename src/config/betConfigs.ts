@@ -1,4 +1,4 @@
-import { RouletteNumber } from '../types/roulette.types';
+import { RouletteNumber } from '@app-types/roulette.types';
 import {
   ALL_CORNERS,
   ALL_STREETS,

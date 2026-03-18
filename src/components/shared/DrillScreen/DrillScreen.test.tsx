@@ -42,6 +42,8 @@ describe('DrillScreen', () => {
 
   const mockScenario: BaseDrillScenario = {
     answerType: 'multiple-choice',
+    question: 'Test question',
+    explanation: 'Test explanation',
     options: ['A', 'B', 'C', 'D'],
     correctOption: 'A',
   };
@@ -58,15 +60,13 @@ describe('DrillScreen', () => {
     isCorrect: false,
     setIsCorrect: jest.fn(),
     streak: 3,
-    setStreak: jest.fn(),
     sessionPoints: 150,
-    setSessionPoints: jest.fn(),
     sessionCorrect: 10,
-    setSessionCorrect: jest.fn(),
     sessionTotal: 20,
-    setSessionTotal: jest.fn(),
     accuracy: 75,
     upcomingMultiplier: 8,
+    recordAnswer: jest.fn(),
+    resetSessionTracking: jest.fn(),
     canSubmit: true,
     autoSubmit: false,
     handleSubmit: jest.fn(),

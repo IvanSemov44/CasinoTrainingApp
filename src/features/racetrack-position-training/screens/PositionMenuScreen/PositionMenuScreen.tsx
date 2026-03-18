@@ -5,35 +5,8 @@ import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@components/sh
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
+import { POSITION_ACCENT_COLORS, POSITION_MODE_OPTIONS } from '../../constants';
 import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
-
-interface ModeOption {
-  mode: PositionMode;
-  title: string;
-  description: string;
-  color: string;
-}
-
-// Accent colors for position training modes - visual hierarchy indicators
-const POSITION_ACCENT_COLORS: Record<PositionMode, string> = {
-  single: '#3b82f6', // Blue
-  random: '#10b981', // Green
-};
-
-const MODE_OPTIONS: ModeOption[] = [
-  {
-    mode: 'single',
-    title: 'Single Number',
-    description: 'Tap the exact number on the racetrack',
-    color: POSITION_ACCENT_COLORS.single,
-  },
-  {
-    mode: 'random',
-    title: 'Random Training',
-    description: 'Practice finding numbers randomly',
-    color: POSITION_ACCENT_COLORS.random,
-  },
-];
 
 export default function PositionMenuScreen({ navigation }: PositionMenuScreenProps) {
   const { colors } = useTheme();
@@ -56,7 +29,7 @@ export default function PositionMenuScreen({ navigation }: PositionMenuScreenPro
 
       <View style={styles.modesContainer}>
         <Text style={styles.sectionTitle}>Select Training Mode:</Text>
-        {MODE_OPTIONS.map(option => (
+        {POSITION_MODE_OPTIONS.map(option => (
           <AccentModeCard
             key={option.mode}
             title={option.title}

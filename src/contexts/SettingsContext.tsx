@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '@constants/storageKeys';
+import logger from '@services/logger.service';
 
 interface SettingsContextType {
   soundEnabled: boolean;
@@ -21,13 +23,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const loadSettings = async () => {
       try {
         const [sound, haptic] = await Promise.all([
-          AsyncStorage.getItem('@app_settings_sound'),
-          AsyncStorage.getItem('@app_settings_haptic'),
+          AsyncStorage.getItem(STORAGE_KEYS.SETTINGS_SOUND),
+          AsyncStorage.getItem(STORAGE_KEYS.SETTINGS_HAPTIC),
         ]);
         if (sound !== null) setSoundEnabledState(sound === 'true');
         if (haptic !== null) setHapticEnabledState(haptic === 'true');
-      } catch {
-        // Use defaults if load fails
+      } catch (error) {
+        logger.warn('Failed to load settings', { error });
       } finally {
         setIsLoaded(true);
       }
@@ -38,18 +40,18 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const setSoundEnabled = async (enabled: boolean) => {
     setSoundEnabledState(enabled);
     try {
-      await AsyncStorage.setItem('@app_settings_sound', String(enabled));
-    } catch {
-      // Fail silently
+      await AsyncStorage.setItem(STORAGE_KEYS.SETTINGS_SOUND, String(enabled));
+    } catch (error) {
+      logger.warn('Failed to save sound setting', { error });
     }
   };
 
   const setHapticEnabled = async (enabled: boolean) => {
     setHapticEnabledState(enabled);
     try {
-      await AsyncStorage.setItem('@app_settings_haptic', String(enabled));
-    } catch {
-      // Fail silently
+      await AsyncStorage.setItem(STORAGE_KEYS.SETTINGS_HAPTIC, String(enabled));
+    } catch (error) {
+      logger.warn('Failed to save haptic setting', { error });
     }
   };
 

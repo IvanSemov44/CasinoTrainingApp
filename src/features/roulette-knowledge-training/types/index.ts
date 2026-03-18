@@ -1,3 +1,5 @@
+import type { BaseDrillScenario } from '@hooks/useDrillState';
+
 export type RKDrillType =
   | 'outside-bet-payout' // Easy — calculate 1:1 or 2:1 outside bet payout
   | 'dozen-vs-column' // Easy — which bet covers which numbers
@@ -10,14 +12,10 @@ export type RKDrillType =
   | 'announced-inside-mixed' // Advanced — net win from announced bet + inside bet
   | 'bet-limits'; // Easy — standard/high table bet limits
 
-export interface RKScenario {
+export interface RKScenario extends BaseDrillScenario {
   drillType: RKDrillType;
   winningNumber?: number; // 0–36; renders a coloured number chip on screen
   bets?: string[]; // list of placed bets to display (e.g. "€30 on Red")
-  question: string;
-  answerType: 'multiple-choice' | 'numeric';
-  options?: string[];
-  correctOption?: string;
+  /** Narrows base correctAnswer to number-only for numeric drill answers */
   correctAnswer?: number;
-  explanation: string;
 }

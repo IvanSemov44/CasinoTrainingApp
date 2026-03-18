@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { PlacedBet, BetType, RouletteNumber } from '../../../types/roulette.types';
+import { PlacedBet, BetType, RouletteNumber } from '@app-types/roulette.types';
 import { ANNOUNCED_BETS, PAYOUTS } from '../constants/announcedBets.constants';
 import { getNeighbors } from '../utils/racetrack.utils';
 

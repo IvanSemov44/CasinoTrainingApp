@@ -1,4 +1,5 @@
 import type { Card } from '@utils/cardUtils';
+import type { BaseDrillScenario } from '@hooks/useDrillState';
 
 export type THUDrillType =
   | 'hand-recognition' // Easy — best 5-card hand from 7 cards
@@ -12,7 +13,7 @@ export type THUDrillType =
   | 'blind-no-qualify' // Advanced — dealer no qualify + player wins with Straight
   | 'full-outcome'; // Advanced — multi-bet resolution
 
-export interface THUScenario {
+export interface THUScenario extends BaseDrillScenario {
   drillType: THUDrillType;
   playerHoleCards?: Card[];
   dealerHoleCards?: Card[];
@@ -20,10 +21,6 @@ export interface THUScenario {
   anteAmount?: number;
   blindAmount?: number; // always equals anteAmount when both shown
   tripsAmount?: number;
-  question: string;
-  answerType: 'multiple-choice' | 'numeric';
-  options?: string[];
-  correctOption?: string;
+  /** Narrows base correctAnswer to number-only for numeric drill answers */
   correctAnswer?: number;
-  explanation: string;
 }

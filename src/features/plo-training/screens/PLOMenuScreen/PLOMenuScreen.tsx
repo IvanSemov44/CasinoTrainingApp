@@ -3,18 +3,13 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { MenuScreenHeader, AccentModeCard, InstructionBox } from '@components/shared';
-import type { PLODifficulty } from '../../types';
+import { PLODifficulty } from '../../types';
+import { PLO_MODES } from '../../constants/modes';
 import type { PLOMenuScreenProps } from './PLOMenuScreen.types';
 
 export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
-
-  const modes: Array<{ difficulty: PLODifficulty; label: string; description: string }> = [
-    { difficulty: 'easy', label: 'Easy', description: 'Preflop pot calculations' },
-    { difficulty: 'medium', label: 'Medium', description: 'Multi-street pots' },
-    { difficulty: 'advanced', label: 'Advanced', description: 'Complex scenarios' },
-  ];
 
   const getDifficultyColor = (difficulty: PLODifficulty) => {
     if (difficulty === 'advanced') return colors.difficulty.hard;
@@ -33,7 +28,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
       />
 
       <View style={styles.modesContainer}>
-        {modes.map(mode => (
+        {PLO_MODES.map(mode => (
           <AccentModeCard
             key={mode.difficulty}
             title={mode.label}

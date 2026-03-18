@@ -90,7 +90,7 @@ describe('useCallBetsState', () => {
       expect(result.current.result).toHaveProperty('score');
     });
 
-    it('should increment stats on correct answer', () => {
+    it('should increment stats on submit', () => {
       const { result } = renderHook(() => useCallBetsState({ mode: 'tier' }));
 
       expect(result.current.stats.total).toBe(0);
@@ -100,8 +100,8 @@ describe('useCallBetsState', () => {
       });
 
       expect(result.current.stats.total).toBe(1);
-      // Score is 100, so it's marked as correct (placeholder logic)
-      expect(result.current.stats.correct).toBe(1);
+      // No bets placed → validation returns incorrect
+      expect(result.current.stats.correct).toBe(0);
     });
 
     it('should increment total count multiple times', () => {

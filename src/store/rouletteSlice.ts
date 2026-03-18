@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RouletteState, PlacedBet, Exercise, ExerciseResult } from '../types/roulette.types';
+import { RouletteState, PlacedBet, Exercise, ExerciseResult } from '@app-types/roulette.types';
 
 const initialState: RouletteState = {
   placedBets: [],
