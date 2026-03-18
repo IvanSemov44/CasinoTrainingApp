@@ -1,204 +1,170 @@
-# Casino Dealer Training App
+[![CI](https://github.com/IvanSemov44/CasinoTrainingApp/actions/workflows/ci.yml/badge.svg)](https://github.com/IvanSemov44/CasinoTrainingApp/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-61dafb?logo=react&logoColor=white)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54-000020?logo=expo&logoColor=white)](https://expo.dev/)
+[![Tests](https://img.shields.io/badge/Tests-1094%20passing-22c55e?logo=jest&logoColor=white)](./jest.config.js)
+[![License](https://img.shields.io/badge/License-Proprietary-red)](./README.md)
 
-A React Native mobile application built with Expo for training casino dealers. Focus on roulette, card games, and poker games.
+# Casino Dealer Training Academy
 
-## 🎰 Features
+Professional training app for casino dealers — roulette payouts, poker game procedures, and chip conversions.
 
-### Roulette Training
-- **Interactive Roulette Layout**: Full European roulette table with all inside and outside bets
-- **Racetrack Component**: Neighbor bets and special sectors (Voisins, Tiers, Orphelins)
-- **Multiple Exercise Types**:
-  - Chip Placement Practice
-  - Payout Calculations
-  - Bet Recognition
-  - Speed Drills with Timer
-  - Neighbor Bets Memorization
-  - Sector Bets Training
+<p align="center">
+  <img src="assets/Screenshot 2026-01-30 160806.png" alt="Casino Dealer Training Academy — Home Screen" width="320" />
+</p>
 
-### Progress Tracking
-- Offline-first with AsyncStorage
-- Exercise results history
-- Score statistics and analytics
-- Ready for future backend integration with ASP.NET REST API
+## Overview
 
-## 🚀 Tech Stack
+A React Native (Expo) application covering 12 training modules across roulette and poker disciplines. Each module uses a streak-based scoring system with progressive difficulty. Runs on Android, iOS, and as a PWA in the browser.
 
-- **Framework**: React Native (Expo)
-- **Language**: TypeScript
-- **State Management**: Redux Toolkit
-- **Navigation**: React Navigation (Stack Navigator)
-- **Storage**: AsyncStorage (offline-first)
-- **Graphics**: React Native SVG
-- **Animations**: React Native Reanimated
+## Training Modules
 
-## 📁 Project Structure
+| Category | Module | Key Skills |
+|---|---|---|
+| Roulette | 🎰 Roulette Training | Payouts · Splits · Streets · Speed drills |
+| Roulette | 🎯 Sector Training | Number → Sector (Voisins / Tiers / Orphelins / Zero) |
+| Roulette | 📍 Position Training | Number → Racetrack clock position |
+| Roulette | 💰 Cash Conversion | Chip exchange calculations |
+| Roulette | 📚 Roulette Knowledge | Rules · Limits · Announced bet chip counts |
+| Roulette | 🎡 Roulette Game | Live simulation with racetrack & announced bets |
+| Poker | 🂡 Blackjack | 3:2 payout · Insurance · Super Seven · Odd bets |
+| Poker | 🃏 Three Card Poker | Qualify · Ante Bonus payouts (4:1 / 3:1 / 1:1) |
+| Poker | 🌴 Caribbean Poker | Swap mechanics · €1 Bonus · A-K qualification |
+| Poker | 🤠 Texas Hold'em Ultimate | Blind · Trips Plus · 3×/4× pre-flop raise |
+| Poker | 📣 Call Bets | Voisins · Tiers · Orphelins · Zero chip counts |
+| Poker | ♠️ Pot Limit Omaha | Dealing order · Multi-street pot calculation |
 
-The app uses a **feature-based architecture** with collocated screen modules:
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React Native 0.81 + Expo 54 |
+| Language | TypeScript 5.9 (strict) |
+| State | Redux Toolkit + redux-persist |
+| Navigation | React Navigation 7 (stack) |
+| Themes | Custom dual-theme system (Midnight / Casino Green) |
+| Storage | AsyncStorage (offline-first) |
+| Graphics | React Native SVG + Reanimated 4 |
+| Monitoring | Sentry · Vercel Speed Insights |
+| Testing | Jest 30 + React Native Testing Library |
+| CI/CD | GitHub Actions (quality · test · build-web) |
+
+## Project Structure
 
 ```
 src/
-├── components/              # Shared UI components
-│   ├── ErrorBoundary.tsx
-│   ├── LoadingSpinner.tsx
-│   └── PlayingCard.tsx
-├── features/                # Feature modules (main structure)
-│   ├── roulette-training/
-│   │   ├── screens/         # Screen components
-│   │   │   ├── exercises/
-│   │   │   │   └── CalculationScreen/
-│   │   │   │       ├── CalculationScreen.tsx
-│   │   │   │       ├── index.ts
-│   │   │   │       ├── useCalculationQuestion.ts
-│   │   │   │       └── useExerciseState.ts
-│   │   │   ├── menu/
-│   │   │   └── reference/
-│   │   ├── components/      # Feature-specific components
-│   │   ├── hooks/           # Feature-level hooks (shared across screens)
-│   │   ├── utils/           # Feature utilities
-│   │   ├── types/           # Feature types
-│   │   ├── constants/       # Feature constants
-│   │   ├── navigation.tsx   # Feature navigation
-│   │   └── index.ts         # Feature exports
+├── components/shared/       # DrillMenuScreen · DrillScreen · AccentModeCard · NumberPad …
+├── contexts/                # ThemeContext (midnight | casino-green) · SettingsContext
+├── features/                # 13 self-contained feature modules
+│   ├── blackjack-training/
+│   ├── call-bets-training/
+│   ├── caribbean-poker-training/
+│   ├── cash-conversion-training/
 │   ├── plo-training/
 │   ├── racetrack/
+│   ├── racetrack-position-training/
+│   ├── racetrack-sector-training/
 │   ├── roulette-game/
-│   └── [8+ other features]
-├── navigation/              # App-level navigation config
-├── store/                   # Redux store (if needed)
-├── styles/                  # Global styles
-├── types/                   # Global types
-└── utils/                   # Global utilities
+│   ├── roulette-knowledge-training/
+│   ├── roulette-training/
+│   ├── texas-holdem-ultimate-training/
+│   └── three-card-poker-training/
+├── hooks/                   # useDrillState · useSessionTracking · useThemedStyles …
+├── navigation/              # AppNavigator — flat stack with 13 feature route sets
+├── screens/                 # HomeScreen · SettingsScreen · ProgressScreen
+├── services/                # storage · logger · analytics · performance
+├── store/                   # Redux Toolkit (rouletteSlice)
+├── styles/                  # themes.ts · spacing · textStyles · containerStyles
+├── types/                   # drill.types · roulette.types · navigation.types
+└── utils/                   # cardUtils · randomUtils · hand evaluators
 ```
 
-### Architecture Pattern
+Each feature follows the **colocation pattern** — screens, tests, types, and hooks live together:
 
-**Feature-based with Screen Colocation:**
-- Each feature is self-contained with its own dependencies
-- Screens are organized in subfolders (e.g., `screens/exercises/CalculationScreen/`)
-- Hooks and styles are colocated with their screens when used by a single screen
-- Feature-level `index.ts` exports the public API
-- Shared cross-feature code stays at the app level
+```
+features/blackjack-training/
+├── constants/drills.ts          # Drill menu items array
+├── screens/BJMenuScreen/
+│   ├── BJMenuScreen.tsx
+│   ├── BJMenuScreen.test.tsx
+│   ├── BJMenuScreen.types.ts
+│   └── index.ts
+├── screens/BJDrillScreen/
+├── types/index.ts
+├── utils/scenarioGenerator.ts
+└── navigation.tsx
+```
 
-This pattern maximizes:
-- **Encapsulation**: Feature changes don't leak into other features
-- **Discoverability**: Related code lives together
-- **Scalability**: Easy to add/remove features
-- **Testability**: Isolated feature-level testing
+## Getting Started
 
-## 🛠️ Installation
-
-1. **Clone the repository**
-   ```bash
-   cd CasinoTrainingApp
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Run on device/simulator**
-   - Android: Press `a` or run `npm run android`
-   - iOS: Press `i` or run `npm run ios` (macOS only)
-   - Web: Press `w` or run `npm run web`
-
-## 📱 Running the App
-
-### Android
 ```bash
-npm run android
+# 1. Clone
+git clone https://github.com/IvanSemov44/CasinoTrainingApp.git
+cd CasinoTrainingApp
+
+# 2. Install
+npm install
+
+# 3. Start
+npm start
 ```
 
-### iOS (macOS required)
+## Running the App
+
+| Platform | Command |
+|---|---|
+| Android | `npm run android` |
+| iOS (macOS only) | `npm run ios` |
+| Web / PWA | `npm run web` |
+| Expo Go (scan QR) | `npm start` |
+
+## Testing
+
 ```bash
-npm run ios
+npm test                  # run all tests
+npm run test:coverage     # with coverage report
+npm run test:watch        # watch mode
+npx tsc --noEmit          # TypeScript check
+npm run lint              # ESLint
 ```
 
-### Expo Go
-1. Install Expo Go app on your mobile device
-2. Scan the QR code from the terminal
+1094 tests across 142 test suites. All hooks, utilities, and components have colocated `.test.tsx` files.
 
-## 🎮 Usage
+## Architecture
 
-1. **Select Exercise Type**: Choose from various roulette training exercises
-2. **Practice**: Use the interactive roulette layout and racetrack
-3. **Place Bets**: Select chip values and tap on numbers
-4. **Track Progress**: View your statistics and improvement over time
+### Provider Stack
 
-## 🔮 Future Enhancements
-
-- [ ] Backend integration with ASP.NET REST API
-- [ ] User authentication and cloud sync
-- [ ] Card games training modules
-- [ ] Poker games (Texas Hold'em, Omaha)
-- [ ] Multiplayer practice mode
-- [ ] Advanced analytics dashboard
-- [ ] Video tutorials and guides
-
-## 📝 Development Guidelines
-
-### Architecture Principles
-- **Feature-First**: Organize code around features, not layers
-- **Colocation**: Keep related code together (component + hook + styles + tests in one folder)
-- **Module Exports**: Each feature exports a clean public API via `index.ts`
-- **Single Responsibility**: Hooks handle state, components handle UI
-- **Testing**: Tests live alongside the code they test
-
-### Code Organization
-```
-MyFeature/
-├── screens/
-│   └── MyScreen/
-│       ├── MyScreen.tsx          # Main component
-│       ├── MyScreen.test.tsx      # Component tests
-│       ├── useMyScreenLogic.ts    # Screen-specific hook
-│       ├── useMyScreenLogic.test.ts
-│       ├── MyScreen.styles.ts     # Styles (optional)
-│       └── index.ts               # Module export
-├── components/                   # Feature-level shared components
-├── hooks/                        # Feature-level shared hooks
-├── types/                        # Feature-specific types
-├── utils/                        # Feature utilities
-├── constants/                    # Feature constants
-├── navigation.tsx                # Navigation config
-└── index.ts                      # Feature public API
+```mermaid
+graph TD
+    A["Sentry.wrap(AppContent)"] --> B[SafeAreaProvider]
+    B --> C[ErrorBoundary]
+    C --> D[Redux Provider + PersistGate]
+    D --> E["ThemeProvider\n(midnight | casino-green)"]
+    E --> F["SettingsProvider\n(sound | haptic)"]
+    F --> G[AppNavigator — 13 feature route sets]
+    F --> H[StatusBar]
+    F --> I[SpeedInsights]
 ```
 
-### Key Rules
-1. **Colocate single-use code**: If a hook is only used by one screen, put it in that screen's folder
-2. **Share at feature level**: Hooks used by multiple screens go in `features/YourFeature/hooks/`
-3. **Avoid cross-feature dependencies**: Features should be independent; use props drilling if needed
-4. **Type everything**: Add types for all props, state, and function parameters
-5. **Test utilities & hooks**: At minimum, hook behavior should be tested
+### Shared Drill Architecture
 
-- **TypeScript**: Strongly typed code for better maintainability
-- **Component-Based**: Reusable, modular components
-- **State Management**: Redux Toolkit for predictable state (if needed)
-- **Offline-First**: Local storage with future cloud sync
-- **Clean Code**: Follow React Native and TypeScript best practices
+All five poker-game drill screens (BJ, TCP, CP, THU, RK) are powered by two shared hooks:
 
-## 🐛 Known Issues
+- [`src/hooks/useDrillState.ts`](src/hooks/useDrillState.ts) — scenario state, phase (`asking` / `feedback`), answer validation
+- [`src/hooks/useSessionTracking.ts`](src/hooks/useSessionTracking.ts) — streak, session points, accuracy
 
-- Racetrack scrolling may need optimization for smaller devices
-- SVG rendering performance to be improved for complex layouts
+See [`.ai/architecture/overview.md`](.ai/architecture/overview.md) for full architecture diagrams.
 
-## 📄 License
+## Documentation
 
-This project is proprietary and confidential.
+| Resource | Purpose |
+|---|---|
+| [`.ai/README.md`](.ai/README.md) | AI assistant entry point — read order guide |
+| [`.ai/standards/coding-guide.md`](.ai/standards/coding-guide.md) | Merge gate + Definition of Done |
+| [`.ai/architecture/overview.md`](.ai/architecture/overview.md) | System diagrams — layers, data flow, theme system |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to add a new training module |
+| [`CHANGELOG.md`](CHANGELOG.md) | Version history |
 
-## 👥 Contributors
+## License
 
-- Developer Team
-
-## 🤝 Contributing
-
-This is a private project. For contributions, please contact the project owner.
-
----
-
-**Happy Training! 🎰🎲🃏**
+Proprietary and confidential. All rights reserved.
