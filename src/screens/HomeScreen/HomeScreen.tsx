@@ -11,11 +11,12 @@ import {
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { useInstallPrompt } from '@hooks/useInstallPrompt';
+import { useInstallPrompt } from '@components/InstallButton/useInstallPrompt';
 import InstallButton from '@components/InstallButton';
 import GameCategorySection from './GameCategorySection';
 import GameCard from './GameCard';
 import type { NavigationProp } from '../../types/navigation.types';
+import type { RootStackParamList } from '../../navigation/AppNavigator';
 import { CATEGORIES, type Route } from '@constants/navigation.constants';
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
@@ -31,9 +32,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   const styles = useThemedStyles(makeStyles);
 
-  // Known React Navigation typing limitation with union route types
+  // Navigate to the selected training module
   const handleNavigate = useCallback(
     (route: Route) => {
+      // Route is a subset of RootStackParamList keys (excluding 'Home' and 'Progress')
+      // This type assertion is safe because all Route values are valid navigation targets
+      // The 'as never' is a known React Navigation typing limitation with union route types
       navigation.navigate(route as never);
     },
     [navigation]

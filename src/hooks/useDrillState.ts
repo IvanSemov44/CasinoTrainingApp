@@ -16,39 +16,36 @@ import type { BaseDrillScenario } from '@app-types/drill.types';
  * Return type for the drill state hook
  */
 export interface DrillState<TScenario extends BaseDrillScenario> {
-  // Scenario state
+  // Scenario state (read-only)
   scenario: TScenario;
-  setScenario: (scenario: TScenario) => void;
 
-  // UI phase state
+  // UI phase state (read-only)
   phase: 'asking' | 'feedback';
-  setPhase: (phase: 'asking' | 'feedback') => void;
 
-  // User input state
+  // User input state (read-only)
   selectedOption: string | null;
-  setSelectedOption: (option: string | null) => void;
   userAmountStr: string;
-  setUserAmountStr: (amount: string | ((prev: string) => string)) => void;
 
-  // Result state
+  // User input setters
+  setSelectedOption: (option: string | null) => void;
+  setUserAmountStr: (updater: string | ((s: string) => string)) => void;
+
+  // Result state (read-only)
   isCorrect: boolean;
-  setIsCorrect: (correct: boolean) => void;
 
-  // Session tracking state (from useSessionTracking)
+  // Session tracking state (read-only)
   streak: number;
   sessionPoints: number;
   sessionCorrect: number;
   sessionTotal: number;
   accuracy: number | null;
   upcomingMultiplier: number;
-  recordAnswer: (isCorrect: boolean) => void;
-  resetSessionTracking: () => void;
 
   // Computed values
   canSubmit: boolean;
   autoSubmit: boolean;
 
-  // Handler functions
+  // Handler functions (public API)
   handleSubmit: (directOption?: string) => void;
   handleNext: () => void;
   resetSession: () => void;
@@ -153,33 +150,29 @@ export function useDrillState<TScenario extends BaseDrillScenario, TDrillType = 
     scenario.answerType === 'multiple-choice' && (scenario.options?.length ?? 0) === 2;
 
   return {
-    // Scenario
+    // Scenario (read-only)
     scenario,
-    setScenario,
-    // Phase
+    // Phase (read-only)
     phase,
-    setPhase,
-    // User input
+    // User input (read-only)
     selectedOption,
-    setSelectedOption,
     userAmountStr,
+    // User input setters
+    setSelectedOption,
     setUserAmountStr,
-    // Result
+    // Result (read-only)
     isCorrect,
-    setIsCorrect,
-    // Session tracking
+    // Session tracking (read-only)
     streak,
     sessionPoints,
     sessionCorrect,
     sessionTotal,
     accuracy,
     upcomingMultiplier,
-    recordAnswer,
-    resetSessionTracking,
     // Computed
     canSubmit,
     autoSubmit,
-    // Handlers
+    // Handlers (public API)
     handleSubmit,
     handleNext,
     resetSession,

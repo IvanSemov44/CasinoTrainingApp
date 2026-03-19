@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import logger from '@services/logger.service';
-import { UserProgress, ExerciseResult } from '@app-types/roulette.types';
+import { UserProgress } from '@app-types/roulette.types';
 import { STORAGE_KEYS } from '@constants/storageKeys';
 
 export const storageService = {
@@ -26,34 +26,10 @@ export const storageService = {
     }
   },
 
-  // Save exercise result
-  async saveExerciseResult(result: ExerciseResult): Promise<void> {
-    try {
-      const existingResults = await this.loadExerciseResults();
-      const updatedResults = [...existingResults, result];
-      const jsonValue = JSON.stringify(updatedResults);
-      await AsyncStorage.setItem(STORAGE_KEYS.EXERCISE_RESULTS, jsonValue);
-    } catch (error) {
-      logger.error('Error saving exercise result', error);
-      throw error;
-    }
-  },
-
-  // Load all exercise results
-  async loadExerciseResults(): Promise<ExerciseResult[]> {
-    try {
-      const jsonValue = await AsyncStorage.getItem(STORAGE_KEYS.EXERCISE_RESULTS);
-      return jsonValue != null ? JSON.parse(jsonValue) : [];
-    } catch (error) {
-      logger.error('Error loading exercise results', error);
-      return [];
-    }
-  },
-
   // Clear all data (for testing or reset)
   async clearAllData(): Promise<void> {
     try {
-      await AsyncStorage.multiRemove([STORAGE_KEYS.USER_PROGRESS, STORAGE_KEYS.EXERCISE_RESULTS]);
+      await AsyncStorage.multiRemove([STORAGE_KEYS.USER_PROGRESS]);
     } catch (error) {
       logger.error('Error clearing data', error);
       throw error;

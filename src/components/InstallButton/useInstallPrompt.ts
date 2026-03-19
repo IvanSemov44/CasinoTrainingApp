@@ -11,6 +11,19 @@ declare global {
   }
 }
 
+/**
+ * Custom hook for managing PWA install prompt functionality
+ *
+ * @returns Object containing install state and install function
+ * @example
+ * ```tsx
+ * const { isInstallable, isInstalled, install } = useInstallPrompt();
+ *
+ * if (isInstallable && !isInstalled) {
+ *   return <button onClick={install}>Install App</button>;
+ * }
+ * ```
+ */
 export function useInstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   // Always assume installable if on web (beforeinstallprompt may not fire but app still is installable)
@@ -20,19 +33,16 @@ export function useInstallPrompt() {
   useEffect(() => {
     // Only run on web platform
     if (typeof window === 'undefined') {
-      console.log('[PWA] Not in browser environment');
       return;
     }
 
     // Check if app is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      console.log('[PWA] App already installed in standalone mode');
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
       setIsInstalled(true);
       return;
     }
 
     const handleBeforeInstallPrompt = (event: Event) => {
-      console.log('[PWA] beforeinstallprompt event fired');
       event.preventDefault();
       const evt = event as BeforeInstallPromptEvent;
       window.deferredPrompt = evt;
@@ -41,14 +51,12 @@ export function useInstallPrompt() {
     };
 
     const handleAppInstalled = () => {
-      console.log('[PWA] appinstalled event fired');
       setIsInstalled(true);
       setIsInstallable(false);
       setInstallPrompt(null);
       window.deferredPrompt = undefined;
     };
 
-    console.log('[PWA] Setting up install prompt listeners');
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
@@ -59,24 +67,19 @@ export function useInstallPrompt() {
   }, []);
 
   const install = async () => {
-    console.log('[useInstallPrompt] install() called. installPrompt:', !!installPrompt);
-
     // Try native beforeinstallprompt first
     if (installPrompt) {
       try {
-        console.log('[useInstallPrompt] Using native beforeinstallprompt');
         await installPrompt.prompt();
         const { outcome } = await installPrompt.userChoice;
 
         if (outcome === 'accepted') {
-          console.log('[useInstallPrompt] User accepted installation');
           setIsInstalled(true);
           setIsInstallable(false);
           setInstallPrompt(null);
           return;
         }
       } catch (error) {
-        console.error('[useInstallPrompt] Native prompt error:', error);
         // Fall through to alternative methods
       }
     }
@@ -86,18 +89,16 @@ export function useInstallPrompt() {
       chrome?: { webstore?: { install?: () => void } };
     };
     if (typeof windowWithChrome.chrome?.webstore?.install === 'function') {
-      console.log('[useInstallPrompt] Trying Chrome Web Store install');
       try {
         windowWithChrome.chrome.webstore.install?.();
         setIsInstalled(true);
         return;
       } catch {
-        console.log('[useInstallPrompt] Chrome Web Store install not available');
+        // Chrome Web Store install not available
       }
     }
 
     // Fallback: beforeinstallprompt not available
-    console.log('[useInstallPrompt] beforeinstallprompt not available');
     throw new Error('Install prompt not available');
   };
 

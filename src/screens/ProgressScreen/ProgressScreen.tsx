@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useAppSelector } from '../../store/hooks';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createTextStyles } from '@styles';
@@ -33,34 +33,34 @@ export default function ProgressScreen() {
 
       <Text style={styles.sectionTitle}>Recent Results</Text>
 
-      <ScrollView style={styles.resultsContainer} showsVerticalScrollIndicator={false}>
-        {exerciseResults.length === 0 ? (
+      <FlatList
+        style={styles.resultsContainer}
+        data={exerciseResults.slice().reverse()}
+        keyExtractor={item => `${item.timestamp}-${item.exerciseType}`}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
           <Text style={styles.empty}>
             No exercises yet — start practicing to see your progress!
           </Text>
-        ) : (
-          exerciseResults
-            .slice()
-            .reverse()
-            .map(result => (
-              <View key={`${result.timestamp}-${result.exerciseType}`} style={styles.resultCard}>
-                <View style={styles.resultAccent} />
-                <View style={styles.resultBody}>
-                  <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
-                  <View style={styles.resultMeta}>
-                    <Text style={styles.resultScore}>
-                      {result.correctAnswers}/{result.totalQuestions}
-                    </Text>
-                    <Text style={styles.resultTime}>{result.timeSpent}s</Text>
-                    <Text style={styles.resultDate}>
-                      {new Date(result.timestamp).toLocaleDateString()}
-                    </Text>
-                  </View>
-                </View>
+        }
+        renderItem={({ item: result }) => (
+          <View style={styles.resultCard}>
+            <View style={styles.resultAccent} />
+            <View style={styles.resultBody}>
+              <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
+              <View style={styles.resultMeta}>
+                <Text style={styles.resultScore}>
+                  {result.correctAnswers}/{result.totalQuestions}
+                </Text>
+                <Text style={styles.resultTime}>{result.timeSpent}s</Text>
+                <Text style={styles.resultDate}>
+                  {new Date(result.timestamp).toLocaleDateString()}
+                </Text>
               </View>
-            ))
+            </View>
+          </View>
         )}
-      </ScrollView>
+      />
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import type { ReactNode } from 'react';
@@ -7,12 +7,20 @@ import type { ReactNode } from 'react';
 export interface FeedbackSectionProps {
   title: string;
   children: ReactNode;
-  containerStyle?: object;
-  titleStyle?: object;
+  containerStyle?: ViewStyle;
+  titleStyle?: TextStyle;
 }
 
 /**
  * Shared feedback section block with a titled body.
+ *
+ * @example
+ * ```tsx
+ * <FeedbackSection title="Answer Details">
+ *   <Text>Your answer: 17</Text>
+ *   <Text>Correct answer: 21</Text>
+ * </FeedbackSection>
+ * ```
  */
 export function FeedbackSection({
   title,

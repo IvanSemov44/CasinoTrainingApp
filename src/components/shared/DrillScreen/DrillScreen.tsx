@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import PlayingCard from '@components/PlayingCard';
@@ -8,6 +8,9 @@ import type { DrillScreenProps } from './DrillScreen.types';
 import { makeStyles } from './DrillScreen.styles';
 import DrillAskingPhase from './DrillAskingPhase';
 import DrillResultPhase from './DrillResultPhase';
+
+// Constants for streak multiplier calculation
+const STREAK_MULTIPLIER_BASE = 2;
 
 type DrillCard = Card & { id?: string | number };
 type DrillScreenViewScenario = BaseDrillScenario & {
@@ -23,6 +26,19 @@ function getCardKey(card: DrillCard, index: number) {
   return `${card.rank}-${card.suit}-${index}`;
 }
 
+/**
+ * Generic drill screen component for training modules.
+ *
+ * @example
+ * ```tsx
+ * <DrillScreen
+ *   scenarioGenerator={generateTCPScenario}
+ *   drillType="tcp"
+ *   betChipLabel={() => 'ANTE'}
+ *   dealerLabel={() => 'DEALER'}
+ * />
+ * ```
+ */
 export default function DrillScreen<
   TScenario extends BaseDrillScenario = BaseDrillScenario,
   TDrillType = unknown,
@@ -54,8 +70,13 @@ export default function DrillScreen<
     handleNext,
   } = useDrillState(scenarioGenerator, drillType);
 
-  const lastEarned = isCorrect ? Math.pow(2, streak - 1) : 0;
-  const viewScenario = scenario as DrillScreenViewScenario;
+  // Memoize expensive calculations
+  const lastEarned = useMemo(
+    () => (isCorrect ? Math.pow(STREAK_MULTIPLIER_BASE, streak - 1) : 0),
+    [isCorrect, streak]
+  );
+
+  const viewScenario = useMemo(() => scenario as DrillScreenViewScenario, [scenario]);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>

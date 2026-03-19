@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 
@@ -12,17 +12,25 @@ export interface FeedbackActionButton {
 export interface FeedbackActionsProps {
   primary: FeedbackActionButton;
   secondary?: FeedbackActionButton;
-  containerStyle?: object;
-  buttonStyle?: object;
-  primaryButtonStyle?: object;
-  secondaryButtonStyle?: object;
-  textStyle?: object;
-  primaryTextStyle?: object;
-  secondaryTextStyle?: object;
+  containerStyle?: ViewStyle;
+  buttonStyle?: ViewStyle;
+  primaryButtonStyle?: ViewStyle;
+  secondaryButtonStyle?: ViewStyle;
+  textStyle?: TextStyle;
+  primaryTextStyle?: TextStyle;
+  secondaryTextStyle?: TextStyle;
 }
 
 /**
  * Shared action row for feedback cards.
+ *
+ * @example
+ * ```tsx
+ * <FeedbackActions
+ *   primary={{ label: 'Continue', onPress: handleContinue }}
+ *   secondary={{ label: 'Review', onPress: handleReview }}
+ * />
+ * ```
  */
 export function FeedbackActions({
   primary,

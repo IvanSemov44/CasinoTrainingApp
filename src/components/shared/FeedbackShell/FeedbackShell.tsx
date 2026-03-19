@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import type { ReactNode } from 'react';
@@ -10,14 +10,26 @@ export interface FeedbackShellProps {
   incorrectTitle: string;
   mode?: 'container' | 'header';
   children: ReactNode;
-  containerStyle?: object;
-  contentStyle?: object;
-  titleStyle?: object;
-  headerStyle?: object;
+  containerStyle?: ViewStyle;
+  contentStyle?: ViewStyle;
+  titleStyle?: TextStyle;
+  headerStyle?: ViewStyle;
 }
 
 /**
  * Shared feedback shell for result cards with success/error status treatment.
+ *
+ * @example
+ * ```tsx
+ * <FeedbackShell
+ *   isCorrect={true}
+ *   correctTitle="Correct!"
+ *   incorrectTitle="Try Again"
+ *   mode="header"
+ * >
+ *   <Text>Your answer was correct!</Text>
+ * </FeedbackShell>
+ * ```
  */
 export function FeedbackShell({
   isCorrect,
@@ -45,6 +57,9 @@ export function FeedbackShell({
           : null,
         containerStyle,
       ]}
+      accessible={true}
+      accessibilityRole="summary"
+      accessibilityLabel={isCorrect ? correctTitle : incorrectTitle}
     >
       {mode === 'header' ? (
         <View
