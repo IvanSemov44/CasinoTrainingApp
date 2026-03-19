@@ -2,7 +2,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setupAfterEnv.js'],
   setupFiles: ['<rootDir>/jest.setup.js'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+    'node_modules/(?!(react-native|@react-native|expo|@expo|react-navigation|@react-navigation|@unimodules|unimodules|native-base|react-native-svg)/)',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   verbose: true,
@@ -16,8 +16,12 @@ module.exports = {
     '^@styles/(.*)$': '<rootDir>/src/styles/$1',
     '^@contexts/(.*)$': '<rootDir>/src/contexts/$1',
     '^@app-types$': '<rootDir>/src/types',
+    // More specific paths must come BEFORE less specific ones
+    '^@components/shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@components/shared$': '<rootDir>/src/shared',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
-    '^@config/(.*)$': '<rootDir>/src/config/$1',
+    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@shared$': '<rootDir>/src/shared',
     '^@constants/(.*)$': '<rootDir>/src/constants/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',

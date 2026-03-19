@@ -26,6 +26,8 @@ module.exports = function (api) {
             alias: {
               '@app-types': './src/types',
               '@components': './src/components',
+              '@shared': './src/shared',
+              '@shared/*': './src/shared/*',
               '@config': './src/config',
               '@constants': './src/constants',
               '@contexts': './src/contexts',
