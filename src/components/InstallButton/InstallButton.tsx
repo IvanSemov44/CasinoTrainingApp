@@ -79,7 +79,6 @@ function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
 }
 
 export { InstallButton };
-export default InstallButton;
 
 function makeStyles(colors: AppColors) {
   return StyleSheet.create({

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
-import InstallButton from './InstallButton';
+import { InstallButton } from './InstallButton';
 
 function renderWithTheme(component: React.ReactElement) {
   return render(<ThemeProvider>{component}</ThemeProvider>);
