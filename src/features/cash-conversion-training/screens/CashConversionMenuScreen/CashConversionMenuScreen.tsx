@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@components/shared';
+import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@shared';
 import type { AppColors } from '@styles/themes';
 import { CashConversionTrainingModal } from '../../components';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from '../../constants/sectors';

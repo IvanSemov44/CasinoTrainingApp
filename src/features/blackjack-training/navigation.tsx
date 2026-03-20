@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import BJMenuScreen from './screens/BJMenuScreen';
 import BJDrillScreen from './screens/BJDrillScreen';
 import type { BJDrillType } from './types';

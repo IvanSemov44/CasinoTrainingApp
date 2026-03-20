@@ -97,9 +97,37 @@ Features must not import from other feature folders.
 // BAD — crosses feature boundary
 import NumberPad from '../../roulette-training/components/NumberPad';
 
-// GOOD — use shared components
-import { NumberPad } from '../../components/shared';
+// BAD — old path (src/components/ is for InstallButton/SpeedInsights only now)
+import NumberPad from '@components/NumberPad';
+
+// GOOD — use shared components via @shared alias
+import NumberPad from '@shared/NumberPad';
+// or barrel import:
+import { NumberPad } from '@shared';
 ```
+
+#### 4a. Shared Component Import Rule — Use Named Exports via `@shared`
+
+All shared UI components live in `src/shared/`. Import them using the `@shared` alias.
+
+```tsx
+// Named exports (preferred for barrel imports):
+import { NumberPad, SkeletonLoader, ChipSelector } from '@shared';
+
+// Default imports (for single-component imports):
+import NumberPad from '@shared/NumberPad';
+import SkeletonLoader from '@shared/SkeletonLoader';
+import ChipSelector from '@shared/ChipSelector';
+import PlayingCard from '@shared/PlayingCard';
+import LoadingSpinner from '@shared/LoadingSpinner';
+import withErrorBoundary from '@shared/withErrorBoundary';
+import ErrorBoundary from '@shared/ErrorBoundary';
+import FeatureErrorBoundary from '@shared/FeatureErrorBoundary';
+```
+
+The `@components/shared` alias also resolves to `src/shared` (for backwards compatibility) but prefer `@shared` for new code.
+
+`src/components/` now only contains `InstallButton/` and `SpeedInsights/` — do not add shared UI there.
 
 #### 5. Code Review Blocker: Type Safety
 - No `any` types in production code

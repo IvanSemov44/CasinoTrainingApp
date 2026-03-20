@@ -1,5 +1,5 @@
 import React from 'react';
-import DrillScreen from '@components/shared/DrillScreen';
+import { DrillScreen } from '@shared';
 import { generateBJScenario } from '../../utils/scenarioGenerator';
 import type { BJDrillScreenProps } from './BJDrillScreen.types';
 

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@shared';
 import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';

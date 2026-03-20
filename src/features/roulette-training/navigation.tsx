@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import { getBetConfig, type BetConfigKey } from '@config/betConfigs';
 import { getCashConfig, type CashConfigKey } from '@config/cashConfigs';
 import type { BetType } from './types/exercise.types';

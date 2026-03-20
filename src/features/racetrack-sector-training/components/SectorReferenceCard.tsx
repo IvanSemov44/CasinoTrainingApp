@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useTheme } from '@contexts/ThemeContext';
-import { ReferenceCard } from '@components/shared/ReferenceCard';
+import { ReferenceCard } from '@shared';
 import type { AppColors } from '@styles/themes';
 
 export interface SectorReferenceCardProps {

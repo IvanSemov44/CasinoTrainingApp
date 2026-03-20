@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import NumberPad from '@components/NumberPad';
+import NumberPad from '@shared/NumberPad';
 import type { PotCalculationInputProps } from './PotCalculationInput.types';
 
 export default function PotCalculationInput({

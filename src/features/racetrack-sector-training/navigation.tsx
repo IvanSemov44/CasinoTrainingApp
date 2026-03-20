@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import SectorMenuScreen from './screens/SectorMenuScreen';
 import SectorTrainingScreen from './screens/SectorTrainingScreen';
 import { SectorMode } from './types';

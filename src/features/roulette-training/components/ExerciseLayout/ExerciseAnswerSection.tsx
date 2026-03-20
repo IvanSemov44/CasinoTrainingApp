@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import SkeletonLoader from '@components/SkeletonLoader';
-import NumberPad from '@components/NumberPad';
+import SkeletonLoader from '@shared/SkeletonLoader';
+import NumberPad from '@shared/NumberPad';
 import FeedbackCard from '../FeedbackCard';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';

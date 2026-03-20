@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@components/shared';
+import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@shared';
 import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
 import { SectorReferenceCard } from '../../components/SectorReferenceCard';

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { InfoSection, MenuScreenHeader } from '@components/shared';
+import { InfoSection, MenuScreenHeader } from '@shared';
 import type { AppColors } from '@styles/themes';
 import { CallBetsStackParamList } from '../../navigation';
 import { CALL_BET_MODES, CallBetMode } from '../../constants';

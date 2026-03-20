@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createContainerStyles } from '@styles';
-import { StatTile } from '@components/shared/StatTile';
+import { StatTile } from '@shared';
 import type { AppColors } from '@styles/themes';
 
 export interface PLOScoreHeaderProps {

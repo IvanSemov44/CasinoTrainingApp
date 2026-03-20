@@ -3,9 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
-import { FeedbackShell } from '@components/shared/FeedbackShell';
-import { FeedbackSection } from '@components/shared/FeedbackSection';
-import { FeedbackActions } from '@components/shared/FeedbackActions';
+import { FeedbackShell, FeedbackSection, FeedbackActions } from '@shared';
 import type { ResultFeedbackProps } from './ResultFeedback.types';
 
 export default function ResultFeedback({ result, onNext, sectorName }: ResultFeedbackProps) {

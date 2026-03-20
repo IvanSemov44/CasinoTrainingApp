@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { TrainingHeader, PrimaryButton } from '@components/shared';
+import { TrainingHeader, PrimaryButton } from '@shared';
 import { ChallengeDisplay, ResultFeedback } from '../../components';
 import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';

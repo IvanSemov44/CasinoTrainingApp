@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import DrillScreen from '@components/shared/DrillScreen';
+import { DrillScreen } from '@shared';
 import { generateCPScenario } from '../../utils/scenarioGenerator';
 import type { CPStackParamList } from '../../navigation';
 

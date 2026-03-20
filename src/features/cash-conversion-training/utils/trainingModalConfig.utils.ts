@@ -1,4 +1,4 @@
-import type { NumberInputConfig, StepConfig, SummaryItem } from '@components/shared';
+import type { NumberInputConfig, StepConfig, SummaryItem } from '@shared';
 import type { DifficultyLevel, SectorType } from '../types';
 import {
   DIFFICULTY_OPTIONS,

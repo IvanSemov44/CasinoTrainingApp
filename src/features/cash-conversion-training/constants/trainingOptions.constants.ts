@@ -3,7 +3,7 @@
  * Defines difficulty levels, sector options, and exercise settings
  */
 
-import type { DropdownItem } from '@components/shared';
+import type { DropdownItem } from '@shared';
 import { SECTOR_POSITIONS, DIFFICULTY_MAX_BET } from './sectors';
 
 /**

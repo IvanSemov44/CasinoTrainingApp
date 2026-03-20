@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import NumberPad from '@components/NumberPad';
+import NumberPad from '@shared/NumberPad';
 import type { AnswerInputProps } from './AnswerInput.types';
 
 export default function AnswerInput({

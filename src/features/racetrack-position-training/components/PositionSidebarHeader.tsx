@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { StatTile } from '@components/shared/StatTile';
+import { StatTile } from '@shared';
 import type { TrainingStats } from '../types';
 import type { AppColors } from '@styles/themes';
 

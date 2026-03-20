@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import PositionMenuScreen from './screens/PositionMenuScreen';
 import PositionTrainingScreen from './screens/PositionTrainingScreen';
 import { PositionMode } from './types';

@@ -3,7 +3,7 @@
  * Defines available bet types and their display properties
  */
 
-import type { DropdownItem } from '@components/shared';
+import type { DropdownItem } from '@shared';
 
 /**
  * Available training types for roulette calculation exercises

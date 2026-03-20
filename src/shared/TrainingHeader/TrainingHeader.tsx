@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { createTextStyles, createContainerStyles } from '@styles';
-import { ScoreAccuracyText } from '@components/shared/ScoreAccuracyText';
+import { ScoreAccuracyText } from '@shared';
 
 export interface TrainingHeaderProps {
   title: string;

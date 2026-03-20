@@ -6,10 +6,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from '@sentry/react-native';
 import { store, persistor } from './src/store';
 import AppNavigator from './src/navigation/AppNavigator';
-import ErrorBoundary from './src/components/ErrorBoundary';
+import ErrorBoundary from './src/shared/ErrorBoundary';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { SettingsProvider } from './src/contexts/SettingsContext';
-import LoadingSpinner from './src/components/LoadingSpinner';
+import LoadingSpinner from './src/shared/LoadingSpinner';
 import SpeedInsights from './src/components/SpeedInsights';
 
 function AppContent() {

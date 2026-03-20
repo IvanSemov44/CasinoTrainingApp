@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import DrillScreen from '@components/shared/DrillScreen';
+import { DrillScreen } from '@shared';
 import { generateRKScenario } from '../../utils/scenarioGenerator';
 import type { RKStackParamList } from '../../navigation';
 

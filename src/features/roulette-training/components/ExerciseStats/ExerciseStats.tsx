@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { ScoreAccuracyText } from '@components/shared/ScoreAccuracyText';
+import { ScoreAccuracyText } from '@shared';
 import type { ExerciseStatsProps } from './ExerciseStats.types';
 
 /**

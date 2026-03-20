@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import CashConversionMenuScreen from './screens/CashConversionMenuScreen';
 import CashConversionTrainingScreen from './screens/CashConversionTrainingScreen';
 import { DifficultyLevel, SectorType } from './types';

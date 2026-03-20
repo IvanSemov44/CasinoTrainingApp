@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { MenuScreenHeader, AccentModeCard, InstructionBox } from '@components/shared';
+import { MenuScreenHeader, AccentModeCard, InstructionBox } from '@shared';
 import { PLODifficulty } from '../../types';
 import { PLO_MODES } from '../../constants/modes';
 import type { PLOMenuScreenProps } from './PLOMenuScreen.types';

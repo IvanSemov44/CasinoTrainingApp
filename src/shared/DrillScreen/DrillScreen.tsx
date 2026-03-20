@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import PlayingCard from '@components/PlayingCard';
+import PlayingCard from '@shared/PlayingCard';
 import type { Card } from '@utils/cardUtils';
 import { useDrillState, BaseDrillScenario } from '@hooks/useDrillState';
 import type { DrillScreenProps } from './DrillScreen.types';

@@ -1,4 +1,4 @@
-import type { NumberInputConfig, StepConfig, SummaryItem } from '@components/shared';
+import type { NumberInputConfig, StepConfig, SummaryItem } from '@shared';
 import type { CashConfigKey } from '@config/cashConfigs';
 import {
   type PositionType,

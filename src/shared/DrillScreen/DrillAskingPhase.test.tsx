@@ -4,7 +4,7 @@ import DrillAskingPhase from './DrillAskingPhase';
 import type { BaseDrillScenario } from '@hooks/useDrillState';
 import type { makeStyles } from './DrillScreen.styles';
 
-jest.mock('@components/NumberPad', () => {
+jest.mock('@shared/NumberPad', () => {
   const React = require('react');
   const { View, TouchableOpacity, Text } = require('react-native');
 

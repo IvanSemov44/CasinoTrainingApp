@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import TCPMenuScreen from './screens/TCPMenuScreen';
 import TCPDrillScreen from './screens/TCPDrillScreen';
 import type { TCPDrillType } from './types';

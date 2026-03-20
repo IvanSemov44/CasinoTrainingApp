@@ -11,7 +11,7 @@ jest.mock('@hooks/useDrillState', () => ({
 }));
 
 // Mock child components
-jest.mock('@components/NumberPad', () => {
+jest.mock('@shared/NumberPad', () => {
   const { Pressable, Text } = require('react-native');
 
   return function MockNumberPad({ onSubmit }: { onSubmit: (value: string) => void }) {
@@ -23,7 +23,7 @@ jest.mock('@components/NumberPad', () => {
   };
 });
 
-jest.mock('@components/PlayingCard', () => {
+jest.mock('@shared/PlayingCard', () => {
   const { View, Text } = require('react-native');
 
   return function MockPlayingCard({ value, suit }: Record<string, unknown>) {

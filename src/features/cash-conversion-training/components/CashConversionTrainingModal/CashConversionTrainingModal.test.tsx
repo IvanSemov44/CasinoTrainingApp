@@ -2,7 +2,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import CashConversionTrainingModal from './CashConversionTrainingModal';
 
-jest.mock('@components/shared', () => {
+jest.mock('@shared', () => {
   const React = require('react');
   const { View, Text, TouchableOpacity } = require('react-native');
 

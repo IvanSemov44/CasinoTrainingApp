@@ -7,3 +7,4 @@ export { default as HintSection } from './HintSection';
 export type { HintSectionProps } from './HintSection/HintSection.types';
 export { default as MenuListScreen } from './MenuListScreen';
 export type { MenuItem, Difficulty, MenuListScreenProps } from './MenuListScreen';
+export { default as Racetrack } from './Racetrack';

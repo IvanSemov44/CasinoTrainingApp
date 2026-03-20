@@ -7,7 +7,7 @@ import {
   type NumberInputConfig,
   type StepConfig,
   type SummaryItem,
-} from '@components/shared';
+} from '@shared';
 import { DifficultyLevel, SectorType } from '../../types';
 import type { CashConversionStackParamList } from '../../navigation';
 import type { CashConversionTrainingModalProps } from './CashConversionTrainingModal.types';

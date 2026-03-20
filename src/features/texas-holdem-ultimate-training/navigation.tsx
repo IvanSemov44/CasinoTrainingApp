@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '@components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import THUMenuScreen from './screens/THUMenuScreen';
 import THUDrillScreen from './screens/THUDrillScreen';
 import type { THUDrillType } from './types';

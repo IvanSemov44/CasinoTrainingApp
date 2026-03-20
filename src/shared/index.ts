@@ -1,4 +1,12 @@
 export { useModalAnimation } from './useModalAnimation';
+export { default as NumberPad } from './NumberPad';
+export { default as SkeletonLoader } from './SkeletonLoader';
+export { default as LoadingSpinner } from './LoadingSpinner';
+export { default as ErrorBoundary } from './ErrorBoundary';
+export { default as FeatureErrorBoundary } from './FeatureErrorBoundary';
+export { default as withErrorBoundary } from './withErrorBoundary';
+export { default as ChipSelector } from './ChipSelector';
+export { default as PlayingCard } from './PlayingCard';
 export { DropdownSelector } from './DropdownSelector';
 export type {
   DropdownItem,

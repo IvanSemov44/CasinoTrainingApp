@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import SkeletonLoader from '@components/SkeletonLoader';
+import SkeletonLoader from '@shared/SkeletonLoader';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { MenuListScreenProps } from './MenuListScreen.types';

@@ -1,5 +1,5 @@
 import type { TCPDrillType } from '../types';
-import type { DrillMenuItem } from '@components/shared/DrillMenuScreen';
+import type { DrillMenuItem } from '@shared';
 
 export const DRILLS: Array<DrillMenuItem & { drillType: TCPDrillType }> = [
   {

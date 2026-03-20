@@ -1,5 +1,5 @@
 import React from 'react';
-import DrillMenuScreen from '@components/shared/DrillMenuScreen';
+import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
 import type { TCPMenuScreenProps } from './TCPMenuScreen.types';
 

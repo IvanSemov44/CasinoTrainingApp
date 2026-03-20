@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import NumberPad from '@components/NumberPad';
+import NumberPad from '@shared/NumberPad';
 import type { BaseDrillScenario } from '@hooks/useDrillState';
 import type { makeStyles } from './DrillScreen.styles';
 

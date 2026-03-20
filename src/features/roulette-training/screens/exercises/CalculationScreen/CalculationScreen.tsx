@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import LoadingSpinner from '@components/LoadingSpinner';
+import LoadingSpinner from '@shared/LoadingSpinner';
 import ExerciseLayout from '../../../components/ExerciseLayout';
 import { useCalculationQuestion, type CalculationRouteParams } from './useCalculationQuestion';
 import type { RouletteTrainingStackParamList } from '../../../navigation';

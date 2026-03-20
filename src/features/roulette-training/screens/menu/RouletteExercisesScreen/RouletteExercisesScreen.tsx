@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@features/roulette-training/components/roulette-ui';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
-import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@components/shared';
+import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@shared';
 import type { AppColors } from '@styles/themes';
 import type { RouletteTrainingStackParamList } from '../../../navigation';
 

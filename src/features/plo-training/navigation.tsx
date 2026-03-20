@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import withErrorBoundary from '../../components/withErrorBoundary';
+import withErrorBoundary from '@shared/withErrorBoundary';
 import { PLOMenuScreen, PLOGameTrainingScreen } from './screens';
 import type { PLODifficulty } from './types';
 import { useTheme } from '@contexts/ThemeContext';

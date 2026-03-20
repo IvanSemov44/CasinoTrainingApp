@@ -6,7 +6,7 @@ import {
   type StepConfig,
   type SummaryItem,
   type NumberInputConfig,
-} from '@components/shared';
+} from '@shared';
 import { useCascadingDropdowns } from '@hooks/useCascadingDropdowns';
 import { type PositionType } from '@features/roulette-training/config/exerciseDefinitions';
 import type { BetConfigKey } from '@config/betConfigs';
