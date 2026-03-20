@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { AppColors } from '../styles/themes';
-import HomeScreen from '../screens/HomeScreen';
+import { HomeScreen } from '../screens/HomeScreen';
 import ProgressScreen from '../screens/ProgressScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import {

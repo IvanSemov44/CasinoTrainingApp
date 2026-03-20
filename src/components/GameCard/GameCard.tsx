@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 
-interface GameCardProps {
+export interface GameCardProps {
   emoji: string;
   title: string;
   tags: string;
@@ -11,7 +11,7 @@ interface GameCardProps {
   onPress: () => void;
 }
 
-export default function GameCard({ emoji, title, tags, width, onPress }: GameCardProps) {
+export function GameCard({ emoji, title, tags, width, onPress }: GameCardProps) {
   const styles = useThemedStyles(makeStyles);
 
   return (

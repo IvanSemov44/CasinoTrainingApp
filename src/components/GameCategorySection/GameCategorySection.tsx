@@ -2,16 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import GameCard from './GameCard';
+import { GameCard } from '@components/GameCard';
 import type { GameCategory, Route } from '@constants/navigation.constants';
 
-interface GameCategorySectionProps {
+export interface GameCategorySectionProps {
   category: GameCategory;
   cardWidth: number;
   onSelectGame: (route: Route) => void;
 }
 
-export default function GameCategorySection({
+export function GameCategorySection({
   category,
   cardWidth,
   onSelectGame,

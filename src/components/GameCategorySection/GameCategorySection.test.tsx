@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import type { GameCategory } from '@constants/navigation.constants';
-import GameCategorySection from './GameCategorySection';
+import { GameCategorySection } from './GameCategorySection';
 
 function renderWithTheme(component: React.ReactElement) {
   return render(<ThemeProvider>{component}</ThemeProvider>);

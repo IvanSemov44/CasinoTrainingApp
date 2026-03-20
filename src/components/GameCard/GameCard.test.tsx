@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
-import GameCard from './GameCard';
+import { GameCard } from './GameCard';
 
 function renderWithTheme(component: React.ReactElement) {
   return render(<ThemeProvider>{component}</ThemeProvider>);

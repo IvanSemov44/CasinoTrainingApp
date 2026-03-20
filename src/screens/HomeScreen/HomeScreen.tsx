@@ -13,13 +13,11 @@ import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { useInstallPrompt } from '@components/InstallButton/useInstallPrompt';
 import { InstallButton } from '@components/InstallButton';
-import GameCategorySection from './GameCategorySection';
-import GameCard from './GameCard';
+import { GameCategorySection } from '@components/GameCategorySection';
 import type { NavigationProp } from '../../types/navigation.types';
-import type { RootStackParamList } from '../../navigation/AppNavigator';
 import { CATEGORIES, type Route } from '@constants/navigation.constants';
 
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
+export function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
   const { themeId, toggleTheme } = useTheme();
   const { width } = useWindowDimensions();
   const { isInstallable, isInstalled, install } = useInstallPrompt();
