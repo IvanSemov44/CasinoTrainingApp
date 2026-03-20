@@ -2,10 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useAppSelector } from '../../store/hooks';
 import { useThemedStyles } from '@hooks/useThemedStyles';
-import { createTextStyles } from '@styles';
 import type { AppColors } from '@styles/themes';
 
-export default function ProgressScreen() {
+export function ProgressScreen() {
   const styles = useThemedStyles(makeStyles);
   const exerciseResults = useAppSelector(state => state.roulette.exerciseResults);
 
@@ -47,7 +46,7 @@ export default function ProgressScreen() {
           <View style={styles.resultCard}>
             <View style={styles.resultAccent} />
             <View style={styles.resultBody}>
-              <Text style={styles.resultType}>{result.exerciseType.replace('_', ' ')}</Text>
+              <Text style={styles.resultType}>{result.exerciseType.replace(/_/g, ' ')}</Text>
               <View style={styles.resultMeta}>
                 <Text style={styles.resultScore}>
                   {result.correctAnswers}/{result.totalQuestions}
@@ -66,8 +65,6 @@ export default function ProgressScreen() {
 }
 
 function makeStyles(colors: AppColors) {
-  const textStyles = createTextStyles(colors);
-
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background.primary, padding: 20 },
     title: { fontSize: 26, fontWeight: '800', color: colors.text.gold, marginBottom: 24 },
@@ -83,7 +80,7 @@ function makeStyles(colors: AppColors) {
       borderColor: colors.border.gold,
     },
     statValue: {
-      ...textStyles.titleMedium,
+      fontSize: 22,
       fontWeight: '800',
       color: colors.text.gold,
       marginBottom: 4,

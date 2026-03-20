@@ -1,1 +1,1 @@
-export { default } from './ProgressScreen';
+export { ProgressScreen } from './ProgressScreen';
