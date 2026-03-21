@@ -19,7 +19,7 @@ jest.mock('../../constants/roulette.constants', () => ({
   ],
 }));
 
-jest.mock('../../features/roulette-training/constants/theme', () => ({
+jest.mock('@features/roulette-training/constants/theme', () => ({
   COLORS: {
     background: { secondary: '#1a5f3f', dark: '#000000' },
     text: { gold: '#FFD700', primary: '#FFFFFF' },

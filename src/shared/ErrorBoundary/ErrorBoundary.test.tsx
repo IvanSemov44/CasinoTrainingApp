@@ -11,7 +11,7 @@ import ErrorBoundary from './ErrorBoundary';
 (global as typeof globalThis & { __DEV__?: boolean }).__DEV__ = true;
 
 // Mock the theme constants
-jest.mock('../../features/roulette-training/constants/theme', () => ({
+jest.mock('@features/roulette-training/constants/theme', () => ({
   COLORS: {
     background: { primary: '#0a2f1f', secondary: '#1a5f3f' },
     text: { primary: '#FFFFFF', secondary: '#CCCCCC', gold: '#FFD700' },

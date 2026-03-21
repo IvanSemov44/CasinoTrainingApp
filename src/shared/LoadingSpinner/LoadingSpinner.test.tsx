@@ -8,7 +8,7 @@ import { ActivityIndicator } from 'react-native';
 import LoadingSpinner from './LoadingSpinner';
 
 // Mock the theme constants
-jest.mock('../../features/roulette-training/constants/theme', () => ({
+jest.mock('@features/roulette-training/constants/theme', () => ({
   COLORS: {
     background: { primary: '#0a2f1f' },
     text: { gold: '#FFD700', secondary: '#CCCCCC' },
