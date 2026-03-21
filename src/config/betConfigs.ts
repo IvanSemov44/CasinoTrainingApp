@@ -3,7 +3,7 @@ import {
   ALL_CORNERS,
   ALL_STREETS,
   ALL_SIX_LINES,
-} from '../features/roulette-training/constants/betCombinations';
+} from '../features/roulette/roulette-training/constants/betCombinations';
 
 export interface BetConfig {
   type: string;

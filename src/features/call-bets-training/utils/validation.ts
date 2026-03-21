@@ -1,6 +1,6 @@
 import { getRandomElement } from '@utils/randomUtils';
 import { PlacedBet } from '@app-types/roulette.types';
-import { ANNOUNCED_BETS } from '../../racetrack/constants/announcedBets.constants';
+import { ANNOUNCED_BETS } from '@features/racetrack/constants/announcedBets.constants';
 import { ValidationResult, CallBetMode } from '../types';
 
 /**

@@ -8,17 +8,20 @@ import SettingsScreen from '../screens/SettingsScreen';
 import {
   RouletteTrainingRoutes,
   type RouletteTrainingStackParamList,
-} from '../features/roulette-training';
-import { RacetrackRoutes, type RacetrackStackParamList } from '../features/racetrack';
-import { RouletteGameRoutes, type RouletteGameStackParamList } from '../features/roulette-game';
+} from '../features/roulette/roulette-training';
+import { RacetrackRoutes, type RacetrackStackParamList } from '../features/roulette/racetrack';
+import {
+  RouletteGameRoutes,
+  type RouletteGameStackParamList,
+} from '../features/roulette/roulette-game';
 import {
   RacetrackSectorRoutes,
   type RacetrackSectorStackParamList,
-} from '../features/racetrack-sector-training';
+} from '../features/roulette/racetrack-sector-training';
 import {
   RacetrackPositionRoutes,
   type RacetrackPositionStackParamList,
-} from '../features/racetrack-position-training';
+} from '../features/roulette/racetrack-position-training';
 import {
   CashConversionRoutes,
   type CashConversionStackParamList,
@@ -27,7 +30,7 @@ import { TCPRoutes, type TCPStackParamList } from '../features/three-card-poker-
 import { BJRoutes, type BJStackParamList } from '../features/blackjack-training';
 import { CPRoutes, type CPStackParamList } from '../features/caribbean-poker-training';
 import { THURoutes, type THUStackParamList } from '../features/texas-holdem-ultimate-training';
-import { RKRoutes, type RKStackParamList } from '../features/roulette-knowledge-training';
+import { RKRoutes, type RKStackParamList } from '../features/roulette/roulette-knowledge-training';
 import { CallBetsRoutes, type CallBetsStackParamList } from '../features/call-bets-training';
 import { PLORoutes, type PLOStackParamList } from '../features/plo-training';
 import { useTheme } from '../contexts/ThemeContext';

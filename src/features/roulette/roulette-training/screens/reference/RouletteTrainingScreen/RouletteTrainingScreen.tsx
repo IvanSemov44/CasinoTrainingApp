@@ -1,0 +1,113 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { setSelectedChipValue, placeBet } from '@store/rouletteSlice';
+import RouletteLayout from '@features/roulette/roulette-training/components/roulette-ui/RouletteLayout';
+import Racetrack from '@features/roulette/roulette-training/components/Racetrack';
+import ChipSelector from '@shared/ChipSelector';
+import { RouletteNumber } from '@app-types/roulette.types';
+import { BetType } from '@app-types/roulette.types';
+import { useThemedStyles } from '@hooks/useThemedStyles';
+import type { AppColors } from '@styles/themes';
+import type { RouletteTrainingStackParamList } from '../../../navigation';
+
+type RouletteTrainingScreenRouteProp = RouteProp<
+  RouletteTrainingStackParamList,
+  'RouletteTraining'
+>;
+
+interface RouletteTrainingScreenProps {
+  route: RouletteTrainingScreenRouteProp;
+}
+
+export default function RouletteTrainingScreen({ route }: RouletteTrainingScreenProps) {
+  const { exercise } = route.params;
+  const dispatch = useAppDispatch();
+  const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
+  const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
+  const styles = useThemedStyles(makeStyles);
+
+  const handleNumberPress = (number: RouletteNumber) => {
+    setHighlightedNumbers(prev => {
+      if (prev.includes(number)) {
+        return prev.filter(n => n !== number);
+      }
+      return [...prev, number];
+    });
+
+    const bet = {
+      id: `${Date.now()}-${number}`,
+      type: BetType.STRAIGHT,
+      numbers: [number],
+      amount: selectedChipValue,
+      payout: 35,
+      timestamp: Date.now(),
+    };
+
+    dispatch(placeBet(bet));
+
+    Alert.alert('Bet Placed', `${selectedChipValue} on number ${number}`, [{ text: 'OK' }]);
+  };
+
+  const handleChipSelect = (value: number) => {
+    dispatch(setSelectedChipValue(value));
+  };
+
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{exercise.title}</Text>
+        <Text style={styles.description}>{exercise.description}</Text>
+      </View>
+
+      <ChipSelector selectedValue={selectedChipValue} onSelectChip={handleChipSelect} />
+
+      <RouletteLayout onNumberPress={handleNumberPress} />
+
+      <Racetrack onNumberPress={handleNumberPress} highlightedNumbers={highlightedNumbers} />
+
+      <View style={styles.infoBox}>
+        <Text style={styles.infoText}>Tap numbers on the layout or racetrack to place bets</Text>
+      </View>
+    </ScrollView>
+  );
+}
+
+function makeStyles(colors: AppColors) {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors.background.primary,
+    },
+    header: {
+      backgroundColor: colors.background.secondary,
+      borderBottomColor: colors.border.gold,
+      borderBottomWidth: 2,
+      padding: 24,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text.gold,
+      marginBottom: 4,
+    },
+    description: {
+      fontSize: 14,
+      color: colors.text.primary,
+    },
+    infoBox: {
+      backgroundColor: colors.background.secondary,
+      padding: 16,
+      margin: 8,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: colors.border.gold,
+      marginBottom: 24,
+    },
+    infoText: {
+      color: colors.text.primary,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+  });
+}

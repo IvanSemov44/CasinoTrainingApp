@@ -1,7 +1,7 @@
 import { validateCallBet, getRandomMode, getModeDisplayName } from '../validation';
 
 // Mock the constants to ensure tests are isolated from config changes
-jest.mock('../../../racetrack/constants/announcedBets.constants', () => ({
+jest.mock('@features/racetrack/constants/announcedBets.constants', () => ({
   ANNOUNCED_BETS: {
     tier: {
       name: 'Tier',
