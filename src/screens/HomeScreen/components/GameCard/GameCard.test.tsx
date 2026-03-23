@@ -3,15 +3,19 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import { GameCard } from './GameCard';
 
+const mockPush = jest.fn();
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
 function renderWithTheme(component: React.ReactElement) {
   return render(<ThemeProvider>{component}</ThemeProvider>);
 }
 
 describe('GameCard', () => {
-  it('renders game details and handles press', () => {
-    const onPress = jest.fn();
+  it('renders game details and navigates when pressed', () => {
     const { getByText } = renderWithTheme(
-      <GameCard emoji="🎰" title="Roulette Training" tags="Payouts" width={140} onPress={onPress} />
+      <GameCard emoji="🎰" title="Roulette Training" tags="Payouts" link={'/roulette'} />
     );
 
     expect(getByText('🎰')).toBeTruthy();
@@ -19,6 +23,6 @@ describe('GameCard', () => {
     expect(getByText('Payouts')).toBeTruthy();
 
     fireEvent.press(getByText('Roulette Training'));
-    expect(onPress).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith('/roulette');
   });
 });

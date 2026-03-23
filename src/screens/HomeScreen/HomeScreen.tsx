@@ -5,12 +5,22 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { InstallButton } from '@components/InstallButton';
-import { GameCategorySection } from '@components/GameCategorySection';
+import { GameCategorySection } from './components/GameCategorySection/GameCategorySection';
 
 export function HomeScreen() {
   const router = useRouter();
   const { themeId, toggleTheme } = useTheme();
   const styles = useThemedStyles(makeStyles);
+
+  // debug: log runtime imports/types to diagnose test render failures
+
+  console.log('DBG HomeScreen internals:', {
+    InstallButtonType: typeof InstallButton,
+    GameCategorySectionType: typeof GameCategorySection,
+    routerPresent: !!router,
+    themeId,
+    stylesPresent: !!styles,
+  });
 
   return (
     <ScrollView

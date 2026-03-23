@@ -1,2 +1,2 @@
-// Re-export the only component from src/components/
+// Re-export commonly used components from `src/components`.
 export { InstallButton } from './InstallButton';

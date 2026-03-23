@@ -1,21 +1,39 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableOpacity, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
+import { useRouter } from 'expo-router';
 import type { AppColors } from '@styles/themes';
 
 export interface GameCardProps {
   emoji: string;
   title: string;
   tags: string;
-  width: number;
-  onPress: () => void;
+  link?: string;
 }
 
-export function GameCard({ emoji, title, tags, width, onPress }: GameCardProps) {
+export function GameCard({ emoji, title, tags, link }: GameCardProps) {
   const styles = useThemedStyles(makeStyles);
+  const { width: windowWidth } = useWindowDimensions();
+  const router = useRouter();
+
+  const computedWidth = useMemo(() => {
+    const gutter = 20;
+    const gap = 10;
+    return Math.floor((windowWidth - gutter * 2 - gap) / 2);
+  }, [windowWidth]);
+
+  const handlePress = () => {
+    if (link) {
+      router.push(link);
+    }
+  };
 
   return (
-    <TouchableOpacity style={[styles.card, { width }]} onPress={onPress} activeOpacity={0.75}>
+    <TouchableOpacity
+      style={[styles.card, { width: computedWidth }]}
+      onPress={handlePress}
+      activeOpacity={0.75}
+    >
       <Text style={styles.cardEmoji}>{emoji}</Text>
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardTags}>{tags}</Text>
