@@ -5,7 +5,8 @@ module.exports = {
     'node_modules/(?!(react-native|@react-native|expo|@expo|react-navigation|@react-navigation|@unimodules|unimodules|native-base|react-native-svg)/)',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  verbose: true,
+  maxWorkers: '50%',
+  workerIdleMemoryLimit: '512MB',
   testEnvironment: 'node',
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',

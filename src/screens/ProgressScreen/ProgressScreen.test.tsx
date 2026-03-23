@@ -3,9 +3,8 @@
  */
 
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
-import { ThemeProvider } from '@contexts/ThemeContext';
-import { SettingsProvider } from '@contexts/SettingsContext';
+import { screen, waitFor } from '@testing-library/react-native';
+import { render } from '@test-utils/render';
 import { ProgressScreen } from './ProgressScreen';
 import { ExerciseType } from '@app-types/roulette.types';
 
@@ -43,45 +42,47 @@ describe('ProgressScreen', () => {
       });
     });
 
-    return render(
-      <SettingsProvider>
-        <ThemeProvider>
-          <ProgressScreen />
-        </ThemeProvider>
-      </SettingsProvider>
-    );
+    return render(<ProgressScreen />);
   };
 
   describe('Rendering', () => {
-    it('renders the title "My Progress"', () => {
+    it('renders the title "My Progress"', async () => {
       renderScreen([]);
-      expect(screen.getByText('My Progress')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('My Progress')).toBeTruthy();
+      });
     });
 
-    it('renders all stat labels', () => {
+    it('renders all stat labels', async () => {
       renderScreen([]);
-      expect(screen.getByText('Completed')).toBeTruthy();
-      expect(screen.getByText('Accuracy')).toBeTruthy();
-      expect(screen.getByText('Correct')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('Completed')).toBeTruthy();
+        expect(screen.getByText('Accuracy')).toBeTruthy();
+        expect(screen.getByText('Correct')).toBeTruthy();
+      });
     });
 
-    it('renders the section title "Recent Results"', () => {
+    it('renders the section title "Recent Results"', async () => {
       renderScreen([]);
-      expect(screen.getByText('Recent Results')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('Recent Results')).toBeTruthy();
+      });
     });
   });
 
   describe('Empty state', () => {
-    it('shows zero values when no exercises completed', () => {
+    it('shows zero values when no exercises completed', async () => {
       renderScreen([]);
-      expect(screen.getAllByText('0').length).toBeGreaterThan(0);
-      expect(screen.getByText('0%')).toBeTruthy();
-      expect(screen.getByText('0/0')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getAllByText('0').length).toBeGreaterThan(0);
+        expect(screen.getByText('0%')).toBeTruthy();
+        expect(screen.getByText('0/0')).toBeTruthy();
+      });
     });
   });
 
   describe('Statistics calculation', () => {
-    it('calculates 100% accuracy when all answers are correct', () => {
+    it('calculates 100% accuracy when all answers are correct', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 100,
@@ -91,10 +92,12 @@ describe('ProgressScreen', () => {
         timestamp: Date.now(),
       };
       renderScreen([mockResult]);
-      expect(screen.getByText('100%')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('100%')).toBeTruthy();
+      });
     });
 
-    it('calculates 0% accuracy when no answers are correct', () => {
+    it('calculates 0% accuracy when no answers are correct', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 0,
@@ -104,10 +107,12 @@ describe('ProgressScreen', () => {
         timestamp: Date.now(),
       };
       renderScreen([mockResult]);
-      expect(screen.getByText('0%')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('0%')).toBeTruthy();
+      });
     });
 
-    it('calculates correct accuracy for partial answers', () => {
+    it('calculates correct accuracy for partial answers', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 50,
@@ -117,10 +122,12 @@ describe('ProgressScreen', () => {
         timestamp: Date.now(),
       };
       renderScreen([mockResult]);
-      expect(screen.getByText('50%')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('50%')).toBeTruthy();
+      });
     });
 
-    it('rounds accuracy to nearest whole number', () => {
+    it('rounds accuracy to nearest whole number', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 33,
@@ -131,10 +138,12 @@ describe('ProgressScreen', () => {
       };
       renderScreen([mockResult]);
       // 1/3 = 33.333... rounded is 33%
-      expect(screen.getByText('33%')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('33%')).toBeTruthy();
+      });
     });
 
-    it('shows total questions across all exercises', () => {
+    it('shows total questions across all exercises', async () => {
       const mockResults = [
         {
           exerciseType: ExerciseType.PAYOUT_CALCULATION,
@@ -155,10 +164,12 @@ describe('ProgressScreen', () => {
       ];
       renderScreen(mockResults);
       // 10 + 5 = 15 total
-      expect(screen.getByText('8/15')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('8/15')).toBeTruthy();
+      });
     });
 
-    it('shows correct completed count for multiple exercises', () => {
+    it('shows correct completed count for multiple exercises', async () => {
       const mockResults = [
         {
           exerciseType: ExerciseType.PAYOUT_CALCULATION,
@@ -186,10 +197,12 @@ describe('ProgressScreen', () => {
         },
       ];
       renderScreen(mockResults);
-      expect(screen.getByText('3')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('3')).toBeTruthy();
+      });
     });
 
-    it('handles single question exercise with 100%', () => {
+    it('handles single question exercise with 100%', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 100,
@@ -199,11 +212,13 @@ describe('ProgressScreen', () => {
         timestamp: Date.now(),
       };
       renderScreen([mockResult]);
-      expect(screen.getByText('1/1')).toBeTruthy();
-      expect(screen.getByText('100%')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('1/1')).toBeTruthy();
+        expect(screen.getByText('100%')).toBeTruthy();
+      });
     });
 
-    it('displays score for single exercise', () => {
+    it('displays score for single exercise', async () => {
       const mockResult = {
         exerciseType: ExerciseType.PAYOUT_CALCULATION,
         score: 80,
@@ -213,10 +228,12 @@ describe('ProgressScreen', () => {
         timestamp: Date.now(),
       };
       renderScreen([mockResult]);
-      expect(screen.getByText('8/10')).toBeTruthy();
+      await waitFor(() => {
+        expect(screen.getByText('8/10')).toBeTruthy();
+      });
     });
 
-    it('handles multiple exercises with different scores', () => {
+    it('handles multiple exercises with different scores', async () => {
       const mockResults = [
         {
           exerciseType: ExerciseType.PAYOUT_CALCULATION,
@@ -237,8 +254,10 @@ describe('ProgressScreen', () => {
       ];
       renderScreen(mockResults);
       // 5 + 3 = 8 correct, 10 + 5 = 15 total, 8/15 = 53%
-      expect(screen.getByText('2')).toBeTruthy(); // completed count
-      expect(screen.getByText('53%')).toBeTruthy(); // accuracy
+      await waitFor(() => {
+        expect(screen.getByText('2')).toBeTruthy(); // completed count
+        expect(screen.getByText('53%')).toBeTruthy(); // accuracy
+      });
     });
   });
 });

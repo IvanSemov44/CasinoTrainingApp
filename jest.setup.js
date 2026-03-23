@@ -1,4 +1,24 @@
 global.__DEV__ = true;
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
+// Suppress react-test-renderer deprecation warning from @testing-library/react-native
+const originalConsoleError = console.error;
+console.error = function(...args) {
+  const firstArg = args[0];
+  // Check if first arg is a string or an error object
+  const message = typeof firstArg === 'string' 
+    ? firstArg 
+    : (firstArg?.message || '');
+  
+  if (
+    message.includes('react-test-renderer is deprecated') ||
+    message.includes('was not wrapped in act') ||
+    message.includes('The above error occurred in')
+  ) {
+    return;
+  }
+  originalConsoleError(...args);
+};
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -18,10 +38,10 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: jest.fn() }),
 }));
 
-jest.mock('@react-navigation/stack', () => {
+jest.mock('@react-navigation/native-stack', () => {
   const React = require('react');
   return {
-    createStackNavigator: () => ({
+    createNativeStackNavigator: () => ({
       Navigator: ({ children }) => children,
       Screen: ({ children }) => children,
     }),

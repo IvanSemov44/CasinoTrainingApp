@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
-import { ThemeProvider } from '@contexts/ThemeContext';
-import { SettingsProvider } from '@contexts/SettingsContext';
+import { screen, fireEvent, waitFor } from '@testing-library/react-native';
+import { render } from '@test-utils/render';
 import DrillScreen from './DrillScreen';
 import type { BaseDrillScenario } from '@hooks/useDrillState';
 
@@ -74,58 +73,47 @@ describe('DrillScreen', () => {
     mockUseDrillState.mockReturnValue(mockDrillState);
   });
 
-  const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <ThemeProvider>
-      <SettingsProvider>{children}</SettingsProvider>
-    </ThemeProvider>
-  );
+  it('renders the drill screen with phase asking', async () => {
+    render(<DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />);
 
-  it('renders the drill screen with phase asking', () => {
-    render(
-      <Wrapper>
-        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
-      </Wrapper>
-    );
-
-    expect(screen.getByText('Check Answer')).toBeTruthy();
+    await waitFor(() => {
+      expect(screen.getByText('Check Answer')).toBeTruthy();
+    });
   });
 
-  it('displays stats', () => {
-    render(
-      <Wrapper>
-        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
-      </Wrapper>
-    );
+  it('displays stats', async () => {
+    render(<DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />);
 
-    expect(screen.getByText(/150\s*pts/i)).toBeTruthy();
-    expect(screen.getByText(/75\s*%/i)).toBeTruthy();
+    await waitFor(() => {
+      expect(screen.getByText(/150\s*pts/i)).toBeTruthy();
+      expect(screen.getByText(/75\s*%/i)).toBeTruthy();
+    });
   });
 
-  it('calls handleSubmit when button is pressed', () => {
-    render(
-      <Wrapper>
-        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
-      </Wrapper>
-    );
+  it('calls handleSubmit when button is pressed', async () => {
+    render(<DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />);
 
-    const submitButton = screen.getByText('Check Answer');
-    fireEvent.press(submitButton);
+    await waitFor(() => {
+      expect(screen.getByText('Check Answer')).toBeTruthy();
+    });
 
-    expect(mockDrillState.handleSubmit).toHaveBeenCalled();
+    fireEvent.press(screen.getByText('Check Answer'));
+
+    await waitFor(() => {
+      expect(mockDrillState.handleSubmit).toHaveBeenCalled();
+    });
   });
 
-  it('renders with feedback phase', () => {
+  it('renders with feedback phase', async () => {
     mockUseDrillState.mockReturnValue({
       ...mockDrillState,
       phase: 'feedback',
     });
 
-    render(
-      <Wrapper>
-        <DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />
-      </Wrapper>
-    );
+    render(<DrillScreen scenarioGenerator={() => mockScenario} drillType="blackjack" />);
 
-    expect(screen.getByText('Next Question →')).toBeTruthy();
+    await waitFor(() => {
+      expect(screen.getByText('Next Question →')).toBeTruthy();
+    });
   });
 });

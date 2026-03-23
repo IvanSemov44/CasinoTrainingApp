@@ -1,16 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
-import { ThemeProvider } from '@contexts/ThemeContext';
-import { SettingsProvider } from '@contexts/SettingsContext';
+import { waitFor } from '@testing-library/react-native';
+import { render } from '@test-utils/render';
 import SectorTrainingScreen from './SectorTrainingScreen';
-
-const renderWithProviders = (component: React.ReactElement) => {
-  return render(
-    <SettingsProvider>
-      <ThemeProvider>{component}</ThemeProvider>
-    </SettingsProvider>
-  );
-};
 
 describe('SectorTrainingScreen', () => {
   beforeEach(() => {
@@ -18,55 +9,71 @@ describe('SectorTrainingScreen', () => {
   });
 
   describe('Rendering', () => {
-    it('renders without crashing', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen mode="random" />);
-      expect(toJSON()).toBeTruthy();
+    it('renders without crashing', async () => {
+      const { toJSON } = render(<SectorTrainingScreen mode="random" />);
+      await waitFor(() => {
+        expect(toJSON()).toBeTruthy();
+      });
     });
 
-    it('renders with different sector modes', () => {
+    it('renders with different sector modes', async () => {
       const sectors = ['voisins', 'tier', 'orphelins', 'zero', 'random'];
-      sectors.forEach(sector => {
-        const { toJSON } = renderWithProviders(
+      for (const sector of sectors) {
+        const { toJSON } = render(
           <SectorTrainingScreen
             mode={sector as 'voisins' | 'tier' | 'orphelins' | 'zero' | 'random'}
           />
         );
+        await waitFor(() => {
+          expect(toJSON()).toBeTruthy();
+        });
+      }
+    });
+  });
+
+  describe('Mode Handling', () => {
+    it('handles voisins mode', async () => {
+      const { toJSON } = render(<SectorTrainingScreen mode="voisins" />);
+      await waitFor(() => {
+        expect(toJSON()).toBeTruthy();
+      });
+    });
+
+    it('handles tier mode', async () => {
+      const { toJSON } = render(<SectorTrainingScreen mode="tier" />);
+      await waitFor(() => {
+        expect(toJSON()).toBeTruthy();
+      });
+    });
+
+    it('handles orphelins mode', async () => {
+      const { toJSON } = render(<SectorTrainingScreen mode="orphelins" />);
+      await waitFor(() => {
+        expect(toJSON()).toBeTruthy();
+      });
+    });
+
+    it('handles zero mode', async () => {
+      const { toJSON } = render(<SectorTrainingScreen mode="zero" />);
+      await waitFor(() => {
+        expect(toJSON()).toBeTruthy();
+      });
+    });
+
+    it('uses random mode as default if not provided', async () => {
+      const { toJSON } = render(<SectorTrainingScreen />);
+      await waitFor(() => {
         expect(toJSON()).toBeTruthy();
       });
     });
   });
 
-  describe('Mode Handling', () => {
-    it('handles voisins mode', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen mode="voisins" />);
-      expect(toJSON()).toBeTruthy();
-    });
-
-    it('handles tier mode', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen mode="tier" />);
-      expect(toJSON()).toBeTruthy();
-    });
-
-    it('handles orphelins mode', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen mode="orphelins" />);
-      expect(toJSON()).toBeTruthy();
-    });
-
-    it('handles zero mode', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen mode="zero" />);
-      expect(toJSON()).toBeTruthy();
-    });
-
-    it('uses random mode as default if not provided', () => {
-      const { toJSON } = renderWithProviders(<SectorTrainingScreen />);
-      expect(toJSON()).toBeTruthy();
-    });
-  });
-
   describe('HUD Elements', () => {
-    it('displays score section', () => {
-      const { getByText } = renderWithProviders(<SectorTrainingScreen mode="random" />);
-      expect(getByText(/0\//)).toBeTruthy(); // Score starts as 0/0
+    it('displays score section', async () => {
+      const { getByText } = render(<SectorTrainingScreen mode="random" />);
+      await waitFor(() => {
+        expect(getByText(/0\//)).toBeTruthy(); // Score starts as 0/0
+      });
     });
   });
 });

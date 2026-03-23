@@ -5,13 +5,16 @@
 import React from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
+import { SettingsProvider } from '@contexts/SettingsContext';
 
 /**
  * All providers wrapper for tests
  * Add any global providers here (Redux, Theme, etc.)
  */
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <ThemeProvider>{children}</ThemeProvider>
+  <ThemeProvider>
+    <SettingsProvider>{children}</SettingsProvider>
+  </ThemeProvider>
 );
 
 /**
