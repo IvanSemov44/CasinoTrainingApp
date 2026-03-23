@@ -8,12 +8,12 @@
 
 ## Priority Tiers
 
-| Tier | Label | Must ship before going live |
-|------|-------|----------------------------|
-| P0 | Blockers | Yes — breaks production or ships broken code |
-| P1 | Critical | Yes — you will regret not doing this within a week |
-| P2 | Important | Do within first month after launch |
-| P3 | Nice to have | Backlog |
+| Tier | Label        | Must ship before going live                        |
+| ---- | ------------ | -------------------------------------------------- |
+| P0   | Blockers     | Yes — breaks production or ships broken code       |
+| P1   | Critical     | Yes — you will regret not doing this within a week |
+| P2   | Important    | Do within first month after launch                 |
+| P3   | Nice to have | Backlog                                            |
 
 ---
 
@@ -29,6 +29,7 @@ Three issues in the root file that cause silent failures or incorrect behaviour:
 2. **`@vercel/speed-insights/react` is a web-only package** imported unconditionally.
    On native it imports dead code at best, throws at worst.
    Replace with conditional import or platform guard:
+
    ```tsx
    // web.tsx (platform-specific file for web)
    export { SpeedInsights } from '@vercel/speed-insights/react';
@@ -47,6 +48,7 @@ Three issues in the root file that cause silent failures or incorrect behaviour:
 There are no `.env` files and no mechanism to distinguish dev from staging from production. As soon as you add a backend, analytics key, or error tracking DSN, you need this in place.
 
 **Steps:**
+
 1. Add `expo-constants` (already in Expo SDK, no install needed) as the config bridge.
 2. Create `app.config.ts` (replace or extend `app.json`) to read `process.env`:
    ```ts
@@ -62,6 +64,7 @@ There are no `.env` files and no mechanism to distinguish dev from staging from 
    ```
 3. Create `.env`, `.env.staging`, `.env.production` — add all three to `.gitignore`.
 4. Create `src/config/env.ts` as the single import point for typed env access:
+
    ```ts
    import Constants from 'expo-constants';
 
@@ -73,6 +76,7 @@ There are no `.env` files and no mechanism to distinguish dev from staging from 
      environment: extra.environment as 'development' | 'staging' | 'production',
    };
    ```
+
 5. Store all secrets in Vercel environment variables (for web) and EAS secrets (for mobile).
    Never commit real values.
 
@@ -83,10 +87,12 @@ There are no `.env` files and no mechanism to distinguish dev from staging from 
 Right now, if the app crashes in production you will never know. `logger.service.ts` only writes to dev console.
 
 **Steps:**
+
 1. `npm install @sentry/react-native`
 2. Run `npx @sentry/wizard@latest -i reactNative` — it patches `app.json`, `App.tsx`, and `babel.config.js` automatically.
 3. Remove wizard's App.tsx changes and apply them manually to keep the file clean.
 4. Initialise early — before the root component renders:
+
    ```ts
    // index.ts (line 1 already has gesture-handler)
    import * as Sentry from '@sentry/react-native';
@@ -98,6 +104,7 @@ Right now, if the app crashes in production you will never know. `logger.service
      tracesSampleRate: 0.2,
    });
    ```
+
 5. Wrap `App` with `Sentry.wrap(App)` for automatic crash reporting.
 6. Update `logger.service.ts` — in production, route `logger.error()` to `Sentry.captureException()`.
 7. Add source map upload to the build script so Sentry can deobfuscate stack traces.
@@ -111,6 +118,7 @@ Right now, if the app crashes in production you will never know. `logger.service
 143 test files exist but no minimum is enforced. A broken merge could silently drop coverage.
 
 Add to `jest.config.js`:
+
 ```js
 coverageThreshold: {
   global: {
@@ -121,6 +129,7 @@ coverageThreshold: {
   },
 },
 ```
+
 Start at a level you currently pass. Increase by 5% every quarter.
 
 ---
@@ -196,6 +205,7 @@ jobs:
 No mobile build system exists. Currently requires local machine + Expo CLI.
 
 **Steps:**
+
 1. `npm install -g eas-cli`
 2. `eas init` — links project to Expo account.
 3. Create `eas.json`:
@@ -250,6 +260,7 @@ Current order: SafeArea → Error → Theme → Settings → Redux → PersistGa
 If `ThemeProvider` or `SettingsProvider` ever needs persisted Redux state, they cannot read it because they sit above the store. This is a time-bomb.
 
 **Correct order:**
+
 ```tsx
 <SafeAreaProvider>
   <ErrorBoundary>
@@ -276,6 +287,7 @@ Also replace `loading={null}` with a `<LoadingSpinner />` so users don't see a b
 `package.json` and `app.json` both say `"version": "1.0.0"` but version is never incremented.
 
 **Steps:**
+
 1. Adopt [Semantic Versioning](https://semver.org): `MAJOR.MINOR.PATCH`
 2. Create `CHANGELOG.md` using [Keep a Changelog](https://keepachangelog.com) format.
 3. Use `standard-version` or `release-please` GitHub Action to automate:
@@ -294,19 +306,26 @@ No security policy, no dependency auditing, no CSP.
 **Steps:**
 
 1. **Dependency auditing:** Add to CI:
+
    ```yaml
    - run: npm audit --audit-level=high
    ```
+
    Fix any high/critical vulnerabilities before launch.
 
 2. **Content Security Policy (web):** Add to `web/index.html`:
+
    ```html
-   <meta http-equiv="Content-Security-Policy"
-     content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+   <meta
+     http-equiv="Content-Security-Policy"
+     content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+   />
    ```
+
    Adjust as needed for Sentry/SpeedInsights endpoints.
 
 3. **Vercel security headers:** Add to `vercel.json`:
+
    ```json
    {
      "headers": [
@@ -336,11 +355,13 @@ No security policy, no dependency auditing, no CSP.
 `logger.service.ts` is dev-console only. In production you need queryable logs.
 
 **Options (pick one based on budget):**
+
 - **Free:** Sentry breadcrumbs (if you already have Sentry from 0.3)
 - **Low cost:** Logtail / BetterStack (~$25/mo)
 - **Full stack:** Datadog (~$15/host/mo)
 
 **Minimum change to `logger.service.ts`:**
+
 ```ts
 error(message: string, error?: unknown, context?: LogContext): void {
   if (__DEV__) { console.error(message, error, context); return; }
@@ -355,6 +376,7 @@ error(message: string, error?: unknown, context?: LogContext): void {
 Vercel SpeedInsights covers CWV on web but nothing else.
 
 **Steps:**
+
 1. Add custom performance marks for slow operations:
    ```ts
    performance.mark('drill-start');
@@ -384,6 +406,7 @@ export const analytics = {
 ```
 
 Key events to track from day one:
+
 - `feature_opened` (which game)
 - `drill_completed` (score, difficulty, duration)
 - `drill_abandoned`
@@ -397,6 +420,7 @@ Key events to track from day one:
 The app is offline-first (AsyncStorage, no API), but there is no user-facing indication of connectivity for future API calls.
 
 **Steps:**
+
 1. Add `@react-native-community/netinfo` for connectivity detection.
 2. Create a `useNetworkStatus()` hook.
 3. Add a non-blocking toast/banner component for offline state.
@@ -409,6 +433,7 @@ The app is offline-first (AsyncStorage, no API), but there is no user-facing ind
 No accessibility attributes have been audited.
 
 **Steps:**
+
 1. Add `accessibilityLabel`, `accessibilityRole`, and `accessibilityHint` to all interactive components (buttons, inputs, cards).
 2. Run `eslint-plugin-jsx-a11y` (for web) and `eslint-plugin-react-native-a11y` (for RN).
 3. Test with:
@@ -424,6 +449,7 @@ No accessibility attributes have been audited.
 The web build exports a `single` output bundle. With 14 features and 528 TypeScript files this will grow.
 
 **Steps:**
+
 1. Change `app.json` web output from `"single"` to `"static"` or use dynamic imports:
    ```ts
    const BlackjackDrillScreen = React.lazy(() => import('@features/blackjack-training/...'));
@@ -439,6 +465,7 @@ The web build exports a `single` output bundle. With 14 features and 528 TypeScr
 `web/sw.js` exists but its update strategy is unknown. Users may run stale code for weeks.
 
 **Steps:**
+
 1. Implement a "New version available" toast that prompts users to reload.
 2. Use `workbox` (already in Expo web pipeline) with a proper cache strategy:
    - `NetworkFirst` for JS/CSS assets
@@ -454,6 +481,7 @@ The web build exports a `single` output bundle. With 14 features and 528 TypeScr
 The app is currently 100% client-side. For multi-user features (leaderboards, progress sync across devices, admin training management) you need a backend.
 
 **Considerations:**
+
 - Supabase (PostgreSQL + Auth + Realtime, generous free tier) — lowest friction
 - Firebase (NoSQL, excellent RN SDK) — if you prefer Google ecosystem
 - Custom Node/Express API with PostgreSQL
@@ -465,6 +493,7 @@ If you add a backend, create `src/services/api.service.ts` as the abstraction la
 ### 3.2 User authentication
 
 No auth system exists. Required for:
+
 - Cross-device progress sync
 - Admin content management
 - Leaderboards
@@ -478,6 +507,7 @@ No auth system exists. Required for:
 For re-engagement: "You haven't practiced in 3 days."
 
 **Steps:**
+
 1. `expo install expo-notifications`
 2. Configure APNs (iOS) and FCM (Android) credentials in EAS.
 3. Create a simple notification scheduling service.
@@ -492,6 +522,7 @@ Unit/component tests cover logic. You have no tests for critical user journeys.
 **Recommended:** Maestro (simplest setup for React Native)
 
 Key flows to cover:
+
 - Home → Blackjack menu → Start drill → Complete drill → See score
 - Home → Roulette sector training → Tap a number → Correct/incorrect feedback
 - Settings → Toggle theme → Verify dark/light switch persists
@@ -503,6 +534,7 @@ Key flows to cover:
 Currently English-only. Casino dealers often operate in multilingual environments.
 
 **Steps:**
+
 1. `npm install i18next react-i18next`
 2. Extract all user-facing strings to `src/locales/en.json`
 3. Add languages as needed (no need to do this before initial launch)
@@ -553,20 +585,20 @@ The app is production-ready when all of the following are true:
 
 ## Files to Create / Modify Summary
 
-| File | Action | Priority |
-|------|--------|----------|
-| `index.ts` | Move `gesture-handler` import here as line 1 | P0 |
-| `App.tsx` | Remove SpeedInsights, CSS injection; fix provider order | P0 |
-| `web/index.html` | Add CSS fix as static `<style>` block | P0 |
-| `app.config.ts` | Replace `app.json`, read from `process.env` | P0 |
-| `src/config/env.ts` | Typed env access module | P0 |
-| `.env` / `.env.production` | Env var files (gitignored) | P0 |
-| `src/services/logger.service.ts` | Route errors to Sentry in production | P0 |
-| `.github/workflows/ci.yml` | CI pipeline | P1 |
-| `eas.json` | EAS build profiles | P1 |
-| `CHANGELOG.md` | Release history | P1 |
-| `SECURITY.md` | Vulnerability disclosure | P1 |
-| `vercel.json` | Add security headers | P1 |
-| `jest.config.js` | Add coverage thresholds | P0 |
-| `src/services/analytics.service.ts` | PostHog event tracking | P2 |
-| `src/hooks/useNetworkStatus.ts` | Connectivity hook | P2 |
+| File                                | Action                                                  | Priority |
+| ----------------------------------- | ------------------------------------------------------- | -------- |
+| `index.ts`                          | Move `gesture-handler` import here as line 1            | P0       |
+| `App.tsx`                           | Remove SpeedInsights, CSS injection; fix provider order | P0       |
+| `web/index.html`                    | Add CSS fix as static `<style>` block                   | P0       |
+| `app.config.ts`                     | Replace `app.json`, read from `process.env`             | P0       |
+| `src/config/env.ts`                 | Typed env access module                                 | P0       |
+| `.env` / `.env.production`          | Env var files (gitignored)                              | P0       |
+| `src/services/logger.service.ts`    | Route errors to Sentry in production                    | P0       |
+| `.github/workflows/ci.yml`          | CI pipeline                                             | P1       |
+| `eas.json`                          | EAS build profiles                                      | P1       |
+| `CHANGELOG.md`                      | Release history                                         | P1       |
+| `SECURITY.md`                       | Vulnerability disclosure                                | P1       |
+| `vercel.json`                       | Add security headers                                    | P1       |
+| `jest.config.js`                    | Add coverage thresholds                                 | P0       |
+| `src/services/analytics.service.ts` | PostHog event tracking                                  | P2       |
+| `src/hooks/useNetworkStatus.ts`     | Connectivity hook                                       | P2       |

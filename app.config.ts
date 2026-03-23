@@ -3,6 +3,8 @@ export default {
     name: 'CasinoTrainingApp',
     slug: 'CasinoTrainingApp',
     version: '1.0.0',
+    scheme: 'casinotrainingapp',
+    plugins: ['expo-router'],
     orientation: 'default',
     icon: './assets/icon.png',
     userInterfaceStyle: 'light',

@@ -17,7 +17,7 @@ function copyDir(src, dest) {
     fs.mkdirSync(dest, { recursive: true });
   }
   const files = fs.readdirSync(src);
-  files.forEach((file) => {
+  files.forEach(file => {
     const srcFile = path.join(src, file);
     const destFile = path.join(dest, file);
     const stat = fs.statSync(srcFile);
@@ -36,26 +36,27 @@ if (fs.existsSync(manifestSource)) {
 } else {
   console.log('⚠️ manifest.json not found, creating one...');
   const manifest = {
-    name: "Casino Training App",
-    short_name: "CasinoTrain",
-    description: "A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises.",
-    start_url: "/",
-    display: "standalone",
-    orientation: "any",
-    background_color: "#1a472a",
-    theme_color: "#1a472a",
+    name: 'Casino Training App',
+    short_name: 'CasinoTrain',
+    description:
+      'A professional casino dealer training application for roulette, PLO poker, and cash conversion exercises.',
+    start_url: '/',
+    display: 'standalone',
+    orientation: 'any',
+    background_color: '#1a472a',
+    theme_color: '#1a472a',
     icons: [
       {
-        src: "/assets/adaptive-icon.png",
-        sizes: "192x192",
-        type: "image/png"
+        src: '/assets/adaptive-icon.png',
+        sizes: '192x192',
+        type: 'image/png',
       },
       {
-        src: "/assets/icon.png",
-        sizes: "512x512",
-        type: "image/png"
-      }
-    ]
+        src: '/assets/icon.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
   };
   fs.writeFileSync(manifestDest, JSON.stringify(manifest, null, 2));
   console.log('✅ Created manifest.json in dist/');
@@ -112,12 +113,18 @@ if (fs.existsSync(indexPath)) {
 
   // Add manifest link if not present
   if (!html.includes('rel="manifest"')) {
-    html = html.replace('</head>', '\n    <link rel="manifest" href="/manifest.json" />\n  </head>');
+    html = html.replace(
+      '</head>',
+      '\n    <link rel="manifest" href="/manifest.json" />\n  </head>'
+    );
   }
 
   // Add apple touch icons if not present
   if (!html.includes('rel="apple-touch-icon"')) {
-    html = html.replace('</head>', '\n    <link rel="apple-touch-icon" href="/assets/adaptive-icon.png" />\n    <link rel="apple-touch-icon" sizes="180x180" href="/assets/adaptive-icon.png" />\n  </head>');
+    html = html.replace(
+      '</head>',
+      '\n    <link rel="apple-touch-icon" href="/assets/adaptive-icon.png" />\n    <link rel="apple-touch-icon" sizes="180x180" href="/assets/adaptive-icon.png" />\n  </head>'
+    );
   }
 
   // Fix viewport meta tag - ensure it has proper PWA configuration
@@ -130,10 +137,13 @@ if (fs.existsSync(indexPath)) {
 
   // Lock viewport completely - no scrolling, no panning in any direction
   if (!html.includes('viewport-lock')) {
-    html = html.replace('</head>', `\n    <!-- viewport-lock -->
+    html = html.replace(
+      '</head>',
+      `\n    <!-- viewport-lock -->
   <style>
     html, body { overscroll-behavior: none; background-color: #0a1628; }
-  </style>\n  </head>`);
+  </style>\n  </head>`
+    );
   }
 
   // Add service worker registration if not present

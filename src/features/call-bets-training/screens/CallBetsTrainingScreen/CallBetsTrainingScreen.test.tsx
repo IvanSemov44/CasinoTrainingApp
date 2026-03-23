@@ -3,12 +3,15 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import CallBetsTrainingScreen from './CallBetsTrainingScreen';
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
-};
-
-const renderScreenWithTheme = (props: React.ComponentProps<typeof CallBetsTrainingScreen>) => {
-  return renderWithTheme(<CallBetsTrainingScreen {...props} />);
 };
 
 // Mock components
@@ -18,37 +21,28 @@ jest.mock('../../components', () => ({
 }));
 
 describe('CallBetsTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
-    typeof CallBetsTrainingScreen
-  >['navigation'];
-  const makeRoute = (mode: 'tier' | 'orphelins' | 'voisins' | 'zero' | 'random') =>
-    ({
-      params: { mode },
-    }) as unknown as React.ComponentProps<typeof CallBetsTrainingScreen>['route'];
-  const mockRoute = makeRoute('tier');
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   describe('rendering', () => {
     it('should render without crashing', () => {
-      const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('should display tier mode in header', () => {
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(getByText('TIER')).toBeTruthy();
     });
 
     it('should display score section', () => {
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(getByText(/Score:/)).toBeTruthy();
     });
 
     it('should render submit button', () => {
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(getByText('Submit Answer')).toBeTruthy();
     });
 
@@ -61,45 +55,36 @@ describe('CallBetsTrainingScreen', () => {
         'random',
       ];
       modes.forEach(mode => {
-        const modeRoute = makeRoute(mode);
-        const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
+        const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode={mode} />);
         expect(toJSON()).toBeTruthy();
       });
     });
 
     it('should display correct mode labels', () => {
-      const modeRoute = makeRoute('orphelins');
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="orphelins" />);
       expect(getByText('ORPHELINS')).toBeTruthy();
     });
 
     it('should handle random mode correctly', () => {
-      const modeRoute = makeRoute('random');
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="random" />);
       expect(getByText('Random Mode')).toBeTruthy();
     });
 
     it('should display initial score as 0/0', () => {
-      const { getByText } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(getByText(/Score: 0\/0/)).toBeTruthy();
     });
   });
 
   describe('interactions', () => {
     it('should have accessible submit button', () => {
-      const { getByLabelText } = renderScreenWithTheme({
-        navigation: mockNavigation,
-        route: mockRoute,
-      });
+      const { getByLabelText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       const submitButton = getByLabelText('Submit answer');
       expect(submitButton).toBeTruthy();
     });
 
     it('should submit answer when submit button is pressed', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({
-        navigation: mockNavigation,
-        route: mockRoute,
-      });
+      const { getByText, getByLabelText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
       expect(getByText(/Score:/)).toBeTruthy();
@@ -108,15 +93,12 @@ describe('CallBetsTrainingScreen', () => {
 
   describe('state management', () => {
     it('should render ChallengeDisplay component', () => {
-      const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('should update stats after submission', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({
-        navigation: mockNavigation,
-        route: mockRoute,
-      });
+      const { getByText, getByLabelText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(getByText(/Score: 0\/0/)).toBeTruthy();
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
@@ -132,22 +114,18 @@ describe('CallBetsTrainingScreen', () => {
         'random',
       ];
       modes.forEach(mode => {
-        const modeRoute = makeRoute(mode);
-        const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: modeRoute });
+        const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode={mode} />);
         expect(toJSON()).toBeTruthy();
       });
     });
 
     it('should pass correct mode to components', () => {
-      const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('should reset result when generating new challenge', () => {
-      const { getByText, getByLabelText } = renderScreenWithTheme({
-        navigation: mockNavigation,
-        route: mockRoute,
-      });
+      const { getByText, getByLabelText } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       const submitButton = getByLabelText('Submit answer');
       fireEvent.press(submitButton);
       expect(getByText(/Score:/)).toBeTruthy();
@@ -161,11 +139,7 @@ describe('CallBetsTrainingScreen', () => {
         { mode: 'zero' as const, label: 'ZERO' },
       ];
       testModes.forEach(({ mode, label }) => {
-        const modeRoute = makeRoute(mode);
-        const { getByText } = renderScreenWithTheme({
-          navigation: mockNavigation,
-          route: modeRoute,
-        });
+        const { getByText } = renderWithTheme(<CallBetsTrainingScreen mode={mode} />);
         expect(getByText(label)).toBeTruthy();
       });
     });
@@ -173,7 +147,7 @@ describe('CallBetsTrainingScreen', () => {
 
   describe('styling and theme', () => {
     it('should render with proper theme colors', () => {
-      const { toJSON } = renderScreenWithTheme({ navigation: mockNavigation, route: mockRoute });
+      const { toJSON } = renderWithTheme(<CallBetsTrainingScreen mode="tier" />);
       expect(toJSON()).toBeTruthy();
     });
   });

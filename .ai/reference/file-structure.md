@@ -4,9 +4,11 @@ Updated: 2026-03-10
 Owner: @ivans
 
 ## Purpose
+
 Provide a practical map of where to implement and where to document changes.
 
 ## App Root
+
 - **src/**: Source code
 - **src/components/**: Shared UI components (ChipSelector, PlayingCard, ErrorBoundary, etc.)
 - **src/features/**: Self-contained feature modules (blackjack-training, roulette-game, etc.)
@@ -21,19 +23,22 @@ Provide a practical map of where to implement and where to document changes.
 - **src/utils/**: Utility functions and helpers
 - **src/styles/**: Theme and global style definitions
 - **src/test-utils/**: Test fixtures and helpers
-- **src/__tests__/**: Integration and unit tests
+- **src/**tests**/**: Integration and unit tests
 
 ## Platform-Specific
+
 - **web/**: Web deployment assets (Expo Web) and manifest
 - **assets/**: Images, fonts, and other static assets
 
 ## Configuration
+
 - **app.json**: Expo app configuration
 - **tsconfig.json**: TypeScript configuration
 - **jest.config.js**: Test runner configuration
 - **eslint.config.js**: Linting configuration
 
 ## AI Documentation
+
 - Canonical docs hub: `.ai/README.md`
 - Workflows: `.ai/workflows/`
 - Domain rules: `.ai/frontend/`, `.ai/architecture/`

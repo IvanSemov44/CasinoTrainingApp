@@ -14,6 +14,7 @@ npx jest --passWithNoTests
 ```
 
 Hard blockers:
+
 - TypeScript errors > 0
 - ESLint errors > 0
 - New cross-feature imports
@@ -41,17 +42,18 @@ Hard blockers:
 
 ### State Ownership Matrix
 
-| State Type | Owner | Examples | Forbidden |
-|---|---|---|---|
-| App-wide settings | Context (`src/contexts/`) | Theme mode, sound toggle, haptic toggle | Duplicating theme/sound state inside screens |
-| Feature runtime drill state | `useDrillState` hook | phase, streak, points, accuracy | Re-deriving `canSubmit` / `accuracy` locally |
-| Feature-specific UI state | Local `useState` | modal visibility, selected chip, temporary input | Moving transient UI state into global context |
-| Roulette game table state | Redux (`src/store/`) | roulette-specific table/bet state | Using Redux for one-screen temporary values |
-| Persisted preferences | AsyncStorage via Context/services | `@app_theme`, haptic/sound settings | Writing AsyncStorage directly inside random components |
+| State Type                  | Owner                             | Examples                                         | Forbidden                                              |
+| --------------------------- | --------------------------------- | ------------------------------------------------ | ------------------------------------------------------ |
+| App-wide settings           | Context (`src/contexts/`)         | Theme mode, sound toggle, haptic toggle          | Duplicating theme/sound state inside screens           |
+| Feature runtime drill state | `useDrillState` hook              | phase, streak, points, accuracy                  | Re-deriving `canSubmit` / `accuracy` locally           |
+| Feature-specific UI state   | Local `useState`                  | modal visibility, selected chip, temporary input | Moving transient UI state into global context          |
+| Roulette game table state   | Redux (`src/store/`)              | roulette-specific table/bet state                | Using Redux for one-screen temporary values            |
+| Persisted preferences       | AsyncStorage via Context/services | `@app_theme`, haptic/sound settings              | Writing AsyncStorage directly inside random components |
 
 ### Side-Effects Contract
 
 Side effects must be isolated and predictable:
+
 - **Sound/Haptics**: only in handlers/effects that check `useSettings()` first
 - **Persistence**: AsyncStorage writes in contexts/services/hooks, not deeply in presentational components
 - **Navigation**: perform in screen-level handlers, not in utility modules
@@ -64,12 +66,15 @@ Side effects must be isolated and predictable:
 ### P0 — Blocking (never merge if violated)
 
 #### 1. TypeScript Strict — Always Verify
+
 ```bash
 npx tsc --noEmit
 ```
+
 Run after every change. Zero errors before marking done.
 
 #### 2. No Inline Styles — Use Theme Pattern
+
 Every screen/component with theming MUST use the dynamic styles pattern:
 
 ```tsx
@@ -88,9 +93,11 @@ function makeStyles(colors: ReturnType<typeof useTheme>['colors']) {
 Never hardcode colors. Always use `colors.*` from theme.
 
 #### 3. Never Auto-Commit or Push
+
 Always ask before `git push` or any destructive git operation.
 
 #### 4. No Cross-Feature Imports
+
 Features must not import from other feature folders.
 
 ```tsx
@@ -130,6 +137,7 @@ The `@components/shared` alias also resolves to `src/shared` (for backwards comp
 `src/components/` now only contains `InstallButton/` and `SpeedInsights/` — do not add shared UI there.
 
 #### 5. Code Review Blocker: Type Safety
+
 - No `any` types in production code
 - All props must be typed
 - All hook return types must be explicit
@@ -150,6 +158,7 @@ const handlePress = (e: GestureResponderEvent) => { ... };
 ### P1 — High Priority (merge after review if code quality is high)
 
 #### 6. Feature Folder Structure
+
 Keep features self-contained using the standard layout:
 
 ```
@@ -167,6 +176,7 @@ src/features/MyFeature/
 Export only public API via `index.ts`. Implementation details stay internal.
 
 #### 7. Screen-Level Colocation
+
 Screen-specific logic and components belong with the screen:
 
 ```tsx
@@ -185,6 +195,7 @@ src/features/roulette-training/hooks/
 Move to screen folder if used by one screen only.
 
 #### 8. Component Files Must Have Tests
+
 Every new/modified component must have a `.test.tsx` file:
 
 ```tsx
@@ -207,6 +218,7 @@ describe('MyComponent', () => {
 ```
 
 #### 9. Effect Cleanup is Mandatory
+
 All effects must clean up:
 
 ```tsx
@@ -224,6 +236,7 @@ useEffect(() => {
 ```
 
 #### 10. No Array Index Keys for Dynamic Lists
+
 Always use stable unique IDs:
 
 ```tsx
@@ -239,6 +252,7 @@ items.map((item) => <Item key={item.id} ... />)
 ### P2 — Nice to Have (discuss in review)
 
 #### 11. Double-Tap Protection
+
 Protect user interactions from rapid repeated taps:
 
 ```tsx
@@ -253,6 +267,7 @@ const handlePress = () => {
 ```
 
 #### 12. Extract Shared Behavior at 2×
+
 When the same logic or UI appears in 2+ files, extract it:
 
 ```tsx
@@ -261,6 +276,7 @@ const useRoundResult = () => { ... };
 ```
 
 #### 13. Memoization for Performance
+
 Use `useMemo` and `useCallback` for expensive operations:
 
 ```tsx
@@ -276,16 +292,19 @@ const handlePress = useCallback(() => { ... }, [dependency]);
 ## Testing Strategy
 
 ### Unit Tests
+
 - Hooks: test in isolation with mock Redux
 - Utilities: test pure functions
 - Components: test render + one interaction
 
-### Integration Tests  
+### Integration Tests
+
 - Feature workflows (multi-screen navigation)
 - State flow (dispatch → reducer → selector)
 - E2E (critical user journeys if time permits)
 
 ### Minimum Coverage
+
 - Render tests for all components
 - Reducer tests for all Redux logic
 - Hook tests for custom selector hooks
@@ -298,7 +317,7 @@ const handlePress = useCallback(() => { ... }, [dependency]);
 - **Naming**: Use clear names over abbreviations (`calculateWinnings` not `calcWins`)
 - **Functions**: Keep focused; refactor if > 50 lines
 - **Props**: Spread carefully; explicitly list props at module boundary
-- **Comments**: Explain *why*, not *what* (code shows what)
+- **Comments**: Explain _why_, not _what_ (code shows what)
 - **Imports**: Group by third-party, then relative (`src/...`), then local (`./`)
 
 ---

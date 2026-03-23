@@ -1,7 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { RacetrackSectorStackParamList } from '../../navigation';
-
-export type SectorTrainingScreenProps = StackScreenProps<
-  RacetrackSectorStackParamList,
-  'SectorTraining'
->;
+import type { SectorMode } from '../../types';
+export type SectorTrainingScreenProps = {
+  mode?: SectorMode;
+};

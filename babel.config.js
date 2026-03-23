@@ -36,9 +36,12 @@ module.exports = function (api) {
               '@features/roulette-training': './src/features/roulette/roulette-training',
               '@features/roulette-game': './src/features/roulette/roulette-game',
               '@features/racetrack': './src/features/roulette/racetrack',
-              '@features/racetrack-position-training': './src/features/roulette/racetrack-position-training',
-              '@features/racetrack-sector-training': './src/features/roulette/racetrack-sector-training',
-              '@features/roulette-knowledge-training': './src/features/roulette/roulette-knowledge-training',
+              '@features/racetrack-position-training':
+                './src/features/roulette/racetrack-position-training',
+              '@features/racetrack-sector-training':
+                './src/features/roulette/racetrack-sector-training',
+              '@features/roulette-knowledge-training':
+                './src/features/roulette/roulette-knowledge-training',
               '@features': './src/features',
               '@utils': './src/utils',
               '@services': './src/services',
@@ -75,9 +78,12 @@ module.exports = function (api) {
             '@features/roulette-training': './src/features/roulette/roulette-training',
             '@features/roulette-game': './src/features/roulette/roulette-game',
             '@features/racetrack': './src/features/roulette/racetrack',
-            '@features/racetrack-position-training': './src/features/roulette/racetrack-position-training',
-            '@features/racetrack-sector-training': './src/features/roulette/racetrack-sector-training',
-            '@features/roulette-knowledge-training': './src/features/roulette/roulette-knowledge-training',
+            '@features/racetrack-position-training':
+              './src/features/roulette/racetrack-position-training',
+            '@features/racetrack-sector-training':
+              './src/features/roulette/racetrack-sector-training',
+            '@features/roulette-knowledge-training':
+              './src/features/roulette/roulette-knowledge-training',
             '@features': './src/features',
             '@utils': './src/utils',
             '@services': './src/services',

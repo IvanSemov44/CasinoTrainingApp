@@ -3,16 +3,16 @@ import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import CallBetsMenuScreen from './CallBetsMenuScreen';
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
 };
-
-// Mock navigation
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(() => ({
-    navigate: jest.fn(),
-  })),
-}));
 
 describe('CallBetsMenuScreen', () => {
   beforeEach(() => {

@@ -1,8 +1,16 @@
 import type { BetConfigKey } from '@config/betConfigs';
 import type { PositionType } from '@features/roulette-training/config/exerciseDefinitions';
-import type { RouletteTrainingStackParamList } from '@features/roulette-training/navigation';
 
-const TRAINING_SCREEN_MAP: Record<PositionType, keyof RouletteTrainingStackParamList> = {
+// Screen names for roulette training - used by thin wrappers in app/
+export type RouletteTrainingScreen =
+  | 'Calculation'
+  | 'MixedCalculation'
+  | 'TripleMixedCalculation'
+  | 'AllPositionsCalculation'
+  | 'CashHandling'
+  | 'LayoutPractice';
+
+const TRAINING_SCREEN_MAP: Record<PositionType, RouletteTrainingScreen> = {
   STRAIGHT_UP: 'Calculation',
   SPLIT: 'Calculation',
   STREET: 'Calculation',
@@ -27,9 +35,7 @@ const BET_TYPES_MAP: Partial<Record<PositionType, string[]>> = {
   ALL_POSITIONS_CALCULATION: ['STRAIGHT', 'SPLIT', 'CORNER', 'STREET', 'SIX_LINE'],
 };
 
-export function getTrainingScreen(
-  trainingType: PositionType
-): keyof RouletteTrainingStackParamList {
+export function getTrainingScreen(trainingType: PositionType): RouletteTrainingScreen {
   return TRAINING_SCREEN_MAP[trainingType] || 'Calculation';
 }
 

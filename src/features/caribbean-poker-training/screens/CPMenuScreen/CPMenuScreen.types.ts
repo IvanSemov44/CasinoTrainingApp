@@ -1,4 +1,2 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { CPStackParamList } from '../../navigation';
-
-export type CPMenuScreenProps = StackScreenProps<CPStackParamList, 'CPMenu'>;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type CPMenuScreenProps = {};

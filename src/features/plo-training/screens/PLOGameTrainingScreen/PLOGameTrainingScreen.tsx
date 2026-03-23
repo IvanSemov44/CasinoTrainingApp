@@ -10,9 +10,13 @@ import PLOScoreHeader from '@features/plo-training/components/PLOScoreHeader';
 import PLOFeedbackCard from '@features/plo-training/components/PLOFeedbackCard';
 import type { PLOGameTrainingScreenProps } from './PLOGameTrainingScreen.types';
 
-export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenProps) {
-  const { difficulty } = route.params;
+export default function PLOGameTrainingScreen(props: PLOGameTrainingScreenProps) {
+  const { difficulty } = props;
+
   const styles = useThemedStyles(makeStyles);
+
+  // Provide default to satisfy React hooks rules
+  const effectiveDifficulty = difficulty ?? 'easy';
 
   const {
     hand,
@@ -28,7 +32,11 @@ export default function PLOGameTrainingScreen({ route }: PLOGameTrainingScreenPr
     handleCheck,
     handleContinue,
     upcomingMultiplier,
-  } = usePLOGameState(difficulty);
+  } = usePLOGameState(effectiveDifficulty);
+
+  if (!difficulty) {
+    return null;
+  }
 
   if (!hand || momentIndex >= hand.askMoments.length) {
     return (

@@ -19,35 +19,35 @@ A React Native (Expo) application covering 12 training modules across roulette a
 
 ## Training Modules
 
-| Category | Module | Key Skills |
-|---|---|---|
-| Roulette | 🎰 Roulette Training | Payouts · Splits · Streets · Speed drills |
-| Roulette | 🎯 Sector Training | Number → Sector (Voisins / Tiers / Orphelins / Zero) |
-| Roulette | 📍 Position Training | Number → Racetrack clock position |
-| Roulette | 💰 Cash Conversion | Chip exchange calculations |
-| Roulette | 📚 Roulette Knowledge | Rules · Limits · Announced bet chip counts |
-| Roulette | 🎡 Roulette Game | Live simulation with racetrack & announced bets |
-| Poker | 🂡 Blackjack | 3:2 payout · Insurance · Super Seven · Odd bets |
-| Poker | 🃏 Three Card Poker | Qualify · Ante Bonus payouts (4:1 / 3:1 / 1:1) |
-| Poker | 🌴 Caribbean Poker | Swap mechanics · €1 Bonus · A-K qualification |
-| Poker | 🤠 Texas Hold'em Ultimate | Blind · Trips Plus · 3×/4× pre-flop raise |
-| Poker | 📣 Call Bets | Voisins · Tiers · Orphelins · Zero chip counts |
-| Poker | ♠️ Pot Limit Omaha | Dealing order · Multi-street pot calculation |
+| Category | Module                    | Key Skills                                           |
+| -------- | ------------------------- | ---------------------------------------------------- |
+| Roulette | 🎰 Roulette Training      | Payouts · Splits · Streets · Speed drills            |
+| Roulette | 🎯 Sector Training        | Number → Sector (Voisins / Tiers / Orphelins / Zero) |
+| Roulette | 📍 Position Training      | Number → Racetrack clock position                    |
+| Roulette | 💰 Cash Conversion        | Chip exchange calculations                           |
+| Roulette | 📚 Roulette Knowledge     | Rules · Limits · Announced bet chip counts           |
+| Roulette | 🎡 Roulette Game          | Live simulation with racetrack & announced bets      |
+| Poker    | 🂡 Blackjack               | 3:2 payout · Insurance · Super Seven · Odd bets      |
+| Poker    | 🃏 Three Card Poker       | Qualify · Ante Bonus payouts (4:1 / 3:1 / 1:1)       |
+| Poker    | 🌴 Caribbean Poker        | Swap mechanics · €1 Bonus · A-K qualification        |
+| Poker    | 🤠 Texas Hold'em Ultimate | Blind · Trips Plus · 3×/4× pre-flop raise            |
+| Poker    | 📣 Call Bets              | Voisins · Tiers · Orphelins · Zero chip counts       |
+| Poker    | ♠️ Pot Limit Omaha        | Dealing order · Multi-street pot calculation         |
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React Native 0.81 + Expo 54 |
-| Language | TypeScript 5.9 (strict) |
-| State | Redux Toolkit + redux-persist |
-| Navigation | React Navigation 7 (stack) |
-| Themes | Custom dual-theme system (Midnight / Casino Green) |
-| Storage | AsyncStorage (offline-first) |
-| Graphics | React Native SVG + Reanimated 4 |
-| Monitoring | Sentry · Vercel Speed Insights |
-| Testing | Jest 30 + React Native Testing Library |
-| CI/CD | GitHub Actions (quality · test · build-web) |
+| Layer      | Technology                                         |
+| ---------- | -------------------------------------------------- |
+| Framework  | React Native 0.81 + Expo 54                        |
+| Language   | TypeScript 5.9 (strict)                            |
+| State      | Redux Toolkit + redux-persist                      |
+| Navigation | React Navigation 7 (stack)                         |
+| Themes     | Custom dual-theme system (Midnight / Casino Green) |
+| Storage    | AsyncStorage (offline-first)                       |
+| Graphics   | React Native SVG + Reanimated 4                    |
+| Monitoring | Sentry · Vercel Speed Insights                     |
+| Testing    | Jest 30 + React Native Testing Library             |
+| CI/CD      | GitHub Actions (quality · test · build-web)        |
 
 ## Project Structure
 
@@ -111,12 +111,12 @@ npm start
 
 ## Running the App
 
-| Platform | Command |
-|---|---|
-| Android | `npm run android` |
-| iOS (macOS only) | `npm run ios` |
-| Web / PWA | `npm run web` |
-| Expo Go (scan QR) | `npm start` |
+| Platform          | Command           |
+| ----------------- | ----------------- |
+| Android           | `npm run android` |
+| iOS (macOS only)  | `npm run ios`     |
+| Web / PWA         | `npm run web`     |
+| Expo Go (scan QR) | `npm start`       |
 
 ## Testing
 
@@ -157,13 +157,13 @@ See [`.ai/architecture/overview.md`](.ai/architecture/overview.md) for full arch
 
 ## Documentation
 
-| Resource | Purpose |
-|---|---|
-| [`.ai/README.md`](.ai/README.md) | AI assistant entry point — read order guide |
-| [`.ai/standards/coding-guide.md`](.ai/standards/coding-guide.md) | Merge gate + Definition of Done |
-| [`.ai/architecture/overview.md`](.ai/architecture/overview.md) | System diagrams — layers, data flow, theme system |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to add a new training module |
-| [`CHANGELOG.md`](CHANGELOG.md) | Version history |
+| Resource                                                         | Purpose                                           |
+| ---------------------------------------------------------------- | ------------------------------------------------- |
+| [`.ai/README.md`](.ai/README.md)                                 | AI assistant entry point — read order guide       |
+| [`.ai/standards/coding-guide.md`](.ai/standards/coding-guide.md) | Merge gate + Definition of Done                   |
+| [`.ai/architecture/overview.md`](.ai/architecture/overview.md)   | System diagrams — layers, data flow, theme system |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)                             | How to add a new training module                  |
+| [`CHANGELOG.md`](CHANGELOG.md)                                   | Version history                                   |
 
 ## License
 

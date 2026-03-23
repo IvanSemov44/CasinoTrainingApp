@@ -4,7 +4,6 @@
  */
 import React from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 
 /**
@@ -12,9 +11,7 @@ import { ThemeProvider } from '@contexts/ThemeContext';
  * Add any global providers here (Redux, Theme, etc.)
  */
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <ThemeProvider>
-    <NavigationContainer>{children}</NavigationContainer>
-  </ThemeProvider>
+  <ThemeProvider>{children}</ThemeProvider>
 );
 
 /**
@@ -30,15 +27,3 @@ export * from '@testing-library/react-native';
 
 // Override render with our custom one
 export { customRender as render };
-
-/**
- * Render with navigation for screen tests
- * @param ui - React element to render
- * @param _navigationProps - Additional navigation props
- */
-export const renderWithNavigation = (
-  ui: React.ReactElement,
-  _navigationProps?: { initialRoute?: string }
-) => {
-  return render(<NavigationContainer>{ui}</NavigationContainer>);
-};

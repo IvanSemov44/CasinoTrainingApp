@@ -4,14 +4,17 @@ Updated: 2026-03-10
 Owner: @ivans
 
 ## Purpose
+
 Run the right test level for each change and keep feedback fast without skipping critical coverage.
 
 ## Test Pyramid for This Repo
+
 - **Unit tests**: Default for hooks, slices, selectors, services, utilities.
 - **Component tests**: Component rendering with mocked Redux state.
 - **Integration tests**: Feature workflows and multiple components together.
 
 ## What to Run by Change Type
+
 1. **Redux slice / selector / hook change**:
    - Run targeted unit tests first.
    - Run full suite before merge.
@@ -31,6 +34,7 @@ Run the right test level for each change and keep feedback fast without skipping
 ## Commands
 
 ### Jest Unit & Component Tests
+
 ```bash
 npm test                    # Watch mode
 npm test -- --run            # Single run
@@ -39,12 +43,14 @@ npm test -- <pattern>        # Filtered tests
 ```
 
 ### CI/Pre-commit
+
 ```bash
 npm run test:ci              # Full run with coverage
 npm run lint                 # ESLint check
 ```
 
 ## Test Structure
+
 - Slice tests: `src/store/__tests__/` or `src/features/<feature>/__tests__/slices/`
 - Component tests: `src/components/<component>/__tests__/` or `src/features/<feature>/components/__tests__/`
 - Hook tests: `src/hooks/__tests__/`
@@ -52,12 +58,14 @@ npm run lint                 # ESLint check
 - Fixtures/builders: `src/test-utils/fixtures.ts`, `src/test-utils/builders.ts`
 
 ## Coverage Guidance
+
 - Prioritize behavior and failure paths over chasing synthetic 100% line coverage.
 - Every bug fix should include at least one regression test.
 - Prefer deterministic tests over flaky async/timing dependencies.
 - Mock Redux state in component tests; use real reducers in slice tests.
 
 ## Real Code References
+
 - Test config: [jest.config.js](../../jest.config.js)
 - Test setup: [jest.setup.js](../../jest.setup.js), [jest.setupAfterEnv.js](../../jest.setupAfterEnv.js)
 - Unit tests: `src/__tests__/`, `src/store/__tests__/`
@@ -66,6 +74,7 @@ npm run lint                 # ESLint check
 - Feature tests: `src/features/<feature>/__tests__/`
 
 ## Common Failure Modes
+
 - Running full suite too early instead of targeted tests first.
 - Merging behavior changes without regression tests.
 - Treating flaky async tests as acceptable instead of fixing root cause.

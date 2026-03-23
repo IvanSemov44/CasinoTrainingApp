@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useRouter } from 'expo-router';
 import {
   BaseTrainingModal,
   type StepConfig,
@@ -10,7 +9,6 @@ import {
 import { useCascadingDropdowns } from '@hooks/useCascadingDropdowns';
 import { type PositionType } from '@features/roulette/roulette-training/config/exerciseDefinitions';
 import type { BetConfigKey } from '@config/betConfigs';
-import type { RouletteTrainingStackParamList } from '@features/roulette/roulette-training/navigation';
 import type { CashConfigKey } from '@config/cashConfigs';
 import {
   getTrainingBetConfig,
@@ -28,8 +26,16 @@ interface TrainingSelectionModalProps {
   onClose: () => void;
 }
 
+// Map screen names to Expo Router paths
+const screenToPath: Record<string, string> = {
+  Calculation: '/roulette/calculation',
+  MixedCalculation: '/roulette/mixed-calculation',
+  TripleMixedCalculation: '/roulette/triple-mixed-calculation',
+  AllPositionsCalculation: '/roulette/all-positions-calculation',
+};
+
 export default function TrainingSelectionModal({ visible, onClose }: TrainingSelectionModalProps) {
-  const navigation = useNavigation<StackNavigationProp<RouletteTrainingStackParamList>>();
+  const router = useRouter();
 
   // Use cascading dropdowns hook for state management
   const { selections, isOpen, toggle, select, reset, resetFrom } = useCascadingDropdowns({
@@ -80,25 +86,24 @@ export default function TrainingSelectionModal({ visible, onClose }: TrainingSel
     const betConfigKey = getTrainingBetConfig(selectedTrainingType);
     const count = parseInt(chipCount, 10);
 
-    // Build navigation params
-    const params: {
-      betConfigKey?: BetConfigKey;
-      cashConfigKey?: CashConfigKey;
-      betTypes?: string[];
-      chipCount?: number;
-    } = {};
+    // Build query params
+    const queryParams: string[] = [];
 
-    if (betConfigKey) params.betConfigKey = betConfigKey;
-    if (selectedDenomination) params.cashConfigKey = selectedDenomination;
-    if (count > 0) params.chipCount = count;
+    if (betConfigKey) queryParams.push(`betConfigKey=${betConfigKey}`);
+    if (selectedDenomination) queryParams.push(`cashConfigKey=${selectedDenomination}`);
+    if (count > 0) queryParams.push(`chipCount=${count}`);
 
     const betTypes = getTrainingBetTypes(selectedTrainingType);
-    if (betTypes) params.betTypes = betTypes;
+    if (betTypes) queryParams.push(`betTypes=${betTypes.join(',')}`);
 
     handleClose();
-    const navigate = navigation.navigate as (...args: unknown[]) => void;
-    navigate(screenName, Object.keys(params).length > 0 ? params : undefined);
-  }, [selectedTrainingType, selectedDenomination, chipCount, navigation, handleClose]);
+
+    const path = screenToPath[screenName];
+    if (path) {
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+      router.push(`${path}${queryString}`);
+    }
+  }, [selectedTrainingType, selectedDenomination, chipCount, router, handleClose]);
 
   // Check if can start training
   const canStartTraining = useMemo(() => {

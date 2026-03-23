@@ -1,16 +1,19 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { DrillScreen } from '@shared';
 import { generateCPScenario } from '../../utils/scenarioGenerator';
-import type { CPStackParamList } from '../../navigation';
+import type { CPDrillScreenProps } from './CPDrillScreen.types';
 
-type Props = StackScreenProps<CPStackParamList, 'CPDrill'>;
+export default function CPDrillScreen(props: CPDrillScreenProps) {
+  const { drillType } = props;
 
-export default function CPDrillScreen({ route }: Props) {
+  if (!drillType) {
+    return null;
+  }
+
   return (
     <DrillScreen
       scenarioGenerator={generateCPScenario}
-      drillType={route.params.drillType}
+      drillType={drillType}
       dealerLabel={() => "Dealer's Hand"}
     />
   );

@@ -1,16 +1,19 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { DrillScreen } from '@shared';
 import { generateRKScenario } from '../../utils/scenarioGenerator';
-import type { RKStackParamList } from '../../navigation';
+import type { RKDrillScreenProps } from './RKDrillScreen.types';
 
-type Props = StackScreenProps<RKStackParamList, 'RKDrill'>;
+export default function RKDrillScreen(props: RKDrillScreenProps) {
+  const { drillType } = props;
 
-export default function RKDrillScreen({ route }: Props) {
+  if (!drillType) {
+    return null;
+  }
+
   return (
     <DrillScreen
       scenarioGenerator={generateRKScenario}
-      drillType={route.params.drillType}
+      drillType={drillType}
       dealerLabel={() => 'Winning Number'}
     />
   );

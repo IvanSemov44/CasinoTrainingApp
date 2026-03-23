@@ -1,14 +1,16 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
-import type { TCPMenuScreenProps } from './TCPMenuScreen.types';
 
-export default function TCPMenuScreen({ navigation }: TCPMenuScreenProps) {
+export default function TCPMenuScreen() {
+  const router = useRouter();
+
   return (
     <DrillMenuScreen
       title="Three Card Poker"
       drills={DRILLS}
-      onPress={drillType => navigation.navigate('TCPDrill', { drillType })}
+      onPress={drillType => router.push(`/tcp/${drillType}`)}
     />
   );
 }

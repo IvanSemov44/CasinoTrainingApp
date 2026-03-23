@@ -1,4 +1,5 @@
-import type { StackScreenProps } from '@react-navigation/stack';
-import type { PLOStackParamList } from '../../navigation';
+import type { PLODifficulty } from '../../types';
 
-export type PLOGameTrainingScreenProps = StackScreenProps<PLOStackParamList, 'PLOGameTraining'>;
+export type PLOGameTrainingScreenProps = {
+  difficulty: PLODifficulty;
+};

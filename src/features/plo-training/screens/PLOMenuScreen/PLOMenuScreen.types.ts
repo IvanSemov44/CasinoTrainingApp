@@ -1,4 +1,2 @@
-import type { StackScreenProps } from '@react-navigation/stack';
-import type { PLOStackParamList } from '../../navigation';
-
-export type PLOMenuScreenProps = StackScreenProps<PLOStackParamList, 'PLOMenu'>;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type PLOMenuScreenProps = {};

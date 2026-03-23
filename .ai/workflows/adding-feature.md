@@ -4,9 +4,11 @@ Updated: 2026-03-10
 Owner: @ivans
 
 ## Purpose
+
 Implement features in a consistent order to keep the app aligned with existing project patterns.
 
 ## Feature Sequence
+
 1. **Types**: Define feature state shape, action types, component props in `<feature>/types/`.
 2. **Services** (if needed): Add business logic functions in `src/services/` or `<feature>/services/`.
 3. **Redux Slice**: Create/update slice in `<feature>/store/` or `src/store/`.
@@ -23,6 +25,7 @@ Implement features in a consistent order to keep the app aligned with existing p
    - Integration tests if needed.
 
 ## Real Code References
+
 - Feature folder structure:
   - `src/features/blackjack-training/` (see components, hooks, types if present)
   - `src/features/roulette-training/`
@@ -41,6 +44,7 @@ Implement features in a consistent order to keep the app aligned with existing p
   - `src/features/<feature>/__tests__/` (feature tests)
 
 ## Checklist
+
 - [ ] Feature types defined with strict TypeScript.
 - [ ] Redux slice created with reducer, selectors, actions.
 - [ ] AsyncThunk added if async work needed (e.g., loading from storage).

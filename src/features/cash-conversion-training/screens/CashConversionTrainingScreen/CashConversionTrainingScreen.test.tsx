@@ -3,6 +3,13 @@ import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import CashConversionTrainingScreen from './CashConversionTrainingScreen';
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
 };
@@ -48,13 +55,6 @@ jest.mock('../../constants/sectors', () => ({
 }));
 
 describe('CashConversionTrainingScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
-    typeof CashConversionTrainingScreen
-  >['navigation'];
-  const mockRoute = {
-    params: { difficulty: 'easy', sector: 'tier' },
-  } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -62,7 +62,7 @@ describe('CashConversionTrainingScreen', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={mockRoute} />
+        <CashConversionTrainingScreen difficulty="easy" sector="tier" />
       );
       expect(toJSON()).toBeTruthy();
     });
@@ -70,11 +70,8 @@ describe('CashConversionTrainingScreen', () => {
     it('renders with different difficulty levels', () => {
       const difficulties: Array<'easy' | 'medium' | 'hard'> = ['easy', 'medium', 'hard'];
       difficulties.forEach(difficulty => {
-        const diffRoute = {
-          params: { difficulty, sector: 'tier' },
-        } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
         const { toJSON } = renderWithTheme(
-          <CashConversionTrainingScreen navigation={mockNavigation} route={diffRoute} />
+          <CashConversionTrainingScreen difficulty={difficulty} sector="tier" />
         );
         expect(toJSON()).toBeTruthy();
       });
@@ -90,11 +87,8 @@ describe('CashConversionTrainingScreen', () => {
         'random',
       ];
       sectors.forEach(sector => {
-        const sectorRoute = {
-          params: { difficulty: 'easy', sector },
-        } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
         const { toJSON } = renderWithTheme(
-          <CashConversionTrainingScreen navigation={mockNavigation} route={sectorRoute} />
+          <CashConversionTrainingScreen difficulty="easy" sector={sector} />
         );
         expect(toJSON()).toBeTruthy();
       });
@@ -103,31 +97,22 @@ describe('CashConversionTrainingScreen', () => {
 
   describe('Difficulty Levels', () => {
     it('handles easy difficulty', () => {
-      const easyRoute = {
-        params: { difficulty: 'easy', sector: 'tier' },
-      } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={easyRoute} />
+        <CashConversionTrainingScreen difficulty="easy" sector="tier" />
       );
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles medium difficulty', () => {
-      const mediumRoute = {
-        params: { difficulty: 'medium', sector: 'tier' },
-      } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={mediumRoute} />
+        <CashConversionTrainingScreen difficulty="medium" sector="tier" />
       );
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles hard difficulty', () => {
-      const hardRoute = {
-        params: { difficulty: 'hard', sector: 'tier' },
-      } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={hardRoute} />
+        <CashConversionTrainingScreen difficulty="hard" sector="tier" />
       );
       expect(toJSON()).toBeTruthy();
     });
@@ -135,21 +120,15 @@ describe('CashConversionTrainingScreen', () => {
 
   describe('Sector Handling', () => {
     it('handles tier sector', () => {
-      const tierRoute = {
-        params: { difficulty: 'easy', sector: 'tier' },
-      } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={tierRoute} />
+        <CashConversionTrainingScreen difficulty="easy" sector="tier" />
       );
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles random sector', () => {
-      const randomRoute = {
-        params: { difficulty: 'easy', sector: 'random' },
-      } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
       const { toJSON } = renderWithTheme(
-        <CashConversionTrainingScreen navigation={mockNavigation} route={randomRoute} />
+        <CashConversionTrainingScreen difficulty="easy" sector="random" />
       );
       expect(toJSON()).toBeTruthy();
     });
@@ -164,11 +143,8 @@ describe('CashConversionTrainingScreen', () => {
         'random',
       ];
       sectors.forEach(sector => {
-        const sectorRoute = {
-          params: { difficulty: 'easy', sector },
-        } as unknown as React.ComponentProps<typeof CashConversionTrainingScreen>['route'];
         const { toJSON } = renderWithTheme(
-          <CashConversionTrainingScreen navigation={mockNavigation} route={sectorRoute} />
+          <CashConversionTrainingScreen difficulty="easy" sector={sector} />
         );
         expect(toJSON()).toBeTruthy();
       });

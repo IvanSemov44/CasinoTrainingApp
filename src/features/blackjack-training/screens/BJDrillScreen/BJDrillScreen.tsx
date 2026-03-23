@@ -7,11 +7,17 @@ function getDealerLabel(drillType: string): string {
   return drillType === 'insurance-timing' ? "Dealer's Upcard" : "Dealer's Hand";
 }
 
-export default function BJDrillScreen({ route }: BJDrillScreenProps) {
+export default function BJDrillScreen(props: BJDrillScreenProps) {
+  const { drillType } = props;
+
+  if (!drillType) {
+    return null;
+  }
+
   return (
     <DrillScreen
       scenarioGenerator={generateBJScenario}
-      drillType={route.params.drillType}
+      drillType={drillType}
       dealerLabel={getDealerLabel}
     />
   );

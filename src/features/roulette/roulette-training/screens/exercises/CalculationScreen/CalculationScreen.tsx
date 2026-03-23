@@ -1,31 +1,13 @@
 import React from 'react';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import LoadingSpinner from '@shared/LoadingSpinner';
 import ExerciseLayout from '../../../components/ExerciseLayout';
-import { useCalculationQuestion, type CalculationRouteParams } from './useCalculationQuestion';
-import type { RouletteTrainingStackParamList } from '../../../navigation';
+import { useCalculationQuestion } from './useCalculationQuestion';
+import type { CalculationRouteParams } from './useCalculationQuestion';
 import type { PlacedBet } from '@app-types/roulette.types';
+import type { CalculationScreenProps } from './CalculationScreen.types';
 
-type CalculationScreenName =
-  | 'Calculation'
-  | 'MixedCalculation'
-  | 'TripleMixedCalculation'
-  | 'AllPositionsCalculation'
-  | 'CashHandling';
-
-type CalculationScreenRouteProp = RouteProp<RouletteTrainingStackParamList, CalculationScreenName>;
-type CalculationScreenNavigationProp = StackNavigationProp<
-  RouletteTrainingStackParamList,
-  CalculationScreenName
->;
-
-interface CalculationScreenProps {
-  route: CalculationScreenRouteProp;
-  navigation: CalculationScreenNavigationProp;
-}
-
-function CalculationScreen({ route }: CalculationScreenProps) {
+function CalculationScreen(props: CalculationScreenProps) {
+  const params: CalculationRouteParams = props.route?.params || {};
   const {
     score,
     attempts,
@@ -44,7 +26,7 @@ function CalculationScreen({ route }: CalculationScreenProps) {
     handleNextQuestion,
     isLoading,
     showInitialLoading,
-  } = useCalculationQuestion(route.params as CalculationRouteParams);
+  } = useCalculationQuestion(params);
 
   if (showInitialLoading) {
     return <LoadingSpinner message="Generating question..." />;

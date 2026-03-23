@@ -3,6 +3,14 @@ import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import RouletteLayoutPracticeScreen from './RouletteLayoutPracticeScreen';
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    back: jest.fn(),
+  })),
+}));
+
 jest.mock('./useLayoutPracticeSession', () => ({
   useLayoutPracticeSession: () => ({
     selectedChipValue: 25,
@@ -22,11 +30,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 
 describe('RouletteLayoutPracticeScreen', () => {
   it('renders layout practice screen sections', () => {
-    const navigation = { goBack: jest.fn() } as unknown as React.ComponentProps<
-      typeof RouletteLayoutPracticeScreen
-    >['navigation'];
-
-    const { getByText } = renderWithTheme(<RouletteLayoutPracticeScreen navigation={navigation} />);
+    const { getByText } = renderWithTheme(<RouletteLayoutPracticeScreen />);
 
     expect(getByText('Roulette Layout Practice')).toBeTruthy();
     expect(getByText('💡 How to Practice:')).toBeTruthy();

@@ -77,6 +77,7 @@ graph TD
 All components must use `colors.*` from `useTheme()`. Hardcoded hex values are a P0 violation.
 
 Pattern:
+
 ```typescript
 const { colors } = useTheme();
 const styles = useThemedStyles(makeStyles);
@@ -121,29 +122,29 @@ sequenceDiagram
 
 ## Hook Hierarchy
 
-| Hook | Location | Used by |
-|---|---|---|
-| `useDrillState<T>` | `src/hooks/useDrillState.ts` | All 5 poker-game drill screens |
-| `useSessionTracking` | `src/hooks/useSessionTracking.ts` | All drill screens + PLO training |
-| `useThemedStyles` | `src/hooks/useThemedStyles.ts` | 44+ components |
-| `useRouletteTrainingSession` | `src/hooks/` | Sector + Position training screens |
-| `useModalState` | `src/hooks/` | Modal-bearing screens |
+| Hook                         | Location                          | Used by                            |
+| ---------------------------- | --------------------------------- | ---------------------------------- |
+| `useDrillState<T>`           | `src/hooks/useDrillState.ts`      | All 5 poker-game drill screens     |
+| `useSessionTracking`         | `src/hooks/useSessionTracking.ts` | All drill screens + PLO training   |
+| `useThemedStyles`            | `src/hooks/useThemedStyles.ts`    | 44+ components                     |
+| `useRouletteTrainingSession` | `src/hooks/`                      | Sector + Position training screens |
+| `useModalState`              | `src/hooks/`                      | Modal-bearing screens              |
 
 ---
 
 ## Real Code References
 
-| Concept | File |
-|---|---|
-| Redux store root | `src/store/index.ts` |
-| Feature example (BJ) | `src/features/blackjack-training/` |
-| Shared drill menu | `src/components/shared/DrillMenuScreen/` |
-| Shared drill runner | `src/components/shared/DrillScreen/` |
-| Storage service | `src/services/storage.service.ts` |
-| Storage keys | `src/constants/storageKeys.ts` |
-| App navigation | `src/navigation/AppNavigator.tsx` |
-| Theme definitions | `src/styles/themes.ts` |
-| BaseDrillScenario type | `src/types/drill.types.ts` |
+| Concept                | File                                     |
+| ---------------------- | ---------------------------------------- |
+| Redux store root       | `src/store/index.ts`                     |
+| Feature example (BJ)   | `src/features/blackjack-training/`       |
+| Shared drill menu      | `src/components/shared/DrillMenuScreen/` |
+| Shared drill runner    | `src/components/shared/DrillScreen/`     |
+| Storage service        | `src/services/storage.service.ts`        |
+| Storage keys           | `src/constants/storageKeys.ts`           |
+| App navigation         | `src/navigation/AppNavigator.tsx`        |
+| Theme definitions      | `src/styles/themes.ts`                   |
+| BaseDrillScenario type | `src/types/drill.types.ts`               |
 
 ---
 

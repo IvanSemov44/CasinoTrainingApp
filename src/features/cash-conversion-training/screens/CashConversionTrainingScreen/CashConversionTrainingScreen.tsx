@@ -7,11 +7,16 @@ import { CashDisplay, RequestDisplay, AnswerInput, ResultFeedback } from '../../
 import { SECTOR_NAMES } from '../../constants/sectors';
 import { useCashConversionState } from './useCashConversionState';
 import type { CashConversionTrainingScreenProps } from './CashConversionTrainingScreen.types';
-import type { SectorType } from '../../types';
+import type { DifficultyLevel, SectorType } from '../../types';
 
-export default function CashConversionTrainingScreen({ route }: CashConversionTrainingScreenProps) {
-  const { difficulty, sector } = route.params;
+export default function CashConversionTrainingScreen(props: CashConversionTrainingScreenProps) {
+  const { difficulty, sector } = props;
+
   const styles = useThemedStyles(makeStyles);
+
+  // Provide defaults to satisfy React hooks rules - actual validation happens after
+  const effectiveDifficulty = (difficulty ?? 'easy') as DifficultyLevel;
+  const effectiveSector = (sector ?? 'single') as SectorType;
 
   const {
     currentRequest,
@@ -28,7 +33,11 @@ export default function CashConversionTrainingScreen({ route }: CashConversionTr
     setActiveInput,
     handleCheck,
     handleNext,
-  } = useCashConversionState({ difficulty, sector });
+  } = useCashConversionState({ difficulty: effectiveDifficulty, sector: effectiveSector });
+
+  if (!difficulty || !sector) {
+    return null;
+  }
 
   if (!currentRequest) return null;
 

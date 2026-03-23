@@ -1,14 +1,16 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
-import type { THUMenuScreenProps } from './THUMenuScreen.types';
 
-export default function THUMenuScreen({ navigation }: THUMenuScreenProps) {
+export default function THUMenuScreen() {
+  const router = useRouter();
+
   return (
     <DrillMenuScreen
       title="Texas Hold'em Ultimate"
       drills={DRILLS}
-      onPress={drillType => navigation.navigate('THUDrill', { drillType })}
+      onPress={drillType => router.push(`/thu/${drillType}`)}
     />
   );
 }

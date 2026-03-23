@@ -9,10 +9,10 @@ const prettierConfig = require('eslint-config-prettier');
 module.exports = [
   // Base JavaScript recommended rules
   js.configs.recommended,
-  
+
   // TypeScript recommended rules
   ...tseslint.configs.recommended,
-  
+
   // Global ignores
   {
     ignores: [
@@ -26,16 +26,16 @@ module.exports = [
       'jest.setup.js',
     ],
   },
-  
+
   // Main configuration for TypeScript/TSX files
   {
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      'react': reactPlugin,
+      react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       'react-native': reactNativePlugin,
-      'prettier': prettierPlugin,
+      prettier: prettierPlugin,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -74,25 +74,28 @@ module.exports = [
       // TypeScript-specific rules
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/no-require-imports': 'off',
-      
+
       // React rules
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
       'react/prop-types': 'off', // Using TypeScript for type checking
       'react/display-name': 'warn',
       'react/no-unescaped-entities': 'warn',
-      
+
       // React Hooks rules
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      
+
       // React Native rules
       'react-native/no-unused-styles': 'off', // False positives with dynamic StyleSheet.create()
       'react-native/split-platform-components': 'warn',
       'react-native/no-inline-styles': 'off', // Common in React Native
       'react-native/no-color-literals': 'off', // Too restrictive
-      
+
       // General JavaScript rules
       'no-console': 'off', // Allow console in React Native for debugging
       'no-unused-vars': 'off', // Using TypeScript's version
@@ -104,11 +107,14 @@ module.exports = [
       ...prettierConfig.rules,
 
       // Complexity / refactoring indicators
-      'complexity': ['warn', { max: 15 }],
+      complexity: ['warn', { max: 15 }],
       'max-depth': ['warn', { max: 4 }],
       'max-params': ['warn', { max: 5 }],
       'max-lines': ['warn', { max: 350, skipBlankLines: true, skipComments: true }],
-      'max-lines-per-function': ['warn', { max: 80, skipBlankLines: true, skipComments: true, IIFEs: true }],
+      'max-lines-per-function': [
+        'warn',
+        { max: 80, skipBlankLines: true, skipComments: true, IIFEs: true },
+      ],
     },
   },
 
@@ -128,7 +134,7 @@ module.exports = [
       'max-lines': 'off',
       'max-lines-per-function': 'off',
       'max-params': 'off',
-      'complexity': 'off',
+      complexity: 'off',
     },
   },
 ];

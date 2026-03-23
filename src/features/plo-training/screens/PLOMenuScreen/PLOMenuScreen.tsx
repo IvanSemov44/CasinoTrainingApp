@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { MenuScreenHeader, AccentModeCard, InstructionBox } from '@shared';
 import { PLODifficulty } from '../../types';
 import { PLO_MODES } from '../../constants/modes';
-import type { PLOMenuScreenProps } from './PLOMenuScreen.types';
 
-export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
+export default function PLOMenuScreen() {
+  const router = useRouter();
+
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
 
@@ -17,7 +19,7 @@ export default function PLOMenuScreen({ navigation }: PLOMenuScreenProps) {
   };
 
   const handleSelectDifficulty = (difficulty: PLODifficulty) => {
-    navigation.navigate('PLOGameTraining', { difficulty });
+    router.push(`/plo/${difficulty}`);
   };
 
   return (

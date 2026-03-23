@@ -127,6 +127,7 @@ export { navigation } from './navigation';
 ## Hook Organization
 
 ### Colocated Hooks (Single Screen)
+
 ```typescript
 // src/features/roulette-training/screens/exercises/CalculationScreen/useCalculationQuestion.ts
 export function useCalculationQuestion(params: CalculationRouteParams) {
@@ -135,6 +136,7 @@ export function useCalculationQuestion(params: CalculationRouteParams) {
 ```
 
 ### Feature-Level Hooks (Multiple Screens)
+
 ```typescript
 // src/features/plo-training/hooks/useSessionState.ts
 export function useSessionState(initialHand: Hand) {
@@ -143,6 +145,7 @@ export function useSessionState(initialHand: Hand) {
 ```
 
 ### Cross-Feature Hooks (App-Level)
+
 ```typescript
 // src/hooks/useAnnouncedBets.ts
 // Used by:
@@ -158,6 +161,7 @@ export function useSessionState(initialHand: Hand) {
 ## Import Patterns
 
 ### Within Same Screen
+
 ```typescript
 // CalculationScreen.tsx
 import { useCalculationQuestion } from './useCalculationQuestion';
@@ -165,6 +169,7 @@ import { useExerciseState } from './useExerciseState';
 ```
 
 ### Within Same Feature
+
 ```typescript
 // src/features/roulette-training/screens/MenuScreen/MenuScreen.tsx
 import { ExerciseLayout } from '../../components/ExerciseLayout';
@@ -173,6 +178,7 @@ import { useSessionState } from '../../hooks/useSessionState';
 ```
 
 ### Cross-Feature (ONLY shared/app-level)
+
 ```typescript
 // ✓ Good: Importing shared component
 import { LoadingSpinner } from '../../components/shared';

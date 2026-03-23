@@ -9,22 +9,23 @@
 
 ## ✅ Completed Fixes (2026-03-17)
 
-| # | Item | Status | Files Changed |
-|---|------|--------|---------------|
-| 1 | Babel test config `@contexts` + `@styles` aliases | ✅ Done | `babel.config.js` |
-| 2 | `DIFFICULTY_MAX_BET` duplication | ✅ Done | `src/features/cash-conversion-training/constants/sectors.ts` |
-| 3 | AsyncStorage keys centralization | ✅ Done | New `src/constants/storageKeys.ts`, updated `ThemeContext.tsx`, `SettingsContext.tsx`, `storage.service.ts` |
-| 4 | `BaseDrillScenario` type sharing | ✅ Done | `src/features/blackjack-training/types/index.ts` now extends base type |
-| 5 | Extract ALL 5 DRILLS to constants | ✅ Done | New `constants/drills.ts` in BJ, TCP, CP, THU, RK features |
-| 6 | Extract inline `modes` arrays to constants | ✅ Done | New `constants/modes.ts` in racetrack-sector, racetrack-position, call-bets, plo features |
-| 7 | Silent `.catch(() => {})` error handling | ✅ Done | Updated `ThemeContext.tsx`, `SettingsContext.tsx` to use `logger.warn` |
-| 8 | `useCallBetsState` validation | ✅ Done | Wired up `validateCallBet` function in hook |
-| 9 | Type import path fixes | ✅ Done | Fixed `storage.service.ts`, `rouletteSlice.ts`, `betConfigs.ts` |
-| 10 | RouletteLayout re-export | ✅ Done | Added to `src/components/index.ts` |
-| 11 | HomeScreen navigation typing | ✅ Done | Improved with `unknown` intermediate cast |
-| 12 | useSector/usePosition shared hook | ✅ Done | Created `useRouletteTrainingSession` base hook |
+| #   | Item                                              | Status  | Files Changed                                                                                               |
+| --- | ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| 1   | Babel test config `@contexts` + `@styles` aliases | ✅ Done | `babel.config.js`                                                                                           |
+| 2   | `DIFFICULTY_MAX_BET` duplication                  | ✅ Done | `src/features/cash-conversion-training/constants/sectors.ts`                                                |
+| 3   | AsyncStorage keys centralization                  | ✅ Done | New `src/constants/storageKeys.ts`, updated `ThemeContext.tsx`, `SettingsContext.tsx`, `storage.service.ts` |
+| 4   | `BaseDrillScenario` type sharing                  | ✅ Done | `src/features/blackjack-training/types/index.ts` now extends base type                                      |
+| 5   | Extract ALL 5 DRILLS to constants                 | ✅ Done | New `constants/drills.ts` in BJ, TCP, CP, THU, RK features                                                  |
+| 6   | Extract inline `modes` arrays to constants        | ✅ Done | New `constants/modes.ts` in racetrack-sector, racetrack-position, call-bets, plo features                   |
+| 7   | Silent `.catch(() => {})` error handling          | ✅ Done | Updated `ThemeContext.tsx`, `SettingsContext.tsx` to use `logger.warn`                                      |
+| 8   | `useCallBetsState` validation                     | ✅ Done | Wired up `validateCallBet` function in hook                                                                 |
+| 9   | Type import path fixes                            | ✅ Done | Fixed `storage.service.ts`, `rouletteSlice.ts`, `betConfigs.ts`                                             |
+| 10  | RouletteLayout re-export                          | ✅ Done | Added to `src/components/index.ts`                                                                          |
+| 11  | HomeScreen navigation typing                      | ✅ Done | Improved with `unknown` intermediate cast                                                                   |
+| 12  | useSector/usePosition shared hook                 | ✅ Done | Created `useRouletteTrainingSession` base hook                                                              |
 
 ### Notes:
+
 - **useCallBetsState validation**: Now wired up - uses validateCallBet + getRandomElement/getRandomInt
 - **HomeScreen navigation**: Improved type safety with `unknown` intermediate cast
 - **useSector/usePosition hooks**: Created shared base hook `useRouletteTrainingSession` for future consolidation
@@ -38,18 +39,19 @@
 
 ## 🔍 New Issues Discovered (2026-03-18)
 
-| # | Item | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | `useNetworkStatus.ts` stub - package not installed | Medium | ✅ Done | Deleted non-functional stub file |
-| 2 | `useInstallPrompt.ts` should be colocated | Low | ✅ Done | Moved to `src/components/InstallButton/` |
-| 3 | `useDrillState` exposes raw setters - encapsulation leak | Medium | ✅ Done | Removed 9 raw state setters from public API |
-| 4 | Eight features without `constants/` folders | Low | ✅ Done | Only `roulette-game` needed constants folder |
-| 5 | Type exports from component barrels violate minimal API | Low | ✅ Done | Removed type exports from 15+ barrel files |
-| 6 | `ScrollView` used for all lists - no `FlatList` | Low | ✅ Done | Updated `ProgressScreen.tsx` to use `FlatList` |
-| 7 | `storage.service.ts` duplicates Redux persistence | Medium | ✅ Done | Removed duplicate `exerciseResults` persistence |
-| 8 | Three parallel state persistence strategies | Medium | ✅ Done | Documented resolution in audit file |
+| #   | Item                                                     | Priority | Status  | Notes                                           |
+| --- | -------------------------------------------------------- | -------- | ------- | ----------------------------------------------- |
+| 1   | `useNetworkStatus.ts` stub - package not installed       | Medium   | ✅ Done | Deleted non-functional stub file                |
+| 2   | `useInstallPrompt.ts` should be colocated                | Low      | ✅ Done | Moved to `src/components/InstallButton/`        |
+| 3   | `useDrillState` exposes raw setters - encapsulation leak | Medium   | ✅ Done | Removed 9 raw state setters from public API     |
+| 4   | Eight features without `constants/` folders              | Low      | ✅ Done | Only `roulette-game` needed constants folder    |
+| 5   | Type exports from component barrels violate minimal API  | Low      | ✅ Done | Removed type exports from 15+ barrel files      |
+| 6   | `ScrollView` used for all lists - no `FlatList`          | Low      | ✅ Done | Updated `ProgressScreen.tsx` to use `FlatList`  |
+| 7   | `storage.service.ts` duplicates Redux persistence        | Medium   | ✅ Done | Removed duplicate `exerciseResults` persistence |
+| 8   | Three parallel state persistence strategies              | Medium   | ✅ Done | Documented resolution in audit file             |
 
 ### Notes:
+
 - **useNetworkStatus.ts**: Package `@react-native-community/netinfo` not in `package.json`. Hook falls back to `isConnected: __DEV__ ? true : null` - non-functional in production
 - **useInstallPrompt.ts**: PWA-specific hook used by single component, should be colocated
 - **useDrillState**: Exposes 9 raw setters (`setScenario`, `setPhase`, `setSelectedOption`, etc.) that allow bypassing `handleSubmit` logic
@@ -63,23 +65,23 @@
 
 ## Summary Scorecard
 
-| Category | Score | Status | Notes |
-|----------|-------|--------|-------|
-| Architecture & feature isolation | 9/10 | ✅ Clean | |
-| TypeScript strict mode | 9/10 | ✅ Zero errors | |
-| Test coverage (122 test files) | 8.5/10 | ✅ Colocated | |
-| Constants organization | 9/10 | ✅ Improved | Extracted modes + drills to feature constants |
-| Type/interface organization | 9/10 | ✅ Improved | BaseDrillScenario shared, types use consistent imports |
-| Hook reuse | 9/10 | ✅ Improved | useSessionTracking + useRouletteTrainingSession extracted |
-| Feature completeness | 9/10 | ✅ Improved | CallBets validation wired up |
-| Error handling | 8.5/10 | ✅ Improved | Replaced silent catches with logger.warn |
-| Build/Babel config | 9/10 | ✅ Fixed | Added missing test aliases |
-| State management | 9/10 | ✅ Fixed | Removed duplicate persistence, single source of truth via Redux |
-| Style system | 7/10 | ✅ Improved | shared.styles.ts verified unused |
-| Navigation typing | 9/10 | ✅ Improved | HomeScreen cast improved with unknown |
-| Hook encapsulation | 9/10 | ✅ Fixed | Removed raw setters, only handlers exposed |
-| Performance patterns | 9/10 | ✅ Fixed | Added FlatList for ProgressScreen exercise results |
-| **Overall** | **9 / 10** | A | 26/26 items complete |
+| Category                         | Score      | Status         | Notes                                                           |
+| -------------------------------- | ---------- | -------------- | --------------------------------------------------------------- |
+| Architecture & feature isolation | 9/10       | ✅ Clean       |                                                                 |
+| TypeScript strict mode           | 9/10       | ✅ Zero errors |                                                                 |
+| Test coverage (122 test files)   | 8.5/10     | ✅ Colocated   |                                                                 |
+| Constants organization           | 9/10       | ✅ Improved    | Extracted modes + drills to feature constants                   |
+| Type/interface organization      | 9/10       | ✅ Improved    | BaseDrillScenario shared, types use consistent imports          |
+| Hook reuse                       | 9/10       | ✅ Improved    | useSessionTracking + useRouletteTrainingSession extracted       |
+| Feature completeness             | 9/10       | ✅ Improved    | CallBets validation wired up                                    |
+| Error handling                   | 8.5/10     | ✅ Improved    | Replaced silent catches with logger.warn                        |
+| Build/Babel config               | 9/10       | ✅ Fixed       | Added missing test aliases                                      |
+| State management                 | 9/10       | ✅ Fixed       | Removed duplicate persistence, single source of truth via Redux |
+| Style system                     | 7/10       | ✅ Improved    | shared.styles.ts verified unused                                |
+| Navigation typing                | 9/10       | ✅ Improved    | HomeScreen cast improved with unknown                           |
+| Hook encapsulation               | 9/10       | ✅ Fixed       | Removed raw setters, only handlers exposed                      |
+| Performance patterns             | 9/10       | ✅ Fixed       | Added FlatList for ProgressScreen exercise results              |
+| **Overall**                      | **9 / 10** | A              | 26/26 items complete                                            |
 
 ---
 
@@ -113,6 +115,7 @@ The answer-check logic (streak increment, point calculation, phase transition) i
 ### 1.2 `useSectorTrainingSession` ≈ `usePositionTrainingSession`
 
 **Files:**
+
 - `src/features/racetrack-sector-training/screens/SectorTrainingScreen/useSectorTrainingSession.ts`
 - `src/features/racetrack-position-training/screens/PositionTrainingScreen/usePositionTrainingSession.ts`
 
@@ -137,9 +140,9 @@ Both implement identical state shape: `currentWinningNumber`, `stats`, `isProces
 
 ### 2.1 `DIFFICULTY_MAX_BET` defined twice
 
-| File | Lines |
-|------|-------|
-| `src/constants/difficulty.ts` | 51–55 |
+| File                                                         | Lines |
+| ------------------------------------------------------------ | ----- |
+| `src/constants/difficulty.ts`                                | 51–55 |
 | `src/features/cash-conversion-training/constants/sectors.ts` | 19–23 |
 
 Identical keys and values. Cash-conversion imports from its own copy, ignoring the shared one.
@@ -150,9 +153,9 @@ Identical keys and values. Cash-conversion imports from its own copy, ignoring t
 
 ### 2.2 `SECTOR_NAMES` defined twice
 
-| File | Lines |
-|------|-------|
-| `src/constants/sectors.ts` | 69–75 |
+| File                                                         | Lines |
+| ------------------------------------------------------------ | ----- |
+| `src/constants/sectors.ts`                                   | 69–75 |
 | `src/features/cash-conversion-training/constants/sectors.ts` | 11–17 |
 
 Identical data, different `Record<>` type signatures.
@@ -165,13 +168,13 @@ Identical data, different `Record<>` type signatures.
 
 Configuration data living inside UI component files:
 
-| File | Inline data (lines) |
-|------|---------------------|
-| `src/features/blackjack-training/screens/BJMenuScreen/BJMenuScreen.tsx` | 6–74 (68 lines) |
-| `src/features/texas-holdem-ultimate-training/screens/THUMenuScreen/THUMenuScreen.tsx` | 6–78 (72 lines) |
-| `src/features/roulette-knowledge-training/screens/RKMenuScreen/RKMenuScreen.tsx` | 6–82 (76 lines) |
-| `src/features/caribbean-poker-training/screens/CPMenuScreen/CPMenuScreen.tsx` | 6–72 (66 lines) |
-| `src/features/three-card-poker-training/screens/TCPMenuScreen/TCPMenuScreen.tsx` | 6–45 (39 lines) |
+| File                                                                                  | Inline data (lines) |
+| ------------------------------------------------------------------------------------- | ------------------- |
+| `src/features/blackjack-training/screens/BJMenuScreen/BJMenuScreen.tsx`               | 6–74 (68 lines)     |
+| `src/features/texas-holdem-ultimate-training/screens/THUMenuScreen/THUMenuScreen.tsx` | 6–78 (72 lines)     |
+| `src/features/roulette-knowledge-training/screens/RKMenuScreen/RKMenuScreen.tsx`      | 6–82 (76 lines)     |
+| `src/features/caribbean-poker-training/screens/CPMenuScreen/CPMenuScreen.tsx`         | 6–72 (66 lines)     |
+| `src/features/three-card-poker-training/screens/TCPMenuScreen/TCPMenuScreen.tsx`      | 6–45 (39 lines)     |
 
 All follow identical TypeScript structure:
 
@@ -190,11 +193,11 @@ const DRILLS: {
 
 ### 2.4 Inline `modes` / `MODE_OPTIONS` arrays not extracted
 
-| File | Lines | Inline constant |
-|------|-------|----------------|
-| `src/features/call-bets-training/screens/CallBetsMenuScreen/CallBetsMenuScreen.tsx` | 16–22 | `modes` array |
-| `src/features/plo-training/screens/PLOMenuScreen/PLOMenuScreen.tsx` | 13–17 | `modes` array |
-| `src/features/racetrack-sector-training/screens/SectorMenuScreen/SectorMenuScreen.tsx` | 18–57 | `SECTOR_ACCENT_COLORS` + `MODE_OPTIONS` |
+| File                                                                                         | Lines | Inline constant                           |
+| -------------------------------------------------------------------------------------------- | ----- | ----------------------------------------- |
+| `src/features/call-bets-training/screens/CallBetsMenuScreen/CallBetsMenuScreen.tsx`          | 16–22 | `modes` array                             |
+| `src/features/plo-training/screens/PLOMenuScreen/PLOMenuScreen.tsx`                          | 13–17 | `modes` array                             |
+| `src/features/racetrack-sector-training/screens/SectorMenuScreen/SectorMenuScreen.tsx`       | 18–57 | `SECTOR_ACCENT_COLORS` + `MODE_OPTIONS`   |
 | `src/features/racetrack-position-training/screens/PositionMenuScreen/PositionMenuScreen.tsx` | 18–36 | `POSITION_ACCENT_COLORS` + `MODE_OPTIONS` |
 
 **Fix:** Move to `constants/modes.ts` inside each feature folder.
@@ -208,6 +211,7 @@ const DRILLS: {
 `DrillScreen.tsx` uses `TScenario extends BaseDrillScenario` as a generic constraint, but the 5 feature scenario types (`BJScenario`, `TCPScenario`, `CPScenario`, `THUScenario`, `RKScenario`) don't formally extend it. The shared fields are duplicated by convention, not enforced by the type system.
 
 **Shared fields duplicated across all 5:**
+
 ```ts
 question: string;
 answerType: 'multiple-choice' | 'numeric';
@@ -274,34 +278,34 @@ AsyncStorage failures are silently ignored. Users lose persisted settings with n
 
 ## Priority Order for Fixes
 
-| # | Section | Problem | Impact | Status |
-|---|---------|---------|--------|--------|
-| 1 | 8.1 | Babel test config missing `@contexts` + `@styles` aliases | **Critical** | ✅ Done |
-| 2 | 1.3 | `useCallBetsState` missing answer validation (TODO) | **Critical** | ✅ Done (wired up validateCallBet + getRandomElement) |
-| 3 | 8.3 | `shared.styles.ts` hardcoded colors, not theme-aware | High | ✅ Done (verified not used anywhere in codebase) |
-| 4 | 8.2 | `as never` cast in HomeScreen navigation | High | ✅ Done (using unknown as intermediate type) |
-| 5 | 2.1 | `DIFFICULTY_MAX_BET` / `SECTOR_NAMES` duplicated | High | ✅ Done (both now re-exported from central) |
-| 6 | 2.3 | 5 `DRILLS` arrays inline in menu components | Medium | ✅ Done |
-| 7 | 3.1 | Declare `BaseDrillScenario` + share `AnswerType` | Medium | ✅ Done (moved to src/types/drill.types.ts) |
-| 8 | 8.7 | AsyncStorage keys not centralized | Medium | ✅ Done |
-| 9 | 1.1 | `usePLOGameState` duplicates `useDrillState` | Medium | ✅ Done (extracted useSessionTracking) |
-| 10 | 1.2 | `useSector` ≈ `usePosition` hooks | Medium | ✅ Done (created shared base hook) |
-| 11 | 2.4 | Inline `modes` arrays in menu screens | Low | ✅ Done |
-| 12 | 4.1 | `RouletteLayout` cross-feature import | Low | ✅ Done (re-exported from @components) |
-| 13 | 5.1 | Silent `.catch(() => {})` error swallowing | Low | ✅ Done |
-| 14 | 6.5 | `colors.ts` legacy — delete after migrating ErrorBoundary | Low | ✅ Done (file already deleted) |
-| 15 | 6.6 | `src/integration/` — single test file, own folder | Low | ✅ Done (deleted) |
-| 16 | 6.7 | `render.tsx` missing ThemeProvider | Low | ✅ Done |
-| 17 | 6.4 | `storage.service.ts` coupled to roulette types | Medium | ✅ Done (fixed all relative imports) |
-| 18 | 8.6 | Type re-exports from barrel files | Low | ✅ Done (verified already using export type) |
-| 19 | New | `storage.service.ts` duplicates Redux persistence | Medium | ⏳ Pending |
-| 20 | New | Three parallel state persistence strategies | Medium | ⏳ Pending |
-| 21 | New | `useNetworkStatus.ts` stub - package not installed | Medium | ⏳ Pending |
-| 22 | New | `useDrillState` exposes raw setters - encapsulation leak | Medium | ⏳ Pending |
-| 23 | New | `useInstallPrompt.ts` should be colocated | Low | ⏳ Pending |
-| 24 | New | Eight features without `constants/` folders | Low | ⏳ Pending |
-| 25 | New | Type exports from component barrels violate minimal API | Low | ⏳ Pending |
-| 26 | New | `ScrollView` used for all lists - no `FlatList` | Low | ⏳ Pending |
+| #   | Section | Problem                                                   | Impact       | Status                                                |
+| --- | ------- | --------------------------------------------------------- | ------------ | ----------------------------------------------------- |
+| 1   | 8.1     | Babel test config missing `@contexts` + `@styles` aliases | **Critical** | ✅ Done                                               |
+| 2   | 1.3     | `useCallBetsState` missing answer validation (TODO)       | **Critical** | ✅ Done (wired up validateCallBet + getRandomElement) |
+| 3   | 8.3     | `shared.styles.ts` hardcoded colors, not theme-aware      | High         | ✅ Done (verified not used anywhere in codebase)      |
+| 4   | 8.2     | `as never` cast in HomeScreen navigation                  | High         | ✅ Done (using unknown as intermediate type)          |
+| 5   | 2.1     | `DIFFICULTY_MAX_BET` / `SECTOR_NAMES` duplicated          | High         | ✅ Done (both now re-exported from central)           |
+| 6   | 2.3     | 5 `DRILLS` arrays inline in menu components               | Medium       | ✅ Done                                               |
+| 7   | 3.1     | Declare `BaseDrillScenario` + share `AnswerType`          | Medium       | ✅ Done (moved to src/types/drill.types.ts)           |
+| 8   | 8.7     | AsyncStorage keys not centralized                         | Medium       | ✅ Done                                               |
+| 9   | 1.1     | `usePLOGameState` duplicates `useDrillState`              | Medium       | ✅ Done (extracted useSessionTracking)                |
+| 10  | 1.2     | `useSector` ≈ `usePosition` hooks                         | Medium       | ✅ Done (created shared base hook)                    |
+| 11  | 2.4     | Inline `modes` arrays in menu screens                     | Low          | ✅ Done                                               |
+| 12  | 4.1     | `RouletteLayout` cross-feature import                     | Low          | ✅ Done (re-exported from @components)                |
+| 13  | 5.1     | Silent `.catch(() => {})` error swallowing                | Low          | ✅ Done                                               |
+| 14  | 6.5     | `colors.ts` legacy — delete after migrating ErrorBoundary | Low          | ✅ Done (file already deleted)                        |
+| 15  | 6.6     | `src/integration/` — single test file, own folder         | Low          | ✅ Done (deleted)                                     |
+| 16  | 6.7     | `render.tsx` missing ThemeProvider                        | Low          | ✅ Done                                               |
+| 17  | 6.4     | `storage.service.ts` coupled to roulette types            | Medium       | ✅ Done (fixed all relative imports)                  |
+| 18  | 8.6     | Type re-exports from barrel files                         | Low          | ✅ Done (verified already using export type)          |
+| 19  | New     | `storage.service.ts` duplicates Redux persistence         | Medium       | ✅ Done                                               |
+| 20  | New     | Three parallel state persistence strategies               | Medium       | ✅ Done                                               |
+| 21  | New     | `useNetworkStatus.ts` stub - package not installed        | Medium       | ✅ Done                                               |
+| 22  | New     | `useDrillState` exposes raw setters - encapsulation leak  | Medium       | ✅ Done                                               |
+| 23  | New     | `useInstallPrompt.ts` should be colocated                 | Low          | ✅ Done                                               |
+| 24  | New     | Eight features without `constants/` folders               | Low          | ✅ Done                                               |
+| 25  | New     | Type exports from component barrels violate minimal API   | Low          | ✅ Done                                               |
+| 26  | New     | `ScrollView` used for all lists - no `FlatList`           | Low          | ✅ Done                                               |
 
 ---
 
@@ -310,6 +314,7 @@ AsyncStorage failures are silently ignored. Users lose persisted settings with n
 ### 6.1 `src/config/` — Name Misleads What's Inside
 
 **What's there:**
+
 ```
 src/config/
 ├── env.ts          ← legitimate: reads Expo environment variables
@@ -320,12 +325,14 @@ src/config/
 `env.ts` is the only true config file. The other two are data constants named with "config" in the file name, but that doesn't make them app configuration.
 
 **`betConfigs.ts` problems:**
+
 - Contains `BET_CONFIGS` — a large data object with payout values, hint text, number generators for each roulette bet type
 - **Imports from a feature:** `import { ALL_CORNERS, ALL_STREETS, ALL_SIX_LINES } from '../features/roulette-training/constants/betCombinations'`
 - A shared config importing from a feature's internals is a dependency inversion — arrow should point the other way
 - Should either live inside `roulette-training/` or `src/constants/`
 
 **`cashConfigs.ts` problems:**
+
 - Contains `CASH_CONFIGS` — cash denomination configs per chip type ($1, $2, $5, $10, $25, $100)
 - This is domain data for the cash-conversion-training feature
 - Should live in `src/features/cash-conversion-training/constants/`
@@ -337,6 +344,7 @@ src/config/
 ### 6.2 `src/hooks/` — Mixed Concerns, One Stub
 
 **What's there:**
+
 ```
 src/hooks/
 ├── useDrillState.ts        ← domain-specific (training app)
@@ -349,18 +357,22 @@ src/hooks/
 ```
 
 **`useInstallPrompt.ts` problem:**
+
 - Used exclusively by `InstallButton.tsx` (one consumer)
 - It's a PWA web-specific hook with no relevance to the React Native training app
 - Should be colocated with `InstallButton` (`src/components/InstallButton/useInstallPrompt.ts`), not in shared hooks
 
 **`useNetworkStatus.ts` is a stub:**
+
 ```ts
 // Dynamic import — will fail if package not installed
 const NetInfo = require('@react-native-community/netinfo');
 ```
+
 The package `@react-native-community/netinfo` is not in `package.json`. The hook falls back to `isConnected: __DEV__ ? true : null`. This means in production it always returns `null` — it's non-functional dead code pretending to work.
 
 **`useDrillState.ts` is large and exports types:**
+
 - 209 lines — both the hook logic AND `BaseDrillScenario`, `DrillState<T>` interfaces
 - Type definitions exported from a hook file, not from a types file
 - `BaseDrillScenario` referenced by 5 feature scenario types but they don't formally extend it (covered in Section 3.1)
@@ -370,9 +382,11 @@ The package `@react-native-community/netinfo` is not in `package.json`. The hook
 ### 6.3 `src/services/` — Storage Service Coupled to Roulette Types
 
 **`storage.service.ts` problem:**
+
 ```ts
 import { UserProgress, ExerciseResult } from '../types/roulette.types';
 ```
+
 A "shared service" layer that imports `UserProgress` and `ExerciseResult` from roulette-specific types. This means the storage service is NOT generic — it's a roulette service masquerading as shared infrastructure.
 
 **Duplication with Redux:** `rouletteSlice.ts` already stores `exerciseResults: ExerciseResult[]` via Redux + redux-persist. `storage.service.ts` also has `saveExerciseResult()` writing to AsyncStorage directly. Two write paths for the same data — unclear which one is the source of truth.
@@ -383,12 +397,12 @@ A "shared service" layer that imports `UserProgress` and `ExerciseResult` from r
 
 The app has **three parallel persistence strategies** with no clear rule for which to use:
 
-| What | Mechanism | Where |
-|------|-----------|-------|
-| Roulette game state (`placedBets`, `selectedChipValue`, `currentExercise`, `exerciseResults`) | Redux + redux-persist | `src/store/rouletteSlice.ts` |
-| Theme preference | React Context + AsyncStorage | `src/contexts/ThemeContext.tsx` |
-| Sound/haptic settings | React Context + AsyncStorage | `src/contexts/SettingsContext.tsx` |
-| User progress | Direct AsyncStorage via service | `src/services/storage.service.ts` |
+| What                                                                                          | Mechanism                       | Where                              |
+| --------------------------------------------------------------------------------------------- | ------------------------------- | ---------------------------------- |
+| Roulette game state (`placedBets`, `selectedChipValue`, `currentExercise`, `exerciseResults`) | Redux + redux-persist           | `src/store/rouletteSlice.ts`       |
+| Theme preference                                                                              | React Context + AsyncStorage    | `src/contexts/ThemeContext.tsx`    |
+| Sound/haptic settings                                                                         | React Context + AsyncStorage    | `src/contexts/SettingsContext.tsx` |
+| User progress                                                                                 | Direct AsyncStorage via service | `src/services/storage.service.ts`  |
 
 **✅ RESOLVED:** The duplicate `exerciseResults` persistence has been removed from `storage.service.ts`. Now `exerciseResults` are only persisted via Redux + redux-persist.
 
@@ -438,7 +452,7 @@ src/test-utils/
 └── ...
 ```
 
-`render.tsx` has a comment: *"All providers wrapper for tests — Add any global providers here (Redux, Theme, etc.)"* but only includes `NavigationContainer`. `ThemeProvider` was never added. So `renderWithTheme.tsx` was created as a workaround.
+`render.tsx` has a comment: _"All providers wrapper for tests — Add any global providers here (Redux, Theme, etc.)"_ but only includes `NavigationContainer`. `ThemeProvider` was never added. So `renderWithTheme.tsx` was created as a workaround.
 
 Result: tests that need navigation use `render`, tests that need theme use `renderWithTheme`, tests that need both have to compose manually. The `AllProviders` wrapper in `render.tsx` should include all providers (NavigationContainer + ThemeProvider + Redux Provider) and `renderWithTheme.tsx` should not need to exist.
 
@@ -446,23 +460,23 @@ Result: tests that need navigation use `render`, tests that need theme use `rend
 
 ### 6.8 Summary Table — All Root-Level Folders
 
-| Folder | Files | Problem |
-|--------|-------|---------|
-| `config/` | 3 | `betConfigs` + `cashConfigs` are domain constants, not config. `betConfigs` imports from a feature. |
-| `constants/` | 4 | Some constants duplicated in feature folders (see Section 2) |
-| `contexts/` | 4 | Clean ✅ |
-| `hooks/` | 7 | `useInstallPrompt` should be colocated. `useNetworkStatus` is a non-functional stub. |
-| `integration/` | 1 | Single test file — folder is premature |
-| `navigation/` | 2 | Clean ✅ |
-| `screens/` | 9 | Clean ✅ |
-| `services/` | 4 | `storage.service.ts` couples to roulette types + duplicates Redux persistence |
-| `store/` | 3 | Three parallel state persistence strategies. `exerciseResults` persisted twice. |
-| `styles/` | 7 | Two color systems active. `colors.ts` is legacy but still exported. |
-| `test-utils/` | 7 | `render.tsx` missing `ThemeProvider` — `renderWithTheme.tsx` is a workaround that shouldn't need to exist |
-| `types/` | 2 | Only 2 files — types scattered across codebase (see Section 3) |
-| `utils/` | 9 | Evaluator logic mixed with utilities (see Section 6 below) |
-| `components/` | 30+ | Clean ✅ |
-| `features/` | 14 | Clean isolation ✅ |
+| Folder         | Files | Problem                                                                                                   |
+| -------------- | ----- | --------------------------------------------------------------------------------------------------------- |
+| `config/`      | 3     | `betConfigs` + `cashConfigs` are domain constants, not config. `betConfigs` imports from a feature.       |
+| `constants/`   | 4     | Some constants duplicated in feature folders (see Section 2)                                              |
+| `contexts/`    | 4     | Clean ✅                                                                                                  |
+| `hooks/`       | 7     | `useInstallPrompt` should be colocated. `useNetworkStatus` is a non-functional stub.                      |
+| `integration/` | 1     | Single test file — folder is premature                                                                    |
+| `navigation/`  | 2     | Clean ✅                                                                                                  |
+| `screens/`     | 9     | Clean ✅                                                                                                  |
+| `services/`    | 4     | `storage.service.ts` couples to roulette types + duplicates Redux persistence                             |
+| `store/`       | 3     | Three parallel state persistence strategies. `exerciseResults` persisted twice.                           |
+| `styles/`      | 7     | Two color systems active. `colors.ts` is legacy but still exported.                                       |
+| `test-utils/`  | 7     | `render.tsx` missing `ThemeProvider` — `renderWithTheme.tsx` is a workaround that shouldn't need to exist |
+| `types/`       | 2     | Only 2 files — types scattered across codebase (see Section 3)                                            |
+| `utils/`       | 9     | Evaluator logic mixed with utilities (see Section 6 below)                                                |
+| `components/`  | 30+   | Clean ✅                                                                                                  |
+| `features/`    | 14    | Clean isolation ✅                                                                                        |
 
 ---
 
@@ -473,6 +487,7 @@ Result: tests that need navigation use `render`, tests that need theme use `rend
 These three directories are all "shared across all features" — they're the same concept. There is no reason for them to sit at root level as separate siblings. A new developer opening `src/` sees 10+ top-level folders with no grouping to signal which are shared and which are feature-local.
 
 **Current structure:**
+
 ```
 src/
 ├── utils/          ← shared utilities
@@ -490,16 +505,19 @@ src/
 ```
 
 **Additional problem inside `src/utils/`:** The folder mixes two very different kinds of files:
+
 - Generic utilities: `randomUtils.ts`, `accuracy.ts`, `roulette.utils.ts`, `chipUtils.ts`, `cardUtils.ts`
 - Game evaluators (pure business logic): `blackjackEvaluator.ts`, `fiveCardEvaluator.ts`, `sevenCardBestHand.ts`, `threeCardEvaluator.ts`
 
 Evaluators are not "utilities" — they are domain logic. Naming them as utilities obscures their purpose.
 
 **Additional problem with `chipUtils.ts`:** It is a shared util but imports from a feature:
+
 ```ts
 // src/utils/chipUtils.ts line 5
 import { CHIP_DENOMINATIONS } from '../features/cash-conversion-training/constants/denominations';
 ```
+
 A shared utility depending on a feature constant is a dependency inversion — the arrow should point the other way.
 
 ---
@@ -542,12 +560,12 @@ src/
 
 Only `tsconfig.json` and `babel.config.js` change — **zero consuming import files need updating** because aliases absorb the path change transparently.
 
-| Alias | Old path | New path |
-|-------|----------|----------|
-| `@utils/*` | `src/utils/*` | `src/shared/utils/*` |
-| `@constants/*` | `src/constants/*` | `src/shared/constants/*` |
-| `@app-types/*` | `src/types/*` | `src/shared/types/*` |
-| `@evaluators/*` | _(new)_ | `src/shared/evaluators/*` |
+| Alias           | Old path          | New path                  |
+| --------------- | ----------------- | ------------------------- |
+| `@utils/*`      | `src/utils/*`     | `src/shared/utils/*`      |
+| `@constants/*`  | `src/constants/*` | `src/shared/constants/*`  |
+| `@app-types/*`  | `src/types/*`     | `src/shared/types/*`      |
+| `@evaluators/*` | _(new)_           | `src/shared/evaluators/*` |
 
 ---
 
@@ -555,39 +573,39 @@ Only `tsconfig.json` and `babel.config.js` change — **zero consuming import fi
 
 Files outside `src/shared/` that use **relative imports** (not aliases) to reach `src/types/` or `src/utils/` will break. Fix: replace with path aliases.
 
-| File | Broken import | Fix |
-|------|---------------|-----|
-| `src/config/betConfigs.ts` | `'../types/roulette.types'` | `'@app-types/roulette.types'` |
-| `src/services/storage.service.ts` | `'../types/roulette.types'` | `'@app-types/roulette.types'` |
-| `src/store/rouletteSlice.ts` | `'../types/roulette.types'` | `'@app-types/roulette.types'` |
-| `src/test-utils/builders.ts` | `'../types/roulette.types'` | `'@app-types/roulette.types'` |
-| `src/test-utils/builders.ts` | `'../utils/randomUtils'` | `'@utils/randomUtils'` |
-| `src/test-utils/fixtures.ts` | `'../types/roulette.types'` | `'@app-types/roulette.types'` |
-| `src/shared/utils/chipUtils.ts` | `'../features/cash-conversion-training/...'` | `'@features/cash-conversion-training/...'` |
+| File                              | Broken import                                | Fix                                        |
+| --------------------------------- | -------------------------------------------- | ------------------------------------------ |
+| `src/config/betConfigs.ts`        | `'../types/roulette.types'`                  | `'@app-types/roulette.types'`              |
+| `src/services/storage.service.ts` | `'../types/roulette.types'`                  | `'@app-types/roulette.types'`              |
+| `src/store/rouletteSlice.ts`      | `'../types/roulette.types'`                  | `'@app-types/roulette.types'`              |
+| `src/test-utils/builders.ts`      | `'../types/roulette.types'`                  | `'@app-types/roulette.types'`              |
+| `src/test-utils/builders.ts`      | `'../utils/randomUtils'`                     | `'@utils/randomUtils'`                     |
+| `src/test-utils/fixtures.ts`      | `'../types/roulette.types'`                  | `'@app-types/roulette.types'`              |
+| `src/shared/utils/chipUtils.ts`   | `'../features/cash-conversion-training/...'` | `'@features/cash-conversion-training/...'` |
 
 Relative imports **inside** `src/shared/` (e.g., `roulette.utils.ts` → `'../types/roulette.types'`) stay valid because both files move together.
 
 Additionally, files importing `@utils/blackjackEvaluator` etc. need to be updated to `@evaluators/blackjackEvaluator`:
 
-| File | Old import | New import |
-|------|------------|------------|
+| File                              | Old import                  | New import                       |
+| --------------------------------- | --------------------------- | -------------------------------- |
 | (features importing BJ evaluator) | `@utils/blackjackEvaluator` | `@evaluators/blackjackEvaluator` |
-| (features importing five-card) | `@utils/fiveCardEvaluator` | `@evaluators/fiveCardEvaluator` |
-| (features importing seven-card) | `@utils/sevenCardBestHand` | `@evaluators/sevenCardBestHand` |
-| (features importing three-card) | `@utils/threeCardEvaluator` | `@evaluators/threeCardEvaluator` |
+| (features importing five-card)    | `@utils/fiveCardEvaluator`  | `@evaluators/fiveCardEvaluator`  |
+| (features importing seven-card)   | `@utils/sevenCardBestHand`  | `@evaluators/sevenCardBestHand`  |
+| (features importing three-card)   | `@utils/threeCardEvaluator` | `@evaluators/threeCardEvaluator` |
 
 ---
 
 ### 7.5 Priority
 
-| Step | Action | Effort |
-|------|--------|--------|
-| 1 | Create `src/shared/` and move the 3 folders + evaluators subfolder | Low |
-| 2 | Update `@utils`, `@constants`, `@app-types` aliases in tsconfig + babel | Low |
-| 3 | Add `@evaluators` alias, update 5 evaluator import lines in feature files | Low |
-| 4 | Fix 7 relative→alias imports in 6 external files | Low |
-| 5 | Fix `chipUtils.ts` feature dependency inversion | Low |
-| 6 | Run `npx tsc --noEmit` to verify | Verification |
+| Step | Action                                                                    | Effort       |
+| ---- | ------------------------------------------------------------------------- | ------------ |
+| 1    | Create `src/shared/` and move the 3 folders + evaluators subfolder        | Low          |
+| 2    | Update `@utils`, `@constants`, `@app-types` aliases in tsconfig + babel   | Low          |
+| 3    | Add `@evaluators` alias, update 5 evaluator import lines in feature files | Low          |
+| 4    | Fix 7 relative→alias imports in 6 external files                          | Low          |
+| 5    | Fix `chipUtils.ts` feature dependency inversion                           | Low          |
+| 6    | Run `npx tsc --noEmit` to verify                                          | Verification |
 
 ---
 
@@ -616,6 +634,7 @@ The test and production sections have different alias sets. Two aliases present 
 **Impact of `@styles` missing from Babel:** Any file importing `@styles` or `@styles/themes` runs through Babel at bundle time. TypeScript resolves it at compile time via tsconfig — but Babel doesn't know about tsconfig paths. If no module-resolver alias exists for `@styles`, the bundle will fail in any non-Jest environment that doesn't use the moduleNameMapper workaround.
 
 **Fix:** Add both to `babel.config.js` — in both the test AND production sections:
+
 ```js
 '@contexts': './src/contexts',
 '@styles': './src/styles',
@@ -641,7 +660,7 @@ import type { RootStackParamList } from '@navigation/AppNavigator';
 export type Route = keyof RootStackParamList;
 
 // HomeScreen
-navigation.navigate(route);  // no cast needed
+navigation.navigate(route); // no cast needed
 ```
 
 ---
@@ -680,8 +699,15 @@ Three hardcoded color values that don't respond to theme switching. Components u
 The hook returns **31 properties**, including 9 raw state setters:
 
 ```ts
-setScenario, setPhase, setSelectedOption, setUserAmountStr,
-setIsCorrect, setStreak, setSessionPoints, setSessionCorrect, setSessionTotal
+(setScenario,
+  setPhase,
+  setSelectedOption,
+  setUserAmountStr,
+  setIsCorrect,
+  setStreak,
+  setSessionPoints,
+  setSessionCorrect,
+  setSessionTotal);
 ```
 
 These setters are the internals of the state machine. Exposing them lets any consumer bypass `handleSubmit` (which handles scoring, streak, phase transitions) and mutate state directly — for example, calling `setStreak(5)` without going through the point calculation logic.
@@ -734,14 +760,14 @@ When a `.types.ts` file is re-exported from the barrel, it becomes part of the p
 
 Keys are scattered across files with no central record:
 
-| Key | File |
-|-----|------|
-| `@app_theme` | `src/contexts/ThemeContext.tsx` |
-| `@app_settings_sound` | `src/contexts/SettingsContext.tsx` |
-| `@app_settings_haptic` | `src/contexts/SettingsContext.tsx` |
-| `@casino_training_progress` | `src/services/storage.service.ts` |
-| `@casino_training_results` | `src/services/storage.service.ts` |
-| `root` (redux-persist) | `src/store/index.ts` |
+| Key                         | File                               |
+| --------------------------- | ---------------------------------- |
+| `@app_theme`                | `src/contexts/ThemeContext.tsx`    |
+| `@app_settings_sound`       | `src/contexts/SettingsContext.tsx` |
+| `@app_settings_haptic`      | `src/contexts/SettingsContext.tsx` |
+| `@casino_training_progress` | `src/services/storage.service.ts`  |
+| `@casino_training_results`  | `src/services/storage.service.ts`  |
+| `root` (redux-persist)      | `src/store/index.ts`               |
 
 No central `STORAGE_KEYS` constant. A developer adding a new key has no visibility into existing ones — a typo or collision would result in reading another module's data silently. The `storage.service.ts` already uses a local `STORAGE_KEYS` object internally — that pattern should be promoted to a shared `src/constants/storageKeys.ts` and imported by all three locations.
 

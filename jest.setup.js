@@ -105,7 +105,7 @@ jest.mock('react-native-gesture-handler', () => {
     RectButton: React.forwardRef((props, ref) => null),
     BorderlessButton: React.forwardRef((props, ref) => null),
     FlatList: React.forwardRef((props, ref) => null),
-    gestureHandlerRootHOC: jest.fn((component) => component),
+    gestureHandlerRootHOC: jest.fn(component => component),
     Directions: {},
   };
 });
@@ -131,9 +131,9 @@ jest.mock('@sentry/react-native', () => ({
   setContext: jest.fn(),
   setTag: jest.fn(),
   setUser: jest.fn(),
-  withScope: jest.fn((cb) => cb()),
+  withScope: jest.fn(cb => cb()),
   startSpan: jest.fn((options, cb) => cb()),
-  wrap: (component) => component,
+  wrap: component => component,
 }));
 
 // Mock expo-constants

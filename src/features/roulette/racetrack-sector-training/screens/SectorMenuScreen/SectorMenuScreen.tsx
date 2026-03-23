@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@shared';
@@ -6,14 +7,14 @@ import { SectorMode } from '../../types';
 import { getSectorOptions } from '../../utils/validation';
 import { SectorReferenceCard } from '../../components/SectorReferenceCard';
 import { SECTOR_ACCENT_COLORS, SECTOR_MODE_OPTIONS } from '../../constants';
-import type { SectorMenuScreenProps } from './SectorMenuScreen.types';
 
-export default function SectorMenuScreen({ navigation }: SectorMenuScreenProps) {
+export default function SectorMenuScreen() {
+  const router = useRouter();
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
 
   const handleModeSelect = (mode: SectorMode) => {
-    navigation.navigate('SectorTraining', { mode });
+    router.push(`/racetrack-sector?mode=${mode}`);
   };
 
   const sectorOptions = getSectorOptions();

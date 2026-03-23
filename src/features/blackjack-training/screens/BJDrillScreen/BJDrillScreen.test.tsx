@@ -3,103 +3,76 @@ import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
 import BJDrillScreen from './BJDrillScreen';
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('BJDrillScreen', () => {
-  const mockNavigation = { navigate: jest.fn() } as unknown as React.ComponentProps<
-    typeof BJDrillScreen
-  >['navigation'];
-  const makeRoute = (drillType: string) =>
-    ({
-      params: { drillType },
-    }) as unknown as React.ComponentProps<typeof BJDrillScreen>['route'];
-  const mockRoute = makeRoute('soft-hand-recognition');
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   describe('Rendering', () => {
     it('renders without crashing', () => {
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="soft-hand-recognition" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('passes correct drillType to DrillScreen', () => {
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="soft-hand-recognition" />);
       expect(toJSON()).toBeTruthy();
     });
   });
 
   describe('Dealer Label Logic', () => {
     it('returns Dealers Upcard for insurance-timing', () => {
-      const insuranceRoute = makeRoute('insurance-timing');
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={insuranceRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="insurance-timing" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('returns Dealers Hand for other drill types', () => {
-      const otherRoute = makeRoute('hand-comparison');
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={otherRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="hand-comparison" />);
       expect(toJSON()).toBeTruthy();
     });
   });
 
   describe('Props and Params', () => {
-    it('uses route params correctly', () => {
-      const customRoute = makeRoute('super-seven');
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={customRoute} />
-      );
+    it('uses drillType prop correctly', () => {
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="super-seven" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('passes scenarioGenerator function to DrillScreen', () => {
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="soft-hand-recognition" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('passes dealerLabel function to DrillScreen', () => {
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="soft-hand-recognition" />);
       expect(toJSON()).toBeTruthy();
     });
   });
 
   describe('Different Drill Types', () => {
     it('handles soft-hand-recognition drill type', () => {
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={mockRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="soft-hand-recognition" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles dealer-action drill type', () => {
-      const actionRoute = makeRoute('dealer-action');
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={actionRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="dealer-action" />);
       expect(toJSON()).toBeTruthy();
     });
 
     it('handles bj-payout drill type', () => {
-      const payoutRoute = makeRoute('bj-payout');
-      const { toJSON } = renderWithTheme(
-        <BJDrillScreen navigation={mockNavigation} route={payoutRoute} />
-      );
+      const { toJSON } = renderWithTheme(<BJDrillScreen drillType="bj-payout" />);
       expect(toJSON()).toBeTruthy();
     });
   });

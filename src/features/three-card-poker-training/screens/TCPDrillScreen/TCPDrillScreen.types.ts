@@ -1,4 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { TCPStackParamList } from '../../navigation';
+import type { TCPDrillType } from '../../types';
 
-export type TCPDrillScreenProps = StackScreenProps<TCPStackParamList, 'TCPDrill'>;
+export type TCPDrillScreenProps = {
+  drillType: TCPDrillType;
+};

@@ -3,9 +3,19 @@
  * Defines all training modules and their display properties
  */
 
-import type { RootStackParamList } from '../navigation/AppNavigator';
-
-export type Route = keyof Omit<RootStackParamList, 'Home' | 'Progress'>;
+// Route keys for the app - mapped to Expo Router paths in HomeScreen
+export type Route =
+  | 'RouletteExercises'
+  | 'SectorTraining'
+  | 'PositionTraining'
+  | 'CashConversionDifficultySelection'
+  | 'RKMenu'
+  | 'TCPMenu'
+  | 'BJMenu'
+  | 'CPMenu'
+  | 'THUMenu'
+  | 'CallBetsMenu'
+  | 'PLOMenu';
 
 export interface GameEntry {
   route: Route;

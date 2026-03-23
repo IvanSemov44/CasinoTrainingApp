@@ -12,12 +12,13 @@ import { usePositionTrainingSession } from './usePositionTrainingSession';
 import type { PositionTrainingScreenProps } from './PositionTrainingScreen.types';
 import { PositionTrainingSidebar } from '../../components/PositionTrainingSidebar';
 
-export default function PositionTrainingScreen({ route }: PositionTrainingScreenProps) {
+export default function PositionTrainingScreen(props: PositionTrainingScreenProps) {
+  const { mode = 'random' } = props;
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(makeStyles);
 
-  const initialMode: PositionMode = route.params?.mode || 'random';
+  const initialMode: PositionMode = mode || 'random';
   const { currentWinningNumber, result, stats, isProcessing, handleNumberPress, handleNext } =
     usePositionTrainingSession({ mode: initialMode });
 

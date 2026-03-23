@@ -1,4 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { THUStackParamList } from '../../navigation';
+import type { THUDrillType } from '../../types';
 
-export type THUDrillScreenProps = StackScreenProps<THUStackParamList, 'THUDrill'>;
+export type THUDrillScreenProps = {
+  drillType: THUDrillType;
+};

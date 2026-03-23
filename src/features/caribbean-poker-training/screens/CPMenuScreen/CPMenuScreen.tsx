@@ -1,14 +1,16 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
-import type { CPMenuScreenProps } from './CPMenuScreen.types';
 
-export default function CPMenuScreen({ navigation }: CPMenuScreenProps) {
+export default function CPMenuScreen() {
+  const router = useRouter();
+
   return (
     <DrillMenuScreen
       title="Caribbean Poker"
       drills={DRILLS}
-      onPress={drillType => navigation.navigate('CPDrill', { drillType })}
+      onPress={drillType => router.push(`/cp/${drillType}`)}
     />
   );
 }

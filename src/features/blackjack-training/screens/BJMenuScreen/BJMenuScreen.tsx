@@ -1,14 +1,16 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
-import type { BJMenuScreenProps } from './BJMenuScreen.types';
 
-export default function BJMenuScreen({ navigation }: BJMenuScreenProps) {
+export default function BJMenuScreen() {
+  const router = useRouter();
+
   return (
     <DrillMenuScreen
       title="Blackjack"
       drills={DRILLS}
-      onPress={drillType => navigation.navigate('BJDrill', { drillType })}
+      onPress={drillType => router.push(`/blackjack/${drillType}`)}
     />
   );
 }

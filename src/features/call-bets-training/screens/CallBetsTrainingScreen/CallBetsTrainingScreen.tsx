@@ -7,12 +7,17 @@ import { ChallengeDisplay, ResultFeedback } from '../../components';
 import { useCallBetsState } from './useCallBetsState';
 import type { CallBetsTrainingScreenProps } from './CallBetsTrainingScreen.types';
 
-export default function CallBetsTrainingScreen({ route }: CallBetsTrainingScreenProps) {
-  const { mode } = route.params;
+export default function CallBetsTrainingScreen(props: CallBetsTrainingScreenProps) {
+  const { mode } = props;
+
   const styles = useThemedStyles(makeStyles);
 
   const { stats, result, totalBets, currentMode, generateNewChallenge, handleSubmit, handleClear } =
-    useCallBetsState({ mode });
+    useCallBetsState({ mode: mode ?? 'random' });
+
+  if (!mode) {
+    return null;
+  }
 
   const title = mode === 'random' ? 'Random Mode' : mode.toUpperCase();
 

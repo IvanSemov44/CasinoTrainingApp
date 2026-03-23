@@ -1,24 +1,20 @@
 import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useRouter } from 'expo-router';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { InfoSection, MenuScreenHeader } from '@shared';
 import type { AppColors } from '@styles/themes';
-import { CallBetsStackParamList } from '../../navigation';
 import { CALL_BET_MODES, CallBetMode } from '../../constants';
-
-type CallBetsMenuNavigationProp = StackNavigationProp<CallBetsStackParamList, 'CallBetsMenu'>;
 
 export default function CallBetsMenuScreen() {
   const styles = useThemedStyles(makeStyles);
-  const navigation = useNavigation<CallBetsMenuNavigationProp>();
+  const router = useRouter();
 
   const handleSelectMode = useCallback(
     (mode: CallBetMode) => {
-      navigation.navigate('CallBetsTraining', { mode });
+      router.push(`/call-bets/${mode}`);
     },
-    [navigation]
+    [router]
   );
 
   return (

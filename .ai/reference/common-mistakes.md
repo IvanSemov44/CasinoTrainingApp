@@ -4,6 +4,7 @@ Updated: 2026-03-10
 Owner: @ivans
 
 ## Purpose
+
 Capture high-frequency mistakes so AI and humans avoid repeating technical debt patterns.
 
 ## Mistakes and Corrections
@@ -84,9 +85,11 @@ Capture high-frequency mistakes so AI and humans avoid repeating technical debt 
     - Reference: `src/store/` (thunk patterns)
 
 ## Usage Rule
+
 Before implementing a feature or refactor, scan this file and explicitly check that no listed mistake is being introduced.
 
 ## Pattern Links
+
 - Mistakes 1-3, 10-11: `.ai/frontend/redux.md`, `.ai/frontend/hooks.md`
 - Mistake 4: `.ai/architecture/clean-architecture.md`
 - Mistake 5: `.ai/frontend/overview.md`, `src/services/storage.service.ts`

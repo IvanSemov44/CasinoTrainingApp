@@ -1,5 +1,13 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from '@contexts/ThemeContext';
+
+// Mock expo-router before importing the component
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
 import CashConversionTrainingModal from './CashConversionTrainingModal';
 
 jest.mock('@shared', () => {

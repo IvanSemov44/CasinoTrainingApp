@@ -30,12 +30,18 @@ module.exports = {
     '^@features/roulette-game/(.*)$': '<rootDir>/src/features/roulette/roulette-game/$1',
     '^@features/racetrack$': '<rootDir>/src/features/roulette/racetrack',
     '^@features/racetrack/(.*)$': '<rootDir>/src/features/roulette/racetrack/$1',
-    '^@features/racetrack-position-training$': '<rootDir>/src/features/roulette/racetrack-position-training',
-    '^@features/racetrack-position-training/(.*)$': '<rootDir>/src/features/roulette/racetrack-position-training/$1',
-    '^@features/racetrack-sector-training$': '<rootDir>/src/features/roulette/racetrack-sector-training',
-    '^@features/racetrack-sector-training/(.*)$': '<rootDir>/src/features/roulette/racetrack-sector-training/$1',
-    '^@features/roulette-knowledge-training$': '<rootDir>/src/features/roulette/roulette-knowledge-training',
-    '^@features/roulette-knowledge-training/(.*)$': '<rootDir>/src/features/roulette/roulette-knowledge-training/$1',
+    '^@features/racetrack-position-training$':
+      '<rootDir>/src/features/roulette/racetrack-position-training',
+    '^@features/racetrack-position-training/(.*)$':
+      '<rootDir>/src/features/roulette/racetrack-position-training/$1',
+    '^@features/racetrack-sector-training$':
+      '<rootDir>/src/features/roulette/racetrack-sector-training',
+    '^@features/racetrack-sector-training/(.*)$':
+      '<rootDir>/src/features/roulette/racetrack-sector-training/$1',
+    '^@features/roulette-knowledge-training$':
+      '<rootDir>/src/features/roulette/roulette-knowledge-training',
+    '^@features/roulette-knowledge-training/(.*)$':
+      '<rootDir>/src/features/roulette/roulette-knowledge-training/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@services/(.*)$': '<rootDir>/src/services/$1',
@@ -46,11 +52,7 @@ module.exports = {
     '^@test-utils/(.*)$': '<rootDir>/src/test-utils/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/__tests__/helpers/',
-    '/__tests__/fixtures/',
-  ],
+  testPathIgnorePatterns: ['/node_modules/', '/__tests__/helpers/', '/__tests__/fixtures/'],
   coverageThreshold: {
     global: {
       branches: 60,

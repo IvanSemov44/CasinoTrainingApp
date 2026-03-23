@@ -1,14 +1,15 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { DrillMenuScreen } from '@shared';
 import { DRILLS } from '../../constants/drills';
-import type { RKMenuScreenProps } from './RKMenuScreen.types';
 
-export default function RKMenuScreen({ navigation }: RKMenuScreenProps) {
+export default function RKMenuScreen() {
+  const router = useRouter();
   return (
     <DrillMenuScreen
       title="Roulette Knowledge"
       drills={DRILLS}
-      onPress={drillType => navigation.navigate('RKDrill', { drillType })}
+      onPress={drillType => router.push(`/roulette-knowledge?drillType=${drillType}`)}
     />
   );
 }

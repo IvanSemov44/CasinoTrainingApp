@@ -26,13 +26,14 @@ function playTone(ctx: AudioContext, freq: number, startTime: number, duration: 
   osc.stop(startTime + duration);
 }
 
-export default function SectorTrainingScreen({ route }: SectorTrainingScreenProps) {
+export default function SectorTrainingScreen(props: SectorTrainingScreenProps) {
+  const { mode = 'random' } = props;
   const { colors } = useTheme();
   const { soundEnabled, hapticEnabled } = useSettings();
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(makeStyles);
 
-  const selectedMode: SectorMode = route.params?.mode ?? 'random';
+  const selectedMode: SectorMode = mode ?? 'random';
 
   const { height: winH } = useWindowDimensions();
   const racetrackSize = winH - insets.top - insets.bottom - 56 - 40;

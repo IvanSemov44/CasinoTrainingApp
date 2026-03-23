@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useRouter } from 'expo-router';
 import { useCascadingDropdowns } from '@hooks/useCascadingDropdowns';
 import {
   BaseTrainingModal,
@@ -9,7 +8,6 @@ import {
   type SummaryItem,
 } from '@shared';
 import { DifficultyLevel, SectorType } from '../../types';
-import type { CashConversionStackParamList } from '../../navigation';
 import type { CashConversionTrainingModalProps } from './CashConversionTrainingModal.types';
 import {
   buildCashConversionNumberInput,
@@ -22,7 +20,7 @@ export default function CashConversionTrainingModal({
   visible,
   onClose,
 }: CashConversionTrainingModalProps) {
-  const navigation = useNavigation<StackNavigationProp<CashConversionStackParamList>>();
+  const router = useRouter();
 
   // Use cascading dropdowns hook for state management
   const { selections, isOpen, toggle, select, reset, resetFrom } = useCascadingDropdowns({
@@ -72,12 +70,10 @@ export default function CashConversionTrainingModal({
     const count = parseInt(exerciseCount, 10);
 
     handleClose();
-    navigation.navigate('CashConversionTraining', {
-      difficulty: selectedDifficulty,
-      sector: selectedSector,
-      exerciseCount: count > 0 ? count : undefined,
-    });
-  }, [selectedDifficulty, selectedSector, exerciseCount, navigation, handleClose]);
+    router.push(
+      `/cash-conversion/${selectedDifficulty}/${selectedSector}${count > 0 ? `?exerciseCount=${count}` : ''}`
+    );
+  }, [selectedDifficulty, selectedSector, exerciseCount, router, handleClose]);
 
   // Check if can start training
   const canStartTraining = useMemo(() => {

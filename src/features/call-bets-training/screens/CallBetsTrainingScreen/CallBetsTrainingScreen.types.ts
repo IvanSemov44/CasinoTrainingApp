@@ -1,7 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { CallBetsStackParamList } from '../../navigation';
+import type { CallBetMode } from '../../types';
 
-export type CallBetsTrainingScreenProps = StackScreenProps<
-  CallBetsStackParamList,
-  'CallBetsTraining'
->;
+export type CallBetsTrainingScreenProps = {
+  mode: CallBetMode;
+};

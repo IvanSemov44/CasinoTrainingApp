@@ -44,10 +44,7 @@ Extend `BaseDrillScenario` from `src/types/drill.types.ts`:
 // src/features/my-game-training/types/index.ts
 import type { BaseDrillScenario } from '@app-types/drill.types';
 
-export type MyGameDrillType =
-  | 'scenario-a'
-  | 'scenario-b'
-  | 'scenario-c';
+export type MyGameDrillType = 'scenario-a' | 'scenario-b' | 'scenario-c';
 
 export interface MyGameScenario extends BaseDrillScenario {
   drillType: MyGameDrillType;
@@ -214,11 +211,13 @@ export type { MyGameStackParamList } from './navigation';
 Three edits to `src/navigation/AppNavigator.tsx`:
 
 **1. Add import:**
+
 ```typescript
 import { MyGameRoutes, type MyGameStackParamList } from '../features/my-game-training';
 ```
 
 **2. Extend the root param list type:**
+
 ```typescript
 export type RootStackParamList = {
   Home: undefined;
@@ -228,8 +227,11 @@ export type RootStackParamList = {
 ```
 
 **3. Render the routes inside `<Stack.Navigator>`:**
+
 ```typescript
-{MyGameRoutes()}
+{
+  MyGameRoutes();
+}
 ```
 
 ---
@@ -311,14 +313,14 @@ Full coding standards, P0 blockers, and the Definition of Done checklist live in
 
 Key rules at a glance:
 
-| Rule | Enforcement |
-|---|---|
-| TypeScript strict — zero `any` | P0 blocker |
-| No cross-feature imports | P0 blocker |
-| All colors via `useTheme().colors` | P0 blocker |
-| No `Math.random()` — use `randomUtils` | P1 |
-| Components must have `.test.tsx` | P1 |
-| Extract shared logic at 2+ usages | P2 |
+| Rule                                   | Enforcement |
+| -------------------------------------- | ----------- |
+| TypeScript strict — zero `any`         | P0 blocker  |
+| No cross-feature imports               | P0 blocker  |
+| All colors via `useTheme().colors`     | P0 blocker  |
+| No `Math.random()` — use `randomUtils` | P1          |
+| Components must have `.test.tsx`       | P1          |
+| Extract shared logic at 2+ usages      | P2          |
 
 ## Running Tests
 

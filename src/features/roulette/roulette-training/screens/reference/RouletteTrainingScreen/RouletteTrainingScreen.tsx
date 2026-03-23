@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setSelectedChipValue, placeBet } from '@store/rouletteSlice';
 import RouletteLayout from '@features/roulette/roulette-training/components/roulette-ui/RouletteLayout';
@@ -10,23 +9,23 @@ import { RouletteNumber } from '@app-types/roulette.types';
 import { BetType } from '@app-types/roulette.types';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import type { RouletteTrainingStackParamList } from '../../../navigation';
+import type { RouletteTrainingScreenProps } from './RouletteTrainingScreen.types';
 
-type RouletteTrainingScreenRouteProp = RouteProp<
-  RouletteTrainingStackParamList,
-  'RouletteTraining'
->;
+export default function RouletteTrainingScreen(props: RouletteTrainingScreenProps) {
+  const { exercise } = props;
 
-interface RouletteTrainingScreenProps {
-  route: RouletteTrainingScreenRouteProp;
-}
-
-export default function RouletteTrainingScreen({ route }: RouletteTrainingScreenProps) {
-  const { exercise } = route.params;
   const dispatch = useAppDispatch();
   const selectedChipValue = useAppSelector(state => state.roulette.selectedChipValue);
   const [highlightedNumbers, setHighlightedNumbers] = useState<RouletteNumber[]>([]);
   const styles = useThemedStyles(makeStyles);
+
+  if (!exercise) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Missing exercise params</Text>
+      </View>
+    );
+  }
 
   const handleNumberPress = (number: RouletteNumber) => {
     setHighlightedNumbers(prev => {

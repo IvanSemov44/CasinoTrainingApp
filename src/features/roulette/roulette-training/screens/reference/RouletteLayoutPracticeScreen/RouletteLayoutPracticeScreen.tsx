@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Alert, Text } from 'react-native';
+import { useRouter } from 'expo-router';
 import RouletteLayout from '@features/roulette/roulette-training/components/roulette-ui/RouletteLayout';
 import ChipSelector from '@shared/ChipSelector';
 import { useThemedStyles } from '@hooks/useThemedStyles';
@@ -7,11 +8,9 @@ import type { AppColors } from '@styles/themes';
 import { LayoutPracticeHeader } from '../../../components/LayoutPracticeHeader';
 import { LayoutPracticeGuides } from '../../../components/LayoutPracticeGuides';
 import { useLayoutPracticeSession } from './useLayoutPracticeSession';
-import type { RouletteLayoutPracticeScreenProps } from './RouletteLayoutPracticeScreen.types';
 
-export default function RouletteLayoutPracticeScreen({
-  navigation,
-}: RouletteLayoutPracticeScreenProps) {
+export default function RouletteLayoutPracticeScreen() {
+  const router = useRouter();
   const styles = useThemedStyles(makeStyles);
   const {
     selectedChipValue,
@@ -55,7 +54,7 @@ export default function RouletteLayoutPracticeScreen({
 
           <TouchableOpacity
             style={[styles.button, styles.backButton]}
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
           >
             <Text style={styles.buttonText}>⬅️ Back to Exercises</Text>
           </TouchableOpacity>

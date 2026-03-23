@@ -1,4 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import type { BJStackParamList } from '../../navigation';
+import type { BJDrillType } from '../../types';
 
-export type BJDrillScreenProps = StackScreenProps<BJStackParamList, 'BJDrill'>;
+export type BJDrillScreenProps = {
+  drillType?: BJDrillType;
+};

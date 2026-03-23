@@ -8,16 +8,18 @@ import {
   useWindowDimensions,
   Pressable,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
 import { useInstallPrompt } from '@components/InstallButton/useInstallPrompt';
 import { InstallButton } from '@components/InstallButton';
 import { GameCategorySection } from '@components/GameCategorySection';
-import type { NavigationProp } from '../../types/navigation.types';
+
 import { CATEGORIES, type Route } from '@constants/navigation.constants';
 
-export function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> }) {
+export function HomeScreen() {
+  const router = useRouter();
   const { themeId, toggleTheme } = useTheme();
   const { width } = useWindowDimensions();
   const { isInstallable, isInstalled, install } = useInstallPrompt();
@@ -30,15 +32,30 @@ export function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> 
 
   const styles = useThemedStyles(makeStyles);
 
-  // Navigate to the selected training module
+  // Map of Route names to Expo Router paths
+  const routeToPath: Record<string, string> = {
+    RouletteExercises: '/roulette',
+    SectorTraining: '/racetrack-sector',
+    PositionTraining: '/racetrack-position',
+    CashConversionDifficultySelection: '/cash-conversion',
+    RKMenu: '/roulette-knowledge',
+    TCPMenu: '/tcp',
+    BJMenu: '/blackjack',
+    CPMenu: '/cp',
+    THUMenu: '/thu',
+    CallBetsMenu: '/call-bets',
+    PLOMenu: '/plo',
+  };
+
+  // Navigate to the selected training module using Expo Router
   const handleNavigate = useCallback(
     (route: Route) => {
-      // Route is a subset of RootStackParamList keys (excluding 'Home' and 'Progress')
-      // This type assertion is safe because all Route values are valid navigation targets
-      // The 'as never' is a known React Navigation typing limitation with union route types
-      navigation.navigate(route as never);
+      const path = routeToPath[route];
+      if (path) {
+        router.push(path);
+      }
     },
-    [navigation]
+    [router]
   );
 
   return (
@@ -65,7 +82,7 @@ export function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> 
               {themeId === 'midnight' ? 'Casino' : 'Midnight'}
             </Text>
           </Pressable>
-          <Pressable style={styles.settingsBtn} onPress={() => navigation.navigate('Settings')}>
+          <Pressable style={styles.settingsBtn} onPress={() => router.push('/settings')}>
             <Text style={styles.settingsBtnText}>⚙️</Text>
           </Pressable>
         </View>
@@ -87,7 +104,7 @@ export function HomeScreen({ navigation }: { navigation: NavigationProp<'Home'> 
       {/* ── Progress button ──────────────────────────────────────────── */}
       <TouchableOpacity
         style={styles.progressBtn}
-        onPress={() => navigation.navigate('Progress')}
+        onPress={() => router.push('/progress')}
         activeOpacity={0.8}
       >
         <Text style={styles.progressBtnText}>📊 My Progress</Text>

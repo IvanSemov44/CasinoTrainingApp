@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { AccentModeCard, MenuScreenHeader, InstructionBox } from '@shared';
@@ -6,14 +7,14 @@ import { PositionMode } from '../../types';
 import { getWheelOrder } from '../../utils/validation';
 import { PositionWheelOrderCard } from '../../components/PositionWheelOrderCard';
 import { POSITION_ACCENT_COLORS, POSITION_MODE_OPTIONS } from '../../constants';
-import type { PositionMenuScreenProps } from './PositionMenuScreen.types';
 
-export default function PositionMenuScreen({ navigation }: PositionMenuScreenProps) {
+export default function PositionMenuScreen() {
+  const router = useRouter();
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
 
   const handleModeSelect = (mode: PositionMode) => {
-    navigation.navigate('PositionTraining', { mode });
+    router.push(`/racetrack-position?difficulty=${mode}`);
   };
 
   const wheelOrder = getWheelOrder();

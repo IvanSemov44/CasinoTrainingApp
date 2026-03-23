@@ -1,16 +1,19 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { DrillScreen } from '@shared';
 import { generateTHUScenario } from '../../utils/scenarioGenerator';
-import type { THUStackParamList } from '../../navigation';
+import type { THUDrillScreenProps } from './THUDrillScreen.types';
 
-type Props = StackScreenProps<THUStackParamList, 'THUDrill'>;
+export default function THUDrillScreen(props: THUDrillScreenProps) {
+  const { drillType } = props;
 
-export default function THUDrillScreen({ route }: Props) {
+  if (!drillType) {
+    return null;
+  }
+
   return (
     <DrillScreen
       scenarioGenerator={generateTHUScenario}
-      drillType={route.params.drillType}
+      drillType={drillType}
       dealerLabel={() => "Dealer's Hand"}
     />
   );

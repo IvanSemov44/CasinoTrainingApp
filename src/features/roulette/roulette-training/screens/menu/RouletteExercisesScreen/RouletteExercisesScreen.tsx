@@ -1,19 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { TrainingSelectionModal } from '@features/roulette/roulette-training/components/roulette-ui';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import { useModalState } from '@hooks/useModalState';
 import { InfoSection, StartTrainingButton, MenuScreenHeader } from '@shared';
 import type { AppColors } from '@styles/themes';
-import type { RouletteTrainingStackParamList } from '../../../navigation';
 
-type RouletteExercisesScreenProps = StackScreenProps<
-  RouletteTrainingStackParamList,
-  'RouletteExercises'
->;
-
-export default function RouletteExercisesScreen(_props: RouletteExercisesScreenProps) {
+export default function RouletteExercisesScreen() {
   const modal = useModalState();
   const styles = useThemedStyles(makeStyles);
 
