@@ -20,7 +20,7 @@ function AppContent() {
           <PersistGate loading={<LoadingSpinner />} persistor={persistor}>
             <ThemeProvider>
               <SettingsProvider>
-                <Stack screenOptions={{ headerShown: false }} />
+                <Stack screenOptions={{ headerShown: true }} />
                 <StatusBar style="light" />
                 <SpeedInsights />
               </SettingsProvider>

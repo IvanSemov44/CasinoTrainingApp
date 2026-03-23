@@ -1,62 +1,16 @@
-import React, { useMemo, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  useWindowDimensions,
-  Pressable,
-} from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@contexts/ThemeContext';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
-import { useInstallPrompt } from '@components/InstallButton/useInstallPrompt';
 import { InstallButton } from '@components/InstallButton';
 import { GameCategorySection } from '@components/GameCategorySection';
-
-import { CATEGORIES, type Route } from '@constants/navigation.constants';
 
 export function HomeScreen() {
   const router = useRouter();
   const { themeId, toggleTheme } = useTheme();
-  const { width } = useWindowDimensions();
-  const { isInstallable, isInstalled, install } = useInstallPrompt();
-
-  const cardWidth = useMemo(() => {
-    const gutter = 20;
-    const gap = 10;
-    return Math.floor((width - gutter * 2 - gap) / 2);
-  }, [width]);
-
   const styles = useThemedStyles(makeStyles);
-
-  // Map of Route names to Expo Router paths
-  const routeToPath: Record<string, string> = {
-    RouletteExercises: '/roulette',
-    SectorTraining: '/racetrack-sector',
-    PositionTraining: '/racetrack-position',
-    CashConversionDifficultySelection: '/cash-conversion',
-    RKMenu: '/roulette-knowledge',
-    TCPMenu: '/tcp',
-    BJMenu: '/blackjack',
-    CPMenu: '/cp',
-    THUMenu: '/thu',
-    CallBetsMenu: '/call-bets',
-    PLOMenu: '/plo',
-  };
-
-  // Navigate to the selected training module using Expo Router
-  const handleNavigate = useCallback(
-    (route: Route) => {
-      const path = routeToPath[route];
-      if (path) {
-        router.push(path);
-      }
-    },
-    [router]
-  );
 
   return (
     <ScrollView
@@ -71,11 +25,7 @@ export function HomeScreen() {
           <Text style={styles.appSubtitle}>Training Academy</Text>
         </View>
         <View style={styles.headerButtons}>
-          <InstallButton
-            isInstallable={isInstallable}
-            isInstalled={isInstalled}
-            onInstall={install}
-          />
+          <InstallButton />
           <Pressable style={styles.themeToggle} onPress={toggleTheme}>
             <Text style={styles.themeToggleText}>{themeId === 'midnight' ? '🟢' : '🌑'}</Text>
             <Text style={styles.themeToggleLabel}>
@@ -92,14 +42,7 @@ export function HomeScreen() {
       <View style={styles.divider} />
 
       {/* ── Category sections ───────────────────────────────────────── */}
-      {CATEGORIES.map(cat => (
-        <GameCategorySection
-          key={cat.label}
-          category={cat}
-          cardWidth={cardWidth}
-          onSelectGame={handleNavigate}
-        />
-      ))}
+      <GameCategorySection />
 
       {/* ── Progress button ──────────────────────────────────────────── */}
       <TouchableOpacity

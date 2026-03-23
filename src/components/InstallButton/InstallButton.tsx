@@ -2,64 +2,25 @@ import { useState } from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { useThemedStyles } from '@hooks/useThemedStyles';
 import type { AppColors } from '@styles/themes';
+import { useInstallPrompt } from './useInstallPrompt';
 
-interface InstallButtonProps {
-  isInstallable: boolean;
-  isInstalled: boolean;
-  onInstall: () => void;
-}
-
-function InstallButton({ isInstalled, onInstall }: InstallButtonProps) {
+function InstallButton() {
   const [isLoading, setIsLoading] = useState(false);
   const styles = useThemedStyles(makeStyles);
+  const { isInstallable, isInstalled, install } = useInstallPrompt();
 
-  // Don't render if already installed
-  if (isInstalled) {
+  // Don't render if already installed or not installable
+  if (!isInstallable || isInstalled) {
     return null;
   }
 
   const handlePress = async () => {
-    console.log('[InstallButton] Clicked');
-    const windowWithDeferred = window as unknown as {
-      deferredPrompt?: {
-        prompt: () => Promise<void>;
-        userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-      };
-    };
-    console.log('[InstallButton] window.deferredPrompt:', !!windowWithDeferred.deferredPrompt);
     setIsLoading(true);
     try {
-      // Check if deferred prompt is available (set when beforeinstallprompt event fired)
-      const deferredPrompt = windowWithDeferred.deferredPrompt;
-
-      if (deferredPrompt) {
-        console.log('[InstallButton] Found deferredPrompt, using native install');
-        try {
-          await deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            console.log('[InstallButton] User accepted installation');
-            windowWithDeferred.deferredPrompt = undefined;
-            return;
-          }
-        } catch (promptError) {
-          console.error('[InstallButton] Native prompt error:', promptError);
-          // Continue to fallback
-        }
-      }
-
-      // Try calling onInstall() as fallback (may try Chrome Web Store or other methods)
-      console.log('[InstallButton] Trying onInstall() method');
-      try {
-        await onInstall();
-        console.log('[InstallButton] onInstall() succeeded');
-        return;
-      } catch {
-        console.log('[InstallButton] Installation not available');
-        // Silently fail - no popup needed
-      }
-    } catch (error: unknown) {
-      console.error('[InstallButton] Unexpected error:', error);
+      await install();
+    } catch (error) {
+      // Silently ignore failures
+      console.error('[InstallButton] install failed', error);
     } finally {
       setIsLoading(false);
     }

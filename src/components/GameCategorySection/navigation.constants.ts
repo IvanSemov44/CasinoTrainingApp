@@ -1,9 +1,7 @@
 /**
- * Navigation configuration for the home screen
- * Defines all training modules and their display properties
+ * Local navigation types and categories for GameCategorySection
+ * Kept here because they are only used by the home category UI.
  */
-
-// Route keys for the app - mapped to Expo Router paths in HomeScreen
 export type Route =
   | 'RouletteExercises'
   | 'SectorTraining'
@@ -29,10 +27,6 @@ export interface GameCategory {
   games: GameEntry[];
 }
 
-/**
- * Main navigation categories for the home screen
- * Organized into Roulette and Poker game families
- */
 export const CATEGORIES: GameCategory[] = [
   {
     label: 'ROULETTE',
@@ -67,6 +61,12 @@ export const CATEGORIES: GameCategory[] = [
         emoji: '📚',
         tags: 'Rules · Limits · Announced',
       },
+      {
+        route: 'CallBetsMenu',
+        title: 'Call Bets',
+        emoji: '📣',
+        tags: 'Voisins · Tiers · Orphelins',
+      },
     ],
   },
   {
@@ -95,12 +95,6 @@ export const CATEGORIES: GameCategory[] = [
         title: "Texas Hold'em Ultimate",
         emoji: '🤠',
         tags: 'Blind · Trips · Raise',
-      },
-      {
-        route: 'CallBetsMenu',
-        title: 'Call Bets',
-        emoji: '📣',
-        tags: 'Voisins · Tiers · Orphelins',
       },
       {
         route: 'PLOMenu',

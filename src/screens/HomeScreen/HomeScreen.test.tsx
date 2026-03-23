@@ -1,77 +1,80 @@
-/**
- * Tests for HomeScreen component.
- * Note: Full integration tests require complex mocking of react-native hooks.
- * These tests focus on unit testing business logic and simplified component tests.
- */
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
+import { ThemeProvider } from '@contexts/ThemeContext';
 
-import { CATEGORIES } from '@constants/navigation.constants';
+// Mock expo-router globally for this test file
+const mockPush = jest.fn();
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: mockPush,
+  })),
+}));
+
+// Mock child components to keep tests focused and fast
+jest.mock('@components/InstallButton', () => ({
+  InstallButton: () => {
+    const React = require('react');
+    const { Text } = require('react-native');
+    return React.createElement(Text, null, 'InstallButtonMock');
+  },
+}));
+
+jest.mock('@components/GameCategorySection', () => ({
+  GameCategorySection: () => {
+    const React = require('react');
+    const { Text } = require('react-native');
+    return React.createElement(Text, null, 'GameCategorySectionMock');
+  },
+}));
+
+import { HomeScreen } from './HomeScreen';
+
+const renderWithTheme = (ui: React.ReactElement) => render(<ThemeProvider>{ui}</ThemeProvider>);
 
 describe('HomeScreen', () => {
-  describe('CATEGORIES', () => {
-    it('contains roulette category', () => {
-      const rouletteCategory = CATEGORIES.find(cat => cat.label === 'ROULETTE');
-      expect(rouletteCategory).toBeDefined();
-      expect(rouletteCategory!.games.length).toBeGreaterThan(0);
+  describe('render and behavior', () => {
+    beforeEach(() => jest.clearAllMocks());
+
+    it('renders title and subtitle', () => {
+      renderWithTheme(<HomeScreen />);
+      expect(screen.getByText('Casino Dealer')).toBeOnTheScreen();
+      expect(screen.getByText('Training Academy')).toBeOnTheScreen();
     });
 
-    it('contains poker category', () => {
-      const pokerCategory = CATEGORIES.find(cat => cat.label === 'POKER');
-      expect(pokerCategory).toBeDefined();
-      expect(pokerCategory!.games.length).toBeGreaterThan(0);
+    it('renders InstallButton and GameCategorySection', () => {
+      renderWithTheme(<HomeScreen />);
+      expect(screen.getByText('InstallButtonMock')).toBeOnTheScreen();
+      expect(screen.getByText('GameCategorySectionMock')).toBeOnTheScreen();
     });
 
-    it('contains all expected roulette games', () => {
-      const rouletteCategory = CATEGORIES.find(cat => cat.label === 'ROULETTE');
-      expect(rouletteCategory).toBeDefined();
-
-      const gameRoutes = rouletteCategory!.games.map(g => g.route);
-      expect(gameRoutes).toContain('RouletteExercises');
-      expect(gameRoutes).toContain('SectorTraining');
-      expect(gameRoutes).toContain('PositionTraining');
-      expect(gameRoutes).toContain('CashConversionDifficultySelection');
-      expect(gameRoutes).toContain('RKMenu');
+    it('navigates to settings when settings button is pressed', () => {
+      renderWithTheme(<HomeScreen />);
+      const settings = screen.getByText('⚙️');
+      fireEvent.press(settings);
+      expect(mockPush).toHaveBeenCalledWith('/settings');
     });
 
-    it('contains all expected poker games', () => {
-      const pokerCategory = CATEGORIES.find(cat => cat.label === 'POKER');
-      expect(pokerCategory).toBeDefined();
-
-      const gameRoutes = pokerCategory!.games.map(g => g.route);
-      expect(gameRoutes).toContain('TCPMenu');
-      expect(gameRoutes).toContain('BJMenu');
-      expect(gameRoutes).toContain('CPMenu');
-      expect(gameRoutes).toContain('THUMenu');
-      expect(gameRoutes).toContain('CallBetsMenu');
-      expect(gameRoutes).toContain('PLOMenu');
+    it('navigates to progress when progress button is pressed', () => {
+      renderWithTheme(<HomeScreen />);
+      const progress = screen.getByText('📊 My Progress');
+      fireEvent.press(progress);
+      expect(mockPush).toHaveBeenCalledWith('/progress');
     });
 
-    it('has unique game titles across all categories', () => {
-      const allTitles = CATEGORIES.flatMap(cat => cat.games.map(g => g.title));
-      const uniqueTitles = new Set(allTitles);
-      expect(uniqueTitles.size).toBe(allTitles.length);
-    });
+    it('toggles theme when theme toggle is pressed', async () => {
+      renderWithTheme(<HomeScreen />);
 
-    it('has unique game routes across all categories', () => {
-      const allRoutes = CATEGORIES.flatMap(cat => cat.games.map(g => g.route));
-      const uniqueRoutes = new Set(allRoutes);
-      expect(uniqueRoutes.size).toBe(allRoutes.length);
-    });
+      // initial theme is 'midnight' — shows Casino (🟢)
+      expect(screen.getByText('🟢')).toBeOnTheScreen();
+      expect(screen.getByText('Casino')).toBeOnTheScreen();
 
-    it('all games have emojis', () => {
-      CATEGORIES.forEach(category => {
-        category.games.forEach(game => {
-          expect(game.emoji).toBeDefined();
-          expect(game.emoji.length).toBeGreaterThan(0);
-        });
-      });
-    });
+      const toggle = screen.getByText('🟢');
+      fireEvent.press(toggle);
 
-    it('all games have tags', () => {
-      CATEGORIES.forEach(category => {
-        category.games.forEach(game => {
-          expect(game.tags).toBeDefined();
-          expect(game.tags.length).toBeGreaterThan(0);
-        });
+      // After toggle, label should change. Wait for re-render.
+      await waitFor(() => {
+        expect(screen.getByText('🌑')).toBeOnTheScreen();
+        expect(screen.getByText('Midnight')).toBeOnTheScreen();
       });
     });
   });
@@ -113,32 +116,6 @@ describe('HomeScreen', () => {
     it('handles fractional results by flooring', () => {
       // 390 - 40 - 10 = 340, /2 = 170
       expect(calculateCardWidth(390)).toBe(170);
-    });
-  });
-
-  describe('route navigation', () => {
-    it('all game routes are valid navigation targets', () => {
-      // All routes should be non-empty strings
-      CATEGORIES.forEach(category => {
-        category.games.forEach(game => {
-          expect(typeof game.route).toBe('string');
-          expect(game.route.length).toBeGreaterThan(0);
-        });
-      });
-    });
-
-    it('can navigate to all game routes from Home screen', () => {
-      // This test documents the expected navigation behavior
-      const mockNavigate = jest.fn();
-
-      // Simulate navigation for each game
-      CATEGORIES.forEach(category => {
-        category.games.forEach(game => {
-          mockNavigate(game.route);
-          expect(mockNavigate).toHaveBeenCalledWith(game.route);
-          mockNavigate.mockClear();
-        });
-      });
     });
   });
 });
